@@ -6879,6 +6879,166 @@
           "Entegre Özellikler": "Sektör tarama analizi, rota kaydı, acil durum telemetrisi"
         },
         seeAlso: ["caltopo-desktop-edition", "caltopo-record-to-map-tracking", "emergency-geochat-and-pli"]
+      },
+      {
+        id: "official-meshtastic-atak-plugin",
+        en: "Official Meshtastic ATAK Plugin (ATAK-Plugin APK)",
+        tr: "Resmi Meshtastic ATAK Eklentisi (ATAK-Plugin APK)",
+        category: "Yazılım & İstemciler",
+        lead: "Android cihazlarda ATAK (Android Tactical Assault Kit) ile Meshtastic LoRa telsiz ağını birbirine bağlayan, arka planda AIDL servisiyle haberleşen resmi açık kaynak eklenti.",
+        details: "Meshtastic topluluğu tarafından geliştirilen bu eklenti (`ATAK-Plugin`), ATAK uygulamasının ana mimarisini bozmadan bir uzantı olarak çalışır. Kullanıcının ATAK üzerinden gerçekleştirdiği harita çizimleri, acil durum işaretleri (markers), GeoChat metin mesajları ve GPS konum raporlarını yakalar; bunları Meshtastic Android uygulamasının arka plan servisine aktararak LoRa örgü ağı üzerinden diğer sahra timlerine telsiz frekansında yayınlar. ATAK sürümüyle (ör. ATAK-CIV 4.x / 5.x) birebir eşleşen APK paketi kurularak kullanılır.",
+        github: "meshtastic.org/docs/software/integrations/integrations-atak-plugin",
+        infobox: {
+          "Paket Tipi": "Android ATAK Eklentisi (.apk)",
+          "Gereksinim": "ATAK (CivTAK/MIL-TAK) + Meshtastic Android Uygulaması",
+          "GitHub Deposu": "github.com/meshtastic/ATAK-Plugin",
+          "Haberleşme": "Android AIDL Servis Bağlantısı (IPC)"
+        },
+        seeAlso: ["imeshservice-aidl-binding", "presendprocessor-cot-interceptor", "atak-wintak-cot-bridge"]
+      },
+      {
+        id: "imeshservice-aidl-binding",
+        en: "IMeshService AIDL Inter-Process Communication Binding",
+        tr: "IMeshService AIDL Süreçler Arası İletişim (IPC) Bağlantısı",
+        category: "Yazılım & İstemciler",
+        lead: "Meshtastic Android uygulamasının sistem genelinde sunduğu ve ATAK Eklentisinin telsize paket göndermek/almak için bağlandığı Android Arayüz Tanımlama Dili (AIDL) servis arayüzü.",
+        details: "Android işletim sisteminde iki farklı uygulama (ATAK ve Meshtastic) güvenlik sandbox'ları nedeniyle doğrudan birbirinin belleğine erişemez. Meshtastic Android uygulaması, işletim sistemine `IMeshService` adında bir AIDL servisi kaydeder. ATAK başlatıldığında Meshtastic eklentisi `bindService()` çağrısıyla bu servise bağlanır (IPC). Telsizden gelen hava paketleri bu servis üzerinden eklentiye asenkron iletilir; eklentinin ürettiği CoT paketleri de yine bu güvenli boru hattıyla LoRa modülüne aktarılır.",
+        github: "meshtastic.org/docs/software/integrations/integrations-atak-plugin",
+        infobox: {
+          "Protokol": "Android AIDL (Android Interface Definition Language)",
+          "Bağlantı Türü": "IPC (Inter-Process Communication)",
+          "Sunucu": "Meshtastic Android Core Service",
+          "İstemci": "Meshtastic ATAK Plugin"
+        },
+        seeAlso: ["official-meshtastic-atak-plugin", "atak-plugin-status-indicator", "presendprocessor-cot-interceptor"]
+      },
+      {
+        id: "presendprocessor-cot-interceptor",
+        en: "ATAK PreSendProcessor CoT Interceptor Interface",
+        tr: "ATAK PreSendProcessor CoT Olay Yakalama Arayüzü",
+        category: "Yazılım & İstemciler",
+        lead: "ATAK çekirdeğinin harici ağlara göndermek üzere hazırladığı Cursor-on-Target (CoT) XML paketlerini ağ katmanına çıkmadan önce yakalayan eklenti arayüzü.",
+        details: "ATAK içindeki askeri durum farkındalık motoru, ekrandaki her dokunuşta veya konum değişiminde bir CoT XML mesajı üretir. Meshtastic eklentisi, ATAK SDK'sının `PreSendProcessor` arayüzünü uygular. ATAK bu mesajı standart Wi-Fi veya hücresel TCP/UDP soketine göndermeden hemen önce eklentiye teslim eder. Eklenti XML yükünü inceler, gereksiz şişkinlikleri filtreler ve veriyi Meshtastic'in LoRa bandı için optimize edilmiş Protobuf paketine dönüştürerek `IMeshService` servisine fırlatır.",
+        github: "meshtastic.org/docs/software/integrations/integrations-atak-plugin",
+        infobox: {
+          "SDK Bileşeni": "com.atakmap.android.cot.detail.PreSendProcessor",
+          "İşlev": "Giden CoT olaylarını yakalama ve yönlendirme",
+          "Veri Biçimi": "XML CoT Event -> Meshtastic MeshPacket",
+          "Avantaj": "ATAK ağ ayarlarını değiştirmeden şeffaf telsiz iletimi"
+        },
+        seeAlso: ["official-meshtastic-atak-plugin", "imeshservice-aidl-binding", "atak-plugin-portnum-72"]
+      },
+      {
+        id: "atak-plugin-portnum-72",
+        en: "PortNum.ATAK_PLUGIN_APP (Port 72) LoRa Application Routing",
+        tr: "PortNum.ATAK_PLUGIN_APP (Port 72) LoRa Uygulama Yönlendirmesi",
+        category: "Ağ & Protokol",
+        lead: "Meshtastic Protobuf protokolünde ATAK taktik paketlerinin havadan iletimine tahsis edilmiş özel port numarası (`PortNum = 72`).",
+        details: "Meshtastic örgü ağındaki her telsiz paketi, hangi modüle veya istemciye ait olduğunu belirten bir `portnum` bayrağı taşır. Standart sohbet metinleri port 1 (`TEXT_MESSAGE_APP`), telemetri port 67 (`TELEMETRY_APP`) iken; ATAK eklentisi tarafından üretilen CoT paketleri `PortNum.ATAK_PLUGIN_APP (72)` olarak etiketlenir. Telsiz firmware'i bu portu gördüğünde paketi standart sohbet penceresinde metin olarak basmak yerine doğrudan Android istemcisinin ATAK dinleyicisine paslar; böylece ağ trafiği izole edilir.",
+        github: "meshtastic.org/docs/software/integrations/integrations-atak-plugin",
+        infobox: {
+          "Port Numarası": "72 (ATAK_PLUGIN_APP)",
+          "Protokol Şeması": "meshtastic/portnums.proto",
+          "Yük İçeriği": "Sıkıştırılmış CoT (Cursor-on-Target) XML / İkili Taktik Yük",
+          "Hedef": "ATAK Eklentisi Dinleme Yayını (Broadcast Receiver)"
+        },
+        seeAlso: ["presendprocessor-cot-interceptor", "device-role-tak", "official-meshtastic-atak-plugin"]
+      },
+      {
+        id: "device-role-tak",
+        en: "Meshtastic TAK Device Role (role: TAK)",
+        tr: "Meshtastic TAK Cihaz Rolü (role: TAK)",
+        category: "Yapılandırma & Ayarlar",
+        lead: "Telsizi bir ATAK Son Kullanıcı Cihazına (EUD) tahsis eden, taktik paket iletim gecikmesini düşürüp batarya tasarrufunu taktik operasyona göre optimize eden çalışma modu.",
+        details: "`meshtastic --set device.role TAK` komutuyla etkinleştirilen bu donanım modu, telsizin dahili paket kuyruklarını ve Bluetooth/USB uyku parametrelerini ATAK kullanımına uyarlar. Telsiz gereksiz periyodik düğüm bilgisi (NodeInfo) yayınlarını azaltarak frekans bandını taktik CoT ve GeoChat trafiğine bırakır. Telefon ile telsiz arasındaki BLE/Seri veri yolu sürekli uyanık tutularak sahadaki anlık tehdit bildirimlerinin sıfır gecikmeyle haritaya yansıması sağlanır.",
+        github: "meshtastic.org/docs/software/integrations/integrations-atak-plugin",
+        infobox: {
+          "CLI Parametresi": "device.role = TAK",
+          "Amaç": "ATAK EUD eşleşmesi için RF ve arayüz optimizasyonu",
+          "Bant Genişliği Yönetimi": "Taktik CoT paketlerine öncelik tanır",
+          "Bağlantı": "Bluetooth LE veya USB-C üzerinden Android telefona bağlı"
+        },
+        seeAlso: ["standalone-tak-tracker-role", "atak-eud-tactical-deployment", "official-meshtastic-atak-plugin"]
+      },
+      {
+        id: "standalone-tak-tracker-role",
+        en: "Meshtastic Standalone TAK Tracker Role (role: TAK_TRACKER)",
+        tr: "Bağımsız TAK Takip Cihazı Rolü (role: TAK_TRACKER)",
+        category: "Donanım",
+        lead: "Telefona veya ATAK uygulamasına ihtiyaç duymadan, GPS donanımlı Meshtastic telsizinin kendi başına TAK uyumlu PLI konum yayınlamasını sağlayan cihaz rolü.",
+        details: "Sahadaki köpek tasmaları, dronlar, araçlar veya telefon taşımayan arama ekipleri için geliştirilmiştir. `device.role TAK_TRACKER` olarak yapılandırılan bir cihaz (ör. GPS'li Heltec Wireless Tracker veya T-Beam), üzerinde Android olmasa bile uydu kilitlenmesini sağlar ve koordinatlarını doğrudan TAK standardında PLI paketi olarak LoRa üzerinden fırlatır. Çevredeki ATAK kullanan tüm personelin haritasında bu cihaz anında dost kuvvet simgesiyle belirir ve canlı takip edilir.",
+        github: "meshtastic.org/docs/software/integrations/integrations-atak-plugin",
+        infobox: {
+          "CLI Parametresi": "device.role = TAK_TRACKER",
+          "Gereksinim": "Entegre donanımsal GNSS / GPS modülü (Telefon gerektirmez)",
+          "Çıktı": "Doğrudan TAK uyumlu PLI (Position Location Information)",
+          "Kullanım": "Araç, köpekli arama timi (K9), paraşüt ve personel takibi"
+        },
+        seeAlso: ["device-role-tak", "tak-pli-position-sync", "atak-callsign-longname-mapping"]
+      },
+      {
+        id: "atak-plugin-status-indicator",
+        en: "ATAK Meshtastic Plugin Status Indicator Icon",
+        tr: "ATAK Meshtastic Eklentisi Durum Gösterge Simgesi",
+        category: "Yazılım & İstemciler",
+        lead: "ATAK ekranının sağ alt köşesinde beliren, eklentinin Meshtastic Android servisine ve LoRa telsizine bağlantı durumunu gösteren renkli durum simgesi.",
+        details: "ATAK arayüzündeki bu durum göstergesi operatöre anlık teşhis imkanı sunar. Simge Yeşil yandığında, eklentinin `IMeshService` servisine başarıyla bağlandığı ve telsizin havaya paket basmaya hazır olduğu anlaşılır. Simge Kırmızı ise Meshtastic uygulamasının arka planda kapandığı veya AIDL bağlantısının koptuğu anlamına gelir; eklenti ATAK'ı yeniden başlatmaya gerek kalmadan arka planda sürekli yeniden bağlanmayı dener. Simgenin hiç görünmemesi ise eklenti kurulum hatasını işaret eder.",
+        github: "meshtastic.org/docs/software/integrations/integrations-atak-plugin",
+        infobox: {
+          "Ekran Konumu": "ATAK ana harita arayüzü sağ alt araç çubuğu",
+          "Yeşil Simge": "Bağlantı Aktif (IMeshService bound, LoRa hazır)",
+          "Kırmızı Simge": "Bağlantı Hatası (Servis bulunamadı veya telsiz bağlı değil)",
+          "Otomatik Kurtarma": "Yeniden başlatma gerektirmeden otomatik bağ denemesi"
+        },
+        seeAlso: ["official-meshtastic-atak-plugin", "imeshservice-aidl-binding", "atak-eud-tactical-deployment"]
+      },
+      {
+        id: "tak-pli-position-sync",
+        en: "TAK PLI Position Configuration Timing and Interval Sync",
+        tr: "TAK PLI Konum Yapılandırması Zamanlama ve Aralık Senkronizasyonu",
+        category: "Ağ & Protokol",
+        lead: "`TAK_TRACKER` modundaki cihazların konum basma periyotlarını ve akıllı konum parametrelerini standart Meshtastic Position yapılandırmasıyla uyumlu işletmesi.",
+        details: "TAK PLI paketleri ağda rastgele yayınlanmaz; cihazın `position.broadcast_secs`, `position.smart_broadcast_minimum_distance` ve `smart_broadcast` parametrelerine sıkı sıkıya bağlı kalır. Telsiz dururken RF spektrumunu gereksiz meşgul etmemek için konum basma aralığını uzatır (ör. 15 dakikada bir); personel veya araç hareket ettiğinde ise mesafe eşiğini aşarak saniyeler içinde yeni bir TAK PLI güncellemesi fırlatır. Bu hibrit mantık telsiz kanalının kilitlenmesini önler.",
+        github: "meshtastic.org/docs/software/integrations/integrations-atak-plugin",
+        infobox: {
+          "Etkilenen Parametreler": "position.position_broadcast_secs, position.smart_broadcast",
+          "Çalışma Mantığı": "Harekete duyarlı akıllı aralık (Smart Position)",
+          "Hedef": "LoRa kanal kapasitesini koruyarak kesintisiz taktik konum sağlama",
+          "Protokol Uyumu": "Standart CoT `a-f-G-U-C` dost kara unsuru tipi"
+        },
+        seeAlso: ["standalone-tak-tracker-role", "device-role-tak", "position-app"]
+      },
+      {
+        id: "atak-callsign-longname-mapping",
+        en: "ATAK Callsign and Node Long Name Identity Mapping",
+        tr: "ATAK Çağrı İşareti ve Düğüm Uzun Adı Kimlik Eşlemesi",
+        category: "Ağ & Protokol",
+        lead: "Meshtastic cihazında tanımlanan kullanıcı uzun adının (`user.long_name`), ATAK taktik haritasında unsurun çağrı işareti (Callsign) olarak otomatik görüntülenmesi.",
+        details: "Askeri ve sivil taktik operasyonlarda haritadaki dost kuvvet işaretçisinin üzerinde beliren isim hayati önem taşır. Meshtastic ATAK entegrasyonunda, cihazın Protobuf kimlik bloğundaki `user.long_name` değeri (örneğin 'LIDER-1', 'KURTARMA-K9', 'AFAD-EKIP-3'), CoT XML yapısındaki `<contact callsign='...' />` özniteliğine doğrudan haritalanır. Böylece ATAK operatörü ek bir yapılandırma yapmadan sahada kimin nerede olduğunu telsiz adı üzerinden anında tanır.",
+        github: "meshtastic.org/docs/software/integrations/integrations-atak-plugin",
+        infobox: {
+          "Kaynak Parametre": "Meshtastic user.long_name (Kullanıcı Uzun Adı)",
+          "Hedef Öznitelik": "ATAK CoT contact callsign özniteliği",
+          "Benzersiz Kimlik (UID)": "Meshtastic Düğüm Numarası (!xxxxxxxx)",
+          "Kolaylık": "Sıfır ek ayar ile anında taktik kimlik çözümleme"
+        },
+        seeAlso: ["standalone-tak-tracker-role", "official-meshtastic-atak-plugin", "tak-pli-position-sync"]
+      },
+      {
+        id: "atak-eud-tactical-deployment",
+        en: "ATAK End User Device (EUD) Off-Grid Tactical Deployment",
+        tr: "ATAK Son Kullanıcı Cihazı (EUD) Şebekesiz Taktik Saha Kurulumu",
+        category: "Kullanım Kılavuzları & Pratik Senaryolar",
+        lead: "Dayanıklı Android tablet/telefonlar (EUD), vücuda takılı Meshtastic LoRa telsizleri ve ATAK haritalarının entegre çalıştığı şebekesiz operasyonel tim mimarisi.",
+        details: "Askeri devriyeler, sınır gözetleme, özel harekat timleri ve dağ arama-kurtarma birlikleri için hücresel veya uydu interneti olmadan tam durumsal farkındalık sağlayan taktik kombinasyondur. Her personelin yeleğinde veya kaskında küçük bir Meshtastic LoRa düğümü (BLE/USB bağlantılı) ve ön panelinde ATAK yüklü zırhlı bir akıllı telefon (EUD) bulunur. Tim üyeleri birbirlerinin rotalarını, düşman/tehlike işaretlerini, acil durum çağrılarını ve GeoChat mesajlarını 10-15 km menzilde tamamen yerel RF ağı üzerinden paylaşır.",
+        github: "meshtastic.org/docs/software/integrations/integrations-atak-plugin",
+        infobox: {
+          "Bileşenler": "Zırhlı Android EUD + LoRa Taktik Düğümü + ATAK Haritası",
+          "Bağlantı Şekli": "BLE (Bluetooth Low Energy) veya Güvenli USB-C",
+          "Menzil": "10 - 25+ km (Doğrudan ve mesh çoklu sekme ile)",
+          "Operasyon Tipi": "Sınır güvenliği, afet arama kurtarma, orman yangını koordinasyonu"
+        },
+        seeAlso: ["official-meshtastic-atak-plugin", "device-role-tak", "emergency-geochat-and-pli"]
       }
     ];
 

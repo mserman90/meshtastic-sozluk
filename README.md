@@ -586,6 +586,18 @@ Meshtastic donanımını kontrol etmek, mesajlaşıp harita görüntülemek ve a
 - **Masaüstünden Buluta Harita Senkronizasyonu (`caltopo-cloud-sync-bridging`):** Sahra çadırındaki CalTopo Desktop'a aktarılan telsiz konumlarının Starlink/hücresel internet üzerinden CalTopo bulutuna ve mobil ekiplerin telefonlarına anlık replike edilmesi.
 - **Arama Kurtarma Taktik Haritalama İş Akışı (`sar-incident-tactical-mapping`):** Şebekesiz afet alanlarında Meshtastic LoRa örgü ağı ile CalTopo masaüstü CBS'sini birleştiren uçtan uca arama kurtarma konumlandırma ve POD kapsama mimarisi.
 
+### 🛡️ Resmi Meshtastic ATAK Eklentisi ve Taktik Saha Entegrasyonu (meshtastic.org/docs/software/integrations/integrations-atak-plugin)
+- **Resmi Meshtastic ATAK Eklentisi (`official-meshtastic-atak-plugin`):** Android cihazlarda ATAK ile Meshtastic telsiz ağını bağlayan, arka planda AIDL servisiyle haberleşen açık kaynaklı taktik APK eklentisi.
+- **IMeshService AIDL Bağlantısı (`imeshservice-aidl-binding`):** Meshtastic uygulamasının sistemde sunduğu ve ATAK eklentisinin çift yönlü telsiz paket iletimi için bağlandığı Android süreçler arası iletişim (IPC) arayüzü.
+- **PreSendProcessor CoT Yakalama Arayüzü (`presendprocessor-cot-interceptor`):** ATAK çekirdeğinin ürettiği giden CoT XML olaylarını ağa çıkmadan önce yakalayıp Meshtastic LoRa formatına uyarlayan eklenti arayüzü.
+- **PortNum.ATAK_PLUGIN_APP (Port 72) (`atak-plugin-portnum-72`):** Meshtastic Protobuf protokolünde ATAK taktik paketlerinin havadan iletimine ayrılmış özel port numarası ve bağımsız uygulama trafiği kanalı.
+- **Meshtastic TAK Cihaz Rolü (`device-role-tak`):** Telsizi bir ATAK Son Kullanıcı Cihazına (EUD) tahsis eden, taktik paket iletim gecikmesini düşürüp batarya ve RF parametrelerini optimize eden donanım modu.
+- **Bağımsız TAK Takip Cihazı Rolü (`standalone-tak-tracker-role`):** Telefona veya ATAK uygulamasına ihtiyaç duymadan, GPS donanımlı Meshtastic telsizinin kendi başına TAK uyumlu PLI konum basmasını sağlayan cihaz rolü.
+- **ATAK Meshtastic Durum Göstergesi (`atak-plugin-status-indicator`):** ATAK ekranının sağ alt köşesinde beliren, eklentinin `IMeshService` servisine ve LoRa telsizine bağlantı durumunu gösteren renkli (yeşil/kırmızı) durum simgesi.
+- **TAK PLI Konum Zamanlama Senkronizasyonu (`tak-pli-position-sync`):** `TAK_TRACKER` modundaki cihazların konum basma periyotlarını ve akıllı konum hareket eşiklerini standart Meshtastic `PositionConfig` parametreleriyle uyumlu işletmesi.
+- **ATAK Çağrı İşareti ve Düğüm Adı Eşlemesi (`atak-callsign-longname-mapping`):** Telsizde tanımlanan kullanıcı uzun adının (`user.long_name`), ATAK taktik haritasında unsurun çağrı işareti (Callsign) olarak otomatik görüntülenmesi.
+- **ATAK EUD Şebekesiz Saha Kurulumu (`atak-eud-tactical-deployment`):** Zırhlı Android tablet/telefonlar (EUD), vücuda takılı Meshtastic LoRa telsizleri ve ATAK haritalarının entegre çalıştığı şebekesiz operasyonel tim mimarisi.
+
 ### 🔹 Açık Standart ve Tedarikçi Bağımsızlığı (Open Architecture & Vendor Neutrality)
 Meshtastic'in hiçbir tescilli ticari protokole veya tek bir donanım üreticisine bağımlı kalmamasını sağlayan açık kaynak ekosistem felsefesi (GPL-3.0 lisansı ve açık Protobuf şemaları). Semtech SX1262/SX1276/LR1121 telsizleri ile ESP32, nRF52840 ve RP2040 işlemcili onlarca farklı üreticinin (Heltec, LilyGO, RAKwireless) donanımları tam uyumla birlikte çalışabilir.
 
