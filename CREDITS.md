@@ -24,6 +24,7 @@ Bu **Meshtastic Türkçe-İngilizce Ansiklopedik Yazılım ve Donanım Terimleri
 * **Liam Cottle ve [MeshMap (meshmap.net)](https://meshmap.net):** Dünya genelindeki ve Türkiye'deki aktif düğümlerin canlı takibini sağlayan interaktif harita platformunun geliştiricileri.
 * **Freifunk Topluluğu (Almanya):** Merkeziyetsiz, sansürsüz ve özgür kablosuz halk ağları felsefesini dünyaya kazandıran öncüler.
 * **[RadioLib](https://github.com/jgromes/RadioLib) (Jan Gromes):** Semtech SX1262, SX1276 ve diğer radyo yongalarının Arduino ve ESP platformlarında kusursuz çalışmasını sağlayan temel C++ kütüphanesi.
+* **[Daring-Designs](https://github.com/Daring-Designs) (`meshtastic-ui-ha`):** Meshtastic telsiz ağını Home Assistant akıllı ev otomasyonuna bağlayan kapsamlı arayüz ve kontrol panelini geliştirdikleri için.
 
 ---
 

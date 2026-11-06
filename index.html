@@ -1781,6 +1781,68 @@
           "Entegrasyon": "mqtt-proxy / MQTT Broker"
         },
         seeAlso: ["mqtt-client-proxy", "telemetry-app", "meshmap"]
+      },
+      {
+        id: "home-assistant-integration",
+        en: "Home Assistant Integration (meshtastic-ui-ha)",
+        tr: "Home Assistant Akıllı Ev Entegrasyonu",
+        category: "Entegrasyonlar",
+        lead: "Meshtastic telsiz düğümlerini Home Assistant akıllı ev sunucusuna (USB seri port veya TCP/IP üzerinden) bağlayarak, tüm örgüsel ağı akıllı evin bir parçası haline getiren açık kaynaklı entegrasyon ve kontrol paneli (meshtastic-ui-ha).",
+        details: "HACS (Home Assistant Community Store) üzerinden kurulan 'meshtastic-ui-ha', Home Assistant kenar çubuğuna tam özellikli bir Meshtastic paneli ekler. Canlı mesajlaşma, interaktif Leaflet haritası, düğüm metrikleri tablosu ve telsiz radyosu donanım durumunu tek bir arayüzden yönetir. Evdeki bir Heltec veya RAK kartını 7/24 çalışan bağımsız bir akıllı ev telsiz merkezine dönüştürür.",
+        github: "Daring-Designs/meshtastic-ui-ha (https://github.com/Daring-Designs/meshtastic-ui-ha)",
+        infobox: {
+          "Platform": "Home Assistant (HACS)",
+          "Depo": "Daring-Designs/meshtastic-ui-ha",
+          "Bağlantı Türü": "USB / Seri Port veya TCP/IP",
+          "Arayüz Teknolojisi": "Lit Web Components, Leaflet, D3",
+          "Temel Bileşenler": "Mesajlaşma, Düğümler, Harita, Radyo Paneli"
+        },
+        seeAlso: ["mesh-automations", "node-entity-sensors", "waypoints", "mqtt"]
+      },
+      {
+        id: "waypoints",
+        en: "Waypoints (Geographical Markers)",
+        tr: "Yol Noktaları / Coğrafi İşaretçiler",
+        category: "Entegrasyonlar",
+        lead: "Harita üzerinde belirli bir konumu, buluşma noktasını, acil toplanma alanını, su kaynağını veya sabit röle mevkisini tanımlayan ve telsiz üzerinden ağa yayınlanan adlandırılmış coğrafi işaret noktaları.",
+        details: "Protobuf 'Waypoint' şeması ile tanımlanır. Meshtastic kullanıcıları veya Home Assistant entegrasyonları, bir enlem, boylam, rakım ve ikon/açıklama içeren yol noktası oluşturup ağa basabilir. Ağdaki tüm el cihazları ve harita panelleri bu noktayı kendi yerel haritasında canlı olarak görür.",
+        github: "meshtastic/protobufs: mesh.proto (Waypoint)",
+        infobox: {
+          "Protokol": "Waypoint (Protobuf Mesajı)",
+          "İçerik": "İsim, Enlem, Boylam, İrtifa, İkon",
+          "Kullanım Alanları": "Arama-Kurtarma, Tahliye Rotaları, Buluşma Noktaları"
+        },
+        seeAlso: ["position-app", "home-assistant-integration", "meshmap"]
+      },
+      {
+        id: "mesh-automations",
+        en: "Mesh Event Automations & Triggers",
+        tr: "Mesh Olay Otomasyonları ve Tetikleyicileri",
+        category: "Entegrasyonlar",
+        lead: "Telsizden belirli bir anahtar kelime, acil durum mesajı (SOS) veya doğrudan mesaj (DM) geldiğinde, akıllı ev otomasyonlarını (bildirimler, sirenler, ışıklar) otomatik olarak tetikleyen sistem mimarisi.",
+        details: "Home Assistant ve Meshtastic entegrasyonu sayesinde, internet ve hücresel şebekelerin tamamen çöktüğü bir afette bile, telsizden gelen bir 'ACİL' mesajı evdeki sirenleri çalabilir, telefonlara yerel Wi-Fi üzerinden bildirim gönderebilir veya elektrik jeneratörünü devreye sokabilir.",
+        github: "Daring-Designs/meshtastic-ui-ha: automations & events",
+        infobox: {
+          "Tetikleyiciler": "Gelen DM, Kanal Mesajı, Konum Güncellemesi",
+          "Eylemler": "Push Bildirimi, Akıllı Röle, Siren, TTS Anons",
+          "Güvenlik": "Off-grid sivil alarm ve haberleşme"
+        },
+        seeAlso: ["home-assistant-integration", "remote-hardware", "direct-message"]
+      },
+      {
+        id: "node-entity-sensors",
+        en: "Node Entity Sensors & Diagnostics",
+        tr: "Düğüm Varlık Sensörleri ve Teşhis Değerleri",
+        category: "Entegrasyonlar",
+        lead: "Bir Meshtastic cihazının batarya seviyesi, voltajı, hava süresi kullanımı (air_util_tx), kanal doluluk oranı (chUtil), SNR ve paket sayaçlarının akıllı ev sistemine bağımsız sensör varlıkları olarak aktarılması.",
+        details: "Home Assistant içerisinde her bir düğüm için 'sensor.meshtastic_*' varlıkları oluşturulur. Bu değerler geçmişe dönük InfluxDB veya Grafana grafiklerinde görselleştirilerek, dağdaki rölenin güneş panelinin yetip yetmediği veya kanalın ne zaman yoğunlaştığı izlenebilir.",
+        github: "Daring-Designs/meshtastic-ui-ha / meshtastic/firmware: telemetry",
+        infobox: {
+          "Oluşturulan Varlıklar": "Pil %, Voltaj, AirUtil, ChUtil, SNR, RSSI",
+          "Veri Kaynağı": "TELEMETRY_APP (Port 67) & RadioConfig",
+          "Analiz": "Grafik geçmişi ve kritik seviye uyarıları"
+        },
+        seeAlso: ["home-assistant-integration", "telemetry-app", "channel-utilization"]
       }
     ];
 

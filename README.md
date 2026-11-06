@@ -240,6 +240,18 @@ Başka ülkelerin veya farklı frekans bölgelerinin (`EXTRA_MQTT_ROOTS`) MQTT t
 ### 🔹 MeshMonitor (Açık Kaynak Ağ İzleme Paneli)
 Meshtastic düğümlerini, MQTT paket trafiğini, SNR sinyal geçmişini ve harita topolojisini 7/24 izlemek için Docker üzerinde çalışan web tabanlı yönetim paneli (`meshmonitor.org`). `mqtt-proxy` ile tam entegre çalışır.
 
+### 🔹 Home Assistant Entegrasyonu (`meshtastic-ui-ha`)
+Meshtastic telsiz kartlarını Home Assistant akıllı ev sunucusuna (USB/Seri veya TCP üzerinden) bağlayarak, tüm örgüsel ağı akıllı evin kontrol paneline taşıyan açık kaynaklı entegrasyon ([Daring-Designs/meshtastic-ui-ha](https://github.com/Daring-Designs/meshtastic-ui-ha)). Canlı sohbet, düğüm tablosu, interaktif Leaflet haritası ve radyo donanım durumunu tek merkezden yönetir.
+
+### 🔹 Waypoints (Yol Noktaları / Coğrafi İşaretçiler)
+Harita üzerinde acil toplanma alanını, sahra çadırını, su kuyusunu veya sabit tepe rölesini tanımlayan ve telsiz üzerinden ağa yayınlanan adlandırılmış coğrafi işaret noktaları (`mesh.proto: Waypoint`). Tüm el cihazları ve akıllı ev haritalarında ortak nokta olarak canlı görüntülenir.
+
+### 🔹 Mesh Olay Otomasyonları ve Tetikleyicileri (Smart Home Automations)
+Telsizden belirli bir anahtar kelime, acil durum çağrısı (SOS) veya doğrudan mesaj (DM) alındığında evdeki sirenleri çalabilen, akıllı ışıkları açabilen veya yerel bildirim gönderebilen kural motoru. İnternet ve GSM şebekelerinin çöktüğü afet senaryolarında bağımsız sivil alarm sistemi sağlar.
+
+### 🔹 Düğüm Varlık Sensörleri ve Teşhis Değerleri (Entity Sensors)
+Bir Meshtastic cihazının batarya yüzdesi, voltajı, hava süresi kullanımı (`air_util_tx`), kanal doluluk oranı (`channel_utilization`) ve sinyal kalitesinin (SNR/RSSI) Home Assistant sensör varlıklarına dönüştürülmesi. Geçmişe dönük telemetri grafikleriyle sabit rölelerin sağlık durumu izlenir.
+
 ---
 
 ## 8. 👥 Meshtastic Toplulukları ve Ağları (Türkiye ve Dünya)

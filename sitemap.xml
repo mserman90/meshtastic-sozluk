@@ -62,6 +62,30 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://mserman90.github.io/meshtastic-sozluk/#home-assistant-integration</loc>
+    <lastmod>2026-11-06</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://mserman90.github.io/meshtastic-sozluk/#waypoints</loc>
+    <lastmod>2026-11-06</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://mserman90.github.io/meshtastic-sozluk/#mesh-automations</loc>
+    <lastmod>2026-11-06</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://mserman90.github.io/meshtastic-sozluk/#node-entity-sensors</loc>
+    <lastmod>2026-11-06</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://mserman90.github.io/meshtastic-sozluk/#austin-mesh</loc>
     <lastmod>2026-11-06</lastmod>
     <changefreq>weekly</changefreq>
