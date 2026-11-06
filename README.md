@@ -173,6 +173,16 @@ Aşırı sıcak veya dondurucu soğuk hava koşullarında telsiz frekansının k
 - **LilyGO TTGO T-Beam:** 18650 pil yuvası, GPS, dahili PMIC ve LoRa telsizi barındıran klasik saha ve araç takip düğümü.
 - **LilyGO T-Echo:** nRF52840 işlemcili, E-ink ekranlı ve GPS'li taşınabilir el cihazı.
 - **RAKwireless WisBlock (RAK4631 / RAK19007):** Modüler yapılı, güneş paneliyle aylarca çalışabilen profesyonel nRF52840 altyapı donanımı.
+  - **RAK19007 / RAK19003 Taban Kartları:** USB-C, solar şarj ve lehim gerektirmeyen sensör yuvaları barındıran 2. nesil WisBlock taşıyıcı kartları.
+  - **RAK4631 Çekirdek Modülü:** Nordic nRF52840 ve Semtech SX1262 içeren ultra düşük güçlü ($< 15\text{ }\mu\text{A}$) ana işlemci modülü.
+  - **RAK12500 GNSS & RAK13800 Ethernet:** Tak-çalıştır u-blox ZOE-M8Q GPS ve kablolu 10/100 Ethernet MQTT ağ geçidi genişleme modülleri.
+- **RAK WisMesh Serisi (Kullanıma Hazır Fabrika Cihazları):**
+  - **WisMesh Board ONE:** nRF52840, SX1262, 1.3" OLED ekran ve GPS yuvasını birleştiren Meshtastic'e özel entegre anakart.
+  - **WisMesh Pocket:** Özel koruyucu kasalı, 1.3" OLED ekranlı, butonlu ve bataryalı kullanıma hazır kompakt el telsizi.
+  - **WisMesh Tap:** Dokunmatik ekranlı bağımsız Meshtastic mesajlaşma ve harita terminali.
+  - **WisMesh Tag:** nRF52840 ve GNSS barındıran IP66 su ve toz geçirmez kompakt personel takip cihazı.
+  - **WisMesh Repeater:** Entegre güneş paneli, IP67 kutu ve fiberglas koliner antenle donatılmış dış ortam dağ/çatı rölesi.
+  - **WisMesh Gateway:** Ethernet PoE veya Wi-Fi üzerinden çalışan IP67 endüstriyel dış mekan LoRa-MQTT ağ geçidi.
 - **LilyGO T-Deck:** Dahili klavyeye, trackball'a ve ekrana sahip, telefonsuz bağımsız kullanılan Meshtastic mesajlaşma cihazı.
 - **SenseCAP MeshTracker X1 (Seeed Studio):** Kredi kartı boyutunda (IP66 su geçirmez), Semtech LR2021 LoRa çipi, çift bant L1+L5 GNSS, dahili barometre, buzzer ve 1100 mAh Li-ion pille donatılmış bağımsız takip cihazı.
 - **SenseCAP Card Tracker T1000-E (Seeed Studio):** nRF52840 ve Semtech SX1262 LoRa telsizine sahip, manyetik pogo-pin şarjlı, ışık ve sıcaklık sensörlü ultra ince kart takip donanımı.

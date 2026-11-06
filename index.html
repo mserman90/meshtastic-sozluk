@@ -2821,6 +2821,169 @@
           "Kritik Risk": "Topraklamasız monopol anten VSWR'yi yükseltir"
         },
         seeAlso: ["vswr", "collinear-antenna", "antenna-polarization", "tx-power"]
+      },
+
+      /* 14. RAKwireless WisBlock ve WisMesh Donanım Ekosistemi (meshtastic.org/docs/hardware/devices/rak-wireless) */
+      {
+        id: "rak19007-base",
+        en: "RAK19007 / RAK19003 WisBlock Base Boards",
+        tr: "RAK19007 ve RAK19003 WisBlock Taban Kartları",
+        category: "Donanım & Çipler",
+        lead: "RAKwireless'ın modüler donanım ekosisteminde işlemci çekirdeğini (Core), sensörleri ve ekranları vidasız/lehim gerektirmeden birbirine bağlayan, USB Type-C ve Li-ion/güneş paneli şarj devreli 2. nesil taban kartları.",
+        details: "Eski nesil RAK5005-O yerine geliştirilen RAK19007; 1 Core yuvası, 1 D-slot IO yuvası ve 4 Sensor yuvası (Slot A, B, C, D) barındırır. RAK19003 ise 30×35 mm ultra kompakt boyutlarıyla cebe sığan minyatür düğümler için tasarlanmıştır. Dahili güneş paneli girişi (solar JST konnektör) ve akıllı pil şarj entegresi sayesinde aylarca bakım gerektirmeden dağlarda ve çatılarda çalışabilir.",
+        github: "meshtastic.org/docs/hardware/devices/rak-wireless/wisblock/base-board",
+        infobox: {
+          "Modeller": "RAK19007 (Standart), RAK19003 (Mini)",
+          "Bağlantı": "USB Type-C & Solar JST (5V)",
+          "Yuvalar": "1 Core, 1 IO, 2-4 Sensör Slotu",
+          "Uyumluluk": "Tüm WisBlock Core ve Sensör Modülleri"
+        },
+        seeAlso: ["wisblock", "rak4631-core", "rak12500-gnss", "wismesh-board-one"]
+      },
+      {
+        id: "rak4631-core",
+        en: "RAK4631 WisBlock Core Module (nRF52840 + SX1262)",
+        tr: "RAK4631 WisBlock Çekirdek Modülü",
+        category: "Donanım & Çipler",
+        lead: "Nordic Semiconductor nRF52840 mikrodenetleyicisi ile Semtech SX1262 LoRa telsizini tek kompakt kartta birleştiren, Meshtastic camiasının en popüler güneş enerjili altyapı işlemci modülü.",
+        details: "ARM Cortex-M4 çekirdeği (64 MHz), 1 MB flash bellek ve BLE 5.0 radyo desteği içerir. ESP32'ye kıyasla derin uyku modunda mikroamper (< 15 µA) seviyesindeki inanılmaz düşük güç tüketimiyle bilinir. 868 MHz ve 915 MHz frekanslarını destekler. Küçük bir 18650 pil ve minik bir 2W güneş paneliyle yıllarca kesintisiz yönlendirici (Router/Repeater) olarak görev yapabilir.",
+        github: "meshtastic.org/docs/hardware/devices/rak-wireless/wisblock/core-module",
+        infobox: {
+          "İşlemci (MCU)": "Nordic nRF52840 (64 MHz Cortex-M4)",
+          "LoRa Çipi": "Semtech SX1262",
+          "Kablosuz": "Bluetooth LE 5.0 & LoRa",
+          "Güç Tüketimi": "Mikroamper seviyesinde derin uyku",
+          "Kullanım Alanı": "Güneş enerjili dağ röleleri ve baz istasyonları"
+        },
+        seeAlso: ["nrf52840", "sx1262", "rak19007-base", "rak4631-rui3-conversion"]
+      },
+      {
+        id: "rak12500-gnss",
+        en: "RAK12500 WisBlock GNSS GPS Module (u-blox ZOE-M8Q)",
+        tr: "RAK12500 WisBlock GNSS GPS Modülü",
+        category: "Donanım & Çipler",
+        lead: "WisBlock taban kartlarına doğrudan vidalanarak takılan, u-blox ZOE-M8Q çipsetli, yüksek hassasiyetli ve çoklu uydu kümesi (GPS/GLONASS/Galileo/BeiDou) destekli tak-çalıştır konumlandırma modülü.",
+        details: "Lehimleme gerektirmeden WisBlock taban kartının Sensor Slot'una (Slot A, B, C veya D) takılır. Eşzamanlı 3 farklı GNSS kümesinden veri alabilir (-167 dBm alıcı duyarlılığı). Cihaz haritada canlı izleme ve hareket tespiti sağlarken, u-blox'un düşük güç profili sayesinde nRF52840 ile kusursuz bir uyum yakalar.",
+        github: "meshtastic.org/docs/hardware/devices/rak-wireless/wisblock/peripherals",
+        infobox: {
+          "Çipset": "u-blox ZOE-M8Q",
+          "Desteklenen Uydular": "GPS, GLONASS, Galileo, BeiDou, QZSS",
+          "Duyarlılık": "-167 dBm",
+          "Montaj": "WisBlock Sensor Slot (Lehimsiz Konnektör)"
+        },
+        seeAlso: ["rak19007-base", "rak4631-core", "position-app", "tracker"]
+      },
+      {
+        id: "rak13800-ethernet",
+        en: "RAK13800 WisBlock Ethernet Module",
+        tr: "RAK13800 WisBlock Ethernet Modülü (Kablolu MQTT Ağ Geçidi)",
+        category: "Donanım & Çipler",
+        lead: "WisBlock sistemine WIZnet W5100S entegresi üzerinden RJ45 Ethernet portu kazandıran, nRF52 tabanlı kartların Wi-Fi olmaksızın kablolu yerel ağ üzerinden MQTT ağ geçidi kurmasını sağlayan genişleme modülü.",
+        details: "WisBlock IO yuvasına takılır. Wi-Fi sinyalinin ulaşmadığı radyo kulelerinde, dağ kulübelerindeki sabit internet hatlarında veya veri merkezlerinde telsiz düğümünün doğrudan kablolu ağa (LAN) bağlanmasını sağlar. Düşük güç tüketimli nRF52840 ile kablolu güvenilir MQTT aktarımını birleştirir.",
+        github: "meshtastic.org/docs/hardware/devices/rak-wireless/wisblock/peripherals",
+        infobox: {
+          "Çipset": "WIZnet W5100S",
+          "Arayüz": "10/100 Mbps RJ45 Ethernet",
+          "Protokol Desteği": "Meshtastic Kablolu MQTT Gateway",
+          "Montaj": "WisBlock IO Slot"
+        },
+        seeAlso: ["mqtt", "rak19007-base", "rak4631-core", "wismesh-gateway"]
+      },
+      {
+        id: "wismesh-board-one",
+        en: "RAK WisMesh Board ONE",
+        tr: "RAK WisMesh Board ONE (Entegre Meshtastic Taban Kartı)",
+        category: "Donanım & Çipler",
+        lead: "RAKwireless tarafından doğrudan Meshtastic ekosistemi için tasarlanan; nRF52840 işlemci, SX1262 LoRa, 1.3 inç OLED ekran, buton ve GPS yuvasını tek kartta birleştiren yeni nesil hepsi-bir-arada geliştirme kartı.",
+        details: "Modüler WisBlock bileşenlerini tek bir kompakt gövdede buluşturur. 1.3 inç yüksek kontrastlı OLED ekranı, kullanıcı navigasyon butonları, Li-ion pil şarj devresi ve doğrudan RAK12500 GPS modülü takılabilen sensör genişleme portu barındırır. Hem çıplak geliştirme kartı olarak hem de özel kutularda el cihazı olarak kullanılır.",
+        github: "meshtastic.org/docs/hardware/devices/rak-wireless/wismesh/board-one",
+        infobox: {
+          "Üretici": "RAKwireless",
+          "İşlemci & RF": "Nordic nRF52840 + Semtech SX1262",
+          "Dahili Ekran": "1.3 inç OLED Ekran",
+          "Genişleme": "WisBlock Uyumlu GPS / Sensör Yuvası"
+        },
+        seeAlso: ["wismesh-pocket", "rak4631-core", "rak19007-base", "heltec-v3"]
+      },
+      {
+        id: "wismesh-pocket",
+        en: "RAK WisMesh Pocket (Handheld Meshtastic Device)",
+        tr: "RAK WisMesh Pocket (Kullanıma Hazır El Telsizi)",
+        category: "Donanım & Çipler",
+        lead: "WisMesh Board ONE mimarisi üzerine kurulu; özel enjeksiyon kalıp koruyucu kasası, dahili bataryası, 1.3 inç OLED ekranı, fiziksel butonları ve anteniyle fabrikadan kullanıma hazır çıkan hepsi-bir-arada Meshtastic el cihazı.",
+        details: "Kullanıcıların lehim veya 3D baskı kasa zahmetine girmeden doğrudan kutudan çıkarıp çalıştırabileceği bir el terminalidir. Farklı renk seçenekleri (siyah, beyaz, yeşil), dahili GPS opsiyonu ve uzun batarya ömrüyle doğa yürüyüşçüleri, kampçılar ve acil durum ekipleri için eksiksiz bir tak-çalıştır çözümdür.",
+        github: "meshtastic.org/docs/hardware/devices/rak-wireless/wismesh/pocket",
+        infobox: {
+          "Form Faktörü": "Taşınabilir El Cihazı (Fabrika Kasalı)",
+          "Ekran & Kontrol": "1.3 inç OLED + Fiziksel Kullanıcı Butonları",
+          "Pil": "Dahili Şarj Edilebilir Li-ion Batarya",
+          "Hedef Kitle": "Doğa sporları, afet haberleşmesi, son kullanıcılar"
+        },
+        seeAlso: ["wismesh-board-one", "wismesh-tap", "t-echo", "sensecap-x1"]
+      },
+      {
+        id: "wismesh-tap",
+        en: "RAK WisMesh Tap (Touchscreen Meshtastic Terminal)",
+        tr: "RAK WisMesh Tap (Dokunmatik Ekranlı Meshtastic Terminali)",
+        category: "Donanım & Çipler",
+        lead: "RAKwireless'ın dokunmatik ekranlı veya döner kadranlı arayüze sahip, akıllı telefona ihtiyaç duymadan mesaj okuma/yazma ve harita görüntüleme imkanı tanıyan yeni nesil taşınabilir interaktif Meshtastic cihazı.",
+        details: "Hava koşullarına dayanıklı gövdesi, renkli/dokunmatik kullanıcı arayüzü ve güçlü pil kapasitesiyle hem elde taşınabilir hem de araçlara veya çadır kamplarına monte edilebilir. Bağımsız kullanıcı arayüzü (Device UI) sayesinde Bluetooth bağlantısı kopukken dahi saha personeline tam operasyonel kontrol sağlar.",
+        github: "meshtastic.org/docs/hardware/devices/rak-wireless/wismesh/tap",
+        infobox: {
+          "Arayüz": "Dokunmatik Ekran (Touchscreen Device UI)",
+          "Bağımsızlık": "Telefonsuz tam operasyonel mesajlaşma",
+          "Kullanım": "Araç içi terminal, kamp komuta merkezi, el cihazı",
+          "Donanım": "nRF52840 / SX1262 mimarisi"
+        },
+        seeAlso: ["wismesh-pocket", "t-deck", "canned-messages", "companion-app"]
+      },
+      {
+        id: "wismesh-tag",
+        en: "RAK WisMesh Tag (IP66 Rugged Personnel Tracker)",
+        tr: "RAK WisMesh Tag (IP66 Endüstriyel Kompakt Takip Düğümü)",
+        category: "Donanım & Çipler",
+        lead: "RAKwireless tarafından personel güvenliği, arama-kurtarma ve saha varlık takibi için geliştirilen; nRF52840 MCU, SX1262 telsiz, AT6558R GNSS ve dahili 1000 mAh bataryaya sahip IP66 su geçirmez takip cihazı.",
+        details: "Ekran barındırmayan kompakt ve dayanıklı tasarımıyla sırt çantalarına, kemerlere veya ekipmanlara takılır. Düşük güç tüketimli nRF52 işlemcisi ve akıllı uyku modları sayesinde günlerce şebekeden bağımsız GPS telemetrisi yayar. Bluetooth üzerinden akıllı telefona bağlanabilir veya arka planda otonom bir takip düğümü (`TRACKER`) olarak çalışır.",
+        github: "meshtastic.org/docs/hardware/devices/rak-wireless/wismesh/tag",
+        infobox: {
+          "Koruma Standardı": "IP66 Toz ve Su Dayanımı",
+          "İşlemci & RF": "Nordic nRF52840 + Semtech SX1262",
+          "Konumlandırma": "Dahili AT6558R GNSS GPS",
+          "Pil Kapasitesi": "1000 mAh Şarj Edilebilir Li-ion"
+        },
+        seeAlso: ["tracker", "sensecap-x1", "sensecap-t1000e", "wismesh-pocket"]
+      },
+      {
+        id: "wismesh-repeater",
+        en: "RAK WisMesh Repeater (Solar Outdoor Relay)",
+        tr: "RAK WisMesh Repeater (Güneş Enerjili Dış Ortam IP67 Rölesi)",
+        category: "Donanım & Çipler",
+        lead: "Uzak dağ zirvelerine, su kulelerine veya bina çatılarına monte edilmek üzere tasarlanan; IP67 su geçirmez muhafazaya, entegre güneş paneline, yüksek kazançlı fiberglas antene ve montaj braketlerine sahip hazır altyapı rölesi.",
+        details: "Kullanıcıların lehimleme, sızdırmaz kutu delme veya kablolama yapmasına gerek kalmadan profesyonel bir ağ altyapısı kurmasını sağlar. nRF52840 ve SX1262 mimarisi üzerine inşa edilmiştir; kış şartlarında ve kar altında dahi güneş panelinden beslenerek kesintisiz bölgesel mesh yönlendirmesi (`ROUTER` / `REPEATER`) sağlar.",
+        github: "meshtastic.org/docs/hardware/devices/rak-wireless/wismesh/repeater",
+        infobox: {
+          "Muhafaza": "IP67 Endüstriyel Dış Mekan Kutusu",
+          "Enerji Sistemi": "Dahili Güneş Paneli & Li-ion Şarj Yönetimi",
+          "Anten": "Harici Yüksek Kazançlı Fiberglas Koliner Anten",
+          "Kullanım Amacı": "Dağ zirveleri ve şehirlerarası omurga rölesi"
+        },
+        seeAlso: ["router", "repeater", "collinear-antenna", "rak4631-core"]
+      },
+      {
+        id: "wismesh-gateway",
+        en: "RAK WisMesh Gateway (Outdoor IP67 MQTT Gateway)",
+        tr: "RAK WisMesh Gateway (Dış Ortam IP67 MQTT Ağ Geçidi)",
+        category: "Donanım & Çipler",
+        lead: "Yerel LoRa telsiz ağını internetteki MQTT sunucularına köprülemek üzere Ethernet (PoE) veya Wi-Fi bağlantısı sunan, fabrikasyon IP67 endüstriyel dış mekan ağ geçidi istasyonu.",
+        details: "İki ana konfigürasyonda gelir: Kablolu Ethernet PoE modeli (nRF52840 + RAK13800 Ethernet) ve kablosuz Wi-Fi modeli (ESP32 / RAK11200). Çatılara veya iletişim kulelerine yerleştirilerek yerel telsiz kapsamasındaki tüm acil durum, konum ve sohbet paketlerini internet üzerindeki küresel veya ulusal MQTT sunucularına (`mqtt.meshtastic.org` veya `mqtt.tamesh.org`) kesintisiz köprüler.",
+        github: "meshtastic.org/docs/hardware/devices/rak-wireless/wismesh/gateway",
+        infobox: {
+          "Bağlantı Tipleri": "10/100 Ethernet (PoE) veya 2.4 GHz Wi-Fi",
+          "Kasa Tipi": "IP67 Ağır Hizmet Dış Ortam Kutusu",
+          "Fonksiyon": "LoRa-MQTT Çift Yönlü Ağ Geçidi",
+          "Kullanım": "Topluluk altyapısı ve bölgesel internet köprüleri"
+        },
+        seeAlso: ["mqtt", "rak13800-ethernet", "uplink-downlink", "tamesh-org"]
       }
     ];
 
