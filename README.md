@@ -598,6 +598,18 @@ Meshtastic donanımını kontrol etmek, mesajlaşıp harita görüntülemek ve a
 - **ATAK Çağrı İşareti ve Düğüm Adı Eşlemesi (`atak-callsign-longname-mapping`):** Telsizde tanımlanan kullanıcı uzun adının (`user.long_name`), ATAK taktik haritasında unsurun çağrı işareti (Callsign) olarak otomatik görüntülenmesi.
 - **ATAK EUD Şebekesiz Saha Kurulumu (`atak-eud-tactical-deployment`):** Zırhlı Android tablet/telefonlar (EUD), vücuda takılı Meshtastic LoRa telsizleri ve ATAK haritalarının entegre çalıştığı şebekesiz operasyonel tim mimarisi.
 
+### 🌐 Meshtastic MQTT Mimarisi ve Ağ Geçidi Protokolü (meshtastic.org/docs/software/integrations/mqtt)
+- **Meshtastic Genel MQTT Sunucu Altyapısı (`public-mqtt-server-infrastructure`):** `mqtt.meshtastic.org` resmi genel broker'ı, küresel mesh köprüleme kuralları ve ağ kararlılığı kısıtları.
+- **Genel MQTT Sıfır Sekme Politikası (`mqtt-zero-hop-policy`):** Genel internetten indirilen paketlerin yerel RF spektrumunu boğmasını önlemek için uygulanan `hop_limit = 0` kuralı.
+- **MQTT Port Numarası Beyaz Listesi (`mqtt-portnum-whitelist-filtering`):** Genel broker üzerinde bant genişliğini korumak için sadece 7 kritik porta izin veren sunucu taraflı filtreleme mantığı.
+- **MQTT Konum Hassasiyeti Filtreleme (`mqtt-location-precision-privacy`):** Genel kanalda ev ve sokak seviyesi konumların gizlenmesi için koordinatların 10-16 bite kırpılması.
+- **ServiceEnvelope Protobuf Kapsülleme Yapısı (`serviceenvelope-protobuf-wrapper`):** Ham `MeshPacket` ikili verilerini gateway kimliği ve kanal metadatasıyla saran `msh/.../2/e/...` zarf şeması.
+- **MQTT Kök Konu ve İsim Alanı Hiyerarşisi (`mqtt-root-topic-hierarchy`):** `msh/<BÖLGE>/2/<TÜR>/<KANAL>/<DÜĞÜM>` şablonuna dayanan standart ve çakışmasız konu ağacı.
+- **MQTT JSON Konu Dizileştirme (`mqtt-json-topic-serialization`):** ESP32 ve Linux geçit düğümlerinin 10 temel portu Home Assistant ve Node-RED için açık metin JSON formatında basması.
+- **MQTT JSON Aşağı Yönlü Mesaj Enjeksiyonu (`mqtt-json-downlink-injection`):** Harici IoT otomasyon sistemlerinin `msh/REGION/2/json/mqtt/` konusuna JSON basarak sahaya metin veya konum fırlatması.
+- **Düğüm Kimliği Onaltılık-Ondalık Dönüşümü (`node-id-hex-decimal-conversion`):** 32-bit telsiz kimliklerinin hex (`!7efeee00`) ile tam sayı ondalık (`2130636288`) arasındaki ikili dönüşüm standardı.
+- **Çoklu Geçitli Ağlarda MQTT Tekilleştirmesi (`multi-gateway-mqtt-deduplication`):** Aynı telsiz hücresinde birden fazla internet geçidi olduğunda kopya mesajların paket `id` değeriyle ayıklanması.
+
 ### 🔹 Açık Standart ve Tedarikçi Bağımsızlığı (Open Architecture & Vendor Neutrality)
 Meshtastic'in hiçbir tescilli ticari protokole veya tek bir donanım üreticisine bağımlı kalmamasını sağlayan açık kaynak ekosistem felsefesi (GPL-3.0 lisansı ve açık Protobuf şemaları). Semtech SX1262/SX1276/LR1121 telsizleri ile ESP32, nRF52840 ve RP2040 işlemcili onlarca farklı üreticinin (Heltec, LilyGO, RAKwireless) donanımları tam uyumla birlikte çalışabilir.
 

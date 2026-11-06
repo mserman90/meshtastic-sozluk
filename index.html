@@ -7039,6 +7039,166 @@
           "Operasyon Tipi": "Sınır güvenliği, afet arama kurtarma, orman yangını koordinasyonu"
         },
         seeAlso: ["official-meshtastic-atak-plugin", "device-role-tak", "emergency-geochat-and-pli"]
+      },
+      {
+        id: "public-mqtt-server-infrastructure",
+        en: "Meshtastic Public MQTT Server Infrastructure (mqtt.meshtastic.org)",
+        tr: "Meshtastic Genel MQTT Sunucu Altyapısı (mqtt.meshtastic.org)",
+        category: "Ağ & Protokol",
+        lead: "Meshtastic projesinin dünya çapındaki dağınık telsiz örgü ağlarını internet üzerinden birbirine bağlamak için sunduğu resmi ve kısıtlamalı genel MQTT sunucusu.",
+        details: "`mqtt.meshtastic.org` (port 1883 / şifreli 8883) adresinde barındırılan bu sunucu, internet erişimi olan Wi-Fi/Ethernet geçit düğümlerinin (gateway) yerel ağlarını küresel topluluğa bağlamasını sağlar. Ancak milyonlarca kullanıcının yerel telsiz bandını kitlemesini önlemek için sunucu katmanında sıkı kurallar uygulanır: varsayılan kanalda sıfır sekme (Zero-Hop) kuralı, port numarası filtrelemesi ve konum hassasiyeti kırpılması zorunludur. Özel kanallarda ise özel broker kullanımı tavsiye edilir.",
+        github: "meshtastic.org/docs/software/integrations/mqtt",
+        infobox: {
+          "Sunucu Adresi": "mqtt.meshtastic.org",
+          "Standart Port": "1883 (TCP) / 8883 (TLS/SSL)",
+          "Kullanıcı/Şifre": "meshdev / large4cats (Varsayılan genel erişim)",
+          "Uygulanan Kısıtlar": "Zero-Hop, Portnum filtreleme, Konum hassasiyeti sınırlandırma"
+        },
+        seeAlso: ["mqtt-zero-hop-policy", "mqtt-portnum-whitelist-filtering", "mqtt-root-topic-hierarchy"]
+      },
+      {
+        id: "mqtt-zero-hop-policy",
+        en: "Public MQTT Zero-Hop Forwarding Policy",
+        tr: "Genel MQTT Sıfır Sekme (Zero-Hop) İletim Politikası",
+        category: "Ağ & Protokol",
+        lead: "Genel MQTT sunucusundan telsiz geçidine indirilen (downlink) internet paketlerinin yerel LoRa örgü ağında diğer düğümlere sekişini (hop) engelleyen güvenlik ve bant genişliği kuralı.",
+        details: "İnternetteki binlerce kullanıcının mesajlarının yerel hava dalgalarını (RF) boğmasını engellemek için genel MQTT sunucusundan gelen her paketin sekme sınırı firmware veya sunucu tarafından `hop_limit = 0` olarak ayarlanır. Bu sayede internete bağlı geçit düğümü mesajı duyup ekranında gösterebilir; ancak paket komşu telsizler tarafından tekrarlanmaz (retransmit edilmez). Özel bir broker ve şifreli özel kanal kullanıldığında ise bu kısıtlama uygulanmaz ve paketler yerel mesh içinde normal sekme sınırıyla dağıtılabilir.",
+        github: "meshtastic.org/docs/software/integrations/mqtt",
+        infobox: {
+          "Kural Adı": "Zero-Hop Downlink Policy",
+          "Hedef Değer": "hop_limit = 0",
+          "Amacı": "İnternet kaynaklı trafikle yerel LoRa RF frekansının kilitlenmesini önleme",
+          "Kapsam": "Genel PSK (Default Channel) trafiği"
+        },
+        seeAlso: ["public-mqtt-server-infrastructure", "hop-limit", "channel-downlink-enabled"]
+      },
+      {
+        id: "mqtt-portnum-whitelist-filtering",
+        en: "MQTT Portnum Whitelist and Traffic Filtering",
+        tr: "MQTT Port Numarası Beyaz Liste ve Trafik Filtreleme",
+        category: "Ağ & Protokol",
+        lead: "Genel MQTT sunucusunun bant genişliğini korumak amacıyla varsayılan PSK kanalında yalnızca hayati öneme sahip 7 temel uygulama portunun iletilmesine izin veren filtreleme mekanizması.",
+        details: "Genel broker üzerindeki aşırı yükü engellemek amacıyla ağ seviyesinde port filtreleme uygulanır. Yalnızca `NODEINFO_APP`, `TEXT_MESSAGE_APP`, `TEXT_MESSAGE_COMPRESSED_APP`, `POSITION_APP`, `TELEMETRY_APP`, `MAP_REPORT_APP` ve `ROUTING_APP` paketleri iletilir. Diğer deneysel veya yüksek hacimli portlar (ör. harici sensör akışları veya özel veri paketleri) genel kanalda sunucu tarafından düşürülür. Bu filtreleme sunucu tarafında yürütüldüğü için kullanıcının cihazında ek firmware güncellemesi gerektirmez.",
+        github: "meshtastic.org/docs/software/integrations/mqtt",
+        infobox: {
+          "İzin Verilen Portlar": "NodeInfo, TextMessage, Position, Telemetry, MapReport, Routing",
+          "Filtreleme Seviyesi": "Ağ / Broker Düzeyi (Sunucu tarafı)",
+          "Kullanıcı Etkisi": "Cihaz güncellemesi gerektirmeden spektrum tasarrufu",
+          "İstisna": "Özel broker ve şifreli kanallarda tüm portlar serbesttir"
+        },
+        seeAlso: ["public-mqtt-server-infrastructure", "serviceenvelope-protobuf-wrapper", "atak-plugin-portnum-72"]
+      },
+      {
+        id: "mqtt-location-precision-privacy",
+        en: "MQTT Location Precision Filtering (10-16 Bit Privacy Truncation)",
+        tr: "MQTT Konum Hassasiyeti Filtreleme (10-16 Bit Gizlilik Kırpması)",
+        category: "Ağ & Protokol",
+        lead: "Genel MQTT sunucusuna aktarılan konum paketlerinin ev ve sokak seviyesinde hassas koordinatları gizlemek için 10-16 bit aralığına kırpılması kuralı.",
+        details: "Kullanıcı gizliliğini korumak ve genel internet üzerinden sahra düğümlerinin tam fiziksel konumlarının izlenmesini (doxxing/stalking) önlemek için geliştirilmiştir. Genel kanalda MQTT'ye yüklenen `POSITION_APP` paketleri tam GPS koordinatları yerine geniş bir coğrafi alanı temsil eden kaba çözünürlüklü (10-16 bit mantis) değerlerle yayınlanır. Kullanıcı kendi haritasında veya özel broker'ında tam hassasiyet isterse özel şifreli kanal kurmalıdır.",
+        github: "meshtastic.org/docs/software/integrations/mqtt",
+        infobox: {
+          "Hassasiyet Kırpması": "10 - 16 bit enlem/boylam çözünürlüğü",
+          "Kapsama": "Varsayılan PSK ile çalışan genel kanallar",
+          "Güvenlik Amacı": "Ev/ofis konumlarının genel internette ifşasını önleme",
+          "Özel Kanallar": "Özel PSK şifrelemesinde tam hassasiyet korunur"
+        },
+        seeAlso: ["position-precision-setting", "public-mqtt-server-infrastructure", "position-app"]
+      },
+      {
+        id: "serviceenvelope-protobuf-wrapper",
+        en: "ServiceEnvelope Protobuf Message Wrapper (msh/.../2/e/...)",
+        tr: "ServiceEnvelope Protobuf Mesaj Kapsülleme Yapısı (msh/.../2/e/...)",
+        category: "Ağ & Protokol",
+        lead: "MQTT üzerinden taşınan her ham `MeshPacket` ikili verisini kanal adı, geçit düğüm kimliği ve şifreleme durumuyla saran Protobuf zarfı.",
+        details: "Meshtastic telsizi havadan duyduğu ikili bir LoRa paketini internete basarken `ServiceEnvelope` şemasıyla paketler. Bu zarfın içinde paketin geldiği asıl `packet` (MeshPacket), geçit cihazının kimliği (`gateway_id`) ve kanal adı yer alır. Firmware v2.3.0 öncesinde konu yolunda `/c/` kullanılırken, v2.3.0+ ile birlikte şifreli/şifresiz ikili yükler için `/e/` (`msh/REGION/2/e/CHANNELNAME/USERID`) standartlaştırılmıştır. İstemciler `ServiceEnvelope` şemasını derleyerek ham telsiz paketlerini doğrudan çözebilir.",
+        github: "meshtastic.org/docs/software/integrations/mqtt",
+        infobox: {
+          "Protobuf Şeması": "meshtastic/mqtt.proto (ServiceEnvelope)",
+          "Konu Kalıbı": "msh/REGION/2/e/CHANNELNAME/USERID",
+          "İçerik": "MeshPacket + Gateway Node ID + Kanal Metadatası",
+          "Sürüm Değişimi": "v2.3.0 ile /c/ yerine /e/ takısı standartlaştı"
+        },
+        seeAlso: ["mqtt-root-topic-hierarchy", "mqtt-json-topic-serialization", "channel-uplink-enabled"]
+      },
+      {
+        id: "mqtt-root-topic-hierarchy",
+        en: "MQTT Root Topic and Namespace Hierarchy",
+        tr: "MQTT Kök Konu ve İsim Alanı Hiyerarşisi (msh/REGION/...)",
+        category: "Ağ & Protokol",
+        lead: "Meshtastic MQTT mimarisinde bölge kodu, protokol sürümü, veri türü ve kanal ismini belirleyen standart konu (topic) hiyerarşisi.",
+        details: "Meshtastic broker'larında konular `msh/<BÖLGE>/2/<TÜR>/<KANAL>/<DÜĞÜM>` şablonunu takip eder. Örneğin `msh/EU_868/2/e/LongFast/!abcd1234` veya `msh/US/2/json/LongFast/!7efeee00`. Burada `msh` varsayılan kök konu; `REGION` frekans bölgesini (EU_868, US, TR); `2` protokol ana sürümünü; `e` şifreli/ham protobuf paketini; `json` insan tarafından okunabilir JSON çıktısını; `CHANNEL` kanal adını; son parça ise geçit düğümünün onaltılık kimliğini belirtir. Bu hiyerarşi binlerce bağımsız ağı tek broker üzerinde çakışmadan barındırır.",
+        github: "meshtastic.org/docs/software/integrations/mqtt",
+        infobox: {
+          "Varsayılan Şablon": "msh/<Bölge>/2/<Format>/<Kanal>/<KullanıcıID>",
+          "Format Tipleri": "/e/ (Protobuf ServiceEnvelope), /json/ (JSON Açık Metin)",
+          "Örnek": "msh/EU_868/2/json/LongFast/!1234abcd",
+          "Özelleştirme": "mqtt.root parametresiyle kök konu değiştirilebilir"
+        },
+        seeAlso: ["serviceenvelope-protobuf-wrapper", "mqtt-json-topic-serialization", "public-mqtt-server-infrastructure"]
+      },
+      {
+        id: "mqtt-json-topic-serialization",
+        en: "MQTT JSON Topic Serialization (msh/.../2/json/...)",
+        tr: "MQTT JSON Konu Dizileştirme (msh/.../2/json/...)",
+        category: "Ağ & Protokol",
+        lead: "ESP32 ve Linux geçit düğümlerinin 10 farklı uygulama paketini ikili Protobuf yerine kolay okunabilir JSON biçiminde yayınlaması.",
+        details: "Akıllı ev (Home Assistant), Node-RED ve özel IoT yazılımlarının Protobuf kütüphanesine ihtiyaç duymadan doğrudan JSON tüketebilmesi için geliştirilmiştir. Cihazda JSON etkinleştirildiğinde `TEXT_MESSAGE_APP`, `TELEMETRY_APP`, `NODEINFO_APP`, `POSITION_APP`, `WAYPOINT_APP`, `NEIGHBORINFO_APP`, `TRACEROUTE_APP`, `DETECTION_SENSOR_APP`, `PAXCOUNTER_APP` ve `REMOTE_HARDWARE_APP` portları `msh/REGION/2/json/KANAL/DÜĞÜM` konusuna JSON nesnesi olarak basılır. nRF52 yongalarında bellek yetersizliği nedeniyle bu özellik donanımsal olarak desteklenmez.",
+        github: "meshtastic.org/docs/software/integrations/mqtt",
+        infobox: {
+          "Konu": "msh/REGION/2/json/CHANNELNAME/USERID",
+          "Desteklenen Portlar": "10 temel uygulama portu (Metin, Konum, Telemetri vb.)",
+          "Donanım Kısıtı": "ESP32 ve Linux destekler; nRF52'de RAM kısıtı nedeniyle kapalıdır",
+          "Hedef": "Home Assistant, Node-RED, Python betikleri ve paneller"
+        },
+        seeAlso: ["serviceenvelope-protobuf-wrapper", "mqtt-json-downlink-injection", "home-assistant-mqtt-integration"]
+      },
+      {
+        id: "mqtt-json-downlink-injection",
+        en: "MQTT JSON Downlink Message Injection (msh/.../2/json/mqtt/)",
+        tr: "MQTT JSON Aşağı Yönlü Mesaj Enjeksiyonu (msh/.../2/json/mqtt/)",
+        category: "Yazılım & İstemciler",
+        lead: "Harici sistemlerin `msh/REGION/2/json/mqtt/` konusuna JSON nesnesi basarak telsiz geçidine örgü ağına metin veya konum fırlattırması işlemi.",
+        details: "Geçit düğümünde 'mqtt' adında bir ikincil kanal tanımlanıp Downlink açıldığında, telsiz broker'daki `msh/REGION/2/json/mqtt/` konusunu sürekli dinler. Bir otomasyon sistemi bu konuya `from`, `to`, `type: 'sendtext'` ve `payload: 'Yangın Alarmı Tetiklendi'` içeren bir JSON bastığında; geçit düğümü bunu anında LoRa telsiz paketine dönüştürerek sahaya fırlatır. Aynı şekilde `type: 'sendposition'` ile yapay hedef koordinatları (`latitude_i`, `longitude_i`) ağa enjekte edilebilir.",
+        github: "meshtastic.org/docs/software/integrations/mqtt",
+        infobox: {
+          "Dinleme Konusu": "msh/REGION/2/json/mqtt/",
+          "Kanal Adı Gereksinimi": "mqtt adlı kanal + downlink_enabled: true",
+          "Desteklenen Tipler": "sendtext (Metin mesajı) ve sendposition (GPS koordinatı)",
+          "Hedef Seçimi": "to parametresiyle DM veya tüm ağa genel yayın (broadcast)"
+        },
+        seeAlso: ["mqtt-json-topic-serialization", "node-id-hex-decimal-conversion", "node-red-flow-integration"]
+      },
+      {
+        id: "node-id-hex-decimal-conversion",
+        en: "Node ID Hexadecimal to Decimal Representation Conversion",
+        tr: "Düğüm Kimliği Onaltılık - Ondalık Dönüşüm Mantığı",
+        category: "Ağ & Protokol",
+        lead: "Meshtastic JSON MQTT mesajlarında 32-bitlik telsiz düğüm kimliklerinin onaltılık (`!7efeee00`) ile tam sayı ondalık (`2130636288`) arasındaki ikili dönüşüm standardı.",
+        details: "Telsiz arayüzlerinde ve kullanıcı etiketlerinde düğüm kimlikleri 8 haneli onaltılık (hex) dizgi olarak gösterilir (ör. `!7efeee00`). Ancak MQTT JSON yüklerinde `from` ve `to` alanları, 32-bit işaretsiz tamsayı (unsigned integer) ondalık değer olarak temsil edilir (`0x7efeee00 = 2130636288`). Genel yayın (broadcast) adresi olan `0xFFFFFFFF` ise JSON'da `-1` veya `4294967295` olarak görünür. Firmware 2.2.0 ve üzerinde işaretli değerler işaretsiz standarda yükseltilmiştir.",
+        github: "meshtastic.org/docs/software/integrations/mqtt",
+        infobox: {
+          "Onaltılık Biçim": "!7efeee00 (Ekran ve etiketlerde)",
+          "Ondalık Biçim": "2130636288 (MQTT JSON from/to alanlarında)",
+          "Genel Yayın (Broadcast)": "0xFFFFFFFF -> -1 veya 4294967295",
+          "Firmware Notu": "v2.2.0+ ile birlikte JSON sayıları unsigned standardına geçti"
+        },
+        seeAlso: ["mqtt-json-topic-serialization", "mqtt-json-downlink-injection", "node-db"]
+      },
+      {
+        id: "multi-gateway-mqtt-deduplication",
+        en: "Multi-Gateway Mesh MQTT Packet Deduplication",
+        tr: "Çoklu Geçitli Örgü Ağlarında MQTT Paket Tekilleştirmesi",
+        category: "Ağ & Protokol",
+        lead: "Aynı LoRa telsiz ağında internete bağlı birden fazla geçit düğümü bulunduğunda, MQTT broker'a basılan kopya paketlerin paket kimliği (`id`) ile filtrelenmesi süreci.",
+        details: "Bir örgü ağında iki veya üç farklı geçit telsizi Wi-Fi üzerinden aynı broker'a bağlı olduğunda, sahadaki bir düğümden çıkan tek bir telsiz paketi her iki geçit tarafından da duyulur ve MQTT'ye basılır. Bu durum broker'da aynı mesajın mükerrer (duplicate) oluşmasına yol açar. Home Assistant, Node-RED veya özel Python dinleyicileri yazan geliştiriciler, mesaj zarfındaki benzersiz `id` (Packet ID) alanını bir önbellekte (cache/set) tutarak aynı kimliğe sahip kopyaları atmalı ve tekilleştirme (deduplication) yapmalıdır.",
+        github: "meshtastic.org/docs/software/integrations/mqtt",
+        infobox: {
+          "Oluşum Nedeni": "Aynı mesh hücresinde birden fazla Wi-Fi/Ethernet gateway bulunması",
+          "Tekilleştirme Anahtarı": "Mesaj ID'si (unique 32-bit packet id)",
+          "İstemci Sorumluluğu": "Abone olan yazılım (Home Assistant / Node-RED / Bot)",
+          "Faydası": "Ağ yedekliliği korunurken mükerrer bildirim ve otomasyonların önlenmesi"
+        },
+        seeAlso: ["public-mqtt-server-infrastructure", "serviceenvelope-protobuf-wrapper", "node-red-flow-integration"]
       }
     ];
 
