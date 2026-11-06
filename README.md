@@ -682,6 +682,18 @@ Meshtastic donanımını kontrol etmek, mesajlaşıp harita görüntülemek ve a
 - **Node-RED Worldmap LoRa Canlı Coğrafi İzleme (`nodered-gps-worldmap-tracking`):** Telsiz GPS telemetrisini çevrimdışı destekli web haritası üzerinde canlı simgeler ve rotalarla görselleştirme.
 - **Node-RED Raspberry Pi GPIO Donanım Acil Durum Uyarısı (`nodered-emergency-buzzer-gpio-trigger`):** SOS mesajı alındığında doğrudan Pi GPIO pinlerini tetikleyerek 12V siren veya flaşör çalıştırma.
 
+### 🏡 İleri Seviye Home Assistant Otomasyonu ve Taktik Paneller (meshtastic.org/docs/software/integrations/mqtt/home-assistant)
+- **Home Assistant MQTT Cihaz Tetikleyici SOS Alarmları (`ha-mqtt-device-trigger-sos`):** Telsizden 'SOS' geldiğinde evdeki ışıkları kırmızı flaşöre alıp sirenleri ve kameraları devreye sokma.
+- **Home Assistant Lovelace Özel Telsiz Kartları (`ha-lovelace-meshtastic-card`):** Sahadaki tüm LoRa düğümlerinin batarya, sinyal ve konumlarını tek bir şık arayüz kartında birleştirme.
+- **Home Assistant Coğrafi Çit (Geofence) Bölge Uyarıları (`ha-proximity-geofence-alert`):** Ekiplerin üsse yaklaşmasını veya güvenli arama sektörünün dışına çıkmasını takip etme.
+- **Home Assistant MQTT Retain Bayrağı Yönetimi (`ha-mqtt-retain-flag-management`):** Sensör durumlarını korurken eski komutların döngüye girip LoRa hava süresini boğmasını önleme.
+- **Home Assistant Geçmiş Grafiği ve Telemetri Trendleri (`ha-history-graph-telemetry-trends`):** Güneş paneli şarjı ve batarya voltajının mevsimsel trendlerini ApexCharts ile analiz etme.
+- **Home Assistant Düğüm Erişilebilirlik İkili Sensörü (`ha-node-availability-binary-sensor`):** 30 dakika paket göndermeyen dağ rölelerini otomatik olarak 'Çevrimdışı' işaretleme.
+- **Home Assistant TTS Sesli Telsiz Anons Otomasyonu (`ha-tts-voice-announcement-automation`):** Telsizden gelen acil mesajları akıllı hoparlörlerden (Google Nest, Piper) yüksek sesle odaya anons etme.
+- **Home Assistant Çoklu Kanal MQTT Ayrıştırması (`ha-multi-channel-mqtt-subscription`):** 8 farklı şifreli telsiz kanalını bağımsız sensör ve panellere hatasız yönlendirme.
+- **Home Assistant Meshtastic Otomasyon Taslağı / Blueprint (`ha-blueprint-mesh-automation`):** Kod yazmadan tek tıkla cihaz ve telefon seçilerek devreye alınan LoRa kriz şablonu.
+- **Home Assistant Harici Webhook ve Meshtastic Köprüsü (`ha-webhook-to-meshtastic-rest`):** Resmi deprem/sel erken uyarılarını internetten alıp anında GSM'siz LoRa ağına anons etme.
+
 ### 🔹 Açık Standart ve Tedarikçi Bağımsızlığı (Open Architecture & Vendor Neutrality)
 Meshtastic'in hiçbir tescilli ticari protokole veya tek bir donanım üreticisine bağımlı kalmamasını sağlayan açık kaynak ekosistem felsefesi (GPL-3.0 lisansı ve açık Protobuf şemaları). Semtech SX1262/SX1276/LR1121 telsizleri ile ESP32, nRF52840 ve RP2040 işlemcili onlarca farklı üreticinin (Heltec, LilyGO, RAKwireless) donanımları tam uyumla birlikte çalışabilir.
 

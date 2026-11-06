@@ -8159,6 +8159,166 @@
           "Tetikleme Şartı": "Metinde 'SOS' tespit edilmesi veya acil paket türü gelmesi"
         },
         seeAlso: ["external-usb-to-serial-gpio", "nodered-edge-pi-iot-gateway", "ha-mesh-mobile-notifications"]
+      },
+      {
+        id: "ha-mqtt-device-trigger-sos",
+        en: "Home Assistant MQTT Device Trigger SOS & Alarm Automation",
+        tr: "Home Assistant MQTT Cihaz Tetikleyici SOS ve Acil Alarm Otomasyonu",
+        category: "Yazılım & İstemciler",
+        lead: "Meshtastic telsizlerinden gelen SOS veya acil kriz paketlerini yakaladığında akıllı evde tüm aydınlatmaları kırmızı flaşör moduna alan, sirenleri çalıştıran ve güvenlik kameralarını kayda geçiren Home Assistant otomasyon tetikleyicisi.",
+        details: "Acil durumlarda LoRa ağı üzerinden `payload.text` içinde 'SOS' ifadesi veya Portnum 70/72 acil durum telemetrisi yayınlandığında devreye girer. Home Assistant `automation` bileşeni, MQTT konusunu (`msh/2/json/...`) dinler. `trigger.payload_json.payload.text contains 'SOS'` şartı sağlandığında `light.turn_on` servisine `rgb_color: [255, 0, 0]` ve `flash: short` komutu gönderilir; eşzamanlı olarak `siren.turn_on` ve acil push bildirim servisleri çalıştırılarak ev veya karargah personeli derhal uyarılır.",
+        github: "meshtastic.org/docs/software/integrations/mqtt/home-assistant",
+        infobox: {
+          "Tetikleyici Türü": "MQTT JSON Yükü Filtreleme (Event/Pattern Matching)",
+          "Eylem Servisleri": "light.turn_on, siren.turn_on, camera.record, notify.all_devices",
+          "Tepki Süresi": "< 200 ms (Yerel MQTT Broker üzerinde)",
+          "Kullanım Alanı": "Afet koordinasyon merkezleri, kırsal yaşam alanları, arama-kurtarma karargahları"
+        },
+        seeAlso: ["ha-node-message-entities", "ha-mesh-mobile-notifications", "nodered-emergency-buzzer-gpio-trigger"]
+      },
+      {
+        id: "ha-lovelace-meshtastic-card",
+        en: "Home Assistant Lovelace Custom Meshtastic Dashboard Cards",
+        tr: "Home Assistant Lovelace Özel Meshtastic Gösterge Paneli Kartları",
+        category: "Yazılım & İstemciler",
+        lead: "Home Assistant web ve mobil arayüzünde (Lovelace) sahadaki tüm LoRa telsizlerinin batarya seviyelerini, sinyal kalitelerini (SNR/RSSI) ve son konumlarını tek bir şık görsel kartta birleştiren pano tasarımı.",
+        details: "Lovelace panolarında `custom:stack-in-card`, `custom:mushroom-entity-card` veya standart `vertical-stack` kullanılarak telsizler için özel kontrol panelleri oluşturulur. Her telsiz kartında batarya seviyesi için renkli dinamik ikon (`mdi:battery-high`, `mdi:battery-alert`), son görülme zamanı, 24 saatlik voltaj mini-grafiği ve haritaya yönlendiren buton yer alır. Kart üzerinden doğrudan mesajlaşma veya beacon fırlatma düğmeleri de entegre edilerek operatöre taktik kontrol paneli sunulur.",
+        github: "meshtastic.org/docs/software/integrations/mqtt/home-assistant",
+        infobox: {
+          "Arayüz Motoru": "Lovelace UI (Home Assistant Frontend)",
+          "Kullanılan Kartlar": "Entities Card, Mini Graph Card, Mushroom Cards, Map Card",
+          "Görselleştirilen Veri": "Batarya %, Voltaj, SNR/RSSI, Son Konum, Hava Süresi (Air Time)",
+          "Erişim": "Web Tarayıcı, Home Assistant iOS / Android Uygulaması"
+        },
+        seeAlso: ["nodered-dashboard-ui-widgets", "ha-telemetry-sensor-entities", "ha-device-tracker-gps-mapping"]
+      },
+      {
+        id: "ha-proximity-geofence-alert",
+        en: "Home Assistant Proximity & Geofencing LoRa Tracker Alerts",
+        tr: "Home Assistant Proximity ve Coğrafi Çit (Geofence) Bölge Uyarıları",
+        category: "Ağ & Protokol",
+        lead: "Sahada Meshtastic telsizi taşıyan ekiplerin veya acil müdahale araçlarının belirlenen güvenli üs veya afet koordinasyon çemberine giriş/çıkışlarını takip eden mesafe hesaplama entegrasyonu.",
+        details: "Home Assistant'ın yerleşik `proximity` ve `zone` entegrasyonları, `device_tracker` ile izlenen LoRa telsizinin enlem-boylam koordinatlarını ana merkez üsse göre sürekli hesaplar. Örneğin bir arama timi üsse 500 metreden fazla yaklaştığında 'Ekip Yaklaşıyor' duyurusu yapılır; tim güvenli arama sektörünün (geofence) dışına çıktığında ise acil durum bildirimi üretilerek telsiz operatörünün rotadan saptığı tespit edilir.",
+        github: "meshtastic.org/docs/software/integrations/mqtt/home-assistant",
+        infobox: {
+          "Entegrasyon": "proximity / zone (Home Assistant Core)",
+          "Girdi Varlığı": "device_tracker.meshtastic_<node_id>",
+          "Hesaplanan Değerler": "Mesafe (metre/km), Hareket Yönü (towards / away / stationary)",
+          "Kullanım Alanı": "Sahra hastanesi giriş kontrolü, arama sektörü sınır ihlali tespiti"
+        },
+        seeAlso: ["ha-device-tracker-gps-mapping", "caltopo-record-to-map-tracking", "atak-pli-position-sync"]
+      },
+      {
+        id: "ha-mqtt-retain-flag-management",
+        en: "Home Assistant MQTT Retain Flag Management for Mesh Entities",
+        tr: "Home Assistant MQTT Retain (Kalıcılık) Bayrağı Yönetimi",
+        category: "Ağ & Protokol",
+        lead: "Home Assistant yeniden başlatıldığında telsiz sensörlerinin ve son bilinen durumların kaybolmaması için kullanılan, ancak eski mesajların döngü oluşturmasını önlemek üzere dikkatle yönetilen MQTT kalıcılık politikası.",
+        details: "Home Assistant sensörlerinde `retain: true` ayarı broker'a son mesajı saklamasını söyler; böylece Home Assistant yeniden başlatıldığında saatlerce paket göndermeyen uyku modundaki telsizlerin voltaj ve isim bilgileri anında yüklenir (`unknown` kalmaz). Ancak telsiz komutları (`sendtext` downlink) gönderilirken `retain: false` tutulmalıdır; aksi halde telsiz her yeniden bağlandığında eski komut tekrar tekrar havaya yayınlanarak LoRa ağında hava süresi kirliliği yaratır.",
+        github: "meshtastic.org/docs/software/integrations/mqtt/home-assistant",
+        infobox: {
+          "Protokol Bayrağı": "MQTT Retain Flag (0 veya 1)",
+          "Telemetri Durumu": "Retain Önerilir (Sensörlerin yeniden başlatmada dolması için)",
+          "Komut/Mesaj Durumu": "Retain KESİNLİKLE Kapatılmalıdır (Mükerrer LoRa TX engeli)",
+          "Önlediği Sorun": "Home Assistant açılışında sensörlerin 'Bilinmiyor' kalması veya komut döngüsü"
+        },
+        seeAlso: ["mqtt-zero-hop-policy", "paho-will-set-lwt-status", "ha-mqtt-downlink-send-automation"]
+      },
+      {
+        id: "ha-history-graph-telemetry-trends",
+        en: "Home Assistant History Graph & ApexCharts Mesh Telemetry Trends",
+        tr: "Home Assistant Geçmiş Grafiği ve Telemetri Trend Çözümlemesi",
+        category: "Yazılım & İstemciler",
+        lead: "LoRa düğümlerinin batarya boşalma eğrilerini, güneş paneli şarj döngülerini ve radyo sinyal kalitesi (SNR) değişimlerini uzun vadeli zaman serisi grafikleriyle analiz eden görselleştirme aracı.",
+        details: "Home Assistant'ın yerleşik `history-graph` kartı veya HACS üzerinden kurulan `apexcharts-card`, Meshtastic sensörlerinden gelen verileri 24 saat, 7 gün veya 30 günlük zaman ekseninde işler. Batarya voltajı (3.2V - 4.2V) ile güneş paneli şarjı arasındaki korelasyon izlenerek kış aylarında rölenin kaç gün yeteceği tahmin edilir. Ayrıca SNR/RSSI düşüş trendleri incelenerek mevsimsel yapraklanma veya yapılaşmanın radyo linkini ne kadar zayıflattığı tespit edilir.",
+        github: "meshtastic.org/docs/software/integrations/mqtt/home-assistant",
+        infobox: {
+          "Grafik Motoru": "history-graph / apexcharts-card / Plotly Card (HACS)",
+          "İzlenen Metrikler": "Voltaj (V), Pil (%), SNR (dB), RSSI (dBm), Sıcaklık (°C)",
+          "Zaman Aralığı": "1 saatlik anlık detay, 24 saatlik döngü, 30 günlük mevsimsel trend",
+          "Kullanım Amacı": "Güneş enerjili dağ rölelerinin pil/enerji bütçesini optimize etme"
+        },
+        seeAlso: ["ha-telemetry-sensor-entities", "nodered-sqlite-telemetry-logging", "ha-environmental-sensor-entities"]
+      },
+      {
+        id: "ha-node-availability-binary-sensor",
+        en: "Home Assistant Node Availability & Offline Detection Binary Sensor",
+        tr: "Home Assistant Düğüm Erişilebilirlik ve Çevrimdışı İkili Sensörü",
+        category: "Ağ & Protokol",
+        lead: "Belirlenen zaman aşımı süresi boyunca (örneğin 30 dakika) telemetri veya kalp atışı paketi göndermeyen Meshtastic telsizlerini otomatik olarak 'Çevrimdışı' işaretleyen varlık denetleyicisi.",
+        details: "Sahadaki telsizlerin pili bittiğinde veya telsiz kapsama alanı dışına çıktığında sensörlerin son değerde donup kalmasını önler. Home Assistant MQTT sensör yapılandırmasında `expire_after: 1800` (saniye) tanımlandığında, 30 dakika boyunca yeni veri gelmezse sensör durumu otomatik olarak `unavailable` olur. Alternatif olarak bir `template` binary sensor ile `as_timestamp(now()) - as_timestamp(states.sensor.meshtastic_battery.last_updated) > 1800` kontrolü yapılarak 'Düğüm Düştü' bildirimleri tetiklenebilir.",
+        github: "meshtastic.org/docs/software/integrations/mqtt/home-assistant",
+        infobox: {
+          "Yapılandırma Parametresi": "expire_after: <saniye> (MQTT Sensor) / template binary_sensor",
+          "Çalışma Mantığı": "Son güncelleme zaman damgası (last_updated) kontrolü",
+          "Varsayılan Eşik": "1800 - 3600 saniye (Röle telemetri periyoduna göre)",
+          "Faydası": "Çöken veya enerjisi kesilen dağ rölelerinin operatöre anında ihbar edilmesi"
+        },
+        seeAlso: ["paho-will-set-lwt-status", "ha-telemetry-sensor-entities", "ha-mesh-mobile-notifications"]
+      },
+      {
+        id: "ha-tts-voice-announcement-automation",
+        en: "Home Assistant TTS Voice Announcement LoRa Message Automation",
+        tr: "Home Assistant TTS (Metinden Sese) Sesli Telsiz Anons Otomasyonu",
+        category: "Yazılım & İstemciler",
+        lead: "Meshtastic telsiz ağından gelen acil durum mesajlarını ve çağrıları Home Assistant'a bağlı akıllı hoparlörlerden (Google Nest, Piper, Sonos) sesli konuşma olarak odaya anons eden otomasyon.",
+        details: "Afet veya operasyon anında personelin telefon veya bilgisayar ekranına bakmadığı durumlarda hayati önem taşır. Telsizden gelen `sensor.meshtastic_last_message` değiştiğinde tetiklenen otomasyon, `tts.speak` veya `tts.piper` servisini çağırır. Örneğin: 'Dikkat, Sahra Timi İki bildiriyor: Rota üzerinde heyelan var, geçit kapalı' şeklinde telsiz mesaj metni hoparlörlerden yüksek sesle Türkçe anons edilir.",
+        github: "meshtastic.org/docs/software/integrations/mqtt/home-assistant",
+        infobox: {
+          "TTS Motoru": "Wyoming Piper (Yerel Çevrimdışı Yapay Zeka Ses) / Google Translate TTS",
+          "Çıkış Cihazları": "Google Nest Hub, Amazon Echo, Sonos, Raspberry Pi 3.5mm Jack",
+          "Tetikleyici": "sensor.meshtastic_last_message durum güncellemesi",
+          "Kullanım Alanı": "Sahra çadırları, itfaiye/AFAD koordinasyon merkezleri, nöbetçi odaları"
+        },
+        seeAlso: ["ha-node-message-entities", "ha-mqtt-device-trigger-sos", "ha-mesh-mobile-notifications"]
+      },
+      {
+        id: "ha-multi-channel-mqtt-subscription",
+        en: "Home Assistant Multi-Channel MQTT Topic Parsing Architecture",
+        tr: "Home Assistant Çoklu Kanal MQTT Konu ve Şifreli Kanal Ayrıştırması",
+        category: "Ağ & Protokol",
+        lead: "Meshtastic telsizlerinde tanımlı 8 farklı kanalın (Örn: Genel Acil, Lojistik, Yönetim) her biri için Home Assistant içinde ayrı ayrı MQTT sensör ve mesaj varlıkları oluşturma mimarisi.",
+        details: "Meshtastic cihazlarında kanallar `msh/2/c/<Channel_Name>/...` veya JSON formatında `msg.payload.channel` indeksiyle ayırt edilir. Home Assistant'ta her kanal için ayrı `mqtt.yaml` blokları tanımlanır. Örneğin Kanal 0 (Primary) için `sensor.meshtastic_primary_messages`, Kanal 1 (Lojistik) için `sensor.meshtastic_logistic_messages` oluşturulur. Böylece farklı operasyonel birimlerin mesajları birbirine karışmadan doğru Lovelace panellerine ve ilgili ekiplerin telefonlarına yönlendirilir.",
+        github: "meshtastic.org/docs/software/integrations/mqtt/home-assistant",
+        infobox: {
+          "Kanal Kapasitesi": "8 Kanal (Kanal 0: Primary, Kanal 1-7: Secondary)",
+          "MQTT Konu Kalıbı": "msh/2/json/<Channel_Name>/... veya msh/2/c/<Channel_Name>/...",
+          "Yönlendirme Kriteri": "state_topic ve payload_json.channel filtresi",
+          "Güvenlik": "Şifreli secondary kanalların bağımsız olarak şifre çözümü ve panolara ayrılması"
+        },
+        seeAlso: ["nodered-switch-node-channel-routing", "mqtt-portnum-whitelist-filtering", "ha-jinja2-value-template"]
+      },
+      {
+        id: "ha-blueprint-mesh-automation",
+        en: "Home Assistant Meshtastic Community Automation Blueprint",
+        tr: "Home Assistant Meshtastic Otomasyon Taslağı (Blueprint)",
+        category: "Yazılım & İstemciler",
+        lead: "Karmaşık YAML veya Jinja2 kodları yazmadan, kullanıcıların tek tıkla telsiz bildirimlerini, SOS alarmlarını ve sesli duyuruları yapılandırmasını sağlayan yeniden kullanılabilir otomasyon kalıbı.",
+        details: "Home Assistant Blueprint sistemi, topluluk tarafından geliştirilen `meshtastic_alert.yaml` dosyasını içe aktararak grafiksel bir kurulum sihirbazı sunar. Kullanıcı arayüzden 'Hangi telsiz sensörü izlenecek?', 'Bildirim hangi cep telefonlarına gitsin?', 'Hangi saatler arasında sesli anons yapılsın?' seçeneklerini açılır menülerden seçer. Kod yazma ihtiyacını ortadan kaldırarak amatör telsizcilerin ve acil durum gönüllülerinin sistemlerini saniyeler içinde kurmasını sağlar.",
+        github: "meshtastic.org/docs/software/integrations/mqtt/home-assistant",
+        infobox: {
+          "Biçim": "Home Assistant Blueprint (YAML Şablon Standardı)",
+          "Paylaşım": "Home Assistant Community Forum / GitHub Gist bağlantısı",
+          "Avantajı": "Sıfır YAML koduyla modüler ve hatasız otomasyon kurulumu",
+          "Girdi Seçiciler": "entity (telsiz sensörü), target (akıllı telefonlar), boolean (gece modu)"
+        },
+        seeAlso: ["home-assistant-mqtt-yaml-configuration", "nodered-subflow-modularization", "ha-mesh-mobile-notifications"]
+      },
+      {
+        id: "ha-webhook-to-meshtastic-rest",
+        en: "Home Assistant External Webhook to Meshtastic LoRa Bridge",
+        tr: "Home Assistant Harici Webhook ve Meshtastic Köprüsü",
+        category: "Ağ & Protokol",
+        lead: "Dış afet uyarı servislerinden (Kandilli Rasathanesi, AFAD, Meteoroloji) veya kurumsal sistemlerden gelen webhook çağrılarını Home Assistant üzerinden anında telsiz ağına yayınlatan köprü.",
+        details: "Home Assistant'ın dahili Webhook tetikleyicisi (`webhook_id: deprem_erken_uyari`) harici kriz servislerinden gelen JSON yüklerini kabul eder. Bir otomasyon tetiklendiğinde `mqtt.publish` servisini çalıştırarak yerel telsiz geçidine `sendtext` formatında 'Kandilli: Marmara 4.8 Deprem İhbarı! Güvenli Alana Geçin' yükünü fırlatır. Böylece internetteki resmi deprem/sel erken uyarıları anında GSM şebekesi çökmüş sahadaki telsiz kullanıcılarına LoRa üzerinden dağıtılır.",
+        github: "meshtastic.org/docs/software/integrations/mqtt/home-assistant",
+        infobox: {
+          "Giriş Protokolü": "HTTP POST Webhook (https://<ha-url>/api/webhook/<webhook_id>)",
+          "Çıkış Protokolü": "MQTT Publish -> Meshtastic LoRa Radyo Yayını",
+          "Uçtan Uca Gecikme": "< 500 ms (İnternet uyarısından LoRa havaya çıkışına)",
+          "Kullanım Alanı": "Deprem erken uyarı sistemleri, baraj taşkın alarmları, meteorolojik fırtına uyarıları"
+        },
+        seeAlso: ["nodered-http-in-webhook-downlink", "meshtastic-python-rest-webhook-bridge", "ha-mqtt-downlink-send-automation"]
       }
     ];
 
