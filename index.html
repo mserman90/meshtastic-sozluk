@@ -3112,6 +3112,200 @@
           "Temel Görevi": "Harekete duyarlı konum yayını ve akıllı pil koruma"
         },
         seeAlso: ["wismesh-tag", "wismesh-pod", "tracker", "rak12500-gnss"]
+      },
+
+      /* 15. LilyGO Donanım ve Taşınabilir Terminal Ekosistemi (meshtastic.org/docs/hardware/devices/lilygo) */
+      {
+        id: "t-echo",
+        en: "LilyGO T-Echo / T-Echo Plus",
+        tr: "LilyGO T-Echo Düşük Güçlü E-Paper Düğümü",
+        category: "Donanım & Çipler",
+        lead: "Nordic nRF52840 işlemci, Semtech SX1262 telsiz, 1.54 inç e-mürekkep ekran, Quectel L76K GNSS ve NFC desteğini 850 mAh Li-Po bataryayla kompakt bir kasada birleştiren efsanevi düşük güçlü el cihazı.",
+        details: "Güneş ışığı altında mükemmel okunabilen e-paper ekranı ve nRF52 mimarisinin ultra düşük akım tüketimi sayesinde tek şarjla günlerce kesintisiz çalışır. Bluetooth LE ile cep telefonuna bağlanabilir ya da üzerindeki butonlar ve kapasitif dokunmatik alanla bağımsız kontrol edilebilir.",
+        github: "meshtastic.org/docs/hardware/devices/lilygo/techo",
+        infobox: {
+          "İşlemci & Telsiz": "Nordic nRF52840 + Semtech SX1262",
+          "Ekran": "1.54 inç 200x200 E-Paper (E-İnk)",
+          "Konumlandırma": "Quectel L76K GNSS (GPS / GLONASS)",
+          "Batarya": "Dahili 850 mAh Şarj Edilebilir Li-Po"
+        },
+        seeAlso: ["nrf52840", "sx1262", "inkhud-firmware", "t-echo-touch-pad"]
+      },
+      {
+        id: "t-beam-supreme",
+        en: "LilyGO T-Beam Supreme (ESP32-S3 Core)",
+        tr: "LilyGO T-Beam Supreme (Yeni Nesil Sensörlü Saha Kartı)",
+        category: "Donanım & Çipler",
+        lead: "Klasik T-Beam tasarımının çift çekirdekli ESP32-S3FN8 işlemci, SX1262 telsiz, u-blox NEO-M10S GPS, BME280 çevre sensörü ve AXP2101 PMIC ile güçlendirilmiş amiral gemisi versiyonu.",
+        details: "18650 pil yuvası korurken QMI8658 6 eksenli IMU, QMC6310 pusula/manyetometre, PCF8563 gerçek zamanlı saat (RTC) ve BME280 (sıcaklık/nem/basınç) sensörleriyle donatılmıştır. Acil durum afet ve keşif araçları için eksiksiz bir telemetri istasyonudur.",
+        github: "meshtastic.org/docs/hardware/devices/lilygo/tbeam",
+        infobox: {
+          "İşlemci (MCU)": "ESP32-S3FN8 Çift Çekirdek Xtensa LX7",
+          "Telsiz & GNSS": "SX1262 + u-blox NEO-M10S",
+          "Dahili Sensörler": "BME280 (Basınç/Nem/Sıcaklık) + QMI8658 IMU + QMC6310",
+          "Güç Yönetimi": "AXP2101 PMIC + 18650 Pil Yuvası"
+        },
+        seeAlso: ["t-beam", "axp2101-pmic", "bme280", "telemetry"]
+      },
+      {
+        id: "t-beam-1w",
+        en: "LilyGO T-Beam 1W (High-Power 32dBm Edition)",
+        tr: "LilyGO T-Beam 1W (Yüksek Güçlü & Fanlı Saha Kartı)",
+        category: "Donanım & Çipler",
+        lead: "Semtech SX1262 telsizini harici RF güç amplifikatörü ile takviye ederek 32 dBm (~1.5 Watt) tepe çıkış gücü sağlayan ve aşırı ısınmayı önleyen aktif soğutma fanı barındıran T-Beam modeli.",
+        details: "Standart LoRa alıcı-vericilerine göre 10 kattan fazla çıkış gücü sağlayarak derin vadiler, yoğun ormanlar veya dağdan dağa ultra uzun menzilli sabit omurga linkleri oluşturmak için tasarlanmıştır. Yüksek enerji tüketimi nedeniyle harici yüksek akımlı güç kaynağı veya geniş kapasiteli pil gerektirir.",
+        github: "meshtastic.org/docs/hardware/devices/lilygo/tbeam",
+        infobox: {
+          "Maksimum RF Gücü": "32 dBm (~1.5W Tepe LoRa İletimi)",
+          "Soğutma": "Dahili Minyatür Aktif Soğutma Fanı",
+          "İşlemci & Telsiz": "ESP32-S3 + Semtech SX1262 PA",
+          "Kullanım Amacı": "Ekstrem menzilli omurga ve görüş hattı dışı bağlantılar"
+        },
+        seeAlso: ["t-beam", "wismesh-1w-booster", "tx-power"]
+      },
+      {
+        id: "t-deck-plus",
+        en: "LilyGO T-Deck Plus",
+        tr: "LilyGO T-Deck Plus Bağımsız Mesajlaşma Terminali",
+        category: "Donanım & Çipler",
+        lead: "ESP32-S3 ana işlemcisi, klavye yönetimi için ikincil ESP32-C3 çipi, 2.8 inç dokunmatik IPS ekranı, mekanik trackball faresi, dahili GPS modülü ve 2000 mAh bataryası olan hepsi bir arada el terminali.",
+        details: "Klasik T-Deck'in üzerine entegre GPS yongası ve daha büyük kapasiteli korumalı 2000 mAh Li-Po batarya eklenmiş modelidir. Fiziksel QWERTY mikro klavyesi ve I2S mikrofon/hoparlör donanımıyla akıllı telefona hiç bağlanmadan bağımsız mesajlaşma, konum izleme ve kanal yönetimi sunar.",
+        github: "meshtastic.org/docs/hardware/devices/lilygo/tdeck",
+        infobox: {
+          "Çift MCU": "ESP32-S3 (Sistem) + ESP32-C3 (Klavye Denetleyici)",
+          "Ekran & Giriş": "2.8\" IPS LCD Dokunmatik + Trackball + QWERTY Klavye",
+          "Konumlandırma": "Dahili GNSS (GPS) Modülü",
+          "Pil Kapasitesi": "2000 mAh Şarj Edilebilir Li-Po"
+        },
+        seeAlso: ["t-deck", "t-pager", "canned-messages"]
+      },
+      {
+        id: "t-pager",
+        en: "LilyGO T-Lora Pager (T-Pager)",
+        tr: "LilyGO T-Lora Pager (Çağrı Cihazı Form Faktörlü El Terminali)",
+        category: "Donanım & Çipler",
+        lead: "90'ların klasik çağrı cihazı (pager) form faktöründe tasarlanmış; Semtech LR1121 telsiz, ESP32-S3, u-blox MIA-M10Q GPS, BHI260AP yapay zeka destekli IMU, tam klavye ve 2.33 inç dikey ekrana sahip taktik el terminali.",
+        details: "Sub-GHz ve 2.4 GHz LoRa yetenekli gelişmiş Semtech LR1121 yongasını kullanır. Gövdesinde dahili katlanabilir yüksek kazançlı anten, ES8311 ses kodeği ile donatılmış mikrofon/hoparlör, kulaklık jakı ve Texas Instruments güç yönetim devresi barındırır.",
+        github: "meshtastic.org/docs/hardware/devices/lilygo/tpager",
+        infobox: {
+          "Telsiz Çipi": "Semtech LR1121 (Sub-GHz & 2.4 GHz Çoklu Bant)",
+          "İşlemci & Sensörler": "ESP32-S3 + BHI260AP AI IMU + MIA-M10Q GNSS",
+          "Ekran": "2.33 inç Dikey Renkli Ekran (222x480)",
+          "Ses & Arayüz": "ES8311 Ses Kodeği, Hoparlör, Mikrofon, Katlanabilir Anten"
+        },
+        seeAlso: ["t-deck-plus", "semtech-lr2021", "twatch-s3"]
+      },
+      {
+        id: "tlora-c6",
+        en: "LilyGO T-LoRa C6",
+        tr: "LilyGO T-LoRa C6 (RISC-V Tabanlı Bütçe Dostu Düğüm)",
+        category: "Donanım & Çipler",
+        lead: "Espressif'in tek çekirdekli 32-bit RISC-V mimarili ESP32-C6 yongası ile Semtech SX1262 LoRa telsizini birleştiren, Wi-Fi 6 ve BLE 5 destekli ultra kompakt mini kart.",
+        details: "Dahili PCB anteni ve kompakt form faktörü sayesinde sıfır harici anten kablosu karmaşasıyla ekonomik bir istemci veya iç mekan sensör köprüsü olarak çalışır. Düşük güç tüketimli modern RISC-V işlemci çekirdeği içerir.",
+        github: "meshtastic.org/docs/hardware/devices/lilygo/tlorac6",
+        infobox: {
+          "Mikrodenetleyici": "ESP32-C6 (32-bit RISC-V @ 160 MHz)",
+          "Kablosuz": "Wi-Fi 6 (802.11ax), BLE 5, Thread / Zigbee",
+          "LoRa Çipi": "Semtech SX1262",
+          "Anten Yapısı": "Tümleşik Dahili PCB Anteni"
+        },
+        seeAlso: ["esp32-c3", "sx1262", "heltec-v3"]
+      },
+      {
+        id: "twatch-s3",
+        en: "LilyGO T-Watch S3 / S3 Plus",
+        tr: "LilyGO T-Watch S3 (Giyilebilir Akıllı Saat LoRa Düğümü)",
+        category: "Donanım & Çipler",
+        lead: "Kullanıcının bileğine takabileceği akıllı saat form faktöründe üretilen; ESP32-S3 işlemci, Semtech SX1262 telsiz, kapasitif dokunmatik ekran, haptik titreşim motoru, mikrofon ve hoparlör içeren giyilebilir Meshtastic düğümü.",
+        details: "Doğa yürüyüşçüleri, arama kurtarma personeli ve sporcular için eller serbest (hands-free) acil durum haberleşmesi sunar. Gelen Meshtastic mesajlarında titreşim motoru ve dahili hoparlör ile uyarı verir; dokunmatik ekranı üzerinden hazır mesajlar gönderilebilir.",
+        github: "meshtastic.org/docs/hardware/devices/lilygo/twatch",
+        infobox: {
+          "Form Faktörü": "Giyilebilir Akıllı Saat (Kordonlu Kasa)",
+          "İşlemci & LoRa": "ESP32-S3 + Semtech SX1262",
+          "Ekran & Giriş": "Kapasitif Renkli Dokunmatik LCD",
+          "Bildirim": "Haptik Titreşim Motoru + Dahili Hoparlör"
+        },
+        seeAlso: ["wismesh-tag", "t-echo", "canned-messages"]
+      },
+      {
+        id: "t5-epaper-s3",
+        en: "LilyGO T5 E-Paper S3 Pro",
+        tr: "LilyGO T5 E-Paper S3 Pro (Geniş Ekran Dokunmatik Terminal)",
+        category: "Donanım & Çipler",
+        lead: "4.7 inç büyüklüğünde 960x540 çözünürlüklü ve 16-kademe gri tonlamalı dev e-mürekkep ekran, GT911 kapasitif dokunmatik panel, ESP32-S3 ve SX1262 içeren masaüstü/saha e-paper bilgi terminali.",
+        details: "V1 ve V2 modelleri bulunur (V2 dahili GNSS barındırır). Doğrudan gün ışığı altında harita görüntüleme, uzun metin ve kanal mesajlarını rahatça okuma imkanı sunar. MicroSD kart yuvası ve RTC ile donatılmıştır.",
+        github: "meshtastic.org/docs/hardware/devices/lilygo/t5-epaper",
+        infobox: {
+          "Ekran Boyutu & Çözünürlük": "4.7 inç E-Paper (960x540, 16 Gri Tonlama)",
+          "Dokunmatik Katman": "Goodix GT911 Kapasitif Dokunmatik Panel",
+          "İşlemci & Telsiz": "ESP32-S3 + Semtech SX1262",
+          "Donanım Ekleri": "MicroSD Kart Yuvası, RTC, Pil Şarj Ölçer"
+        },
+        seeAlso: ["t-echo", "mini-epaper-s3", "inkhud-firmware"]
+      },
+      {
+        id: "mini-epaper-s3",
+        en: "LilyGO Mini ePaper S3",
+        tr: "LilyGO Mini ePaper S3 (Ultra Kompakt E-İnk Cep Düğümü)",
+        category: "Donanım & Çipler",
+        lead: "1.02 inç mini e-mürekkep ekrana, 18350 Li-ion pil yuvasına, ESP32-S3 işlemciye ve Semtech SX1262 telsize sahip cep boyutunda düşük güçlü Meshtastic donanımı.",
+        details: "Gelen son mesajı veya düğüm telemetrisini sürekli ekranda tutarken sıfıra yakın enerji harcar. Küçük 18350 lityum piliyle son derece hafif ve cepte taşınabilir bir kişisel takip cihazıdır.",
+        github: "meshtastic.org/docs/hardware/devices/lilygo/mini-epaper",
+        infobox: {
+          "Ekran": "1.02 inç Minyatür E-Paper (E-İnk)",
+          "Pil Tipi": "18350 Silindirik Li-ion Yuvası",
+          "İşlemci & RF": "ESP32-S3 + Semtech SX1262",
+          "Özellik": "Sürekli görünür statik ekran, sıfır bekleme tüketimi"
+        },
+        seeAlso: ["t-echo", "t5-epaper-s3", "esp32-s3"]
+      },
+      {
+        id: "inkhud-firmware",
+        en: "InkHUD E-Paper Interface Firmware",
+        tr: "InkHUD E-Mürekkep Özel Kullanıcı Arayüzü",
+        category: "Yazılım & Protobuf",
+        lead: "LilyGO T-Echo ve e-paper ekranlı Meshtastic cihazları için geliştirilmiş, e-mürekkebin yavaş yenilenme karakteristiğine göre tasarlanmış optimize kullanıcı arayüzü ve mini uygulama sistemi.",
+        details: "Ekranı gereksiz yere tazeleyip hayalet görüntü (ghosting) oluşturmadan menüler, mesajlar ve düğüm listeleri arasında gezinmeyi sağlar. Kapasitif dokunmatik yüzeyi arka ışık mandalı olarak kullanır; kısa basış geçici aydınlatma, 5 saniye basış sürekli açık tutma işlevi görür.",
+        github: "meshtastic.org/docs/hardware/devices/lilygo/techo/buttons",
+        infobox: {
+          "Hedef Cihazlar": "LilyGO T-Echo, T-Echo Plus, E-Paper Donanımlar",
+          "Gezinim": "Program butonu ile menü/uygulama geçişi",
+          "Arka Işık Yönetimi": "Kapasitif dokunmatik yüzeyle kademeli aydınlatma",
+          "Yenileme Mantığı": "Ghosting önleyici kısmi e-ink tazeleme"
+        },
+        seeAlso: ["t-echo", "t-echo-touch-pad", "t5-epaper-s3"]
+      },
+      {
+        id: "t-echo-touch-pad",
+        en: "T-Echo Button & Capacitive Touch Navigation",
+        tr: "T-Echo Buton ve Kapasitif Dokunmatik Gezinim Mantığı",
+        category: "Donanım & Çipler",
+        lead: "LilyGO T-Echo'nun Reset butonu, Program butonu, Reset pad'i ve kapasitif dokunmatik alanı üzerinden tek tık, çift tık ve uzun basışla sağlanan çok fonksiyonlu donanım kontrol sistemi.",
+        details: "Reset butonuna çift tıklandığında DFU bootloader moduna girilir. Program butonuna kısa basış ekranı ilerletirken, ~0.5 sn basılı tutma ilgili ekranın menüsünü açar; 4 saniye basılı tutulup bırakıldığında ise 4 tonlu yükselen ses eşliğinde cihazı kapatır. Kapasitif pad ekranlar arası geri dönüş veya arka ışık kontrolü sağlar.",
+        github: "meshtastic.org/docs/hardware/devices/lilygo/techo/buttons",
+        infobox: {
+          "Giriş Elemanları": "Reset Tuşu + Program Tuşu + Reset Pad + Kapasitif Alan",
+          "DFU Modu": "Reset butonuna çift tıklama",
+          "Kapatma": "Program butonuna ~4 sn basılı tutup bırakma",
+          "Ekran Gezinimi": "Program butonuna kısa basış"
+        },
+        seeAlso: ["t-echo", "inkhud-firmware", "uf2-dfu"]
+      },
+      {
+        id: "axp2101-pmic",
+        en: "X-Powers AXP2101 Advanced PMIC",
+        tr: "X-Powers AXP2101 Gelişmiş Güç Yönetim Entegresi",
+        category: "Donanım & Çipler",
+        lead: "LilyGO T-Beam Supreme ve modern Meshtastic el terminallerinde kullanılan; çok kanallı DCDC/LDO voltaj regülasyonu, Li-ion/Li-Po şarj yönetimi, NTC pil sıcaklık takibi ve I2C telemetrisi sağlayan yeni nesil PMIC yongası.",
+        details: "Klasik AXP192'nin yerini alan AXP2101; ESP32-S3 çekirdeği, LoRa telsizi ve GNSS modülünün güç kanallarını yazılımsal olarak bağımsız açıp kapatabilir. Düşük boşta bekleme akımı ve entegre coulomb sayacı ile batarya yüzdesini (`PowerMetrics`) hassas biçimde raporlar.",
+        github: "meshtastic/firmware: src/power.cpp",
+        infobox: {
+          "Üretici": "X-Powers",
+          "Haberleşme": "I2C Veri Yolu",
+          "Regülatörler": "Çoklu DC-DC Buck + Düşük Gürültülü LDO Çıkışları",
+          "Kullanıldığı Cihazlar": "T-Beam Supreme, T-Deck Plus, Modern ESP32-S3 Kartlar"
+        },
+        seeAlso: ["pmic", "t-beam-supreme", "telemetry"]
       }
     ];
 

@@ -170,8 +170,19 @@ Aşırı sıcak veya dondurucu soğuk hava koşullarında telsiz frekansının k
 
 ### 🔹 Popüler Cihaz Modelleri
 - **Heltec WiFi LoRa 32 (V2 / V3):** En yaygın ve ucuz ESP32-S3 tabanlı, dahili OLED ekranlı geliştirme kartı.
-- **LilyGO TTGO T-Beam:** 18650 pil yuvası, GPS, dahili PMIC ve LoRa telsizi barındıran klasik saha ve araç takip düğümü.
-- **LilyGO T-Echo:** nRF52840 işlemcili, E-ink ekranlı ve GPS'li taşınabilir el cihazı.
+- **LilyGO Telsiz ve Terminal Ekosistemi:**
+  - **LilyGO TTGO T-Beam (v1.1 / v1.2):** 18650 pil yuvası, u-blox GPS, dahili AXP192/AXP2101 PMIC ve LoRa telsizi barındıran klasik saha ve araç takip düğümü.
+  - **T-Beam Supreme (ESP32-S3 Core):** ESP32-S3FN8 çift çekirdekli işlemci, Semtech SX1262, u-blox NEO-M10S GNSS, BME280 çevre sensörü (sıcaklık/nem/basınç), QMI8658 IMU, manyetometre ve AXP2101 PMIC'li amiral gemisi.
+  - **T-Beam 1W (High-Power):** 32 dBm (~1.5 Watt) tepe çıkış gücü sağlayan RF amplifikatörlü ve minyatür aktif soğutma fanlı yüksek güçlü omurga düğümü.
+  - **T-Echo & T-Echo Plus:** Nordic nRF52840, SX1262, 1.54" E-Paper ekran, Quectel L76K GPS, NFC ve kapasitif dokunmatik navigasyonlu ultra düşük güçlü el cihazı.
+  - **T-Deck & T-Deck Plus:** ESP32-S3 ana MCU + ikincil ESP32-C3 klavye denetleyicisi, 2.8" IPS dokunmatik ekran, mekanik trackball, QWERTY klavye, dahili GPS ve 2000 mAh bataryalı bağımsız el terminali.
+  - **T-Lora Pager (T-Pager):** Semtech LR1121 (Sub-GHz & 2.4 GHz) telsiz, ESP32-S3, u-blox MIA-M10Q GPS, BHI260AP AI-IMU, ES8311 ses çipi ve katlanabilir antenli retro taktik el terminali.
+  - **T-LoRa C6:** 32-bit RISC-V mimarili ESP32-C6 yongası, Wi-Fi 6, BLE 5, SX1262 telsizi ve dahili PCB antenli bütçe dostu kompakt kart.
+  - **T-Watch S3 / S3 Plus:** Giyilebilir akıllı saat form faktöründe, ESP32-S3, SX1262, dokunmatik ekran, haptik titreşim motoru ve mikrofon/hoparlörlü bilek Meshtastic düğümü.
+  - **T5 E-Paper S3 Pro:** 4.7 inç 960x540 16-kademe gri tonlamalı dev dokunmatik e-mürekkep ekran, GT911 panel, ESP32-S3 ve SX1262'li masaüstü/saha bilgi terminali.
+  - **Mini ePaper S3:** 1.02 inç minyatür e-mürekkep ekranı ve 18350 lityum pil yuvasıyla ultra hafif sıfır-bekleme-tüketimli cep cihazı.
+  - **InkHUD Arayüz Yazılımı:** T-Echo ve e-paper cihazlar için hayalet görüntüyü (ghosting) önleyen ve kapasitif arka ışık mandallaması sunan özel Meshtastic arayüzü.
+  - **X-Powers AXP2101 PMIC:** Çok kanallı voltaj regülasyonu, Li-ion şarj yönetimi, NTC pil sıcaklık takibi ve I2C telemetrisi sağlayan gelişmiş güç yönetim entegresi.
 - **RAKwireless WisBlock (RAK4631 / RAK19007):** Modüler yapılı, güneş paneliyle aylarca çalışabilen profesyonel nRF52840 altyapı donanımı.
   - **RAK19007 / RAK19003 Taban Kartları:** USB-C, solar şarj ve lehim gerektirmeyen sensör yuvaları barındıran 2. nesil WisBlock taşıyıcı kartları.
   - **RAK4631 Çekirdek Modülü:** Nordic nRF52840 ve Semtech SX1262 içeren ultra düşük güçlü ($< 15\text{ }\mu\text{A}$) ana işlemci modülü.
@@ -188,7 +199,6 @@ Aşırı sıcak veya dondurucu soğuk hava koşullarında telsiz frekansının k
   - **WisMesh Repeater & Repeater Mini:** Entegre güneş paneli, IP67 Unify kutu, 3200 mAh batarya ve fiberglas koliner antenle donatılmış bağımsız dış ortam dağ/çatı aktarıcı istasyonları.
   - **WisMesh Gateway (Ethernet & Wi-Fi):** RAK13800 Ethernet + RAK19018 PoE veya RAK11200 ESP32 Wi-Fi üzerinden çalışan IP67 endüstriyel dış mekan LoRa-MQTT ağ geçidi istasyonu.
   - **ST LIS2DH 3-Eksenli İvmeölçer:** WisMesh Tag ve Pod'da harekete duyarlı akıllı uyku (smart sleep) ve otomatik konum tetikleme sağlayan MEMS hareket sensörü.
-- **LilyGO T-Deck:** Dahili klavyeye, trackball'a ve ekrana sahip, telefonsuz bağımsız kullanılan Meshtastic mesajlaşma cihazı.
 - **SenseCAP MeshTracker X1 (Seeed Studio):** Kredi kartı boyutunda (IP66 su geçirmez), Semtech LR2021 LoRa çipi, çift bant L1+L5 GNSS, dahili barometre, buzzer ve 1100 mAh Li-ion pille donatılmış bağımsız takip cihazı.
 - **SenseCAP Card Tracker T1000-E (Seeed Studio):** nRF52840 ve Semtech SX1262 LoRa telsizine sahip, manyetik pogo-pin şarjlı, ışık ve sıcaklık sensörlü ultra ince kart takip donanımı.
 
