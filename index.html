@@ -6719,6 +6719,166 @@
           "Güvenlik": "256-bit AES şifreli kanal ile dinlemeye karşı tam koruma"
         },
         seeAlso: ["atak-wintak-cot-bridge", "native-tak-server-in-app", "cot"]
+      },
+      {
+        id: "caltopo-desktop-edition",
+        en: "CalTopo Desktop Edition (Offline GIS & SAR Server)",
+        tr: "CalTopo Desktop Sürümü (Çevrimdışı CBS ve Arama Kurtarma Sunucusu)",
+        category: "Yazılım & İstemciler",
+        lead: "Arama-kurtarma ve saha operasyonları için internet erişimi olmaksızın yerel bilgisayarda çalışan, harita katmanları ve APRS seri veri beslemelerini işleyen CalTopo/SARTopo masaüstü CBS platformu.",
+        details: "Afet ve arama kurtarma koordinasyon merkezlerinde (ICP) kurulan bağımsız bir Java tabanlı sunucudur. Tarayıcı tabanlı arayüzü sayesinde yerel ağdaki (LAN/Wi-Fi) tüm operasyon personeline çevrimdışı topoğrafik haritalar, eğim analizleri ve hava durumu katmanları sunar. Meshtastic telsizleri gibi cihazlardan gelen canlı GPS telemetrisini doğrudan yerel seri port (COM veya /dev/ttyUSB) üzerinden APRS biçiminde okuyarak haritaya işler; harici bulut sunucularına bağımlı kalmadan tam durumsal farkındalık sağlar.",
+        github: "meshtastic.org/docs/software/integrations/integrations-caltopo",
+        infobox: {
+          "Mimari": "Yerel Java Web Sunucusu + Çevrimdışı Harita Veritabanı",
+          "Veri Girişi": "APRS over Serial (COM/tty), GPS NMEA",
+          "Kullanım Alanı": "Dağlık arama kurtarma, afet koordinasyonu, vahşi doğa operasyonları",
+          "Ağ Gereksinimi": "Tamamen sıfır internet (Air-gapped) uyumlu"
+        },
+        seeAlso: ["caltopo-sartopo-integration", "topo-properties-configuration", "sar-incident-tactical-mapping"]
+      },
+      {
+        id: "topo-properties-configuration",
+        en: "CalTopo topo.properties Configuration File",
+        tr: "CalTopo topo.properties Yapılandırma Dosyası",
+        category: "Yazılım & İstemciler",
+        lead: "CalTopo Desktop uygulamasının seri port bağlantı noktasını, baud hızını ve APRS canlı konum alma mekanizmasını tanımlayan temel yapılandırma dosyası.",
+        details: "CalTopo masaüstü çalışma dizininde yer alan bu metin dosyası, yazılımın donanım arayüzleriyle nasıl konuşacağını belirler. Meshtastic cihazının bağlandığı sanal seri port (`aprs.device=COM3` veya `aprs.device=/dev/ttyUSB0`) ve iletişim hızı (`aprs.baud=9600`) burada parametrik olarak girilir. Uygulama başlatıldığında arka plan iş parçacığı bu portu sürekli dinleyerek telsizden gelen NMEA dizgilerini ayrıştırır ve harita veritabanına otomatik enjekte eder.",
+        github: "meshtastic.org/docs/software/integrations/integrations-caltopo",
+        infobox: {
+          "Dosya Konumu": "CalTopo Desktop kurulum ana dizini",
+          "Kritik Parametreler": "aprs.device, aprs.baud=9600, aprs.enabled=true",
+          "Baud Hızı Eşleşmesi": "Meshtastic serial.baud BAUD_9600 ile birebir eşit olmalıdır",
+          "Veri Biçimi": "APRS-IS / NMEA Waypoint formatı"
+        },
+        seeAlso: ["caltopo-desktop-edition", "serial-override-console-serial-port", "nmea-gpwpl-waypoint-sentence"]
+      },
+      {
+        id: "serial-override-console-serial-port",
+        en: "Serial Module Console Port Override (override_console_serial_port)",
+        tr: "Seri Modül Konsol Portu Geçersiz Kılma (override_console_serial_port)",
+        category: "Yapılandırma & Ayarlar",
+        lead: "Meshtastic cihazının varsayılan USB hata ayıklama konsolunu devreden çıkararak ana USB portunu doğrudan Serial Modülünün NMEA/APRS akışına tahsis eden CLI ayarı.",
+        details: "ESP32 ve nRF52 tabanlı donanımlarda yerleşik USB-UART köprüsü varsayılan olarak cihaz loglarını ve Protobuf tabanlı CLI komutlarını taşır. `meshtastic --set serial.override_console_serial_port true` komutu verildiğinde mikrodenetleyici, ana donanım seri portunu log konsolundan ayırır ve doğrudan CalTopo uyumlu `$GPWPL` NMEA veri akışına yönlendirir. Bu sayede harici FTDI kablosu veya ek pin lehimlemeye gerek kalmadan standart bir USB kablosuyla bilgisayara bağlanarak CalTopo entegrasyonu tamamlanır.",
+        github: "meshtastic.org/docs/software/integrations/integrations-caltopo",
+        infobox: {
+          "Komut Parametresi": "serial.override_console_serial_port true",
+          "Donanım Etkisi": "Birincil USB seri hattını sistem loglarından izole eder",
+          "Avantajı": "Harici UART dönüştürücüye ihtiyaç duymadan tek USB kablo çözümü",
+          "Dikkat Edilecek Nokta": "Devredeyken standart CLI log çıkışı kısıtlanır"
+        },
+        seeAlso: ["serial-module-caltopo-mode", "external-usb-to-serial-gpio", "python-cli-device-settings"]
+      },
+      {
+        id: "external-usb-to-serial-gpio",
+        en: "External USB-to-Serial Adapter GPIO Configuration (TXD/RXD Pinout)",
+        tr: "Harici USB-Seri Dönüştürücü GPIO Yapılandırması (TXD/RXD Pinleri)",
+        category: "Donanım",
+        lead: "Cihazın ana USB konsolunu bozmadan, harici bir FTDI/CP2102 modülü aracılığıyla CalTopo verisini ayrı donanımsal GPIO pinlerinden ileten yapılandırma yöntemi.",
+        details: "Cihaz üzerinde ana USB portundan hata ayıklama veya CLI erişimini sürdürmek isteyen mühendisler, ikincil bir UART hattı kurar. `meshtastic --set serial.txd = 13 --set serial.rxd = 14` komutlarıyla donanımsal GPIO pinleri tanımlanır. Bu pinler harici bir USB-UART dönüştürücüye bağlanır; böylece bilgisayarda iki ayrı COM portu oluşur: biri firmware ve yönetim için kullanılırken diğeri CalTopo Desktop'a kesintisiz 9600 baud NMEA konum beslemesi sağlar.",
+        github: "meshtastic.org/docs/software/integrations/integrations-caltopo",
+        infobox: {
+          "Parametreler": "serial.txd = <GPIO>, serial.rxd = <GPIO>",
+          "Örnek Değerler": "TXD=13, RXD=14 (Board modeline göre seçilir)",
+          "Sinyal Seviyesi": "3.3V TTL (5V toleransına dikkat edilmelidir)",
+          "Kullanım Senaryosu": "Çift portlu istasyon mimarisi ve telemetri ayrımı"
+        },
+        seeAlso: ["serial-override-console-serial-port", "serial-module-caltopo-mode", "rak-wireless-custom-pcb"]
+      },
+      {
+        id: "nmea-gpwpl-waypoint-sentence",
+        en: "NMEA $GPWPL Waypoint Location Sentence Stream",
+        tr: "NMEA $GPWPL Konum Noktası Dizgi Akışı",
+        category: "Ağ & Protokol",
+        lead: "Meshtastic Serial modülünün CALTOPO modunda çalışan her telsiz düğümü için ürettiği, enlem, boylam ve çağrı işareti içeren standart NMEA 0183 konum cümlesi.",
+        details: "NMEA 0183 denizcilik ve havacılık standardındaki `$GPWPL` (Waypoint Location) cümlesi, `$GPWPL,ddmm.mmmm,N,dddmm.mmmm,W,NAME*CS` biçimindedir. Meshtastic telsiz ağı üzerinden bir konum paketi aldığında, düğümün kısa/uzun adını (NAME) ve WGS84 koordinatlarını standart derece-dakika formatına dönüştürür. Her 10 saniyede bir veya yeni konum paketi geldikçe seri porta basılan bu cümleler, CalTopo Desktop terminalinde anında ayrıştırılarak yerel haritada harici bir nokta olarak işaretlenir.",
+        github: "meshtastic.org/docs/software/integrations/integrations-caltopo",
+        infobox: {
+          "Protokol Standardı": "NMEA 0183 ($GPWPL)",
+          "Cümle Sözdizimi": "$GPWPL,lat,dir,lon,dir,name*checksum",
+          "Güncelleme Periyodu": "10 saniye aralıkla seri porta basılır",
+          "Veri Güvenliği": "XOR tabanlı sağlama toplamı (Checksum) doğrulaması"
+        },
+        seeAlso: ["aprs-serial-waypoint-stream", "serial-module-caltopo-mode", "position-app"]
+      },
+      {
+        id: "caltopo-shared-locations-layer",
+        en: "CalTopo Shared Locations Layer (Realtime Data)",
+        tr: "CalTopo Paylaşılan Konumlar Katmanı (Gerçek Zamanlı Veri)",
+        category: "Yazılım & İstemciler",
+        lead: "CalTopo Desktop arayüzünde 'Realtime Data' sekmesi altında yer alan ve seri porttan okunan Meshtastic düğümlerini topografik harita üzerinde canlı nokta olarak gösteren katman.",
+        details: "CalTopo web arayüzünün sol kenar panelinde 'Realtime Data' başlığı altında 'Shared Locations' onay kutusu etkinleştirildiğinde, harita motoru yerel hafızadaki APRS akışını görselleştirmeye başlar. Telsizden gelen her bir Meshtastic cihazı, kendine özgü düğüm kimliği (Node ID) ve çağrı işaretiyle birer nokta nesnesi olarak konumlanır. Bu katman, telsizden gelen en son konum zaman damgasına göre renk değiştirerek sinyali kesilen timlerin operatör tarafından anında fark edilmesini sağlar.",
+        github: "meshtastic.org/docs/software/integrations/integrations-caltopo",
+        infobox: {
+          "Arayüz Konumu": "Left Sidebar -> Realtime Data -> Shared Locations",
+          "Görselleştirme": "Canlı düğüm ikonları, koordinat etiketleri, son sinyal süresi",
+          "Durum Göstergesi": "Aktif / pasif / zaman aşımına uğramış istasyon renkleri",
+          "İşlev": "Operatöre telsiz kapsama alanındaki tüm timleri tek bakışta izleme imkanı"
+        },
+        seeAlso: ["caltopo-desktop-edition", "caltopo-record-to-map-tracking", "sar-incident-tactical-mapping"]
+      },
+      {
+        id: "caltopo-record-to-map-tracking",
+        en: "CalTopo Record to Map Live Tracking Action",
+        tr: "CalTopo Haritaya Kaydet Canlı İz Eylemi (Record to Map)",
+        category: "Yazılım & İstemciler",
+        lead: "Paylaşılan konumlarda beliren geçici bir Meshtastic düğüm noktasına tıklanarak, düğümün geçmiş hareketlerini kalıcı bir arama izine (track/polyline) dönüştüren özellik.",
+        details: "Geçici 'Shared Location' noktaları telsiz veri göndermeyi bıraktığında veya önbellek temizlendiğinde kaybolabilir. Operatör haritadaki düğümün simgesine tıkladığında açılan bilgi penceresindeki 'Record to Map' düğmesine basarak bu akışı haritanın kalıcı katmanlarına bağlar. Bu andan itibaren düğümün LoRa örgü ağı üzerinden gönderdiği her koordinat noktası, arazi örtüsü üzerinde sürekli bir GPS rota izi olarak çizilir ve arama kurtarma raporlaması için kaydedilir.",
+        github: "meshtastic.org/docs/software/integrations/integrations-caltopo",
+        infobox: {
+          "Tetikleme": "Haritadaki düğüm noktası tooltip menüsü -> Record to Map",
+          "Veri Dönüşümü": "Geçici APRS noktası -> Kalıcı Vektör İz (Line/Track)",
+          "Amaç": "Sahada taranan alanların (POD - Probability of Detection) belgelenmesi",
+          "Kayıt Tipi": "Zaman damgalı GPS koordinat dizisi (GPX/KML uyumlu)"
+        },
+        seeAlso: ["caltopo-shared-locations-layer", "caltopo-live-track-attributes", "sar-incident-tactical-mapping"]
+      },
+      {
+        id: "caltopo-live-track-attributes",
+        en: "CalTopo Live Track Styling and Metadata Attributes",
+        tr: "CalTopo Canlı İz Görselleme ve Öznitelik Yönetimi",
+        category: "Yazılım & İstemciler",
+        lead: "Haritaya bağlanan Meshtastic canlı izlerine takım adı, görev tipi, çizgi rengi ve etiket tanımlanmasını sağlayan yönetim diyaloğu.",
+        details: "'Record to Map' tıklandıktan sonra açılan öznitelik penceresinde arama yöneticisi, iz için renk (kırmızı: tim 1, mavi: k9 köpekli arama ekibi, turuncu: dron timi vb.), etiket, çizgi kalınlığı ve şeffaflık belirler. Ayrıca her izin güncelleme aralığı ve gösterim kuralları özelleştirilebilir. Bu görsel ayrım, harekat merkezindeki dev ekranda onlarca farklı personelin ve ekibin birbirine karışmadan eşzamanlı takibini mümkün kılar.",
+        github: "meshtastic.org/docs/software/integrations/integrations-caltopo",
+        infobox: {
+          "Özelleştirme Alanları": "İz Adı (Label), Renk (Color), Çizgi Stili, Opaklık",
+          "Taktik Rol": "Arama timlerini (Tim A, Tim B, K9, Medikal) renklerle ayrıştırma",
+          "Metadata Bağlantısı": "Telsiz Node ID ve çağrı işaretiyle eşleştirme",
+          "Analiz Çıktısı": "Taranan rota uzunluğu, irtifa profili ve hareket süresi"
+        },
+        seeAlso: ["caltopo-record-to-map-tracking", "caltopo-shared-locations-layer", "sar-incident-tactical-mapping"]
+      },
+      {
+        id: "caltopo-cloud-sync-bridging",
+        en: "CalTopo Desktop-to-Cloud Map Synchronization",
+        tr: "CalTopo Masaüstünden Buluta Harita Senkronizasyonu",
+        category: "Ağ & Protokol",
+        lead: "Çevrimdışı Meshtastic LoRa ağından masaüstüne aktarılan konumların, internet bağlantısı sağlandığında CalTopo bulutuna ve mobil ekiplere gerçek zamanlı replike edilmesi.",
+        details: "Sahada Meshtastic telsizinden seri portla CalTopo Desktop'a aktarılan izler, komuta çadırında Starlink, hücresel modem veya uydu bağlantısı mevcut olduğunda otomatik olarak CalTopo Cloud sunucusuna aktarılır. Bu sayede harita URL'sini paylaşan uzaktaki operasyon yöneticileri veya bölgedeki akıllı telefon taşıyan mobil ekipler (iOS/Android CalTopo uygulaması üzerinden), şebekesiz vadilerde dolaşan LoRa telsizli timlerin anlık konumunu kendi ekranlarında görür.",
+        github: "meshtastic.org/docs/software/integrations/integrations-caltopo",
+        infobox: {
+          "Senkronizasyon Yönü": "Meshtastic LoRa -> CalTopo Desktop -> CalTopo Cloud -> Mobil Uygulamalar",
+          "Gereksinim": "Desktop ve mobil cihazlarda internet erişimi (Starlink/4G/5G)",
+          "Güvenlik": "CalTopo oturum yetkilendirmesi ve harita paylaşım anahtarları",
+          "Katma Değer": "Telsiz menzilini internet köprüsüyle küresel görünürlüğe kavuşturma"
+        },
+        seeAlso: ["caltopo-desktop-edition", "caltopo-shared-locations-layer", "atak-wintak-cot-bridge"]
+      },
+      {
+        id: "sar-incident-tactical-mapping",
+        en: "Search and Rescue Incident Tactical Mapping Workflow",
+        tr: "Arama Kurtarma Operasyonel Taktik Haritalama İş Akışı",
+        category: "Kullanım Kılavuzları & Pratik Senaryolar",
+        lead: "Şebekesiz afet alanlarında Meshtastic LoRa örgü ağı ile CalTopo masaüstü CBS'sini birleştiren uçtan uca saha taktik konumlandırma mimarisi.",
+        details: "Doğal afetler, dağ kazaları veya kayıp arama vakalarında arama kurtarma ekiplerinin sahadaki konumlarının takibi hayati önem taşır. Her arama görevlisinin cebindeki hafif ve bataryası uzun ömürlü bir Meshtastic cihazı (GPS'li Heltec, T-Beam veya RAK4631), periyodik konum paketlerini LoRa üzerinden röleler aracılığıyla sahra komuta çadırındaki ana baz istasyonuna iletir. CalTopo Desktop üzerinde biriken bu veriler, koordinatörlere arama sektörlerinin kapsanma oranını (coverage), taranmayan kör noktaları ve ekiplerin acil durum çağrılarını saniyeler içinde analiz etme imkanı verir.",
+        github: "meshtastic.org/docs/software/integrations/integrations-caltopo",
+        infobox: {
+          "Operasyonel Standart": "ICS (Incident Command System) taktik haritalama",
+          "Donanım Bileşenleri": "GPS'li Meshtastic düğümleri, USB röle telsizi, CalTopo Laptop",
+          "Temel Fayda": "Hücresel şebeke ve internet çökse bile kesintisiz canlı tim takibi",
+          "Entegre Özellikler": "Sektör tarama analizi, rota kaydı, acil durum telemetrisi"
+        },
+        seeAlso: ["caltopo-desktop-edition", "caltopo-record-to-map-tracking", "emergency-geochat-and-pli"]
       }
     ];
 

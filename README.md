@@ -574,6 +574,18 @@ Meshtastic donanımını kontrol etmek, mesajlaşıp harita görüntülemek ve a
 - **APRS Seri Konum ve İşaretçi Veri Akışı (`aprs-serial-waypoint-stream`):** Telsizin diğer düğümlerden duyduğu koordinatları denizcilik/havacılık NMEA 0183 (`$GPWPL`) ve APRS formatında seri porta basarak Garmin GPS ve marin çizicilerde gösterme protokolü.
 - **Taktik Konum Bilgisi (PLI) & GeoChat Mesajlaşması (`emergency-geochat-and-pli`):** GSM şebekelerinin çöktüğü kriz anlarında arama timlerinin canlı GPS takibini ve şifreli harita içi taktik mesajlaşmasını sağlayan CoT veri standardı.
 
+### 🗺️ CalTopo / SARTopo Taktik Haritalama Entegrasyonu (meshtastic.org/docs/software/integrations/integrations-caltopo)
+- **CalTopo Desktop Sürümü (`caltopo-desktop-edition`):** Arama-kurtarma ve afet koordinasyon merkezlerinde internet bağlantısı olmaksızın yerel Java sunucusu üzerinde çalışan ve APRS seri veri beslemelerini işleyen çevrimdışı CBS platformu.
+- **CalTopo topo.properties Yapılandırması (`topo-properties-configuration`):** Masaüstü yazılımının Meshtastic telsizine bağlanacağı seri portu (`aprs.device`) ve 9600 baud hızını tanımlayan temel metin ayar dosyası.
+- **Seri Konsol Geçersiz Kılma (`serial-override-console-serial-port`):** Ana USB portunu sistem loglarından ve CLI konsolundan ayırıp doğrudan CalTopo uyumlu NMEA konum akışına tahsis eden `serial.override_console_serial_port true` ayarı.
+- **Harici USB-Seri GPIO Yapılandırması (`external-usb-to-serial-gpio`):** Ana USB konsolunu bozmadan harici FTDI/CP2102 modülleriyle ayrı TXD/RXD GPIO pinlerinden (ör. GPIO 13/14) bağımsız NMEA telemetri çıkışı sağlama yöntemi.
+- **NMEA $GPWPL Konum Noktası Dizgi Akışı (`nmea-gpwpl-waypoint-sentence`):** Meshtastic telsizinin havadan duyduğu her düğüm için ürettiği, enlem, boylam, düğüm adı ve sağlama toplamı içeren standart NMEA 0183 (`$GPWPL`) konum formatı.
+- **CalTopo Paylaşılan Konumlar Katmanı (`caltopo-shared-locations-layer`):** CalTopo web arayüzünde 'Realtime Data' sekmesinde yer alan ve telsizden gelen aktif sahra timlerini haritada canlı nokta olarak gösteren katman.
+- **Haritaya Kaydet Canlı İz Eylemi (`caltopo-record-to-map-tracking`):** Paylaşılan konumlardaki geçici düğüm noktasına tıklanarak timin geçmiş ve anlık hareketlerinin kalıcı bir GPS arama izine (track/polyline) dönüştürülmesi.
+- **Canlı İz Görselleme ve Öznitelik Yönetimi (`caltopo-live-track-attributes`):** Arama yöneticisinin timleri ayırt edebilmesi için canlı izlere takım adı, renk (ör. K9 ekibi, dron timi), çizgi kalınlığı ve şeffaflık atadığı yönetim paneli.
+- **Masaüstünden Buluta Harita Senkronizasyonu (`caltopo-cloud-sync-bridging`):** Sahra çadırındaki CalTopo Desktop'a aktarılan telsiz konumlarının Starlink/hücresel internet üzerinden CalTopo bulutuna ve mobil ekiplerin telefonlarına anlık replike edilmesi.
+- **Arama Kurtarma Taktik Haritalama İş Akışı (`sar-incident-tactical-mapping`):** Şebekesiz afet alanlarında Meshtastic LoRa örgü ağı ile CalTopo masaüstü CBS'sini birleştiren uçtan uca arama kurtarma konumlandırma ve POD kapsama mimarisi.
+
 ### 🔹 Açık Standart ve Tedarikçi Bağımsızlığı (Open Architecture & Vendor Neutrality)
 Meshtastic'in hiçbir tescilli ticari protokole veya tek bir donanım üreticisine bağımlı kalmamasını sağlayan açık kaynak ekosistem felsefesi (GPL-3.0 lisansı ve açık Protobuf şemaları). Semtech SX1262/SX1276/LR1121 telsizleri ile ESP32, nRF52840 ve RP2040 işlemcili onlarca farklı üreticinin (Heltec, LilyGO, RAKwireless) donanımları tam uyumla birlikte çalışabilir.
 
