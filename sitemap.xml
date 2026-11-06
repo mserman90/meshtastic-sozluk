@@ -32,6 +32,36 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://mserman90.github.io/meshtastic-sozluk/#mqtt-client-proxy</loc>
+    <lastmod>2026-11-06</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://mserman90.github.io/meshtastic-sozluk/#drop-oldest-queue</loc>
+    <lastmod>2026-11-06</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://mserman90.github.io/meshtastic-sozluk/#implicit-ack-restoration</loc>
+    <lastmod>2026-11-06</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://mserman90.github.io/meshtastic-sozluk/#virtual-channels-cross-region</loc>
+    <lastmod>2026-11-06</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://mserman90.github.io/meshtastic-sozluk/#meshmonitor</loc>
+    <lastmod>2026-11-06</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://mserman90.github.io/meshtastic-sozluk/#austin-mesh</loc>
     <lastmod>2026-11-06</lastmod>
     <changefreq>weekly</changefreq>

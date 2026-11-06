@@ -1705,6 +1705,82 @@
           "İşlev": "GPIO Açma/Kapama, PWM kontrolü, Pin okuma"
         },
         seeAlso: ["admin-channel", "node"]
+      },
+      {
+        id: "mqtt-client-proxy",
+        en: "MQTT Client Proxy (mqttClientProxyMessage)",
+        tr: "MQTT İstemci Vekili Protokolü",
+        category: "Entegrasyonlar",
+        lead: "Dahili Wi-Fi donanımı bulunmayan (nRF52840, RP2040 vb.) veya Wi-Fi'ı kapalı tutulan LoRa düğümlerinin, USB/Seri port veya TCP üzerinden bağlı oldukları bilgisayarın internet bağlantısını kullanarak MQTT ağına erişmesini sağlayan Meshtastic protokolü.",
+        details: "Resmi mobil uygulamaların (Android/iOS) Bluetooth veya USB üzerinden telsiz paketlerini internetteki MQTT sunucusuna köprülemesi mantığıyla çalışır. 'meshtastic-mqtt-proxy' (ve LN4CY/mqtt-proxy) gibi bağımsız Python ve Docker tabanlı vekil araçları, standart telsiz kartını sürekli açık bir sunucuya bağlayarak kartta Wi-Fi olmasa dahi kesintisiz 7/24 MQTT ağ geçidi kurar.",
+        github: "meshtastic/protobufs: mesh.proto (MqttClientProxyMessage) / ardyln/meshtastic-mqtt-proxy",
+        infobox: {
+          "Protokol": "MqttClientProxyMessage",
+          "Bağlantı": "USB / Seri Port (/dev/ttyACM0) veya TCP:4403",
+          "Donanım İhtiyacı": "Dahili Wi-Fi GEREKTİRMEZ (nRF52, Heltec, RAK)",
+          "Açık Kaynak": "meshtastic-mqtt-proxy, LN4CY/mqtt-proxy"
+        },
+        seeAlso: ["mqtt", "drop-oldest-queue", "implicit-ack-restoration", "meshmonitor"]
+      },
+      {
+        id: "drop-oldest-queue",
+        en: "Drop-Oldest Queue (Rate Limiting)",
+        tr: "Eski Paket Düşürmeli Kuyruk ve Hız Sınırlama",
+        category: "Entegrasyonlar",
+        lead: "İnternet ortamındaki yüksek hacimli MQTT paket akışının, çok dar bantlı LoRa telsiz frekansını tıkamasını veya seri port arabelleğini kilitlemesini önleyen akıllı kuyruk yönetimi.",
+        details: "MQTT sunucusundan gelen paket hızı LoRa frekansının fiziksel taşıma kapasitesini aştığında standart kuyruklar dolar ve telsizi kilitler. 'Drop-Oldest' algoritması, kuyruk dolduğunda en eski ve bayatlamış mesajları çöpe atarak telsize daima en güncel GPS ve durum paketlerinin gitmesini sağlar ve donanımın kilitlenmesini engeller.",
+        github: "meshtastic-mqtt-proxy / LN4CY/mqtt-proxy: queue management",
+        infobox: {
+          "Algoritma": "FIFO + Drop-Oldest (Bayat Paket Eleme)",
+          "Amacı": "Seri port kilitlenmesini ve telsiz tıkanmasını önleme",
+          "Koruma": "Düşük bantlı LoRa frekansının korunması"
+        },
+        seeAlso: ["mqtt-client-proxy", "airtime", "channel-utilization"]
+      },
+      {
+        id: "implicit-ack-restoration",
+        en: "Implicit ACK Restoration (Delivery Confirmation)",
+        tr: "Örtük ACK Kurtarma (Kırmızı X Hatası Onarımı)",
+        category: "Entegrasyonlar",
+        lead: "MQTT vekil sunucularında paket döngüsü (loop) koruması nedeniyle iletim onaylarının (ACK) yutulması sonucunda oluşan 'Kırmızı X / Red X' (Teslim Edilemedi) hatasını çözen teyit simülasyon mekanizması.",
+        details: "Meshtastic düğümleri MQTT broker'ından kendi gönderdikleri paketin ekosunu duyduklarında normalde döngü engeli devreye girer ve onay işlenmeyebilir. Gelişmiş MQTT vekilleri (meshtastic-mqtt-proxy vb.) bu yankıyı tespit ederek yerel düğüme örtük ACK gönderir ve mesajın karşı tarafa başarıyla ulaştığını doğrular.",
+        github: "meshtastic-mqtt-proxy: implicit ACK handling",
+        infobox: {
+          "Sorun": "Mesaj teslim edilmesine rağmen 'Kırmızı X' çıkması",
+          "Çözüm": "Broker eko paketinden örtük ACK üretme",
+          "Katman": "MQTT Proxy Köprüsü"
+        },
+        seeAlso: ["mqtt-client-proxy", "routing-app", "direct-message"]
+      },
+      {
+        id: "virtual-channels-cross-region",
+        en: "Virtual Channels & Cross-Region Monitoring",
+        tr: "Sanal Kanallar ve Çapraz Bölge İzleme",
+        category: "Entegrasyonlar",
+        lead: "Başka ülkelerin veya frekans bölgelerinin (ör. EXTRA_MQTT_ROOTS) MQTT trafiğini yerel telsiz bandına basmadan (RF crosstalk yaratmadan) sadece pasif olarak izleme ve haritaya aktarma yöntemi.",
+        details: "Bir kullanıcı Türkiye'de 868 MHz kullanırken ABD veya Avrupa genel kanallarını internet üzerinden izlemek isteyebilir. Sanal kanal köprüsü, bu paketlerin yerel LoRa telsizinden havaya yayınlanmasını (rebroadcast) engeller; yalnızca yerel veritabanında veya MeshMonitor arayüzünde görünmesini sağlar.",
+        github: "meshtastic-mqtt-proxy: virtual channel & EXTRA_MQTT_ROOTS",
+        infobox: {
+          "Parametre": "EXTRA_MQTT_ROOTS",
+          "RF Girişimi": "Sıfır (Telsizden yayınlanmaz)",
+          "Kullanım": "Küresel telemetri ve harita izleme"
+        },
+        seeAlso: ["mqtt-client-proxy", "meshmonitor", "meshmap"]
+      },
+      {
+        id: "meshmonitor",
+        en: "MeshMonitor",
+        tr: "MeshMonitor Ağ İzleme ve Yönetim Paneli",
+        category: "Entegrasyonlar",
+        lead: "Meshtastic düğümlerini, MQTT paket trafiğini, batarya metriklerini ve ağ topolojisini sunucu düzeyinde 7/24 izlemek için Docker üzerinde çalışan açık kaynaklı yönetim paneli.",
+        details: "meshmonitor.org tarafından geliştirilen bu web arayüzü; harita desteği, sinyal kalitesi geçmişi (SNR grafikleri), mesajlaşma konsolu ve 'mqtt-proxy' desteği sunar. Tek bir merkezi sunucudan tüm şehir rölelerinin sağlık durumunu izlemek için kullanılır.",
+        github: "meshmonitor (meshmonitor.org) / Docker sidecar",
+        infobox: {
+          "Tür": "Web Tabanlı Sunucu Yönetim Paneli",
+          "Dağıtım": "Docker / Docker Compose Sidecar",
+          "Entegrasyon": "mqtt-proxy / MQTT Broker"
+        },
+        seeAlso: ["mqtt-client-proxy", "telemetry-app", "meshmap"]
       }
     ];
 

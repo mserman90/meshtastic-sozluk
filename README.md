@@ -225,6 +225,21 @@ Savunma sanayi ve acil durum müdahale ekiplerinin konum, dost/düşman unsurlar
 ### 🔹 Remote Hardware Module
 Bir Meshtastic cihazının, kilometrelerce ötedeki diğer bir cihazın GPIO pinine bağlı bir röleyi açıp kapatmasını veya bir anahtarın durumunu telsiz üzerinden okumasını sağlayan firmware modülü.
 
+### 🔹 MQTT Client Proxy (İstemci Vekili Protokolü)
+Dahili Wi-Fi desteği olmayan (veya pil tasarrufu için Wi-Fi'ı kapalı olan nRF52840, RP2040 vb.) düğümlerin, USB Seri port veya TCP arayüzü üzerinden bağlı oldukları bilgisayar/sunucunun internetini kullanarak MQTT ağına erişmesini sağlayan Meshtastic protokolü (`mqttClientProxyMessage`). `meshtastic-mqtt-proxy` (ve LN4CY/mqtt-proxy) gibi açık kaynaklı bağımsız vekil yazılımları, telsizi kesintisiz bir MQTT gateway'e dönüştürür.
+
+### 🔹 Drop-Oldest Queue (Hız Sınırlama ve Bayat Paket Eleme)
+Yüksek hızlı internetten gelen yoğun MQTT paket trafiğinin, dar bantlı ve düşük hızlı LoRa telsiz bağlantısını tıkamasını ve cihazın kilitlenmesini önleyen akıllı kuyruk mekanizması. Tampon bellek dolduğunda en eski ve bayatlamış mesajlar çöpe atılarak telsize daima en güncel telemetri ve GPS paketlerinin ulaşması garanti edilir.
+
+### 🔹 Implicit ACK Restoration (Örtük ACK Kurtarma)
+MQTT köprülerinde paket döngüsü (loop) engellemesi nedeniyle iletim onaylarının (ACK) yutulması sonucunda oluşan "Kırmızı X / Red X" (Mesaj Teslim Edilemedi) hatasını çözen teyit simülasyonu. Broker'dan dönen eko paketini tespit ederek yerel istemciye örtük onay gönderir.
+
+### 🔹 Virtual Channels & Cross-Region Monitoring (Sanal Kanallar)
+Başka ülkelerin veya farklı frekans bölgelerinin (`EXTRA_MQTT_ROOTS`) MQTT trafiğini yerel telsiz bandına basmadan (RF crosstalk ve hava kirliliği yaratmadan), sadece sunucu ve harita düzeyinde pasif olarak dinlemeyi sağlayan vekil yapılandırması.
+
+### 🔹 MeshMonitor (Açık Kaynak Ağ İzleme Paneli)
+Meshtastic düğümlerini, MQTT paket trafiğini, SNR sinyal geçmişini ve harita topolojisini 7/24 izlemek için Docker üzerinde çalışan web tabanlı yönetim paneli (`meshmonitor.org`). `mqtt-proxy` ile tam entegre çalışır.
+
 ---
 
 ## 8. 👥 Meshtastic Toplulukları ve Ağları (Türkiye ve Dünya)
