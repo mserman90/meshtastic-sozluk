@@ -85,6 +85,15 @@ Belirli bir hedef düğüme giden paketin hangi ara röle düğümlerinden ve ha
 ### 🔹 Store and Forward (Depola ve İlet)
 Pil tasarrufu amacıyla uykuya geçen veya kapsama alanından geçici olarak ayrılan istemciler için mesajları kendi belleğinde saklayan ve istemci uyandığında aktaran altyapı mekanizması.
 
+### 🔹 Implicit ACK (Örtük Teyit / Havada Tekrar Tespiti)
+Bir düğümün paketi havaya fırlattıktan sonra dinlemeye geçip, komşu bir rölenin aynı paketi tekrarladığını (rebroadcast ettiğini) telsizden duymasıyla paketin başarıyla iletildiğini anladığı mekanizma. Ekstra onay paketi basılmasını önleyerek kıymetli hava süresinden (airtime) tasarruf sağlar.
+
+### 🔹 Want ACK (Açık Teyit Talebi Bayrağı)
+Paket başlığında bulunan ve hedef düğümden kesin bir açık alındı onayı (Explicit ACK) dönmesini zorunlu kılan kontrol biti (`MeshPacket.want_ack`). Doğrudan mesajlarda (DM) ve uzaktan yönetim komutlarında mesajın karşı tarafa ulaştığından emin olmak için kullanılır.
+
+### 🔹 Channel Hash (Kanal Sağlama Özeti)
+Paket başlığında yer alan 1 baytlık hafif hash değeri. Düğümler havadan yakaladıkları bir paketi işlemciyi yorup şifresini çözmeye çalışmadan önce bu özete bakarak abonesi olmadıkları kanalların paketlerini anında işlemden düşürür.
+
 ---
 
 ## 2. Donanım, Çipler ve Bileşenler (Hardware & Components)
@@ -115,6 +124,9 @@ Düğümün enlem, boylam, rakım ve hassas uydu zaman bilgisini sağlayan modü
 ### 🔹 Anten Konnektörleri
 - **SMA / RP-SMA:** Dış kasada bulunan vidalı standart yüksek frekans koaksiyel soket.
 - **U.FL / IPEX:** Devre kartı üzerindeki minik çıtçıtlı konektör. Anten takılmadan cihazın vericiye geçirilmesi (TX) çipi kalıcı olarak yakabilir!
+
+### 🔹 TCXO (Sıcaklık Kompanzasyonlu Kristal Osilatör)
+Aşırı sıcak veya dondurucu soğuk hava koşullarında telsiz frekansının kaymasını önleyen yüksek kararlılıklı osilatör bileşeni. SX1262 LoRa yongalarında dar bant genişliklerinde (125 kHz) frekans kayması yaşanmadan paketlerin çözülebilmesini sağlar; zorlu kış şartlarındaki dağ rölelerinde hayati öneme sahiptir.
 
 ### 🔹 Popüler Cihaz Modelleri
 - **Heltec WiFi LoRa 32 (V2 / V3):** En yaygın ve ucuz ESP32-S3 tabanlı, dahili OLED ekranlı geliştirme kartı.
@@ -184,6 +196,12 @@ Meshtastic firmware'inin C++ ile geliştirildiği, ESP-IDF, Arduino Core ve nRF 
 ### 🔹 Web Flasher
 Kullanıcıların herhangi bir program derlemeden Chrome veya Edge tarayıcısı üzerinden Web Serial API kullanarak kartlara doğrudan yazılım yüklemesini sağlayan resmi araç.
 
+### 🔹 Position Precision (Konum Hassasiyeti ve Maskeleme)
+Ev ve kişisel güvenlik için GPS koordinatlarının son basamaklarını kırparak haritada kesin ev adresi yerine yaklaşık bir mahalle bölgesi yayınlayan gizlilik özelliği (`position_precision`).
+
+### 🔹 Fixed Position (Sabit Konum Modu)
+Üzerinde GPS alıcısı bulunmayan sabit tepe yönlendiricilerine ve ev istasyonlarına manuel koordinat tanımlanmasını sağlayan mod (`fixed_position`). Uyduları aramayarak enerji tasarrufu sağlar ve haritada doğru noktada görünür.
+
 ---
 
 ## 6. Radyo Frekansı (RF) ve Yayılım (RF & Propagation)
@@ -251,6 +269,21 @@ Telsizden belirli bir anahtar kelime, acil durum çağrısı (SOS) veya doğruda
 
 ### 🔹 Düğüm Varlık Sensörleri ve Teşhis Değerleri (Entity Sensors)
 Bir Meshtastic cihazının batarya yüzdesi, voltajı, hava süresi kullanımı (`air_util_tx`), kanal doluluk oranı (`channel_utilization`) ve sinyal kalitesinin (SNR/RSSI) Home Assistant sensör varlıklarına dönüştürülmesi. Geçmişe dönük telemetri grafikleriyle sabit rölelerin sağlık durumu izlenir.
+
+### 🔹 Canned Messages Module (Hazır Mesaj Şablonları)
+Telefona bağlanmadan, cihaz üzerindeki döner enkoder (rotary encoder) veya fiziksel butonlarla hafızadaki hazır şablon mesajların (ör. "Kamptayım", "İyiyim", "SOS") ekrandan seçilip doğrudan gönderilmesini sağlayan yerleşik firmware modülü.
+
+### 🔹 External Notification Module (Harici Bildirim ve Siren)
+Mesaj veya acil durum çağrısı geldiğinde karta bağlı harici bir buzzer'ı, melodik piezo hoparlörü (PWM RTTL formatında), titreşim motorunu veya flaşör LED'i tetikleyen donanım bildirim modülü.
+
+### 🔹 Paxcounter Module (Kalabalık ve İnsan Yoğunluğu Sayacı)
+ESP32'nin Wi-Fi ve Bluetooth radyolarını dinleme (promiscuous) moduna alarak çevredeki akıllı telefonların sinyallerini tarayan ve kişisel veri toplamadan ortamdaki kalabalık/insan sayısını telsizle raporlayan modül.
+
+### 🔹 Range Test Module (Menzil Testi ve Sinyal Haritalama)
+İki düğüm arasındaki azami telsiz mesafesini, sinyal kalitesini (SNR/RSSI) ve paket kaybını GPS koordinatlarıyla haritalandırmak için kullanılan otomatik teşhis aracı (`RANGE_TEST_APP`). Verileri `.csv` olarak kaydeder.
+
+### 🔹 Detection Sensor Module (Güvenlik ve Hareket Alarmı)
+Karta bağlanan PIR hareket sensörü, manyetik kapı/pencere kontağı veya sarsıntı sensörü tetiklendiğinde otomatik olarak tanımlanan kanala telsiz alarmı basan güvenlik modülü.
 
 ---
 

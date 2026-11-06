@@ -86,6 +86,72 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://mserman90.github.io/meshtastic-sozluk/#implicit-ack</loc>
+    <lastmod>2026-11-06</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://mserman90.github.io/meshtastic-sozluk/#want-ack</loc>
+    <lastmod>2026-11-06</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://mserman90.github.io/meshtastic-sozluk/#channel-hash</loc>
+    <lastmod>2026-11-06</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://mserman90.github.io/meshtastic-sozluk/#tcxo</loc>
+    <lastmod>2026-11-06</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://mserman90.github.io/meshtastic-sozluk/#position-precision</loc>
+    <lastmod>2026-11-06</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://mserman90.github.io/meshtastic-sozluk/#fixed-position</loc>
+    <lastmod>2026-11-06</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://mserman90.github.io/meshtastic-sozluk/#canned-messages</loc>
+    <lastmod>2026-11-06</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://mserman90.github.io/meshtastic-sozluk/#external-notification</loc>
+    <lastmod>2026-11-06</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://mserman90.github.io/meshtastic-sozluk/#paxcounter</loc>
+    <lastmod>2026-11-06</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://mserman90.github.io/meshtastic-sozluk/#range-test</loc>
+    <lastmod>2026-11-06</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://mserman90.github.io/meshtastic-sozluk/#detection-sensor</loc>
+    <lastmod>2026-11-06</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://mserman90.github.io/meshtastic-sozluk/#austin-mesh</loc>
     <lastmod>2026-11-06</lastmod>
     <changefreq>weekly</changefreq>

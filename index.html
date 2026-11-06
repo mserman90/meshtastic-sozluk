@@ -1105,6 +1105,51 @@
         },
         seeAlso: ["router", "client"]
       },
+      {
+        id: "implicit-ack",
+        en: "Implicit ACK (Over-the-Air Confirmation)",
+        tr: "Örtük Teyit (Havada Tekrar Algılama)",
+        category: "Ağ & Protokol",
+        lead: "Bir düğümün gönderdiği paketin ardından havayı dinleyerek, komşu bir rölenin aynı paketi tekrarladığını (rebroadcast) duyduğunda paketin başarıyla havaya ulaştığını anladığı akıllı teyit mekanizması.",
+        details: "Açık bir onay paketi (Explicit ACK) göndermek hava süresi harcar ve kanalı meşgul eder. 'Implicit ACK' sayesinde cihaz, kendi gönderdiği paketin komşusu tarafından tekrarlandığını telsizden duyunca paketin teslim edildiğini anlar ve yeniden denemeyi (retransmit) iptal eder.",
+        github: "meshtastic/firmware: src/mesh/Router.cpp",
+        infobox: {
+          "Tür": "Telsiz Katmanı ACK Algoritması",
+          "Avantaj": "Hava süresi (Airtime) tasarrufu",
+          "Tetikleyici": "Aynı paket kimliğinin komşudan duyulması"
+        },
+        seeAlso: ["want-ack", "controlled-flood-routing", "airtime"]
+      },
+      {
+        id: "want-ack",
+        en: "Want ACK Flag",
+        tr: "Açık Teyit Talebi Bayrağı",
+        category: "Ağ & Protokol",
+        lead: "Paket başlığında yer alan ve hedef düğümden paketi teslim aldığına dair kesin bir açık onay (Explicit ACK) paketi dönmesini zorunlu kılan kontrol biti.",
+        details: "Kullanıcı doğrudan mesaj (DM) gönderdiğinde veya kritik bir ayar komutu iletildiğinde devreye girer. Alıcı paket aldığında ROUTING_APP portu üzerinden kaynak düğüme onay paketi fırlatır; kaynak düğüm bu onayı alana kadar belirli aralıklarla paketi tekrar dener.",
+        github: "meshtastic/protobufs: mesh.proto (MeshPacket.want_ack)",
+        infobox: {
+          "Protokol Alanı": "MeshPacket.want_ack (boolean)",
+          "Kullanım": "Doğrudan Mesajlar (DM), Yönetim Paketleri",
+          "İşlev": "Kritik mesajların ulaştığından emin olma"
+        },
+        seeAlso: ["implicit-ack", "direct-message", "routing-app"]
+      },
+      {
+        id: "channel-hash",
+        en: "Channel Hash",
+        tr: "Kanal Sağlama Özeti",
+        category: "Ağ & Protokol",
+        lead: "Her paketin başlığında taşınan ve paketin hangi kanala ait olduğunu belirten 1 baytlık (8-bit) hafif özet kimlik.",
+        details: "Düğümler havadan gelen bir paketi aldıklarında, tüm paketi ve kriptografik içeriği çözmeye çalışmadan önce kanal özetine bakar. Eğer cihaz bu kanala abone değilse paketi anında işlemden düşürerek işlemci gücünden ve bataryadan büyük tasarruf sağlar.",
+        github: "meshtastic/firmware: src/mesh/ChannelFile.cpp",
+        infobox: {
+          "Boyut": "1 bayt (8-bit hash)",
+          "İşlev": "Hızlı kanal filtreleme",
+          "Fayda": "Gereksiz şifre çözme yükünü önleme"
+        },
+        seeAlso: ["primary-channel", "secondary-channel", "psk"]
+      },
 
       /* 2. Donanım ve Çipler */
       {
@@ -1122,6 +1167,22 @@
           "Duyarlılık": "-148 dBm"
         },
         seeAlso: ["sx1276", "lr1121", "lora"]
+      },
+      {
+        id: "tcxo",
+        en: "TCXO (Temperature Compensated Crystal Oscillator)",
+        tr: "Sıcaklık Kompanzasyonlu Kristal Osilatör",
+        category: "Donanım & Çipler",
+        lead: "Aşırı sıcak yaz günlerinde veya dondurucu kış şartlarında telsiz frekansının kaymasını önleyen, Semtech SX1262 modüllerinde frekans kararlılığı sağlayan yüksek hassasiyetli kristal bileşen.",
+        details: "Standart kristaller sıcaklık değişiminde frekans kayması yaşar ve dar bantlı LoRa iletişiminde paketlerin duyulamamasına yol açar. TCXO donanımlı kartlar (ör. Heltec V3, RAK4631, LilyGO T-Beam) eksi 40 ile artı 85 derece arasında 0.5 ppm hassasiyetle frekansı sabit tutar.",
+        github: "meshtastic/firmware: src/mesh/RadioLibInterface.cpp (use_tcxo)",
+        infobox: {
+          "Hassasiyet": "±0.5 ppm",
+          "Sıcaklık Aralığı": "-40°C ile +85°C",
+          "Önemi": "Zorlu kış/dağ rölelerinde kararlı yayın",
+          "Kullanan Donanımlar": "SX1262, RAK4631, Heltec V3"
+        },
+        seeAlso: ["sx1262", "bandwidth", "lora"]
       },
       {
         id: "sx1276",
@@ -1497,6 +1558,36 @@
         seeAlso: ["tracker", "portnums"]
       },
       {
+        id: "position-precision",
+        en: "Position Precision (Location Obfuscation)",
+        tr: "Konum Hassasiyeti ve Gizleme",
+        category: "Yazılım & Protobuf",
+        lead: "Kullanıcı gizliliğini ve ev güvenliğini korumak amacıyla, GPS koordinatlarının son basamaklarını maskeleyerek konumu haritada yaklaşık bir alan (ör. 1 km² daire) olarak yayınlama özelliği.",
+        details: "Meshtastic mobil uygulamasından 'Konum Hassasiyeti' 32-bit'ten daha düşük bit değerlerine çekildiğinde, cihazın kesin ev adresi yerine yaklaşık bir mahalle konumu iletilir. Acil durumlarda hassasiyet tekrar 100% net konuma açılabilir.",
+        github: "meshtastic/protobufs: config.proto (PositionConfig.position_precision)",
+        infobox: {
+          "Ayar": "PositionConfig.position_precision",
+          "Varsayılan": "32 bit (Tam hassasiyet)",
+          "Gizlilik Modu": "Yaklaşık mahalle/bölge sapması"
+        },
+        seeAlso: ["position-app", "fixed-position", "tracker"]
+      },
+      {
+        id: "fixed-position",
+        en: "Fixed Position",
+        tr: "Sabit Konum Modu",
+        category: "Yazılım & Protobuf",
+        lead: "Üzerinde GPS modülü bulunmayan sabit tepe yönlendiricilerine veya ev baz istasyonlarına, haritada ve topolojide doğru görünmeleri için manuel enlem, boylam ve rakım atanması.",
+        details: "Sabit rölelerde GPS çipi gereksiz güç harcar. Sabit konum modu etkinleştirildiğinde, cihaz uyduları aramaya çalışmadan doğrudan girilen statik koordinatları periyodik olarak yayınlar.",
+        github: "meshtastic/protobufs: config.proto (PositionConfig.fixed_position)",
+        infobox: {
+          "Gereksinim": "GPS donanımı gerektirmez",
+          "Fayda": "Pil ve akü tasarrufu",
+          "Kullanım": "Dağ, çatı ve kule sabit röleleri"
+        },
+        seeAlso: ["router", "position-app", "position-precision"]
+      },
+      {
         id: "telemetry-app",
         en: "TELEMETRY_APP",
         tr: "Telemetri Portu (Port 67)",
@@ -1843,6 +1934,81 @@
           "Analiz": "Grafik geçmişi ve kritik seviye uyarıları"
         },
         seeAlso: ["home-assistant-integration", "telemetry-app", "channel-utilization"]
+      },
+      {
+        id: "canned-messages",
+        en: "Canned Messages Module",
+        tr: "Hazır Mesaj Şablonları Modülü",
+        category: "Entegrasyonlar",
+        lead: "Akıllı telefona bağlanmaya gerek kalmadan, cihaz üzerindeki döner enkoder (rotary encoder) veya fiziksel butonlarla önceden tanımlanmış hazır mesajların (ör. 'İyiyim', 'Kamptayım', 'SOS') ekrandan seçilerek gönderilmesini sağlayan yerleşik firmware modülü.",
+        details: "Cihaz hafızasına boru karakteriyle (`|`) ayrılmış kısa mesaj dizileri yüklenir. LilyGO T-Deck, T-Watch veya döner butonlu kutularda telefonu cebinizden çıkarmadan tek bir çevirme ve tıklama hareketiyle tüm ağa anında durum bildirilebilir.",
+        github: "meshtastic/firmware: src/modules/CannedMessageModule.cpp",
+        infobox: {
+          "Modül Adı": "CannedMessageModule",
+          "Giriş Birimi": "Döner Enkoder, Butonlar, CardKB",
+          "Kullanım": "Telefonsuz hızlı durum bildirimi"
+        },
+        seeAlso: ["t-deck", "text-message-app", "external-notification"]
+      },
+      {
+        id: "external-notification",
+        en: "External Notification Module",
+        tr: "Harici Bildirim ve Siren Modülü",
+        category: "Entegrasyonlar",
+        lead: "Ağdan yeni bir metin mesajı, doğrudan mesaj veya acil durum telemetrisi ulaştığında, karta bağlı harici bir buzzer'ı, melodik piezo hoparlörü, titreşim motorunu veya LED flaşörünü tetikleyen donanım modülü.",
+        details: "Kullanıcılar PWM üzerinden RTTL formatında özel zil sesleri (ör. Nokia melodisi, acil siren tonu) tanımlayabilir. Dağda çadırda uyurken veya gürültülü afet sahasında mesaj geldiğinde kullanıcının anında uyarılmasını sağlar.",
+        github: "meshtastic/firmware: src/modules/ExternalNotificationModule.cpp",
+        infobox: {
+          "Çıkışlar": "Buzzer, Titreşim Motoru, Flaşör LED",
+          "Format Desteği": "PWM RTTL Melodileri",
+          "Tetikleyici": "Gelen Mesaj, Bell Karakteri, Acil Çağrı"
+        },
+        seeAlso: ["canned-messages", "text-message-app"]
+      },
+      {
+        id: "paxcounter",
+        en: "Paxcounter Module (Crowd Density)",
+        tr: "Paxcounter İnsan Yoğunluğu Sayacı",
+        category: "Entegrasyonlar",
+        lead: "ESP32 donanımlı cihazların Wi-Fi ve BLE radyolarını pasif dinleme moduna alarak çevredeki akıllı telefonların sinyallerini tarayan ve ortamdaki kalabalık/insan yoğunluğunu telsiz üzerinden raporlayan modül.",
+        details: "Hiçbir kişisel veriyi veya MAC adresini kaydetmez; yalnızca anlık tekil cihaz sayısını hesaplar. Afet toplanma alanlarındaki veya yürüyüş rotalarındaki insan yoğunluğu böylece telsiz ağı üzerinden komuta merkezine iletilir.",
+        github: "meshtastic/firmware: src/modules/PaxcounterModule.cpp",
+        infobox: {
+          "Donanım Desteği": "ESP32 / ESP32-S3 (Promiscuous Sniffing)",
+          "Ölçülen": "Çevredeki Wi-Fi & BLE cihaz sayısı",
+          "Gizlilik": "Kişisel veri kaydetmez (Sadece sayı)"
+        },
+        seeAlso: ["esp32-s3", "telemetry-app", "sensor"]
+      },
+      {
+        id: "range-test",
+        en: "Range Test Module",
+        tr: "Menzil Testi ve Sinyal Haritalama Modülü",
+        category: "Entegrasyonlar",
+        lead: "İki veya daha fazla düğüm arasındaki azami telsiz mesafesini, sinyal kalitesini (SNR/RSSI) ve paket kaybını GPS koordinatlarıyla haritalandırmak için kullanılan otomatik teşhis aracı.",
+        details: "Verici düğüm düzenli aralıklarla konum paketi basarken, hareket halindeki alıcı düğüm bu paketleri SD karta veya flash belleğe `.csv` formatında kaydeder. Test bitiminde bu veri Google Earth veya GIS yazılımlarına aktarılarak gerçek kapsama haritası çıkarılır.",
+        github: "meshtastic/firmware: src/modules/RangeTestModule.cpp",
+        infobox: {
+          "Port": "RANGE_TEST_APP",
+          "Çıktı": "GPS + SNR + RSSI (.csv dosyası)",
+          "Amacı": "Anten ve menzil sınırlarını tespit etme"
+        },
+        seeAlso: ["rssi", "snr", "lora", "meshmap"]
+      },
+      {
+        id: "detection-sensor",
+        en: "Detection Sensor Module (Security Alarm)",
+        tr: "Güvenlik ve Hareket Sensörü Modülü",
+        category: "Entegrasyonlar",
+        lead: "Karta bağlanan PIR hareket sensörü, manyetik kapı/pencere anahtarı veya sarsıntı sensörü tetiklendiğinde otomatik olarak kanala acil durum alarm mesajı basan güvenlik modülü.",
+        details: "İnternet veya elektriğin olmadığı kırsal alanlarda, arı kovanı koruma, su deposu güvenliği, dağ kulübesi veya çadır çevre güvenliği kurmak için kullanılır. Sensör tetiklendiğinde tanımlanan kanala saniyeler içinde telsiz uyarısı gönderilir.",
+        github: "meshtastic/firmware: src/modules/DetectionSensorModule.cpp",
+        infobox: {
+          "Sensör Tipleri": "PIR Hareket, Manyetik Kontak, Sarsıntı",
+          "Eylem": "Kanala anında otomatik alarm metni basma",
+          "Kullanım": "Off-grid mülk ve saha güvenliği"
+        },
+        seeAlso: ["remote-hardware", "canned-messages", "text-message-app"]
       }
     ];
 
