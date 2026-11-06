@@ -8639,6 +8639,166 @@
           "Güvenilirlik": "Restart=always, Watchdog Sec, otomatik sistem açılışı (system boot)"
         },
         seeAlso: ["systemd-daemon-python-mqtt-service", "meshtasticd-native-daemon", "meshtasticd-config-yaml"]
+      },
+      {
+        id: "meshtasticd-debian-obs-repository",
+        en: "meshtasticd Debian & Raspberry Pi OS OBS Repository",
+        tr: "meshtasticd Debian ve Raspberry Pi OS OBS Deposu",
+        category: "Yazılım & İstemciler",
+        lead: "Raspberry Pi OS, Debian Bookworm/Bullseye sistemlerine `meshtasticd` arka plan servisini kurmak için kullanılan OpenSUSE Build Service (OBS) APT paket deposu.",
+        details: "Topluluk tarafından derlenen resmi `.deb` ikililerini barındırır. Kullanıcılar OBS GPG açık anahtarını `/etc/apt/trusted.gpg.d/` altına ekler ve APT kaynak listesine `deb http://download.opensuse.org/repositories/home:/meshtastic/Debian_12/ ./` satırını tanımlar. Ardından standart `sudo apt update && sudo apt install meshtasticd` komutuyla servis, varsayılan yapılandırma şablonları (`available.d`) ve systemd birimleri işletim sistemine temiz bir şekilde entegre edilir.",
+        github: "meshtastic.org/docs/meshtasticd/installation",
+        infobox: {
+          "Depo Altyapısı": "OpenSUSE Build Service (OBS)",
+          "Paket Formatı": "Debian Binary (.deb)",
+          "Uyumlu Dağıtımlar": "Raspberry Pi OS (32/64-bit), Debian 11/12, DietPi",
+          "Komut": "sudo apt update && sudo apt install meshtasticd"
+        },
+        seeAlso: ["meshtasticd-native-daemon", "meshtasticd-ubuntu-launchpad-ppa", "meshtasticd-systemd-service-management"]
+      },
+      {
+        id: "meshtasticd-ubuntu-launchpad-ppa",
+        en: "meshtasticd Ubuntu Launchpad PPA Channels",
+        tr: "meshtasticd Ubuntu Launchpad PPA Dağıtım Kanalları",
+        category: "Yazılım & İstemciler",
+        lead: "Ubuntu tabanlı masaüstü ve sunucu sistemlerine `meshtasticd` ikililerini tek tıkla kurmayı ve güncellemeyi sağlayan resmi Launchpad Kişisel Paket Arşivleri (PPA).",
+        details: "Meshtastic geliştirici ekibi farklı kararlılık seviyelerinde PPA kanalları sunar: `ppa:meshtastic/beta` (test edilmiş kararlı sürümler), `ppa:meshtastic/alpha` (yeni özellikleri içeren önizleme sürümleri) ve `ppa:meshtastic/daily` (her gece otomatik derlenen en güncel kodlar). Kurulum için `sudo add-apt-repository ppa:meshtastic/beta` ve `sudo apt install meshtasticd` komutları çalıştırılır; tüm kütüphane bağımlılıkları sistem yöneticisi tarafından otomatik çözülür.",
+        github: "meshtastic.org/docs/meshtasticd/installation",
+        infobox: {
+          "Dağıtım Kanalı": "Canonical Launchpad PPA",
+          "Kanal Seçenekleri": "ppa:meshtastic/beta, ppa:meshtastic/alpha, ppa:meshtastic/daily",
+          "Uyumlu Sistemler": "Ubuntu 22.04 LTS, Ubuntu 24.04 LTS (x86_64, arm64)",
+          "Yönetim": "APT paket yöneticisi ile otomatik yükseltme (apt upgrade)"
+        },
+        seeAlso: ["meshtasticd-debian-obs-repository", "meshtasticd-fedora-copr-packaging", "meshtasticd-platformio-source-build"]
+      },
+      {
+        id: "meshtasticd-fedora-copr-packaging",
+        en: "meshtasticd Fedora COPR & RPM Distribution Packaging",
+        tr: "meshtasticd Fedora COPR ve RPM Paket Dağıtımı",
+        category: "Yazılım & İstemciler",
+        lead: "Fedora, Red Hat Enterprise Linux (RHEL) ve CentOS Stream dağıtımlarında `meshtasticd` servisinin DNF paket yöneticisiyle kurulmasını sağlayan resmi COPR topluluk deposu.",
+        details: "Red Hat ekosisteminde çalışan geliştiriciler için `@meshtastic/beta` COPR deposu üzerinden RPM paketleri sunulur. Sisteme depoyu tanıtmak için `sudo dnf copr enable @meshtastic/beta` komutu verilir; ardından `sudo dnf install meshtasticd` ile kurulum tamamlanır. Kurulum sırasında SELinux güvenlik politikaları ve donanım erişim izinleri RPM betikleri tarafından otomatik ayarlanır.",
+        github: "meshtastic.org/docs/meshtasticd/installation",
+        infobox: {
+          "Depo Türü": "Fedora COPR (Cool Other Package Repo)",
+          "Paket Biçimi": "RPM (Red Hat Package Manager)",
+          "Uyumlu Sistemler": "Fedora 38/39/40, RHEL 9+, CentOS Stream, AlmaLinux, Rocky Linux",
+          "Komut": "sudo dnf copr enable @meshtastic/beta && sudo dnf install meshtasticd"
+        },
+        seeAlso: ["meshtasticd-debian-obs-repository", "meshtasticd-systemd-service-management", "meshtasticd-native-daemon"]
+      },
+      {
+        id: "meshtasticd-openwrt-router-deployment",
+        en: "meshtasticd OpenWrt Embedded Router Deployment",
+        tr: "meshtasticd OpenWrt Gömülü Yönlendirici Kurulumu",
+        category: "Yazılım & İstemciler",
+        lead: "Açık kaynak OpenWrt işletim sistemi yüklü ev veya kule Wi-Fi yönlendiricilerine `meshtasticd` kurarak yönlendiriciyi bağımsız bir LoRa kule düğümüne dönüştürme yöntemi.",
+        details: "Dağ zirvelerindeki güneş enerjili kulelerde genellikle Wi-Fi omurga ağı için OpenWrt çalışan küçük yönlendiriciler (MikroTik, GL.iNet) bulunur. OpenWrt paket yöneticisi `opkg` ile doğrudan `meshtasticd` IPK paketi kurulur. Yönlendiricinin USB portuna takılan bir MeshStick veya GPIO pinlerine bağlanan SPI LoRa şapkası, ek bir Raspberry Pi veya mikrodenetleyiciye gerek kalmadan yönlendiricinin kendi CPU'su üzerinde çalıştırılır. Enerji tasarrufu en üst seviyeye çıkarılır.",
+        github: "meshtastic.org/docs/meshtasticd/installation",
+        infobox: {
+          "Hedef Platform": "OpenWrt (MIPS, ARM, aarch64, x86 gömülü yönlendiriciler)",
+          "Paket Formatı": "OpenWrt IPK (.ipk)",
+          "Paket Yöneticisi": "opkg update && opkg install meshtasticd",
+          "Avantajı": "Mevcut yönlendirici donanımını kullanarak sıfır ek donanımla kule düğümü kurma"
+        },
+        seeAlso: ["meshtasticd-native-daemon", "usb-to-spi-meshstick-interface", "solar-node-architecture"]
+      },
+      {
+        id: "meshtasticd-docker-container-passthrough",
+        en: "meshtasticd Docker Container & Device Passthrough Deployment",
+        tr: "meshtasticd Docker Konteyner ve Donanım Geçişi Dağıtımı",
+        category: "Yazılım & İstemciler",
+        lead: "`meshtasticd` arka plan servisini host işletim sistemini kirletmeden Docker konteyneri içinde çalıştıran ve fiziksel SPI/USB LoRa donanımlarını konteynere bağlayan dağıtım modeli.",
+        details: "Resmi `ghcr.io/meshtastic/meshtasticd` Docker imajı kullanılarak çalıştırılır. Konteynerin fiziksel LoRa telsizine erişebilmesi için `docker-compose.yml` dosyasında cihaz geçişi (`devices: - /dev/spidev0.0:/dev/spidev0.0`, `- /dev/gpiomem:/dev/gpiomem`) veya USB seri portu (`/dev/ttyUSB0`) eşleştirilir. Yapılandırma dosyaları host'un `/etc/meshtasticd` dizininden bind-mount edilir. Port 4403 (API) ve 80 (WebUI) dışarı açılarak izole, taşınabilir ve güncellenmesi kolay bir istasyon elde edilir.",
+        github: "meshtastic.org/docs/meshtasticd/installation",
+        infobox: {
+          "Konteyner İmajı": "ghcr.io/meshtastic/meshtasticd:latest",
+          "Cihaz Geçişi (Passthrough)": "--device /dev/spidev0.0 --device /dev/gpiomem (veya --privileged)",
+          "Bağlantı Portları": "80/tcp (Web Arayüzü), 4403/tcp (İstemci API), 4403/udp",
+          "Avantajı": "İşletim sisteminden bağımsız, tek komutla kurulum ve güncelleme"
+        },
+        seeAlso: ["meshtasticd-native-daemon", "meshtasticd-native-webserver", "meshtasticd-tcp-api-port-4403"]
+      },
+      {
+        id: "linux-kernel-spi-i2c-prerequisites",
+        en: "Linux Kernel SPI & I2C Hardware Bus Prerequisites",
+        tr: "Linux Çekirdeği SPI ve I2C Donanım Ön Koşulları",
+        category: "Donanım & Anten",
+        lead: "Raspberry Pi OS ve genel Linux çekirdeklerinde `meshtasticd` servisinin LoRa radyo çipine ve OLED ekrana erişebilmesi için etkinleştirilmesi zorunlu olan donanım veriyolu sürücüleri.",
+        details: "Standart Linux dağıtımlarında SPI ve I2C veriyolları varsayılan olarak kapalı gelebilir. Raspberry Pi'da `sudo raspi-config nonint do_spi 0` ve `sudo raspi-config nonint do_i2c 0` komutlarıyla veya `/boot/firmware/config.txt` içine `dtparam=spi=on` ve `dtparam=i2c_arm=on` satırları eklenerek açılır. Başarılı aktivasyon `ls -l /dev/spidev* /dev/i2c*` komutuyla doğrulanır. Bu sürücüler açılmadan `meshtasticd` LoRa modülünü algılayamaz ve açılışta çöker.",
+        github: "meshtastic.org/docs/meshtasticd/installation",
+        infobox: {
+          "Aygıt Düğümleri": "/dev/spidev0.0 (SPI Bus), /dev/i2c-1 (I2C Bus)",
+          "Raspberry Pi Komutu": "raspi-config nonint do_spi 0 && raspi-config nonint do_i2c 0",
+          "Çekirdek Modülleri": "spi_bcm2835, spidev, i2c_dev",
+          "Hata Belirtisi": "FATAL: Cannot open /dev/spidev0.0: No such file or directory"
+        },
+        seeAlso: ["linux-spidev-lora-interface", "meshtasticd-system-user-group-permissions", "meshtasticd-post-install-hardware-check"]
+      },
+      {
+        id: "meshtasticd-system-user-group-permissions",
+        en: "meshtasticd Dedicated System User & Hardware Group Permissions",
+        tr: "meshtasticd Sistem Kullanıcısı ve Donanım Grup Yetkileri",
+        category: "Güvenlik & Kripto",
+        lead: "`meshtasticd` servisinin güvenlik amacıyla root yerine ayrıcalıksız özel bir sistem kullanıcısı altında çalışırken donanım pinlerine erişebilmesini sağlayan Linux grup politikası.",
+        details: "Debian ve Fedora paketleri kurulurken sisteme `meshtasticd` adında parolasız bir sistem kullanıcısı ve grubu eklenir. Servisin SPI telsizine, GPIO pinlerine, I2C ekranlarına ve USB cihazlarına root yetkisi olmadan erişebilmesi için bu kullanıcı `spi`, `gpio`, `i2c` ve `dialout` sistem gruplarına dahil edilir (`sudo usermod -a -G spi,gpio,i2c,dialout meshtasticd`). Bu ilke en az yetki (least privilege) kuralını sağlayarak sistem güvenliğini korur.",
+        github: "meshtastic.org/docs/meshtasticd/installation",
+        infobox: {
+          "Sistem Kullanıcısı": "meshtasticd (Ayrıcalıksız Sistem Hesabı)",
+          "Zorunlu Gruplar": "spi (Donanım SPI), gpio (Pinler), i2c (Ekran), dialout (USB Seri)",
+          "Güvenlik İlkesi": "En az yetki prensibi (Principle of Least Privilege / Non-root daemon)",
+          "Uygulama Komutu": "sudo usermod -a -G spi,gpio,i2c,dialout meshtasticd"
+        },
+        seeAlso: ["linux-kernel-spi-i2c-prerequisites", "meshtasticd-systemd-service-management", "sbc-headless-ssh-management"]
+      },
+      {
+        id: "meshtasticd-platformio-source-build",
+        en: "meshtasticd PlatformIO Native Environment Source Compilation",
+        tr: "meshtasticd PlatformIO Kaynak Koddan Yerel Derleme",
+        category: "Yazılım & İstemciler",
+        lead: "Paket yöneticilerinde bulunmayan özel Linux mimarilerinde (RISC-V, ARMv6, eski kernel) `firmware` deposundan `pio run -e native` komutuyla yerel ikilinin sıfırdan derlenmesi.",
+        details: "Meshtastic firmware deposu PlatformIO çatısını kullanır. Kaynak koddan derleme için sistemde `git`, `python3-pip`, `cmake`, `libgpiod-dev` ve `libyaml-cpp-dev` paketleri kurulu olmalıdır. `git clone https://github.com/meshtastic/firmware.git` ile kod indirildikten sonra `pio run -e native` komutu çalıştırılır. Derleyici Portduino soyutlama katmanını kullanarak Linux için `.pio/build/native/program` ikili dosyasını üretir; bu dosya `/usr/local/bin/meshtasticd` yoluna kopyalanarak kullanılır.",
+        github: "meshtastic.org/docs/meshtasticd/installation",
+        infobox: {
+          "Derleme Aracı": "PlatformIO Core (CLI) & GCC / Clang",
+          "Hedef Ortam": "env:native (Portduino POSIX x86_64 / aarch64 / riscv64)",
+          "Gerekli Kütüphaneler": "libgpiod-dev, libyaml-cpp-dev, libssl-dev",
+          "Çıktı İkilisi": ".pio/build/native/program -> /usr/bin/meshtasticd"
+        },
+        seeAlso: ["portduino-abstraction-framework", "meshtasticd-native-daemon", "meshtasticd-debian-obs-repository"]
+      },
+      {
+        id: "meshtasticd-nixos-declarative-module",
+        en: "meshtasticd NixOS Declarative Configuration & Flatpak Packaging",
+        tr: "meshtasticd NixOS Bildirime Dayalı Modülü ve Flatpak Dağıtımı",
+        category: "Yazılım & İstemciler",
+        lead: "NixOS işletim sisteminde tek bir `configuration.nix` satırıyla veya Flatpak sandbox teknolojisiyle `meshtasticd` ve WebUI arayüzünü masaüstü sistemlere kurma mimarisi.",
+        details: "NixOS kullanıcıları `services.meshtasticd.enable = true;` ve `services.meshtasticd.lora.module = 'sx1262';` bildirimleriyle tüm sistem bağımlılıklarını, kullanıcı izinlerini, SPI modüllerini ve systemd yapılandırmasını tek bir deklaratif blokta tanımlar. Masaüstü Linux kullanıcıları için ise Flathub üzerinden sunulan Flatpak paketleri, arka plandaki `meshtasticd` ile resmi WebUI masaüstü uygulamasını sandbox güvenliği içinde tak-çalıştır sunar.",
+        github: "meshtastic.org/docs/meshtasticd/installation",
+        infobox: {
+          "Biçim": "NixOS Flake / Module & Flatpak (Flathub Sandbox)",
+          "Nix Parametresi": "services.meshtasticd.enable = true;",
+          "Özellik": "Yeniden üretilebilir (reproducible) sistem yapılandırması ve kolay geri alma",
+          "Kullanım": "Modern masaüstü Linux dağıtımları ve deklaratif sunucu altyapıları"
+        },
+        seeAlso: ["meshtasticd-docker-container-passthrough", "meshtasticd-fedora-copr-packaging", "meshtasticd-native-daemon"]
+      },
+      {
+        id: "meshtasticd-post-install-hardware-check",
+        en: "meshtasticd Post-Installation Hardware Detection & Diagnostic Log Check",
+        tr: "meshtasticd Kurulum Sonrası Donanım Doğrulama ve Teşhis",
+        category: "Yazılım & İstemciler",
+        lead: "Kurulumun ardından `meshtasticd` servisinin LoRa radyo entegresini, SPI kesmelerini ve yapılandırma dosyalarını başarıyla tanıdığını doğrulayan komut satırı teşhis adımları.",
+        details: "Servis başlatıldıktan sonra `sudo journalctl -u meshtasticd -n 50 --no-pager` komutu çalıştırılır. Loglarda `RadioLib SX1262 found, busy pin OK, IRQ pin OK` veya `Lora: module 'sx1262' initialized successfully` satırları aranır. Eğer `Radio not found (-2)` veya `Cannot open SPI device` hatası görülüyorsa kablolama, `spidev` izinleri veya pin numaralandırması (BCM vs Fiziksel Pin) kontrol edilir. Başarılı doğrulamada telsizin MAC adresi ve Node ID'si konsola yazdırılır.",
+        github: "meshtastic.org/docs/meshtasticd/installation",
+        infobox: {
+          "Teşhis Komutu": "sudo journalctl -u meshtasticd -f -o cat",
+          "Başarı Göstergesi": "SX1262 initialized, RadioLib success, Webserver running on port 80",
+          "Sık Görülen Hata": "Radio not found (-2 / ERR_CHIP_NOT_FOUND) -> Yanlış CS/Reset pini",
+          "Doğrulama Aracı": "meshtastic --host localhost --info"
+        },
+        seeAlso: ["linux-kernel-spi-i2c-prerequisites", "meshtasticd-systemd-service-management", "meshtasticd-config-yaml"]
       }
     ];
 

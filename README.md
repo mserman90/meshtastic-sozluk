@@ -718,6 +718,18 @@ Meshtastic donanımını kontrol etmek, mesajlaşıp harita görüntülemek ve a
 - **USB-SPI Köprü Adaptörleri ve MeshStick Donanımı (`usb-to-spi-meshstick-interface`):** GPIO pinleri olmayan standart PC'lere CP2130/CH341 yongalı USB dongle ile LoRa bağlama.
 - **meshtasticd systemd Servis ve Watchdog Yönetimi (`meshtasticd-systemd-service-management`):** Arka plan servisinin sistem açılışında başlaması, çökme anında diriltilmesi ve log izleme.
 
+### 📦 meshtasticd Çoklu Platform Kurulumu ve Dağıtımı (meshtastic.org/docs/meshtasticd/installation)
+- **meshtasticd Debian ve Raspberry Pi OS OBS Deposu (`meshtasticd-debian-obs-repository`):** OpenSUSE Build Service APT havuzuyla `.deb` paketlerini kurma ve otomatik güncelleme.
+- **meshtasticd Ubuntu Launchpad PPA Kanalları (`meshtasticd-ubuntu-launchpad-ppa`):** Beta, alpha ve daily PPA depolarıyla Ubuntu sistemlere hızlı servis kurulumu.
+- **meshtasticd Fedora COPR ve RPM Paket Dağıtımı (`meshtasticd-fedora-copr-packaging`):** DNF paket yöneticisiyle Fedora, RHEL ve CentOS Stream sistemlere RPM kurulumu.
+- **meshtasticd OpenWrt Gömülü Yönlendirici Kurulumu (`meshtasticd-openwrt-router-deployment`):** Wi-Fi yönlendirici donanımlarında `opkg` ile bağımsız LoRa kule düğümü oluşturma.
+- **meshtasticd Docker Konteyner ve Donanım Geçişi (`meshtasticd-docker-container-passthrough`):** İzolasyonlu konteyner içinde `/dev/spidev0.0` ve `/dev/gpiomem` donanım geçişiyle çalışma.
+- **Linux Çekirdeği SPI ve I2C Donanım Ön Koşulları (`linux-kernel-spi-i2c-prerequisites`):** `raspi-config` ve çekirdek sürücüleriyle SPI/I2C veriyollarını servise hazırlama.
+- **meshtasticd Sistem Kullanıcısı ve Donanım Grup Yetkileri (`meshtasticd-system-user-group-permissions`):** Güvenli ayrıcalıksız servis için `spi`, `gpio`, `i2c` ve `dialout` grup yetkilendirmesi.
+- **meshtasticd PlatformIO Kaynak Koddan Yerel Derleme (`meshtasticd-platformio-source-build`):** Özel mimarilerde `pio run -e native` ile sıfırdan C++ ikilisi derleme.
+- **meshtasticd NixOS Bildirime Dayalı Modülü ve Flatpak (`meshtasticd-nixos-declarative-module`):** Tek satır Nix konfigürasyonu veya Flathub masaüstü sandbox dağıtımı.
+- **meshtasticd Kurulum Sonrası Donanım Doğrulama (`meshtasticd-post-install-hardware-check`):** RadioLib entegre algılama, SPI kesme testi ve `journalctl` log teşhis adımları.
+
 ### 🔹 Açık Standart ve Tedarikçi Bağımsızlığı (Open Architecture & Vendor Neutrality)
 Meshtastic'in hiçbir tescilli ticari protokole veya tek bir donanım üreticisine bağımlı kalmamasını sağlayan açık kaynak ekosistem felsefesi (GPL-3.0 lisansı ve açık Protobuf şemaları). Semtech SX1262/SX1276/LR1121 telsizleri ile ESP32, nRF52840 ve RP2040 işlemcili onlarca farklı üreticinin (Heltec, LilyGO, RAKwireless) donanımları tam uyumla birlikte çalışabilir.
 
