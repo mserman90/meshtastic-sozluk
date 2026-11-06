@@ -3468,6 +3468,70 @@
           "DFU Modu": "Kablo takılırken butona basılı tutma"
         },
         seeAlso: ["sensecap-t1000e", "multi-click-actions", "uf2-dfu", "t-echo-touch-pad"]
+      },
+      {
+        id: "wio-tracker-l2-pro",
+        en: "Seeed Wio Tracker L2 Pro",
+        tr: "Seeed Wio Tracker L2 Pro (Dokunmatik Ekranlı Bağımsız Terminal)",
+        category: "Donanım & Çipler",
+        lead: "3.2 inç renkli TFT dokunmatik ekrana (320x240), ESP32-S3 (16MB Flash, 8MB PSRAM) işlemciye, Semtech SX1262 telsizine ve dahili 3000 mAh bataryaya sahip akıllı telefonsuz bağımsız Meshtastic saha ve navigasyon terminali.",
+        details: "Quectel L76K çoklu-GNSS modülü, çevrimdışı haritalar için MicroSD kart yuvası, dahili ses amplifikatörü ve hoparlör ile donatılmıştır. Wi-Fi ve BLE desteği sunar; JST konnektörü üzerinden harici güneş paneliyle şarj edilebilir ve dahili Grove portuyla sensör telemetrisi toplayabilir.",
+        github: "meshtastic.org/docs/hardware/devices/seeed-studio/wio-series/tracker-l2-pro",
+        infobox: {
+          "İşlemci & Bellek": "Seeed Wio-S3 (ESP32-S3 @ 240 MHz, 16MB Flash, 8MB PSRAM)",
+          "Ekran": "3.2 inç Renkli Dokunmatik TFT LCD (320x240)",
+          "LoRa & GNSS": "Semtech SX1262 + Quectel L76K GNSS",
+          "Pil & Depolama": "3000 mAh Li-ion Pil + MicroSD Kart Yuvası"
+        },
+        seeAlso: ["wio-tracker-l1", "seeed-wio-s3-core", "offline-map-storage", "t-deck-plus"]
+      },
+      {
+        id: "wio-sx1262-module",
+        en: "Seeed Wio-SX1262 LoRa Module Series",
+        tr: "Seeed Wio-SX1262 / Wio-SX1262S Modüler LoRa Telsizi",
+        category: "Donanım & Çipler",
+        lead: "Seeed Studio'nun XIAO geliştirici kartları için ürettiği, Semtech SX1262 yongasına dayanan ultra kompakt minyatür Sub-GHz LoRa telsiz eklentisi.",
+        details: "nRF52840 ve ESP32-S3 tabanlı kitler için özel olarak iki farklı dahili pin konfigürasyonunda üretilir. Modüller arası geçiş yaparken donanım pin dizilimlerine uygun doğru firmware hedefinin yüklenmesi gerekir.",
+        github: "meshtastic.org/docs/hardware/devices/seeed-studio/wio-series/wio-sx1262s",
+        infobox: {
+          "Temel Çip": "Semtech SX1262 Sub-GHz LoRa",
+          "Uyumlu Modüller": "XIAO nRF52840 & XIAO ESP32-S3",
+          "Frekans Seçenekleri": "863 - 928 MHz Çoklu ISM Bantları",
+          "Özellik": "Kite özel dahili pin haritalaması"
+        },
+        seeAlso: ["seeed-xiao-lora-kit", "sx1262", "nrf52840", "esp32-s3"]
+      },
+      {
+        id: "seeed-wio-s3-core",
+        en: "Seeed Wio-S3 High-Performance Core",
+        tr: "Seeed Wio-S3 Yüksek Performanslı İşlemci Modülü",
+        category: "Donanım & Çipler",
+        lead: "Wio Tracker L2 Pro gibi gelişmiş grafik arayüzlü ve çevrimdışı harita desteği sunan cihazlara güç veren, 16MB SPI Flash ve 8MB PSRAM'li çift çekirdekli ESP32-S3 sistem modülü (SoM).",
+        details: "Xtensa LX7 çift çekirdekli mimarisi sayesinde yüksek çözünürlüklü dokunmatik ekranları akıcı bir şekilde sürerken, arka planda Meshtastic LoRa yönlendirmesini, Wi-Fi ağ geçidi fonksiyonlarını ve GNSS koordinat çözümlemesini aynı anda çalıştırır.",
+        github: "meshtastic.org/docs/hardware/devices/seeed-studio/wio-series/tracker-l2-pro",
+        infobox: {
+          "Yonga Seti": "Espressif ESP32-S3 (Xtensa Dual-Core LX7 @ 240 MHz)",
+          "Bellek": "16 MB Flash + 8 MB Octal PSRAM",
+          "Kablosuz": "2.4 GHz Wi-Fi (802.11 b/g/n) & Bluetooth 5 LE",
+          "Kullanım": "Wio Tracker L2 Pro ve gelişmiş multimedya düğümleri"
+        },
+        seeAlso: ["wio-tracker-l2-pro", "esp32-s3", "offline-map-storage"]
+      },
+      {
+        id: "offline-map-storage",
+        en: "Offline Map & MicroSD Tile Storage",
+        tr: "Çevrimdışı Harita ve MicroSD Depolama Mimarisi",
+        category: "Yazılım & Protobuf",
+        lead: "Hücresel şebekenin ve internetin bulunmadığı afet veya arama-kurtarma bölgelerinde, LoRa üzerinden gelen GPS koordinatlarını MicroSD kartta saklanan harita karoları (map tiles) üzerinde canlı gösterme özelliği.",
+        details: "Wio Tracker L2 Pro, LilyGO T5 E-Paper ve T-Deck gibi ekranlı cihazlarda OpenStreetMap karoları MicroSD kartta depolanır. Cihaz ekrandaki harita üzerinde kendi konumunu ve ağdaki diğer Meshtastic düğümlerinin anlık yerlerini sıfır internet gereksinimiyle görselleştirir.",
+        github: "meshtastic.org/docs/hardware/devices/seeed-studio/wio-series/tracker-l2-pro",
+        infobox: {
+          "Depolama Ortamı": "MicroSD Kart (FAT32 / exFAT)",
+          "Harita Kaynağı": "Önceden indirilmiş OpenStreetMap (OSM) karoları",
+          "İşlev": "İnternetsiz tam bağımsız görsel navigasyon",
+          "Uyumlu Donanımlar": "Wio Tracker L2 Pro, T5 E-Paper, T-Deck Plus"
+        },
+        seeAlso: ["wio-tracker-l2-pro", "t-deck-plus", "telemetry", "tracker"]
       }
     ];
 

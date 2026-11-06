@@ -207,7 +207,11 @@ Aşırı sıcak veya dondurucu soğuk hava koşullarında telsiz frekansının k
     - **Manyetik Pogo-Pin Arayüzü:** Su geçirmez gövde contasını bozmadan pil şarjı, USB seri port ve DFU firmware yükleme sağlayan yaylı kontak sistemi.
     - **T1000-E Tek Tuş Mantığı:** Tek buton üzerinden çift tıkla konum pingi, 3 tıkla GPS aç/kapat, 4 tıkla sessize alma ve kablo takılırken basılı tutarak DFU moduna alma.
   - **Wio Tracker L1 & L1 Lite:** USB Type-C, harici güneş paneli ve 3.7V Li-ion batarya üçlü güç girişli; çoklu-GNSS, 1.3" OLED veya 2.13" E-Ink ekranlı esnek takip ve telemetri düğümü.
+  - **Wio Tracker L2 Pro:** 3.2 inç renkli dokunmatik TFT ekranlı, ESP32-S3 (Wio-S3 SoM, 16MB Flash, 8MB PSRAM), SX1262 telsiz, L76K GNSS, 3000 mAh batarya ve MicroSD çevrimdışı harita destekli bağımsız el terminali.
+    - **Seeed Wio-S3 Çekirdek Modülü:** Çift çekirdekli Xtensa LX7 işlemci, 8MB Octal PSRAM ve 16MB Flash içeren yüksek grafik performanslı sistem modülü.
+    - **Çevrimdışı Harita (Offline Map Tiles):** İnternetsiz afet ortamlarında OpenStreetMap karolarını MicroSD karttan okuyarak mesh düğümlerini harita üzerinde görselleştiren mimari.
   - **Seeed XIAO & Wio-SX1262 Kiti:** Başparmak tırnağı boyutundaki (XIAO ESP32-S3 / XIAO nRF52840) mikro kontrolcüleri Wio-SX1262 LoRa eklentisiyle birleştiren modüler DIY geliştirme kiti.
+    - **Wio-SX1262 / Wio-SX1262S Modülleri:** nRF52 ve ESP32-S3 kitleri için özel optimize edilmiş dahili pin dizilimine sahip minyatür LoRa alıcı-vericisi.
   - **Wio-WM1110 Modülü:** Nordic nRF52840 MCU ile Semtech LR1110 (LoRa + GNSS + Wi-Fi Sniffer) hibrit konumlandırma ve IoT geliştirme kartı.
   - **Wio-E5 (STM32WLE5JC):** ARM Cortex-M4 işlemci ile SX126x telsizini tek silikon çipte birleştiren monolitik LoRaWAN ve Meshtastic SoC modülü.
   - **Grove Modüler Bağlantı Sistemi:** 4-pinli standart polarize konnektörle çevre sensörlerinin (BME680, SHT40 vb.) lehimleme gerektirmeden tak-çalıştır bağlanmasını sağlayan ekosistem.
