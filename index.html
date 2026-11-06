@@ -4467,6 +4467,168 @@
           "Özellik": "Rota mesafesi ve yön açısı (bearing) hesaplama"
         },
         seeAlso: ["meshtastic-apple-app", "android-maplibre-offline-maps", "meshmap"]
+      },
+
+      /* 24. Meshtastic Web İstemcisi ve Tarayıcı Mimarisi (meshtastic.org/docs/software/web-client) */
+      {
+        id: "meshtastic-web-client",
+        en: "Meshtastic Official Web Client (client.meshtastic.org)",
+        tr: "Meshtastic Resmi Web İstemcisi",
+        category: "Yazılım & Protobuf",
+        lead: "Herhangi bir yerel yazılım kurmaya gerek kalmadan web tarayıcısı üzerinden doğrudan Meshtastic düğümlerine bağlanmayı, mesajlaşmayı, harita takibini ve ayarları yapılandırmayı sağlayan resmi TypeScript/React tabanlı web istemcisi.",
+        details: "`client.meshtastic.org` adresinden barındırılan veya yerel ağda kendi sunucusunda çalıştırılabilen PWA (Progressive Web App) uygulamasıdır. Tarayıcının yerel donanım arayüzlerini (Web Serial, Web Bluetooth, HTTP/WebSocket) kullanarak telsizle Protobuf formatında konuşur. Masaüstü (Windows, macOS, Linux, ChromeOS) ve Android cihazlarda Chrome, Edge ve Brave gibi Chromium motorlu tarayıcılarda tam özellikli çalışır.",
+        github: "meshtastic/web (apps/web)",
+        infobox: {
+          "Canlı URL": "client.meshtastic.org",
+          "Teknoloji": "TypeScript, React, Preact Signals, Tailwind CSS, Radix UI",
+          "Protokoller": "Web Serial API, Web Bluetooth API, HTTP/WebSocket",
+          "Dağıtım": "PWA (Progressive Web App) & Self-Hosted"
+        },
+        seeAlso: ["companion-app", "web-serial-transport", "web-bluetooth-transport", "meshtastic-typescript-sdk"]
+      },
+      {
+        id: "web-serial-transport",
+        en: "Web Serial API Browser Transport",
+        tr: "Web Serial API ile Doğrudan Tarayıcıdan USB Seri İletişim",
+        category: "Yazılım & Protobuf",
+        lead: "Chromium tabanlı web tarayıcılarının (Chrome, Edge, Opera) harici bir sürücü veya yerel yazılıma gerek duymadan doğrudan USB kablosuyla bağlı Meshtastic kartıyla haberleşmesini sağlayan W3C Web Serial standardı.",
+        details: "`packages/transport-web-serial` paketi tarafından uygulanır. Kullanıcı 'New Connection > Serial' seçtiğinde tarayıcı yerel COM / `/dev/ttyUSB` port listesini açar. CP210x, CH340 veya yerel USB CDC-ACM arayüzü seçildiğinde 115200 baud hızında çift yönlü ikili Protobuf veri akışı başlar. Bluetooth bağlantısı olmayan masaüstü bilgisayarlar veya işletim sistemi kısıtlamalı kurumsal makineler için en hızlı ve en kararlı bağlantı yoludur.",
+        github: "meshtastic/web: packages/transport-web-serial",
+        infobox: {
+          "Web Standardı": "W3C Web Serial API",
+          "Desteklenen Tarayıcılar": "Google Chrome, Microsoft Edge, Brave, Opera",
+          "Baud Hızı": "115200 bps varsayılan",
+          "Avantajı": "Sürücüsüz, sıfır kurulum, masaüstü USB'den doğrudan telsiz kontrolü"
+        },
+        seeAlso: ["meshtastic-web-client", "web-bluetooth-transport", "cp210x"]
+      },
+      {
+        id: "web-bluetooth-transport",
+        en: "Web Bluetooth API Browser Transport",
+        tr: "Web Bluetooth API ile Tarayıcıdan Kablosuz BLE Bağlantısı",
+        category: "Yazılım & Protobuf",
+        lead: "Web istemcisinin masaüstü veya Android cihazlarda kablo kullanmadan doğrudan Bluetooth Low Energy (BLE) üzerinden telsiz cihazıyla eşleşmesini sağlayan W3C Web Bluetooth arayüzü.",
+        details: "`packages/transport-web-bluetooth` paketi tarafından yönetilir. Tarayıcı içinden Bluetooth GATT servisini (`0cb7...`) tarar; kullanıcı telsizini seçip PIN kodunu girdiğinde `ToRadio` ve `FromRadio` karakteristiklerine abone olunur. MacOS, Windows 10/11, ChromeOS ve Android üzerindeki Chromium tarayıcılarda kablosuz kullanım konforu sunar.",
+        github: "meshtastic/web: packages/transport-web-bluetooth",
+        infobox: {
+          "Web Standardı": "W3C Web Bluetooth API",
+          "GATT UUID": "Meshtastic BLE Service",
+          "İletişim": "ToRadio (TX), FromRadio (RX), FromNum bildirimleri",
+          "Desteklenen Sistemler": "Android, macOS, Windows (Chromium)"
+        },
+        seeAlso: ["meshtastic-web-client", "web-serial-transport", "bluetooth-pin"]
+      },
+      {
+        id: "web-client-http-transport",
+        en: "HTTP & WebSocket Local Network Transport",
+        tr: "HTTP / WebSocket ile Ağ Üzerinden Telsiz Erişimi",
+        category: "Yazılım & Protobuf",
+        lead: "Wi-Fi donanımına sahip ESP32 tabanlı Meshtastic düğümlerinin yerel ağ IP adresine HTTP REST API ve WebSocket akışları üzerinden web tarayıcısından bağlanma yöntemi.",
+        details: "`packages/transport-http` paketi tarafından işletilir. Telsizin yerel Wi-Fi IP adresine (`http://` veya `https://`) bağlanarak iki yönlü Protobuf paketlerini WebSocket (`/ws`) veya REST uç noktaları üzerinden aktarır. Evin çatısındaki veya bahçesindeki bir ESP32 rölesine ev ağındaki herhangi bir bilgisayardan fiziksel kablo çekmeden veya Bluetooth menzili arayışına girmeden tarayıcıdan erişmeyi mümkün kılar.",
+        github: "meshtastic/web: packages/transport-http",
+        infobox: {
+          "Protokol": "HTTP REST API & WebSockets (/ws)",
+          "Donanım Şartı": "Wi-Fi destekli ESP32",
+          "Port": "80 (HTTP) / 443 (HTTPS)",
+          "Kullanım Alanı": "Ev ağına bağlı çatı yönlendiricilerini uzaktan yönetme"
+        },
+        seeAlso: ["meshtastic-web-client", "https-self-signed-bypass", "esp32-s3"]
+      },
+      {
+        id: "https-self-signed-bypass",
+        en: "HTTPS Mixed Content Security & Self-Signed Cert Bypass",
+        tr: "HTTPS Karışık İçerik Güvenliği ve Kendinden İmzalı Sertifika Onayı",
+        category: "Güvenlik & Kriptografi",
+        lead: "Güvenli HTTPS protokolüyle sunulan client.meshtastic.org web istemcisinin yerel ağdaki ESP32 telsizine bağlanabilmesi için tarayıcının self-signed SSL sertifikasını manuel olarak onaylama prosedürü.",
+        details: "Modern tarayıcılar, HTTPS ile açılan bir web sitesinin yerel ağdaki şifresiz HTTP adreslerine istek atmasını 'Mixed Content' (Karışık İçerik) kuralıyla engeller. Bu nedenle ESP32 firmware'i kendi içinde kendinden imzalı (self-signed) bir SSL sertifikası üretir. Ancak tarayıcı bu sertifikayı tanımadığı için kullanıcı öncelikle ayrı bir sekmede `https://<DÜĞÜM_IP_ADRESİ>/` adresine giderek güvenlik uyarısını onaylamalı ('Gelişmiş > Siteye ilerle'), ardından web istemcisine dönüp bağlantıyı kurmalıdır.",
+        github: "meshtastic.org/docs/software/web-client",
+        infobox: {
+          "Güvenlik Engeli": "Browser Mixed Content Policy",
+          "Sertifika Türü": "ESP32 Dahili Self-Signed TLS Sertifikası",
+          "Çözüm": "Ayrı sekmede https://<IP> açıp sertifikayı güvenilir kılmak",
+          "Uygulanabilirlik": "Yalnızca HTTP/Wi-Fi üzerinden bağlanan ESP32 cihazları"
+        },
+        seeAlso: ["web-client-http-transport", "meshtastic-web-client"]
+      },
+      {
+        id: "meshtastic-typescript-sdk",
+        en: "@meshtastic/sdk Modular TypeScript Library",
+        tr: "@meshtastic/sdk Modüler TypeScript Kütüphanesi",
+        category: "Yazılım & Protobuf",
+        lead: "Web istemcisinin ve bağımsız Node.js/tarayıcı uygulamalarının Meshtastic telsizleriyle reaktif ve tip güvenli (type-safe) iletişim kurmasını sağlayan resmi TypeScript SDK'sı.",
+        details: "`packages/sdk` monorepo paketi altında geliştirilmiştir. `@preact/signals-core` reaktif durum yönetimi ile donatılmış olup alan odaklı (domain-driven) modüler dilimlere ayrılmıştır: `device`, `chat`, `nodes`, `channels`, `config`, `telemetry`, `position`, `traceroute` ve `files`. Geliştiricilerin birkaç satır TypeScript koduyla kendi özel web panellerini, IoT göstergelerini veya botlarını geliştirmesine olanak tanır.",
+        github: "meshtastic/web: packages/sdk",
+        infobox: {
+          "Paket Adı": "@meshtastic/sdk",
+          "Dil": "TypeScript (Strict Typing)",
+          "Durum Yönetimi": "@preact/signals-core",
+          "Protokol Altyapısı": "Buf Protobuf Code Generation",
+          "Modüller": "Device, Chat, Nodes, Channels, Config, Telemetry, Traceroute"
+        },
+        seeAlso: ["meshtastic-web-client", "protobufs"]
+      },
+      {
+        id: "on-device-standalone-web",
+        en: "On-Device Standalone Web Server (LittleFS / SPIFFS UI)",
+        tr: "Cihaz Üstü Bağımsız Web Sunucusu (Standalone UI)",
+        category: "Yazılım & Protobuf",
+        lead: "ESP32 cihazının dahili flash belleğindeki LittleFS veya SPIFFS dosya sisteminde barındırılan, internete hiç çıkmadan doğrudan telsizin IP adresinden açılan hafifletilmiş yerel web istemcisi.",
+        details: "Düğümün internete veya harici bir sunucuya erişimi olmadığı acil durum ve afet senaryolarında; cihaz yerel Wi-Fi ağına katıldığında veya Wi-Fi Access Point (AP) yayını yaptığında tarayıcıya `http://<cihaz-ip>` yazılarak açılır. Statik HTML, JS ve CSS dosyaları doğrudan ESP32'nin flash belleğinden servis edilir; böylece harici `client.meshtastic.org` bağımlılığı olmadan yerel ağdaki herkes telsizi yönetebilir.",
+        github: "meshtastic/firmware: src/modules/WebServer.cpp",
+        infobox: {
+          "Dosya Sistemi": "LittleFS / SPIFFS (ESP32 Flaş Belleği)",
+          "Barındırma": "Cihazın kendi dahili HTTP sunucusu",
+          "Avantajı": "İnternetsiz afet ortamında tarayıcıdan doğrudan erişim",
+          "Modlar": "Wi-Fi İstemci (STA) veya Wi-Fi Erişim Noktası (AP)"
+        },
+        seeAlso: ["web-client-http-transport", "meshtastic-web-client", "esp32-s3"]
+      },
+      {
+        id: "web-client-pwa",
+        en: "Web Client Progressive Web App (PWA Installation)",
+        tr: "İlerici Web Uygulaması Olarak Kurulum (Progressive Web App)",
+        category: "Yazılım & Protobuf",
+        lead: "Meshtastic Web İstemcisinin masaüstü veya mobil cihazlarda tarayıcı çerçevesi olmadan yerel bir uygulama gibi çalışan, çevrimdışı önbellekleme destekli PWA sürümü.",
+        details: "Service Worker ve Web App Manifest standartlarını kullanır. Kullanıcılar Chrome veya Edge tarayıcısında adres çubuğundaki 'Uygulamayı Yükle' simgesine basarak istemciyi masaüstü simgesi, bağımsız pencere ve görev çubuğu entegrasyonuyla bilgisayarlarına yükleyebilir. Statik varlıklar önbelleklendiği için internet bağlantısı kesilse dahi USB Serial veya Bluetooth ile telsize bağlanıp mesajlaşma ve harita arayüzü kesintisiz çalışmaya devam eder.",
+        github: "meshtastic/web: apps/web/manifest.json",
+        infobox: {
+          "Teknoloji": "PWA (Service Workers + Web App Manifest)",
+          "Kurulum": "Masaüstü & Mobil 'Ana Ekrana Ekle'",
+          "Çevrimdışı Çalışma": "Statik varlıklar önbelleklenir (Offline-first)",
+          "İletişim": "USB ve Bluetooth internet olmadan da tam çalışır"
+        },
+        seeAlso: ["meshtastic-web-client", "web-serial-transport"]
+      },
+      {
+        id: "web-traceroute-visualizer",
+        en: "Web Client Interactive Traceroute Visualizer",
+        tr: "Web İstemcisi İnteraktif Traceroute Görselleştiricisi",
+        category: "Yazılım & Protobuf",
+        lead: "Web istemcisinde gönderilen rota keşif paketlerinin ağdaki sekmelerini (hops), ara rölelerin SNR değerlerini ve rota topolojisini görsel grafik olarak çizen analiz aracı.",
+        details: "Ağdaki herhangi bir hedef düğüme gönderilen Traceroute isteklerinin yanıtlarını tablo veya ağ şeması halinde gösterir. Her bir sekenin (hop) radyo sinyal kalitesi (SNR) ve tepki süresi renklendirilerek bağlantının zayıf halkası (bottleneck) anında tespit edilir; anten ayarları veya röle konumu optimizasyonunda operatörlere büyük kolaylık sağlar.",
+        github: "meshtastic/web: packages/sdk/src/features/traceroute",
+        infobox: {
+          "İşlev": "Rota keşfi ve ara röle sinyal kalitesi analizi",
+          "Ölçülen Değerler": "Sekme sayısı (hop count), her rölenin SNR değeri",
+          "Görselleştirme": "İnteraktif rota haritası ve bağlantı zinciri",
+          "Kullanım Amacı": "Ağ darboğazlarını ve zayıf röleleri tespit etme"
+        },
+        seeAlso: ["traceroute", "snr", "meshtastic-web-client"]
+      },
+      {
+        id: "web-telemetry-dashboard",
+        en: "Web Client Environmental & Telemetry Dashboard",
+        tr: "Web İstemcisi Telemetri ve Çevre Grafikleri Gösterge Paneli",
+        category: "Yazılım & Protobuf",
+        lead: "Ağdaki telsizlerden gelen batarya voltajı, hava sıcaklığı, bağıl nem, barometrik basınç ve kanal kullanım oranını interaktif zaman serisi grafiklerine döken web gösterge paneli.",
+        details: "Meshtastic Protobuf telemetri paketlerini (`telemetry.proto`) gerçek zamanlı yakalar. Seçilen bir düğümün batarya boşalma eğrisini, güneş panelinin şarj voltajını veya BME280/BMP280 sensörlerinden gelen çevre verilerini Chart/SVG kütüphaneleriyle çizer. Çatı istasyonlarının ve dağ rölelerinin elektriksel ve çevresel sağlığını uzaktan izlemek için kullanılır.",
+        github: "meshtastic/web: packages/sdk/src/features/telemetry",
+        infobox: {
+          "İzlenen Parametreler": "Batarya (V / %), Sıcaklık (°C), Nem (%), Basınç (hPa), Kanal Yükü (%)",
+          "Veri Kaynağı": "telemetry.proto Protobuf paketleri",
+          "Grafik Türü": "Gerçek zamanlı interaktif zaman serisi çizelgeleri"
+        },
+        seeAlso: ["telemetry", "bme280-sensor", "meshtastic-web-client"]
       }
     ];
 

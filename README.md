@@ -406,6 +406,18 @@ Meshtastic donanımını kontrol etmek, mesajlaşıp harita görüntülemek ve a
 - **CoreBluetooth Arka Plan Durum Restorasyonu (`apple-corebluetooth-background`):** iOS uygulamayı bellekten temizlese dahi gelen telsiz paketinde sistemi arka planda uyandırıp paketi işleyen `bluetooth-central` ve `State Restoration` mimarisi.
 - **Apple MapKit Çevrimdışı Rota ve İşaretçi Yönetimi (`apple-mapkit-offline-waypoints`):** iOS 17 yerel çevrimdışı harita indirme desteği ile internet olmadan dost düğüm GPS pinleri, irtifa, rota çizgileri ve telsizden gönderilen acil Waypoint işaretçilerini haritalandırma.
 
+### 🌐 Meshtastic Web İstemcisi ve Tarayıcı Mimarisi (meshtastic.org/docs/software/web-client)
+- **Meshtastic Resmi Web İstemcisi (`meshtastic-web-client`):** `client.meshtastic.org` üzerinden veya yerel ağda çalışan; TypeScript, React ve Preact Signals ile inşa edilmiş, masaüstü ve mobilde sürücüsüz tarayıcı tabanlı yönetim arayüzü.
+- **Web Serial API Doğrudan USB İletişimi (`web-serial-transport`):** Chromium tarayıcılarının (Chrome, Edge, Brave) harici yazılıma ihtiyaç duymadan USB kablosuyla bağlı telsizle 115200 baud hızında çift yönlü Protobuf haberleşmesi.
+- **Web Bluetooth API Kablosuz BLE Bağlantısı (`web-bluetooth-transport`):** Masaüstü veya Android cihazlarda tarayıcı içinden kablosuz Bluetooth GATT servislerini tarayarak ToRadio/FromRadio üzerinden telsize bağlanma.
+- **HTTP ve WebSocket Yerel Ağ Erişimi (`web-client-http-transport`):** Wi-Fi destekli ESP32 düğümlerinin IP adresine yerel ağdan REST API ve WebSocket (`/ws`) protokolleriyle bağlanarak telsizi uzaktan yönetme.
+- **HTTPS Karışık İçerik ve Self-Signed Sertifika Onayı (`https-self-signed-bypass`):** `client.meshtastic.org` HTTPS bağlantısının yerel ESP32'nin kendinden imzalı SSL sertifikasını tarayıcı güvenlik uyarısını onaylayarak aşması prosedürü.
+- **Modüler TypeScript Kütüphanesi (`meshtastic-typescript-sdk`):** `@meshtastic/sdk` monorepo paketi; `@preact/signals-core` reaktif durum yönetimi, Buf Protobuf stubs ve modüler etki alanı dilimleri (`device`, `chat`, `nodes`, `channels`).
+- **Cihaz Üstü Bağımsız Web Sunucusu (`on-device-standalone-web`):** ESP32'nin dahili LittleFS/SPIFFS flaş belleğinde saklanan, internete veya harici sunucuya çıkmadan telsizin kendi IP'sinden açılan acil durum web arayüzü.
+- **İlerici Web Uygulaması (PWA) Kurulumu (`web-client-pwa`):** Service Worker önbelleklemesiyle masaüstüne veya ana ekrana yüklenebilen, internet kesilse dahi USB/BLE ile kesintisiz çalışan çevrimdışı web uygulaması.
+- **İnteraktif Traceroute Görselleştiricisi (`web-traceroute-visualizer`):** Rota keşif paketlerinin sekmelerini (hops), ara rölelerin SNR değerlerini ve rota gecikmelerini şema üzerinde görselleştiren ağ analiz aracı.
+- **Telemetri ve Çevre Grafikleri Paneli (`web-telemetry-dashboard`):** Batarya voltajı, sıcaklık, nem, barometrik basınç ve kanal doluluk oranını gerçek zamanlı zaman serisi grafiklerine döken gösterge tablosu.
+
 ### 🔹 Açık Standart ve Tedarikçi Bağımsızlığı (Open Architecture & Vendor Neutrality)
 Meshtastic'in hiçbir tescilli ticari protokole veya tek bir donanım üreticisine bağımlı kalmamasını sağlayan açık kaynak ekosistem felsefesi (GPL-3.0 lisansı ve açık Protobuf şemaları). Semtech SX1262/SX1276/LR1121 telsizleri ile ESP32, nRF52840 ve RP2040 işlemcili onlarca farklı üreticinin (Heltec, LilyGO, RAKwireless) donanımları tam uyumla birlikte çalışabilir.
 
