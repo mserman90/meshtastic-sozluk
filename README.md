@@ -694,6 +694,18 @@ Meshtastic donanımını kontrol etmek, mesajlaşıp harita görüntülemek ve a
 - **Home Assistant Meshtastic Otomasyon Taslağı / Blueprint (`ha-blueprint-mesh-automation`):** Kod yazmadan tek tıkla cihaz ve telefon seçilerek devreye alınan LoRa kriz şablonu.
 - **Home Assistant Harici Webhook ve Meshtastic Köprüsü (`ha-webhook-to-meshtastic-rest`):** Resmi deprem/sel erken uyarılarını internetten alıp anında GSM'siz LoRa ağına anons etme.
 
+### 🌸 Adafruit IO Bulut IoT ve Görsel Telemetri Entegrasyonu (meshtastic.org/docs/software/integrations/mqtt/adafruit-io)
+- **Adafruit IO Bulut IoT Platform Mimarisi (`adafruit-io-cloud-platform`):** Meshtastic telsizlerinden toplanan verileri barındırılan `io.adafruit.com` bulutuna aktarıp sunucusuz izleme.
+- **Adafruit IO Feed Yapısı ve Veri Kanalları (`adafruit-io-feed-architecture`):** Voltaj, SNR ve mesaj yüklerini ayrı zaman damgalı `username/feeds/...` kanallarında saklama.
+- **Adafruit IO Anahtarı ve Yetkilendirme Güvenliği (`adafruit-io-aio-key-authentication`):** Gizli `aio_key` ile bulut MQTT broker'ına şifreli kimlik doğrulama sağlama.
+- **Adafruit IO Python Ara Katman Köprü Betiği (`adafruit-io-python-bridge`):** Meshtastic JSON çıktısını `adafruit-io` kütüphanesiyle bulut feed'lerine yönlendiren servis.
+- **Adafruit IO Dinamik Feed Otomatik Oluşturma (`adafruit-io-auto-feed-creation`):** Sahaya yeni bir LoRa telsizi eklendiğinde API ile o cihaza ait feed'leri otomatik açma.
+- **Adafruit IO Veri Hız Limitleri ve Kota Yönetimi (`adafruit-io-rate-limits-throttling`):** Ücretsiz hesaplardaki 30 veri/dk ve 10 feed sınırına uygun telemetri filtreleme.
+- **Adafruit IO Gösterge Paneli Blokları (`adafruit-io-dashboard-blocks`):** Kadranlar (Gauge), çizgi grafikleri ve metin akışlarıyla telsiz sağlık paneli oluşturma.
+- **Adafruit IO Harita Bloğu ve GPS Konumlandırma (`adafruit-io-geofence-mapping-block`):** Telsizlerin enlem/boylam koordinatlarını canlı harita üzerinde hareket iziyle (breadcrumb) izleme.
+- **Adafruit IO Eylem Tetikleyicileri ve Uyarılar (`adafruit-io-action-triggers-alerting`):** Batarya voltajı 3.3V altına düştüğünde veya SOS geldiğinde anında e-posta/webhook bildirimi fırlatma.
+- **Adafruit IO Katı Konu İsim Alanı Kısıtlaması (`adafruit-io-mqtt-topic-namespace`):** Yalnızca `username/feeds/...` formatına izin veren yapı nedeniyle ara köprü betiğinin zorunluluğu.
+
 ### 🔹 Açık Standart ve Tedarikçi Bağımsızlığı (Open Architecture & Vendor Neutrality)
 Meshtastic'in hiçbir tescilli ticari protokole veya tek bir donanım üreticisine bağımlı kalmamasını sağlayan açık kaynak ekosistem felsefesi (GPL-3.0 lisansı ve açık Protobuf şemaları). Semtech SX1262/SX1276/LR1121 telsizleri ile ESP32, nRF52840 ve RP2040 işlemcili onlarca farklı üreticinin (Heltec, LilyGO, RAKwireless) donanımları tam uyumla birlikte çalışabilir.
 

@@ -8319,6 +8319,166 @@
           "Kullanım Alanı": "Deprem erken uyarı sistemleri, baraj taşkın alarmları, meteorolojik fırtına uyarıları"
         },
         seeAlso: ["nodered-http-in-webhook-downlink", "meshtastic-python-rest-webhook-bridge", "ha-mqtt-downlink-send-automation"]
+      },
+      {
+        id: "adafruit-io-cloud-platform",
+        en: "Adafruit IO Cloud IoT Architecture for Meshtastic",
+        tr: "Meshtastic için Adafruit IO Bulut IoT Platform Mimarisi",
+        category: "Yazılım & İstemciler",
+        lead: "Meshtastic telsizlerinden toplanan sensör, batarya ve konum verilerini internet üzerinden buluta aktarıp görsel panolarda sunan barındırılan (hosted) açık kaynak dostu IoT platformu.",
+        details: "Adafruit Industries tarafından geliştirilen `io.adafruit.com`, hem MQTT (`port 1883/8883`) hem de REST API arayüzleri sunar. Kendi yerel sunucusunu veya Home Assistant sistemini kurmak istemeyen kullanıcılar için sıfır bakım maliyetli bir bulut alternatifidir. Meshtastic ağına bağlı bir geçit veya köprü betiği telsiz telemetrisini Adafruit IO'ya iletir; kullanıcılar dünyanın her yerinden şifreli web panoları üzerinden örgü ağının sağlık durumunu izleyebilir.",
+        github: "meshtastic.org/docs/software/integrations/mqtt/adafruit-io",
+        infobox: {
+          "Bulut Sunucusu": "io.adafruit.com (Port 1883 TCP / 8883 TLS)",
+          "Protokol Desteği": "MQTT v3.1.1, WebSockets, REST API",
+          "Geliştirici": "Adafruit Industries (New York, ABD)",
+          "Kullanım Amacı": "Sunucusuz hızlı telemetri panoları ve uzaktan röle izleme"
+        },
+        seeAlso: ["public-mqtt-server-infrastructure", "nodered-edge-pi-iot-gateway", "home-assistant-mqtt-yaml-configuration"]
+      },
+      {
+        id: "adafruit-io-feed-architecture",
+        en: "Adafruit IO Feed Architecture & Data Channels",
+        tr: "Adafruit IO Feed Yapısı ve Veri Kanalları",
+        category: "Yazılım & İstemciler",
+        lead: "Adafruit IO platformunda her bir sensör metriğini (batarya voltajı, sıcaklık, sinyal gürültü oranı) ayrı ayrı saklayan ve zaman damgasıyla etiketleyen temel veri kanalı.",
+        details: "Platformdaki her veri akışına 'Feed' adı verilir ve `username/feeds/feed-key` yoluyla adreslenir. Örneğin bir Meshtastic rölesi için `meshtastic-voltage`, `meshtastic-snr` ve `meshtastic-messages` adında ayrı feed'ler açılır. Gelen her veri noktası değer, kayıt zamanı (timestamp) ve opsiyonel enlem-boylam-irtifa meta verileriyle birlikte 30 gün boyunca (IO Plus'ta 60 gün) depolanır; geçmişe dönük CSV/JSON olarak dışa aktarılabilir.",
+        github: "meshtastic.org/docs/software/integrations/mqtt/adafruit-io",
+        infobox: {
+          "Veri Modeli": "Feed (Zaman serisi veri kanalı)",
+          "Konu Şablonu": "<kullanici_adi>/feeds/<feed_adi>",
+          "Veri Saklama Süresi": "30 Gün (Ücretsiz) / 60 Gün (Adafruit IO+)",
+          "İçerik": "Sayısal değer (float), metin (string), coğrafi meta veri (lat, lon, ele)"
+        },
+        seeAlso: ["adafruit-io-cloud-platform", "nodered-sqlite-telemetry-logging", "ha-telemetry-sensor-entities"]
+      },
+      {
+        id: "adafruit-io-aio-key-authentication",
+        en: "Adafruit IO AIO Key & Token Security Authentication",
+        tr: "Adafruit IO Anahtarı (AIO Key) ve Yetkilendirme Güvenliği",
+        category: "Güvenlik & Kripto",
+        lead: "Meshtastic geçit betiklerinin ve cihazlarının Adafruit IO bulut broker'ına güvenle bağlanmasını sağlayan 32 karakterlik gizli API erişim anahtarı.",
+        details: "MQTT bağlantısında kullanıcı adı olarak Adafruit hesap kullanıcı adı, parola alanında ise `aio_...` ile başlayan gizli AIO Key kullanılır. HTTP REST isteklerinde bu anahtar `X-AIO-Key` başlığıyla iletilir. Anahtarın çalınması durumunda kullanıcı panelinden tek tıkla yeni anahtar üretilebilir (`Regenerate Key`). Kod depolarına anahtarın sızmaması için Python köprü betiklerinde anahtar `.env` dosyasında veya ortam değişkenlerinde saklanmalıdır.",
+        github: "meshtastic.org/docs/software/integrations/mqtt/adafruit-io",
+        infobox: {
+          "Anahtar Formatı": "aio_xxxxxxxxxxxxxxxxxxxxxxxxxxxx (32 Karakter)",
+          "MQTT Kullanımı": "Username: <kullanici_adi>, Password: <aio_key>",
+          "HTTP Başlığı": "X-AIO-Key: <aio_key>",
+          "Güvenlik Tavsiyesi": "Kaynak koda gömülmemeli, .env veya secret yöneticisinde tutulmalı"
+        },
+        seeAlso: ["paho-mqtt-tls-ssl-context", "mosquitto-conf-configuration", "sbc-headless-ssh-management"]
+      },
+      {
+        id: "adafruit-io-python-bridge",
+        en: "Adafruit IO Python Middleware Bridge Script",
+        tr: "Adafruit IO Python Ara Katman Köprü Betiği",
+        category: "Yazılım & İstemciler",
+        lead: "Meshtastic yerel veya genel MQTT broker'ını dinleyip telsiz telemetri paketlerini ayrıştırarak `Adafruit_IO` istemcisiyle bulut feed'lerine aktaran Python servis betiği.",
+        details: "Adafruit IO'nun katı konu hiyerarşisi (`username/feeds/...`) nedeniyle standart Meshtastic firmware'i doğrudan buluta bağlanamaz; arada hafif bir Python betiği çalıştırılır. Betik `paho-mqtt` ile Meshtastic JSON konusuna (`msh/2/json/...`) abone olur; gelen paketten `voltage`, `battery_level` ve `snr` alanlarını çıkarır ve `Adafruit_IO.Client` kütüphanesini kullanarak ilgili feed'e `aio.send_data(feed_key, value)` çağrısıyla fırlatır.",
+        github: "meshtastic.org/docs/software/integrations/mqtt/adafruit-io",
+        infobox: {
+          "Kütüphane": "adafruit-io >= 2.7.0 (PyPI) & paho-mqtt",
+          "Çalışma Mantığı": "Meshtastic JSON Dinleyici -> Alan Ayrıştırıcı -> AIO REST/MQTT Gönderici",
+          "Platform": "Raspberry Pi, Linux Sunucu, Docker veya VPS",
+          "Hata Yönetimi": "Ağ kopmasında yeniden bağlanma ve hız limiti yakalama"
+        },
+        seeAlso: ["paho-mqtt-python-client", "meshtastic-python-rest-webhook-bridge", "systemd-daemon-python-mqtt-service"]
+      },
+      {
+        id: "adafruit-io-auto-feed-creation",
+        en: "Adafruit IO Dynamic Feed Auto-Provisioning Pattern",
+        tr: "Adafruit IO Dinamik Feed Otomatik Oluşturma Deseni",
+        category: "Yazılım & İstemciler",
+        lead: "Ağa yeni bir Meshtastic telsiz düğümü katıldığında, köprü betiğinin Adafruit IO üzerinde manuel müdahale gerekmeden o telsize özel yeni veri kanallarını API ile anında açması.",
+        details: "Python köprü betiği `aio.feeds(feed_key)` ile feed'in varlığını kontrol eder; eğer feed bulunamazsa (`RequestError: 404`) otomatik olarak `aio.create_feed(Feed(name=f'Node {node_hex} Battery'))` API çağrısını yürütür. Böylece sahaya yeni eklenen telsizler (örneğin `!4a12b3c4`) açılır açılmaz Adafruit IO üzerinde kendi feed'lerine kavuşur ve veri akışı kesintisiz başlar. Ancak bu işlem yapılırken hesap feed limitine dikkat edilmelidir.",
+        github: "meshtastic.org/docs/software/integrations/mqtt/adafruit-io",
+        infobox: {
+          "Yöntem": "REST API aio.create_feed() veya MQTT otomatik kayıt",
+          "İsimlendirme Şablonu": "meshtastic-<node_hex>-<metrik> (ör. meshtastic-7efeee-batt)",
+          "Avantajı": "Sıfır yapılandırmalı otomatik cihaz kaydı (Plug & Play)",
+          "Risk": "Ücretsiz hesap feed kotasının hızla dolması"
+        },
+        seeAlso: ["adafruit-io-rate-limits-throttling", "python-decimal-hex-conversion-utility", "adafruit-io-python-bridge"]
+      },
+      {
+        id: "adafruit-io-rate-limits-throttling",
+        en: "Adafruit IO Data Rate Limits & Throttling Policies",
+        tr: "Adafruit IO Veri Hız Limitleri ve Kota Yönetimi",
+        category: "Ağ & Protokol",
+        lead: "Adafruit IO platformunun veri aşımını önlemek için uyguladığı kota politikaları ve Meshtastic LoRa bant genişliğiyle uyumlu telemetri hız sınırlandırma stratejileri.",
+        details: "Ücretsiz Adafruit IO hesaplarında dakikada en fazla 30 veri noktası gönderilebilir ve toplam feed sayısı 10 ile sınırlıdır (Adafruit IO Plus ücretli sürümünde dakikada 60 veri ve sınırsız feed). Hız limiti aşıldığında platform `HTTP 429 Too Many Requests` döner veya MQTT bağlantısını geçici olarak keser. Köprü betiğinde telemetri paketleri filtrelenmeli, batarya verileri yalnızca 5-15 dakikada bir gönderilmeli ve küçük voltaj dalgalanmaları eşik filtreleriyle elenmelidir.",
+        github: "meshtastic.org/docs/software/integrations/mqtt/adafruit-io",
+        infobox: {
+          "Ücretsiz Hesap Sınırı": "Dakikada 30 veri noktası (30 data/min) & Azami 10 Feed",
+          "Adafruit IO Plus": "Dakikada 60 veri noktası (60 data/min) & Sınırsız Feed",
+          "Aşım Yanıtı": "HTTP 429 Throttled / MQTT Disconnect",
+          "Optimizasyon": "Zaman tabanlı seyreltme (throttling) ve delta eşikleme"
+        },
+        seeAlso: ["mqtt-zero-hop-policy", "paho-threadsafe-packet-queue", "adafruit-io-feed-architecture"]
+      },
+      {
+        id: "adafruit-io-dashboard-blocks",
+        en: "Adafruit IO Dashboard UI Blocks & Visualization",
+        tr: "Adafruit IO Gösterge Paneli Blokları ve Görselleştirme",
+        category: "Yazılım & İstemciler",
+        lead: "Adafruit IO web arayüzünde sürükle-bırak yöntemiyle oluşturulan ve telsiz telemetrisini kadranlar, grafikler ve durum metinleriyle sergileyen görsel bileşen blokları.",
+        details: "Platformdaki 'Dashboards' arayüzü farklı blok türleri sunar: `Gauge Block` ile batarya voltajı (yeşil 4.2V, kırmızı 3.3V) ibreli kadranla gösterilir; `Line Chart Block` ile son 24 saatteki LoRa SNR/RSSI sinyal kalitesi çizilir; `Text Block` ile telsizden gelen son metin mesajı veya acil durum anonsu görüntülenir; `Momentary Button` veya `Toggle Switch` ile telsiz ağına downlink beacon komutu tetiklenebilir.",
+        github: "meshtastic.org/docs/software/integrations/mqtt/adafruit-io",
+        infobox: {
+          "Blok Türleri": "Gauge (Kadran), Line Chart (Grafik), Stream/Text (Metin), Toggle (Anahtar)",
+          "Yerleşim Modeli": "Sürükle-bırak esnek ızgara (Grid Layout)",
+          "Yenilenme Hızı": "Canlı WebSockets üzerinden anlık güncelleme",
+          "Erişim": "Masaüstü ve mobil tarayıcı uyumlu (Responsive Web UI)"
+        },
+        seeAlso: ["nodered-dashboard-ui-widgets", "ha-lovelace-meshtastic-card", "adafruit-io-geofence-mapping-block"]
+      },
+      {
+        id: "adafruit-io-geofence-mapping-block",
+        en: "Adafruit IO GPS Geospatial Map Block Tracking",
+        tr: "Adafruit IO Harita Bloğu ve Canlı GPS Konumlandırma",
+        category: "Yazılım & İstemciler",
+        lead: "Meshtastic telsizlerinden gelen GPS koordinatlarını OpenStreetMap haritası üzerinde canlı işaretçiler ve geçmiş rota çizgileriyle takip eden Adafruit IO harita bloğu.",
+        details: "Adafruit IO feed'leri yalnızca tek bir sayısal değer değil, `lat`, `lon` ve `ele` (irtifa) coğrafi meta verilerini de kabul eder. Python köprüsü `aio.send_data(feed_key, value='TA2XYZ', lat=41.01, lon=28.97, ele=120)` şeklinde veri fırlattığında, Dashboard üzerindeki `Map Block` telsizin konumunu otomatik günceller. Kullanıcı haritada telsizin son konumunu, batarya durumunu ve geriye dönük hareket izini (breadcrumb trail) tarayıcıdan şebekesiz cihazlara ihtiyaç duymadan takip eder.",
+        github: "meshtastic.org/docs/software/integrations/mqtt/adafruit-io",
+        infobox: {
+          "Bileşen": "Adafruit IO Map Block (Leaflet / OpenStreetMap altyapısı)",
+          "Girdi Alanları": "value (Etiket), lat (Enlem), lon (Boylam), ele (İrtifa)",
+          "Görselleştirme": "Canlı raptiye (Pin), geçmiş hareket izi (Polyline rotası)",
+          "Kullanım Alanı": "Kırsal araç takibi, dağcı güvenliği, mobil tim koordinasyonu"
+        },
+        seeAlso: ["nodered-gps-worldmap-tracking", "ha-device-tracker-gps-mapping", "caltopo-record-to-map-tracking"]
+      },
+      {
+        id: "adafruit-io-action-triggers-alerting",
+        en: "Adafruit IO Reactive Action Triggers & Multi-Channel Alerting",
+        tr: "Adafruit IO Eylem Tetikleyicileri ve Çok Kanallı Uyarılar",
+        category: "Yazılım & İstemciler",
+        lead: "Feed verileri belirlenen kritik eşiği aştığında (örneğin röle bataryası 3.3V altına düştüğünde veya SOS mesajı geldiğinde) otomatik e-posta, webhook veya push bildirimi fırlatan kural motoru.",
+        details: "Adafruit IO 'Actions' sekmesi altında reaktif kurallar tanımlanır. Örneğin 'Eğer `meshtastic-voltage` < 3.3 ise' kuralı oluşturulduğunda sistem anında operatörün e-posta adresine acil ikaz gönderir veya harici bir webhook URL'sini (Discord, Slack, IFTTT) tetikler. Benzer şekilde 'Eğer `meshtastic-sos` feed'ine veri düşerse' kuralıyla sahra yöneticilerine anlık kriz bildirimleri dağıtılır; kullanıcıların sürekli ekrana bakma zorunluluğu ortadan kalkar.",
+        github: "meshtastic.org/docs/software/integrations/mqtt/adafruit-io",
+        infobox: {
+          "Motor Türü": "Adafruit IO Reactive Actions (Koşullu Olay Motoru)",
+          "Tetikleme Tipleri": "Değer Karşılaştırması (<, >, ==), Veri Yokluğu (Reaktif Sessizlik)",
+          "Eylem Kanalları": "E-posta Bildirimi, Webhook (HTTP POST), Adafruit IO Feed Tetikleme",
+          "Kullanım": "Dağ rölesi kritik voltaj alarmı, acil durum ihbar servisi"
+        },
+        seeAlso: ["ha-mqtt-device-trigger-sos", "ha-mesh-mobile-notifications", "nodered-emergency-buzzer-gpio-trigger"]
+      },
+      {
+        id: "adafruit-io-mqtt-topic-namespace",
+        en: "Adafruit IO Strict MQTT Topic Namespace Enforcement",
+        tr: "Adafruit IO Katı MQTT Konu İsim Alanı Zorunluluğu",
+        category: "Ağ & Protokol",
+        lead: "Adafruit IO'nun yalnızca `username/feeds/...` formatındaki konulara izin verip standart Meshtastic `msh/...` kök konularını reddetmesi ve bunun gerektirdiği köprüleme mimarisi.",
+        details: "Meshtastic standart firmware'i MQTT konularını `msh/2/c/...` veya `msh/US/...` hiyerarşisiyle yayınlar. Genel MQTT sunucuları (Mosquitto gibi) her türlü konuyu kabul ederken Adafruit IO çok kullanıcılı güvenliği korumak için istemcileri kesin olarak `<username>/feeds/<feed_name>` veya `<username>/groups/<group_name>` isim alanına sınırlar. Kök konuya yazma denemelerinde Adafruit broker'ı istemcinin soketini derhal kapatır. Bu teknik kısıtlama, Meshtastic ile Adafruit IO arasında bir dönüştürücü Python veya Node-RED köprüsünün kullanılmasını zorunlu kılan temel mimari nedendir.",
+        github: "meshtastic.org/docs/software/integrations/mqtt/adafruit-io",
+        infobox: {
+          "Zorunlu Konu Formatı": "<username>/feeds/<feed_key> veya <username>/f/<feed_key>",
+          "Engellenen Format": "msh/2/..., root konuları ve kullanıcı dışı isim alanları",
+          "Broker Tepkisi": "Soket kapatma (Socket Disconnect) ve Yetkisiz Erişim Reddi",
+          "Çözüm": "Python veya Node-RED ara katman dönüştürücü köprüsü kullanımı"
+        },
+        seeAlso: ["mqtt-root-topic-hierarchy", "adafruit-io-python-bridge", "nodered-change-node-payload-mapping"]
       }
     ];
 
