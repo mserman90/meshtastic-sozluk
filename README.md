@@ -454,6 +454,18 @@ Meshtastic donanımını kontrol etmek, mesajlaşıp harita görüntülemek ve a
 - **Docker Konteyner ile Meshtastic CLI (`docker-meshtastic-cli`):** Ana makineye hiçbir bağımlılık kurmadan `--device=/dev/ttyUSB0` ile seri portu bağlayıp `meshtastic/meshtastic` resmi Docker imajından komut koşturma.
 - **CLI Kurulum Doğrulama ve Teşhis (`cli-installation-troubleshooting`):** Kurulum sağlığını `meshtastic --version`, yürütülebilir yolunu `which meshtastic` / `where meshtastic` ve aktif portları `meshtastic --port-list` ile test etme adımları.
 
+### 💻 Meshtastic Python CLI İleri Komutları ve Kullanım Pratikleri (meshtastic.org/docs/software/python/cli/usage)
+- **Canlı Paket Dinleme ve Sniffer Modu (`python-cli-listen-mode`):** `meshtastic --listen` ile terminali sürekli açık tutarak havadaki telsiz paketlerini, SNR/RSSI değerlerini ve ham Protobuf yüklerini anlık dökme.
+- **Ham Seri Log Terminali Modu (`python-cli-noproto-serial`):** `meshtastic --noproto` ile Protobuf katmanını kapatıp cihazı saf seri konsola çevirerek mikrodenetleyicinin bootloader ve FreeRTOS panik loglarını izleme.
+- **Hedef Düğüm Yönlendirmesi ve Uzak Yönetim (`python-cli-dest-targeting`):** `--dest '!node_id'` ile yayın yerine belirli bir hedefe doğrudan mesaj atma, telemetri isteme ve uzak rölenin ayarlarını uzaktan değiştirme.
+- **Sabit GPS Koordinatları Atama (`python-cli-fixed-position`):** `--setlat`, `--setlon`, `--setalt` ve `fixed_position true` ile GPS donanımı olmayan baz istasyonlarına milimetrik statik konum tanımlama.
+- **Hazır Mesaj Modülü Yapılandırması (`python-cli-canned-messages`):** `--set-canned-message` ile T-Deck veya Cardputer ekranlarında klavyesiz seçilip fırlatılacak hızlı yanıt dizgilerini (`"Yardım|Yoldayım|Tamam"`) yükleme.
+- **RTTTL Zil Sesi ve Buzzer Melodisi Yükleme (`python-cli-rtttl-ringtone`):** `--set-ringtone` ile piezo buzzer donanımlı cihazlara gelen acil bildirimler için Nokia RTTTL formatında melodiler kodlama.
+- **CLI ile Rota Keşfi ve Sekme Analizi (`python-cli-cli-traceroute`):** `meshtastic --traceroute '!node_id'` ile ara röleleri ve her bir sekmenin SNR sinyal kalitesini terminalde çift yönlü listeleme.
+- **Tekil Yapılandırma Sorgulama (`python-cli-get-preferences`):** `--get owner` veya `--get lora.region` ile ekranı kirletmeden tek parametre okuma ve `--get all` ile tüm ayar ağacını listeleme.
+- **Gerçek Zaman Saati (RTC) Zaman Eşitleme (`python-cli-rtc-time-sync`):** `meshtastic --set-time` ile GPS görmeyen ve Bluetooth bağlı olmayan kule istasyonlarının donanımsal RTC saatini bilgisayar saatiyle senkronize etme.
+- **Teslimat Onayı ve ACK Yanıtı Bekleme (`python-cli-expect-ack`):** `--ack` / `--expect-ack` bayrağı ile hedef cihazdan teslimat onay paketi gelene kadar komut satırını bekleterek otomasyon güvenliğini sağlama.
+
 ### 🔹 Açık Standart ve Tedarikçi Bağımsızlığı (Open Architecture & Vendor Neutrality)
 Meshtastic'in hiçbir tescilli ticari protokole veya tek bir donanım üreticisine bağımlı kalmamasını sağlayan açık kaynak ekosistem felsefesi (GPL-3.0 lisansı ve açık Protobuf şemaları). Semtech SX1262/SX1276/LR1121 telsizleri ile ESP32, nRF52840 ve RP2040 işlemcili onlarca farklı üreticinin (Heltec, LilyGO, RAKwireless) donanımları tam uyumla birlikte çalışabilir.
 

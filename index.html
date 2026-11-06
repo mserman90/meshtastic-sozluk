@@ -5115,6 +5115,169 @@
           "Sistem Günlüğü İzleme": "dmesg -w veya Windows Aygıt Yöneticisi"
         },
         seeAlso: ["meshtastic-python-cli", "python-cli-pipx-installation", "linux-modemmanager-serial-conflict"]
+      },
+
+      /* 28. Meshtastic Python CLI İleri Komutları ve Kullanım Pratikleri (meshtastic.org/docs/software/python/cli/usage) */
+      {
+        id: "python-cli-listen-mode",
+        en: "CLI Live Packet Sniffer & Stream Mode (--listen)",
+        tr: "Canlı Paket Dinleme ve Sniffer Modu (--listen)",
+        category: "Yazılım & Protobuf",
+        lead: "Python CLI'nın terminali sürekli açık tutarak yerel telsizden akan tüm LoRa paketlerini, yönlendirme mesajlarını ve ham Protobuf yüklerini gerçek zamanlı olarak ekrana dökmesini sağlayan dinleme modu.",
+        details: "`meshtastic --listen` komutu çalıştırıldığında CLI otomatik olarak hata ayıklama (`--debug`) seviyesine geçer. Havadan yakalanan şifreli veya açık paketlerin kimliklerini, RSSI, SNR, sekme sayısı ve veri türlerini (Position, Telemetry, TextMessage) canlı terminal akışı olarak gösterir. Ağ yöneticileri ve saha ekipleri için frekanstaki trafiği ve parazitleri izleyen yerel bir RF sniffer görevi görür.",
+        github: "meshtastic.org/docs/software/python/cli/usage#monitoring-serial-output",
+        infobox: {
+          "Komut": "meshtastic --listen",
+          "İşlev": "Sürekli canlı paket izleme & Sniffer modu",
+          "Ekstra Etki": "--debug modunu otomatik aktif eder",
+          "Çıktı": "Zaman damgalı Protobuf çözümleri, SNR, RSSI ve mesaj içerikleri"
+        },
+        seeAlso: ["meshtastic-python-cli", "python-cli-noproto-serial", "snr", "rssi"]
+      },
+      {
+        id: "python-cli-noproto-serial",
+        en: "Raw Serial Log Console Terminal Mode (--noproto)",
+        tr: "Ham Seri Log Terminali Modu (--noproto)",
+        category: "Yazılım & Protobuf",
+        lead: "Meshtastic API katmanını ve Protobuf çerçevelemesini tamamen devre dışı bırakarak terminali salt bir seri konsola (dumb serial terminal) dönüştüren hata ayıklama modu.",
+        details: "`meshtastic --noproto` komutu, Python aracının gelen verileri ikili Protobuf paketi olarak ayrıştırmasını durdurur; mikrodenetleyicinin (ESP32, nRF52) açılış loglarını, FreeRTOS görev durumlarını, yığın taşması (stack overflow) panik dökümlerini ve donanım başlatma mesajlarını ekrana ham ASCII metin olarak yansıtır. Bellenim geliştiricileri ve kart arızalarını teşhis eden kullanıcılar için PuTTY veya Minicom gibi harici seri konsollara ihtiyaç duymadan cihazın derin çekirdek loglarını inceleme imkanı verir.",
+        github: "meshtastic.org/docs/software/python/cli/usage#monitoring-serial-output",
+        infobox: {
+          "Komut": "meshtastic --noproto",
+          "Mod": "Dumb Serial Terminal (API/Protobuf kapalı)",
+          "Kullanım Alanı": "Bootloader logları, FreeRTOS panic dökümleri, donanım hata ayıklama",
+          "Avantaj": "Ek bir seri konsol yazılımına (PuTTY vb.) gerek bırakmaz"
+        },
+        seeAlso: ["meshtastic-python-cli", "python-cli-listen-mode", "serial-bridge-chip-drivers"]
+      },
+      {
+        id: "python-cli-dest-targeting",
+        en: "Target Node Addressing & Remote Administration (--dest <node_id>)",
+        tr: "Hedef Düğüm Yönlendirmesi ve Uzak Yönetim (--dest <node_id>)",
+        category: "Ağ & Protokol",
+        lead: "Python CLI komutlarının tüm ağa yayın (broadcast) yapmak yerine doğrudan belirli bir hedef düğüme yönlendirilmesini sağlayan ve uzaktan cihaz yönetimine imkan tanıyan hedef belirteci.",
+        details: "Hedef düğüm kimliği ünlem veya hex önekiyle belirtilir (örn: `--dest '!1a2b3c4d'` veya `--dest 0x1a2b3c4d`). ZSH ve Bash kabuklarında ünlem işaretinin kabuk geçmişiyle (history expansion) çakışmaması için tek tırnak içine alınması şarttır. `--dest` parametresi; doğrudan özel mesaj gönderme (`--sendtext`), uzak cihazın konumunu isteme (`--request-position`), uzaktan GPIO tetikleme veya Admin kanalı üzerinden uzak rölenin ayarlarını değiştirme işlemlerinde hedefi belirler.",
+        github: "meshtastic.org/docs/software/python/cli/usage#sending-messages",
+        infobox: {
+          "Parametre": "--dest <node_id>",
+          "Format": "!1a2b3c4d veya 0x1a2b3c4d",
+          "Kabuk Kuralı": "Tırnak içine alma ('!node_id')",
+          "İşlev": "Doğrudan mesaj (DM), uzaktan yönetim ve telemetri talepleri"
+        },
+        seeAlso: ["meshtastic-python-cli", "admin-channel", "node-id"]
+      },
+      {
+        id: "python-cli-fixed-position",
+        en: "Static GPS Position Configuration (--setlat, --setlon, --setalt)",
+        tr: "Sabit GPS Konum Koordinatları Atama (--setlat, --setlon, --setalt)",
+        category: "Yazılım & Protobuf",
+        lead: "Dahili GPS donanımı bulunmayan çatı yönlendiricilerine, dağ rölelerine ve ev istasyonlarına enlem, boylam ve irtifa koordinatlarının CLI üzerinden kalıcı olarak atanması yöntemi.",
+        details: "`meshtastic --setlat 41.0082 --setlon 28.9784 --setalt 65` komutu ile cihazın konumu santimetre hassasiyetinde hafızaya yazılır ve ardından `meshtastic --set position.fixed_position true` ile kilitlenir. Sabit baz istasyonlarının uydu aramaya çalışarak boşuna enerji tüketmesini engeller; aynı zamanda harita üzerinde (MeshMap) ve komşu düğümlerin ekranlarında istasyonun coğrafi olarak tam ve doğru noktada görünmesini sağlar.",
+        github: "meshtastic.org/docs/software/python/cli/usage#settings",
+        infobox: {
+          "Komutlar": "--setlat <enlem>, --setlon <boylam>, --setalt <metre>",
+          "Tamamlayıcı Ayar": "position.fixed_position true",
+          "Amaç": "GPS'siz istasyonlara sabit koordinat girme & batarya tasarrufu",
+          "Harita Etkisi": "Canlı mesh haritalarında milimetrik doğruluk"
+        },
+        seeAlso: ["fixed-position", "meshtastic-python-cli", "meshmap"]
+      },
+      {
+        id: "python-cli-canned-messages",
+        en: "Canned Message Plugin Configuration (--set-canned-message)",
+        tr: "Hazır Mesaj Modülü Yapılandırması (--set-canned-message)",
+        category: "Yazılım & Protobuf",
+        lead: "T-Deck, Cardputer veya döner enkoderli (rotary encoder) küçük ekranlı cihazlarda klavye olmadan hızlıca seçilip gönderilebilen önceden tanımlı hazır acil durum mesaj dizgilerini cihaza yükleme komutu.",
+        details: "`meshtastic --set-canned-message 'Acil Durum|Yardım Gerekli|Yoldayım|Güvendeyim|Tamam'` komutuyla boru (`|`) karakteriyle ayrılmış kısa hazır yanıtlar telsizin NVS belleğine kaydedilir. `--get-canned-message` ile mevcut liste sorgulanabilir. Arama kurtarma timleri, doğa yürüyüşçüleri veya klavyesiz arazi terminalleri kullanan operatörler birkaç tuş veya döner düğmeyle saniyeler içinde şebekesiz kriz mesajı fırlatabilir.",
+        github: "meshtastic.org/docs/software/python/cli/usage#canned-message-plugin",
+        infobox: {
+          "Yazma Komutu": "--set-canned-message '<Mesaj1|Mesaj2|...>'",
+          "Okuma Komutu": "--get-canned-message",
+          "Ayırıcı Karakter": "Dikey Çizgi (|)",
+          "Kapasite Sınırı": "Azami 200 karakter",
+          "Kullanım Alanı": "Klavyesiz saha terminalleri ve hızlı acil durum bildirimleri"
+        },
+        seeAlso: ["canned-messages", "meshtastic-python-cli", "t-deck"]
+      },
+      {
+        id: "python-cli-rtttl-ringtone",
+        en: "RTTTL Ringtone String Upload (--set-ringtone)",
+        tr: "RTTTL Zil Sesi ve Buzzer Melodisi Yükleme (--set-ringtone)",
+        category: "Yazılım & Protobuf",
+        lead: "Piezo buzzer hoparlörüne sahip Meshtastic cihazlarında yeni bir mesaj veya acil durum alarmı geldiğinde çalacak melodiyi standart RTTTL (Nokia zil sesi) formatında cihaza yükleyen komut.",
+        details: "`meshtastic --set-ringtone 'MissionImp:d=16,o=6,b=95:32d,32d#,32d,32d#,32d,32d#,32d,32d#,32d,32d#,32d,32d#,32d,32d#,16d,8g'` komutuyla Ringing Tone Text Transfer Language formatındaki notalar cihazın bildirim modülüne işlenir. `--get-ringtone` ile mevcut melodi okunabilir. Operatörler cihazı cebinden çıkarmadan yalnızca zil sesinin melodisinden mesajın aciliyetini veya kanal türünü ayırt edebilir.",
+        github: "meshtastic.org/docs/software/python/cli/usage#ringtone",
+        infobox: {
+          "Komutlar": "--set-ringtone <melodi> ve --get-ringtone",
+          "Standart Format": "RTTTL (Ringing Tone Text Transfer Language)",
+          "Azami Boyut": "230 karakter",
+          "Donanım": "Piezo Buzzer / Harici Ses Modülü"
+        },
+        seeAlso: ["meshtastic-python-cli", "companion-app"]
+      },
+      {
+        id: "python-cli-cli-traceroute",
+        en: "CLI Hop-by-Hop Traceroute Execution (--traceroute <node_id>)",
+        tr: "CLI ile Rota Keşfi ve Sekme Analizi (--traceroute <node_id>)",
+        category: "Yazılım & Protobuf",
+        lead: "Komut satırından ağdaki belirli bir hedef düğüme rota keşif paketi göndererek, paketin gidiş ve dönüş yolundaki ara röleleri ve her bir sekmedeki sinyal gücünü (SNR) terminalde listeleyen komut.",
+        details: "`meshtastic --traceroute '!ba4bf9d0'` komutuyla yürütülür. Belirli bir kanal hedefleniyorsa `--ch-index <idx>` parametresi eklenir. Telsiz paketi gönderir; hedef düğüm rotayı geri onayladığında terminal çıktısında rota 'Route traced: NodeA -> NodeB (SNR: +4.5dB) -> NodeC (SNR: -3.0dB) -> Target' şeklinde çift yönlü dökülür. Kuleler arası bağlantının kopma noktasını veya zayıf sinyalli röleyi fiziksel olarak sahaya gitmeden tespit etmek için birincil araçtır.",
+        github: "meshtastic.org/docs/software/python/cli/usage#traceroute",
+        infobox: {
+          "Komut": "meshtastic --traceroute '<node_id>'",
+          "Kanal Seçimi": "--ch-index <no>",
+          "Ölçülen Değerler": "Ara sekme düğümleri, gidiş/dönüş yönü, hop SNR (dB)",
+          "Fayda": "RF omurga analizi ve zayıf röle tespiti"
+        },
+        seeAlso: ["traceroute", "snr", "meshtastic-python-cli"]
+      },
+      {
+        id: "python-cli-get-preferences",
+        en: "Granular Preference Querying (--get <property>)",
+        tr: "Tekil Yapılandırma Sorgulama (--get <özellik>)",
+        category: "Yazılım & Protobuf",
+        lead: "Tüm cihaz bilgilerini ekrana basıp terminali doldurmak yerine, doğrudan ilgilenilen tek bir konfigürasyon parametresini veya modül ayarını hızlıca sorgulayan komut.",
+        details: "`meshtastic --get owner`, `meshtastic --get lora.region` veya `meshtastic --get device.role` şeklinde kullanılır. Cihazın NVS belleğinde tutulan ilgili Protobuf dalını sorgulayarak yalnızca o alanın mevcut değerini döndürür. Ayrıca `meshtastic --get all` çalıştırıldığında cihazın desteklediği tüm kullanıcı tercihleri ve ayar anahtarları hiyerarşik bir şema olarak listelenerek komut satırında kılavuzluk sağlar.",
+        github: "meshtastic.org/docs/software/python/cli/usage#getting-preferences",
+        infobox: {
+          "Komut": "meshtastic --get <parametre>",
+          "Örnekler": "--get owner, --get lora.region, --get device.role",
+          "Keşif Modu": "--get all (Tüm ayar ağacını ve geçerli değerleri listeler)",
+          "Avantaj": "Terminal kirliliğini önler, betiklerde (scripts) hızlı değer okur"
+        },
+        seeAlso: ["meshtastic-python-cli", "python-cli-device-settings"]
+      },
+      {
+        id: "python-cli-rtc-time-sync",
+        en: "Real-Time Clock (RTC) Synchronization (--set-time)",
+        tr: "Gerçek Zaman Saati (RTC) Zaman Eşitleme (--set-time)",
+        category: "Yazılım & Protobuf",
+        lead: "Dahili GPS alıcısı bulunmayan veya kapalı mekanda çalışan düğümlerin Gerçek Zaman Saati (RTC) çipini bilgisayarın sistem saatiyle veya belirtilen Unix zaman damgasıyla senkronize eden komut.",
+        details: "`meshtastic --set-time` komutu argümansız çalıştırıldığında işletim sisteminin yerel saatini alır ve telsize ileterek kartın dahili RTC sayacını günceller. İstenirse `meshtastic --set-time 1762430000` şeklinde açık Unix epoch zaman damgası verilebilir. GPS uydusu görmeyen ve Bluetooth eşleşmesi olmayan bağımsız kule yönlendiricilerinin mesaj paketlerine doğru zaman damgası basabilmesi ve telemetri loglarının kaymaması için hayati öneme sahiptir.",
+        github: "meshtastic.org/docs/software/python/cli/usage#setting-the-time",
+        infobox: {
+          "Otomatik Senkronizasyon": "meshtastic --set-time (Bilgisayar saatiyle eşitler)",
+          "Manuel Senkronizasyon": "meshtastic --set-time <Unix_Timestamp>",
+          "Hedef Donanım": "Kart üstü RTC (PCF8563 vb.) veya MCU dahili sayacı",
+          "Kullanım": "GPS görmeyen kapalı alan veya çatı röleleri"
+        },
+        seeAlso: ["meshtastic-python-cli", "pcf8563-rtc", "python-cli-fixed-position"]
+      },
+      {
+        id: "python-cli-expect-ack",
+        en: "Reliable Message Delivery Confirmation (--ack / --expect-ack)",
+        tr: "Teslimat Onayı ve ACK Yanıtı Bekleme (--ack / --expect-ack)",
+        category: "Ağ & Protokol",
+        lead: "CLI üzerinden gönderilen bir metin mesajı veya yönetim komutunun hedef düğüme başarıyla ulaştığını teyit eden kriptografik ACK onay paketi gelene kadar terminalin beklemesini sağlayan güvenilir iletim parametresi.",
+        details: "`meshtastic --dest '!1a2b3c4d' --sendtext 'Acil Rapor' --ack` şeklinde kullanılır. Normalde paket gönderildikten sonra CLI hemen sonlanırken; `--ack` bayrağı eklendiğinde CLI belirli bir zaman aşımı süresi (timeout) boyunca telsizi dinler. Hedef düğüm paketi alıp onayladığında terminale `ACK received from !1a2b3c4d` mesajı düşer ve komut `0` çıkış koduyla başarıyla biter. Otomasyon ve alarm betiklerinde mesajın gerçekten iletildiğini garantilemek için kullanılır.",
+        github: "meshtastic.org/docs/software/python/cli/usage#sending-messages",
+        infobox: {
+          "Bayrak": "--ack veya --expect-ack",
+          "Mekanizma": "Uçtan uca teslimat onay paketi (Delivery ACK)",
+          "Zaman Aşımı": "Yanıt gelmezse hata ile sonlanır (Non-zero exit code)",
+          "Kullanım": "Kritik alarmlar, acil durum komutları ve bash/python otomasyonları"
+        },
+        seeAlso: ["meshtastic-python-cli", "python-cli-dest-targeting", "csma-ca"]
       }
     ];
 
