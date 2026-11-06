@@ -646,6 +646,18 @@ Meshtastic donanımını kontrol etmek, mesajlaşıp harita görüntülemek ve a
 - **Node-RED JavaScript Fonksiyon İşleyicisi (`nodered-javascript-function-processor`):** Gelen telsiz verilerini JavaScript bloklarıyla filtreleyip eşik alarmları ve birim dönüşümleri üreten çekirdek düğüm mantığı.
 - **Raspberry Pi Uç Nokta Node-RED IoT Cihazı (`nodered-edge-pi-iot-gateway`):** Sahra çadırlarında internet olmadan Raspberry Pi üzerinde çalışan Node-RED, yerel broker ve dashboard'dan oluşan bağımsız taktik merkez.
 
+### 🏡 Home Assistant Gelişmiş MQTT Sensör ve Varlık Yapılandırması (meshtastic.org/docs/software/integrations/mqtt/home-assistant)
+- **Home Assistant mqtt.yaml Bölünmüş Yapılandırması (`home-assistant-mqtt-yaml-configuration`):** `configuration.yaml` içinde `mqtt: !include mqtt.yaml` kullanarak onlarca telsiz sensörünü modüler ve temiz yönetme mimarisi.
+- **MQTT Explorer Konu ve Ondalık Kimlik Keşfi (`mqtt-explorer-json-diagnostics`):** Canlı JSON ağacını görselleştirerek telsizlerin onaltılık kimliklerinden şablonlarda gereken ondalık `from` değerlerini tespit etme.
+- **Jinja2 value_template Durum Koruma Deseni (`ha-jinja2-value-template`):** Paylaşılan kanaldan yabancı telsiz paketleri aktığında sensörün `this.state` ile son geçerli değerini korumasını sağlayan şablon yapısı.
+- **Temel Düğüm Telemetri Sensörleri (`ha-telemetry-sensor-entities`):** Batarya voltajı, pil yüzdesi, kanal doluluğu (`channel_utilization`) ve hava süresi (`air_util_tx`) canlı sensör tanımları.
+- **Çevresel Ortam Sensörleri (`ha-environmental-sensor-entities`):** BME280/BME680 sensörlerinden gelen sıcaklık (°C/°F), nem, barometrik basınç (hPa/psi) ve gaz direncini Lovelace panolarına entegre etme.
+- **device_tracker Anlık GPS Harita Konumlandırması (`ha-device-tracker-gps-mapping`):** Telsizden gelen tam sayı koordinatları `1e-7` ile çarparak resmi Home Assistant haritasında canlı araç/personel izleyici oluşturma.
+- **Düğüm Metin Mesajı Geçmişi Varlığı (`ha-node-message-entities`):** Telsizden gelen son sohbet ve acil durum mesajlarını (`payload.text`) Lovelace kartlarında sürekli görünür kılan metin sensörü.
+- **Home Assistant Mobil Uygulama Bildirimleri (`ha-mesh-mobile-notifications`):** Telsizden mesaj geldiğinde menzil testlerini eleyerek kullanıcının cep telefonuna anlık sesli push bildirim fırlatan kural.
+- **input_text Yardımcısı Telsiz Gönderme Kutusu (`ha-input-text-helper-sendbox`):** Kullanıcının web veya mobilden Meshtastic ağına anons yapabilmesi için Lovelace panosuna eklenen 190 karakterlik metin kutusu.
+- **MQTT Aşağı Yönlü Mesaj ve Kutu Temizleme Otomasyonu (`ha-mqtt-downlink-send-automation`):** Kutudan girilen metni `sendtext` JSON paketiyle LoRa telsiz geçidine fırlatan ve ardından giriş kutusunu sıfırlayan otomasyon.
+
 ### 🔹 Açık Standart ve Tedarikçi Bağımsızlığı (Open Architecture & Vendor Neutrality)
 Meshtastic'in hiçbir tescilli ticari protokole veya tek bir donanım üreticisine bağımlı kalmamasını sağlayan açık kaynak ekosistem felsefesi (GPL-3.0 lisansı ve açık Protobuf şemaları). Semtech SX1262/SX1276/LR1121 telsizleri ile ESP32, nRF52840 ve RP2040 işlemcili onlarca farklı üreticinin (Heltec, LilyGO, RAKwireless) donanımları tam uyumla birlikte çalışabilir.
 

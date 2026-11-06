@@ -7679,6 +7679,166 @@
           "Kullanım": "Afet koordinasyon çadırları, dağ kurtarma baz istasyonu, akıllı karavan"
         },
         seeAlso: ["raspberry-pi-mosquitto-server", "nodered-meshtastic-integration-architecture", "sar-incident-tactical-mapping"]
+      },
+      {
+        id: "home-assistant-mqtt-yaml-configuration",
+        en: "Home Assistant Meshtastic mqtt.yaml Split Configuration",
+        tr: "Home Assistant Meshtastic mqtt.yaml Bölünmüş Yapılandırması",
+        category: "Yapılandırma & Ayarlar",
+        lead: "Home Assistant ana ayar dosyasını (`configuration.yaml`) temiz tutarak tüm Meshtastic MQTT sensör ve varlıklarını bağımsız bir `mqtt.yaml` dosyasında yönetme mimarisi.",
+        details: "Home Assistant içinde onlarca Meshtastic telsizinin batarya, telemetri ve mesaj varlıklarını tek bir dosyaya yığmak karmaşaya yol açar. Resmi dokümantasyon, `configuration.yaml` içine `mqtt: !include mqtt.yaml` direktifini ekleyerek tüm telsiz sensör tanımlarını kök dizindeki `mqtt.yaml` dosyasına ayırmayı önerir. Bu modüler yapı sayesinde yeni bir telsiz eklendiğinde veya varlık ayarları güncellendiğinde tüm sistem etkilenmeden hızlıca düzenleme yapılabilir.",
+        github: "meshtastic.org/docs/software/integrations/mqtt/home-assistant",
+        infobox: {
+          "Ana Direktif": "mqtt: !include mqtt.yaml (configuration.yaml içinde)",
+          "Ayrık Dosya": "mqtt.yaml (Home Assistant /config kök dizininde)",
+          "Varlık Türleri": "sensor, binary_sensor, device_tracker, text",
+          "Faydası": "Onlarca düğümün yüzlerce telemetri sensörünü modüler yönetme"
+        },
+        seeAlso: ["ha-telemetry-sensor-entities", "ha-environmental-sensor-entities", "home-assistant-mqtt-integration"]
+      },
+      {
+        id: "mqtt-explorer-json-diagnostics",
+        en: "MQTT Explorer Topic Tree Inspection and Decimal ID Discovery",
+        tr: "MQTT Explorer Konu Ağacı İnceleme ve Ondalık Düğüm Kimliği Keşfi",
+        category: "Yazılım & İstemciler",
+        lead: "Meshtastic MQTT broker'ındaki konu hiyerarşisini, gelen JSON paket yapılarını ve telsizlerin ondalık kimlik numaralarını görselleştiren vazgeçilmez masaüstü GUI teşhis aracı.",
+        details: "Meshtastic cihazları MQTT'ye bağlanırken geçit kimliğini onaltılık (`!67ea9400`), ancak JSON yükü içindeki `from` alanını ondalık (`4038675309`) olarak basar. Home Assistant sensör şablonları yazılırken hangi düğümün hangi ondalık kimliğe sahip olduğunu ve JSON yükünde hangi sensör anahtarlarının (`battery_level`, `temperature`, `channel_utilization`) geldiğini doğrulamak için MQTT Explorer programı kullanılır. Canlı JSON akışını ağaç yapısında göstererek yanlış şablon yazımını engeller.",
+        github: "meshtastic.org/docs/software/integrations/mqtt/home-assistant",
+        infobox: {
+          "Yazılım": "MQTT Explorer (Açık kaynak masaüstü MQTT istemcisi)",
+          "Özellik": "Canlı konu ağacı, JSON renklendirme ve yük geçmişi",
+          "Kritik Kullanım": "Home Assistant value_template için ondalık Node ID tespiti",
+          "Platform": "Windows, macOS, Linux"
+        },
+        seeAlso: ["node-id-hex-decimal-conversion", "ha-jinja2-value-template", "home-assistant-mqtt-yaml-configuration"]
+      },
+      {
+        id: "ha-jinja2-value-template",
+        en: "Home Assistant Jinja2 value_template State Preservation Pattern",
+        tr: "Home Assistant Jinja2 value_template Durum Koruma Deseni",
+        category: "Yazılım & İstemciler",
+        lead: "Birden fazla telsizden gelen paketlerin tek bir MQTT konusuna aktığı durumlarda, sensörün yalnızca kendi düğümüne ait veri geldiğinde güncellenmesini, aksi halde mevcut durumunu korumasını sağlayan şablon yapısı.",
+        details: "Bir kanalda birden fazla telsiz aynı `msh/.../LongFast/!gateway` konusuna basar. Standart bir şablon yazılırsa başka bir düğümün paketi geldiğinde sensör 'bilinmiyor' veya hatalı değere düşer. Meshtastic Jinja2 deseni: `{% if value_json.from == 4038675309 and value_json.payload.voltage is defined %} {{ value_json.payload.voltage }} {% else %} {{ this.state }} {% endif %}` mantığını işletir. `this.state` ifadesi sayesinde sensör yabancı bir paket geldiğinde hafızadaki son geçerli değerini korur ve grafiklerde kopma yaşanmaz.",
+        github: "meshtastic.org/docs/software/integrations/mqtt/home-assistant",
+        infobox: {
+          "Şablon Motoru": "Jinja2 (Home Assistant Core)",
+          "Kritik Koşul": "value_json.from == <DüğümID> and <alan> is defined",
+          "Durum Koruma": "{{ this.state }} (Farklı düğüm paketinde son değeri tutar)",
+          "Filtreler": "| float | round(2)"
+        },
+        seeAlso: ["ha-telemetry-sensor-entities", "mqtt-explorer-json-diagnostics", "home-assistant-mqtt-yaml-configuration"]
+      },
+      {
+        id: "ha-telemetry-sensor-entities",
+        en: "Home Assistant Core Node Telemetry Sensors (Battery, ChUtil, AirUtil)",
+        tr: "Home Assistant Temel Düğüm Telemetri Sensörleri (Pil, Kanal ve Hava Kullanımı)",
+        category: "Yazılım & İstemciler",
+        lead: "Meshtastic cihazlarının pil voltajı, batarya yüzdesi, RF kanal doluluğu ve hava iletim süresi telemetrilerini Home Assistant'ta canlı sensör varlıklarına dönüştürme.",
+        details: "`mqtt.yaml` içinde tanımlanan bu sensörler telsiz sağlığını 7/24 izler. `device_class: battery` ve `state_class: measurement` atanarak Home Assistant enerji ve batarya panellerine entegre edilir. `channel_utilization` ve `air_util_tx` sensörleri ise RF bandının yoğunluğunu yüzde olarak gösterir; hava trafiği %25'i geçtiğinde veya pil %20'nin altına indiğinde Home Assistant kullanıcıya otomatik bildirim gönderebilir.",
+        github: "meshtastic.org/docs/software/integrations/mqtt/home-assistant",
+        infobox: {
+          "İzlenen Değerler": "battery_level (%), voltage (V), channel_utilization (%), air_util_tx (%)",
+          "Varlık Sınıfı": "device_class: battery, state_class: measurement",
+          "Paket Ayrımı": "Voltaj paketi telemetri ve I2C sensöründen gelebileceğinden sıcaklık yokluğu denetlenir",
+          "Kullanım": "Güneş enerjili dağ rölelerinin pil ve frekans sağlığını izleme"
+        },
+        seeAlso: ["ha-jinja2-value-template", "home-assistant-mqtt-yaml-configuration", "ha-environmental-sensor-entities"]
+      },
+      {
+        id: "ha-environmental-sensor-entities",
+        en: "Home Assistant Environmental Sensors (BME280/BME680 Temperature, Humidity, Pressure, Gas)",
+        tr: "Home Assistant Çevresel Ortam Sensörleri (BME280/BME680 Sıcaklık, Nem, Basınç, Gaz)",
+        category: "Yazılım & İstemciler",
+        lead: "Meshtastic düğümüne bağlı I2C çevre sensörlerinden gelen sıcaklık, bağıl nem, barometrik basınç ve gaz direnci verilerini Home Assistant sensörlerine dönüştürme.",
+        details: "Telsize bağlı BME280 veya BME680 sensörleri periyodik olarak ortam telemetrisi basar. Home Assistant'ta `device_class: temperature`, `humidity` ve `pressure` sensörleri tanımlanır. Dokümantasyonda belirtildiği üzere `°C` için `(value_json.payload.temperature | float) | round(1)` doğrudan kullanılırken; `°F` için `(((temperature * 1.8) + 32) | round(2))` formülü işletilir. Barometrik basınç ise `hPa` veya `/ 68.9475729` ile `psi` cinsine dönüştürülerek hava durumu istasyonu panolarına aktarılır.",
+        github: "meshtastic.org/docs/software/integrations/mqtt/home-assistant",
+        infobox: {
+          "Desteklenen Sensörler": "Sıcaklık (°C/°F), Bağıl Nem (%), Basınç (hPa/psi), Gaz Direnci (MOhms)",
+          "Donanım Kaynağı": "I2C üzerinden BME280 / BME680 / SHTC3 / BMP280",
+          "Birim Dönüşümleri": "Jinja2 şablonunda matematiksel filtreleme",
+          "Kullanım": "Bağ/bahçe don uyarısı, orman yangını erken tespiti, sahra iklim izleme"
+        },
+        seeAlso: ["ha-telemetry-sensor-entities", "ha-jinja2-value-template", "telemetry-module"]
+      },
+      {
+        id: "ha-device-tracker-gps-mapping",
+        en: "Home Assistant device_tracker Ad-Hoc GPS Mapping Automation",
+        tr: "Home Assistant device_tracker Anlık GPS Harita Konumlandırma Otomasyonu",
+        category: "Yazılım & İstemciler",
+        lead: "Meshtastic telsizlerinden gelen tam sayı GPS koordinatlarını (`latitude_i`, `longitude_i`) `1e-7` ile çarparak Home Assistant haritasında canlı `device_tracker` varlıkları oluşturan otomasyon.",
+        details: "Meshtastic düğümleri hassas GPS koordinatlarını 32-bit tam sayı olarak basar (ör. `410082000`). Home Assistant'ın resmi haritasında sahra düğümlerinin canlı görünmesi için bir otomasyon yazılır; MQTT'den gelen `latitude_i` ve `longitude_i` değerleri `* 1e-7` katsayısı ile gerçek ondalık dereceye (ör. `41.0082`) dönüştürülür ve `device_tracker.see` aksiyonu ile `device_tracker.node_1` varlığı güncellenir. Ayrıca telsizin pil durumu da bu varlığa iliştirilerek harita üzerinde tek tıkla izlenir.",
+        github: "meshtastic.org/docs/software/integrations/mqtt/home-assistant",
+        infobox: {
+          "Aksiyon": "device_tracker.see (veya modern device tracker entegrasyonu)",
+          "Koordinat Dönüşümü": "latitude_i * 1e-7, longitude_i * 1e-7",
+          "Harita Gösterimi": "Home Assistant Map Kartı üzerinde canlı ikon ve pil rozeti",
+          "Kullanım": "Araç, arama kurtarma personeli ve sabit rölelerin harita takibi"
+        },
+        seeAlso: ["ha-telemetry-sensor-entities", "position-app", "caltopo-sartopo-integration"]
+      },
+      {
+        id: "ha-node-message-entities",
+        en: "Home Assistant Node Text Message History Entity",
+        tr: "Home Assistant Düğüm Metin Mesajı Geçmişi Varlığı",
+        category: "Yazılım & İstemciler",
+        lead: "Sahadaki Meshtastic telsizlerinden gönderilen sohbet ve acil durum metin mesajlarını (`value_json.payload.text`) yakalayıp Lovelace panolarında son mesaj olarak görüntüleyen sensör.",
+        details: "`unique_id: \"node_1_messages\"` olarak tanımlanan bu metin sensörü, telsizden gelen sohbet paketlerini dinler. Jinja2 şablonu yalnızca `value_json.payload.text` tanımlı olduğunda içeriği günceller, aksi halde son mesajı ekranda tutar. Lovelace panolarında 'Son Telsiz Mesajı' kartı oluşturularak evdekilerin veya harekat merkezinin telsizden gelen son durumu anında okuması sağlanır.",
+        github: "meshtastic.org/docs/software/integrations/mqtt/home-assistant",
+        infobox: {
+          "Varlık Tipi": "sensor (Metin durumu taşıyıcı)",
+          "Veri Kaynağı": "value_json.payload.text",
+          "Görselleştirme": "Lovelace Entity Card / Markdown Card",
+          "Kullanım": "Sahadan atılan 'Eve döndüm', 'Yardım lazım' vb. durum mesajlarını izleme"
+        },
+        seeAlso: ["ha-mesh-mobile-notifications", "ha-input-text-helper-sendbox", "ha-jinja2-value-template"]
+      },
+      {
+        id: "ha-mesh-mobile-notifications",
+        en: "Home Assistant Mobile App Push Notification Automation",
+        tr: "Home Assistant Mobil Uygulama Anlık Bildirim Otomasyonu",
+        category: "Yazılım & İstemciler",
+        lead: "Telsiz örgü ağından yeni bir metin mesajı ulaştığında, kullanıcının akıllı telefonuna (iOS/Android Home Assistant uygulaması) anında sesli bildirim fırlatan kural.",
+        details: "Otomasyon, Meshtastic MQTT konusunu tetikleyici (trigger) olarak dinler. Şablon içindeki `{{ \"seq \" not in trigger.payload_json.payload.text }}` filtresi sayesinde periyodik menzil test cihazlarının (Range Test) ürettiği otomatik paketler elenir. Sahadaki bir telsizden gerçek bir mesaj geldiğinde `notify.mobile_app_<cihaz>` servisi çağrılarak telefonun kilit ekranına 'Meshtastic: [Gelen Mesaj]' bildirimi basılır ve kritik durumlarda siren çalması sağlanabilir.",
+        github: "meshtastic.org/docs/software/integrations/mqtt/home-assistant",
+        infobox: {
+          "Tetikleyici": "MQTT platform topic: msh/.../json/...",
+          "Filtreleme": "Range test mesajlarını (seq ) bildirimden hariç tutma",
+          "Aksiyon Servisi": "notify.mobile_app_* (Push Notification)",
+          "Faydası": "Telefon kapalıyken bile telsizden gelen acil çağrıları cepten anında duyma"
+        },
+        seeAlso: ["ha-node-message-entities", "ha-input-text-helper-sendbox", "home-assistant-mqtt-integration"]
+      },
+      {
+        id: "ha-input-text-helper-sendbox",
+        en: "Home Assistant input_text Helper Mesh Send Box",
+        tr: "Home Assistant input_text Yardımcısı Telsiz Mesaj Gönderme Kutusu",
+        category: "Yazılım & İstemciler",
+        lead: "Home Assistant Lovelace panosuna bir metin giriş kutusu ekleyerek kullanıcının tarayıcıdan doğrudan LoRa telsiz ağına mesaj yazmasını sağlayan yardımcı varlık.",
+        details: "Home Assistant arayüzünde 'Ayarlar > Cihazlar ve Hizmetler > Yardımcılar (Helpers)' bölümünden `input_text.meshtastic_send_box` adında bir metin giriş alanı oluşturulur. Maksimum karakter uzunluğu telsiz paket sınırlarına uyum için 190 olarak ayarlanır. Dashboard'a eklenen bu kart, kullanıcının telefon veya bilgisayar klavyesinden Meshtastic ağına anons yapabileceği interaktif bir telsiz konsoluna dönüşür.",
+        github: "meshtastic.org/docs/software/integrations/mqtt/home-assistant",
+        infobox: {
+          "Varlık Türü": "input_text (Home Assistant Helper)",
+          "Azami Uzunluk": "190 karakter (Meshtastic paket sınırı güvenliği)",
+          "Panel Gösterimi": "Lovelace Dashboard Text Input Card",
+          "Rolü": "Telsize mesaj göndermek için kullanıcı arayüzü girişi sağlama"
+        },
+        seeAlso: ["ha-mqtt-downlink-send-automation", "ha-node-message-entities", "mqtt-json-downlink-injection"]
+      },
+      {
+        id: "ha-mqtt-downlink-send-automation",
+        en: "Home Assistant MQTT Downlink Broadcast & Box-Clearing Automation",
+        tr: "Home Assistant MQTT Aşağı Yönlü Mesaj Gönderme ve Kutu Temizleme Otomasyonu",
+        category: "Kullanım Kılavuzları & Pratik Senaryolar",
+        lead: "Gönderme kutusuna metin girildiğinde bunu `sendtext` JSON formatında telsiz geçidine basan ve ardından giriş kutusunu otomatik temizleyen uçtan uca otomasyon.",
+        details: "`input_text.meshtastic_send_box` değiştiğinde tetiklenir. `mqtt.publish` servisini çağırarak `msh/REGION/2/json/mqtt/!gateway` konusuna `{\"from\": <GEÇİT_ID>, \"type\": \"sendtext\", \"payload\": \"<YAZILAN_METİN>\"}` JSON paketini basar. Telsiz geçidi bu paketi anında LoRa dalgalarına dönüştürerek sahaya fırlatır. Ardından otomasyon `input_text.set_value` servisiyle kutuyu boşaltarak bir sonraki mesaj için hazır hale getirir.",
+        github: "meshtastic.org/docs/software/integrations/mqtt/home-assistant",
+        infobox: {
+          "Tetikleyici": "state of input_text.meshtastic_send_box",
+          "Yayın Servisi": "mqtt.publish (topic: msh/.../json/mqtt/!gateway)",
+          "Format": "{\"from\": <id>, \"type\": \"sendtext\", \"payload\": \"...\"}",
+          "Kutu Temizleme": "input_text.set_value: ' ' (Otomatik sıfırlama)"
+        },
+        seeAlso: ["ha-input-text-helper-sendbox", "mqtt-json-downlink-injection", "home-assistant-mqtt-integration"]
       }
     ];
 
