@@ -10080,6 +10080,166 @@
           "Kullanım Amacı": "Firmware HTTP API uç noktalarını kod yazmadan manuel doğrulama"
         },
         seeAlso: ["http-api-embedded-rest-spec", "http-api-binary-protobuf-payload", "http-api-x-protobuf-schema-header"]
+      },
+      {
+        id: "turkiye-ism-band-frequency-compliance",
+        en: "Turkey ISM Band Frequency Compliance and Regulations",
+        tr: "Türkiye ISM Bandı ve Frekans Uyumluluğu",
+        category: "Mevzuat & Hukuk",
+        lead: "Türkiye'de Bilgi Teknolojileri ve İletişim Kurumu (BTK) Milli Frekans Planı kapsamında Meshtastic için yasal olan 433 MHz ve 868 MHz ISM bantları ile yasaklı 915 MHz bandı kuralları.",
+        details: "Türkiye'de amatör telsizcilik ve lisanssız kısa mesafe erişimli telsiz (KMT) yönetmeliklerine göre Avrupa Telekomünikasyon Standartları (ETSI) geçerlidir. 433.050 - 434.790 MHz (433 MHz) ve 868.0 - 868.6 MHz (868 MHz) ISM bantları belirli çıkış gücü ve görev döngüsü (duty cycle) sınırlarıyla yasal olarak kullanılabilir. Amerika kıtasında kullanılan 915 MHz (US915) bandı ise Türkiye'de GSM hücresel operatörlerinin frekans tahsisinde yer aldığından sivil kullanımı kesinlikle yasa dışıdır ve cihaz siparişlerinde dikkat edilmelidir.",
+        github: "blog.purgatoria.tr/2025/06/lora-meshtastic-cihaz-secimi.html",
+        infobox: {
+          "Yasal ISM Bantları": "433 MHz (433.05-434.79 MHz) & 868 MHz (868.0-868.6 MHz)",
+          "Yasaklı Bölgesel Standart": "915 MHz (US915 - Türkiye'de GSM operatör bandı)",
+          "Düzenleyici Kurum": "BTK (Bilgi Teknolojileri ve İletişim Kurumu)",
+          "Önemli Tavsiye": "Cihaz sipariş ederken AB/Türkiye uyumlu 433 veya 868 MHz seçilmelidir"
+        },
+        seeAlso: ["btk-kmt-yonetmeligi", "tamesh-mqtt-cross-band-bridging", "eu868-frequency-slot-allocation"]
+      },
+      {
+        id: "tamesh-mqtt-cross-band-bridging",
+        en: "TA Mesh MQTT Cross-Band Radio Bridging Infrastructure",
+        tr: "TA Mesh MQTT Çapraz Frekans Köprüleme Altyapısı",
+        category: "Ağ & Protokol",
+        lead: "Meshtastic Türkiye Topluluğu tarafından işletilen merkezi MQTT sunucusunda 433 MHz ve 868 MHz düğümler arasındaki paketlerin yazılımsal olarak birbirine aktarılması.",
+        details: "Farklı radyo frekanslarında çalışan düğümler doğrudan havadan haberleşemez. Meshtastic Türkiye Topluluğu (TA Mesh), internete bağlı ağ geçitleri (MQTT Gateway) üzerinden gelen 433 MHz ve 868 MHz paketlerini merkezi MQTT sunucusunda çaprazlar. Böylece 433 MHz bir telsizden atılan afet mesajı, MQTT köprüsü sayesinde 868 MHz cihaz kullanan bir başka kullanıcıya anında ulaştırılır ve ülke çapında birleşik bir mesh ağı oluşturulur.",
+        github: "blog.purgatoria.tr/2025/06/lora-meshtastic-cihaz-secimi.html",
+        infobox: {
+          "Altyapı": "TA Mesh MQTT Sunucusu (Meshtastic Türkiye)",
+          "İşlev": "433 MHz ve 868 MHz telsiz kanalları arasında çift yönlü paket köprüleme",
+          "Gereksinim": "Düğümlerden en az birinin Wi-Fi/İnternet üzerinden MQTT'ye bağlı olması",
+          "Topluluk Faydası": "Farklı frekans filolarını tek bir sanal iletişim havuzunda birleştirme"
+        },
+        seeAlso: ["turkiye-ism-band-frequency-compliance", "meshstick-multi-dongle-cross-repeater", "mqtt-uplink-downlink-protocol"]
+      },
+      {
+        id: "heltec-wireless-stick-v3-lite",
+        en: "Heltec Wireless Stick V3 Lite F/P Architecture",
+        tr: "Heltec Wireless Stick V3 Lite F/P Donanım Mimarisi",
+        category: "Donanım & Anten",
+        lead: "ESP32-S3 işlemci ve Semtech SX1262 LoRa yongası barındıran, ekransız yapısıyla sabit baz istasyonları ve tekrarlayıcılar için en ekonomik F/P geliştirme kartı.",
+        details: "Heltec tarafından üretilen Wireless Stick V3 Lite, dahili ekran barındırmaması sayesinde maliyeti en aza indiren popüler bir modeldir. +22 dBm çıkış gücü, mükemmel almaç hassasiyeti, 2.4 GHz dahili PIFA Wi-Fi anteni ve hem LoRa hem Wi-Fi için IPEX anten konnektörleriyle donatılmıştır. GPIO pinleri üzerinden GPS ve I2C sensörler (BME280 vb.) sorunsuz bağlanabilir; bu sayede çatılarda ve dağ zirvelerinde 7/24 çalışan daimi `ROUTER` veya iGate düğümleri kurmak için idealdir.",
+        github: "blog.purgatoria.tr/2025/06/lora-meshtastic-cihaz-secimi.html",
+        infobox: {
+          "Yonga Seti": "Espressif ESP32-S3 + Semtech SX1262 LoRa",
+          "Ekran": "Yok (Lite - Maliyet ve enerji tasarrufu için ekransız)",
+          "RF Çıkış Gücü": "+22 dBm (160 mW)",
+          "Anten Konnektörleri": "IPEX (U.FL) LoRa + IPEX 2.4GHz Wi-Fi + Dahili PIFA"
+        },
+        seeAlso: ["heltec-lora32-v3-hardware", "ebyte-eora-pi-hardware", "offgrid-solar-meshtastic-node"]
+      },
+      {
+        id: "heltec-tracker-uc6580-gnss",
+        en: "Heltec Tracker with UC6580 GNSS Integration",
+        tr: "Heltec Tracker ve Dahili UC6580 GNSS Entegrasyonu",
+        category: "Donanım & Anten",
+        lead: "Dahili çift frekanslı UC6580 GNSS modülü, seramik GPS anteni ve 0.96 inç ekranıyla telefonsuz bağımsız mobil konum takibi sağlayan kompakt LoRa kartı.",
+        details: "Heltec Tracker, harici akıllı telefona veya Bluetooth bağlantısına ihtiyaç duymadan doğrudan uydulardan konum verisi toplayıp Meshtastic örgü ağına yayınlamak üzere tasarlanmıştır. ESP32-S3 ve SX1262 mimarisinin yanında yüksek hassasiyetli UC6580 GPS modülü, dahili seramik yama anten ve harici GPS anteni için ek bir IPEX konnektörü barındırır. 0.96 inç (160x80 piksel) TFT ekranında enlem/boylam, uydu sayısı ve hız bilgilerini anlık görüntüler.",
+        github: "blog.purgatoria.tr/2025/06/lora-meshtastic-cihaz-secimi.html",
+        infobox: {
+          "İşlemci & Telsiz": "ESP32-S3 + Semtech SX1262 (+22 dBm)",
+          "Konumlandırıcı": "Dahili UC6580 GNSS + Entegre Seramik Yama Anten",
+          "Ekran": "0.96 inç 160x80 renkli TFT ekran",
+          "Kullanım Senaryosu": "Araç, doğa yürüyüşçüsü ve arama kurtarma personeli otonom takibi"
+        },
+        seeAlso: ["heltec-wireless-stick-v3-lite", "share-phone-location-to-mesh", "standalone-handheld-meshtastic-node"]
+      },
+      {
+        id: "ebyte-eora-pi-hardware",
+        en: "Ebyte EoRa Pi LoRa Development Board Architecture",
+        tr: "Ebyte EoRa Pi Geliştirme Kartı Mimarisi",
+        category: "Donanım & Anten",
+        lead: "ESP32-S3 ve SX1262 yongalı, dahili 0.96 inç OLED ekranlı, SMA-F anten çıkışlı ve hem 433 MHz hem 868 MHz seçenekleriyle LilyGo T3S3'e uygun maliyetli alternatif.",
+        details: "Ebyte firması tarafından üretilen EoRa Pi, tasarım ve form faktörü açısından LilyGo T3S3 serisine benzeyen ancak daha ekonomik fiyatıyla Türkiye topluluğunda öne çıkan bir karttır. Üzerinde ESP32-S3 mikrodenetleyici, SX1262 LoRa telsizi, kullanıcı programlama butonu, SSD1306 0.96 inç OLED ekran ve doğrudan gövdeye lehimli sağlam SMA dişi anten konnektörü bulunur. Hem 433 MHz hem de 868 MHz fabrikasyon filtreli varyantlarının bulunması bölgesel esneklik sağlar.",
+        github: "blog.purgatoria.tr/2025/06/lora-meshtastic-cihaz-secimi.html",
+        infobox: {
+          "Üretici": "Chengdu Ebyte Electronic Technology",
+          "Donanım Mimarisi": "ESP32-S3 + SX1262 LoRa + 0.96 inç I2C OLED",
+          "Anten Çıkışı": "Doğrudan gövdede standart SMA Dişi (SMA-F) soketi",
+          "Frekans Seçenekleri": "433 MHz ve 868 MHz bağımsız donanım varyantları"
+        },
+        seeAlso: ["lilygo-lora32-v2-enclosures", "heltec-wireless-stick-v3-lite", "turkiye-ism-band-frequency-compliance"]
+      },
+      {
+        id: "standalone-handheld-meshtastic-node",
+        en: "Standalone Handheld Meshtastic Communicator Node",
+        tr: "Müstakil (Standalone) El Terminali Düğüm Mimarisi",
+        category: "Donanım & Anten",
+        lead: "Akıllı telefon, tablet veya harici Bluetooth bağlantısına ihtiyaç duymadan mesaj yazma ve menü kontrollerini kendi üzerinde barındıran bağımsız telsiz el terminali.",
+        details: "Geleneksel Meshtastic istemcileri mesaj yazmak için telefon uygulamasına bağımlıdır. LilyGo T-Deck veya modifiye Cardputer gibi müstakil (standalone) düğümler ise fiziksel bir QWERTY klavye, ekran ve gezinme için rotary encoder / trackball barındırır. Bu mimari, afet anında telefonun şarjı bittiğinde veya baz istasyonları çöktüğünde bile tek bir cihazla iki yönlü şifreli mesajlaşma, kanal yönetimi ve düğüm listesi kontrolü sağlar.",
+        github: "blog.purgatoria.tr/2025/06/lora-meshtastic-cihaz-secimi.html",
+        infobox: {
+          "Tanım": "Telefon bağımsız bağımsız Meshtastic mesajlaşma cihazı",
+          "Örnek Donanımlar": "LilyGo T-Deck, T-Watch, M5Stack Cardputer, Rotary Encoder'lı DIY terminaller",
+          "Girdi Birimleri": "Fiziksel klavye, döner kodlayıcı (rotary encoder) veya dokunmatik ekran",
+          "Afet Avantajı": "Telefon pili bittiğinde veya kaybolduğunda kesintisiz iletişim"
+        },
+        seeAlso: ["heltec-tracker-uc6580-gnss", "diy-uzay-montaj-breadboard-node", "canned-message-plugin-integration"]
+      },
+      {
+        id: "offgrid-solar-meshtastic-node",
+        en: "Off-Grid Solar Powered Meshtastic Repeater Station",
+        tr: "Şebeke Dışı (Off-Grid) Güneş Enerjili Telsiz Düğümü",
+        category: "Donanım & Anten",
+        lead: "Şebeke elektriğinden bağımsız olarak güneş paneli, solar şarj regülatörü ve lityum batarya ile dağ zirvelerinde 7/24 kesintisiz çalışan tekrarlayıcı istasyon.",
+        details: "Meshtastic ağının omurgasını oluşturan hakim tepe düğümleri genellikle şebeke elektriğinin olmadığı yerlerdedir. Şebeke dışı bir düğüm; 5V-12V monokristal güneş paneli, TP4056 veya MPPT solar şarj kontrol devresi, 18650/21700 Li-ion veya LiFePO4 batarya paketi ve IP66/67 sızdırmaz dış mekan buatı içine yerleştirilir. nRF52 veya ESP32 tabanlı düğüm `ROUTER` rolüne alınarak şehirlerarası telsiz kapsamasını yıllarca bakım gerektirmeden sürdürür.",
+        github: "blog.purgatoria.tr/2025/06/lora-meshtastic-cihaz-secimi.html",
+        infobox: {
+          "Enerji Kaynağı": "Monokristal Güneş Paneli + MPPT/TP4056 Şarj Devresi",
+          "Batarya Mimarisi": "18650 / 21700 Li-ion veya soğuğa dayanıklı LiFePO4",
+          "Kutu Standardı": "IP66 / IP67 UV korumalı dış ortam sızdırmaz buat",
+          "Rol Yapılandırması": "ROUTER veya ROUTER_CLIENT (Yüksek link bütçesi)"
+        },
+        seeAlso: ["heltec-wireless-stick-v3-lite", "standalone-handheld-meshtastic-node", "diy-uzay-montaj-breadboard-node"]
+      },
+      {
+        id: "diy-uzay-montaj-breadboard-node",
+        en: "DIY Flying-Wire Breadboard Meshtastic Node Assembly",
+        tr: "Kendin-Yap (DIY) Uzay Montaj Meshtastic Düğümü",
+        category: "Donanım & Anten",
+        lead: "Hazır ticari Meshtastic kartı satın almadan, bağımsız bir ESP32 veya nRF52 geliştirme kartı ile SX1262 LoRa modülünü jumper kablolarıyla doğrudan birbirine bağlama yöntemi.",
+        details: "Gümrük kısıtlamaları, döviz kurları veya stok yetersizliği durumlarında yerel elektronikçilerden temin edilebilen standart bir ESP32 NodeMCU kartı ile SPI LoRa modülü (örneğin Ebyte E22-900T22S veya Ra-02) eldeki jumper kablolarla ('uzay montaj' tabiriyle) birleştirilebilir. MOSI, MISO, SCK, NSS, DIO1, BUSY ve Reset pinleri firmware kaynak kodundaki pin eşlemesine göre lehimlenir veya breadboard üzerinde bağlanarak dakikalar içinde çalışan bir telsiz düğümü elde edilir.",
+        github: "blog.purgatoria.tr/2025/06/lora-meshtastic-cihaz-secimi.html",
+        infobox: {
+          "Gereken Parçalar": "Standart ESP32/RP2040 kartı + SX1262/SX1276 SPI LoRa modülü + Jumper kablolar",
+          "Kritik Sinyal Hatları": "SPI (SCK, MOSI, MISO, CS) + Kesmeler (DIO1, BUSY, RST)",
+          "Ekonomik Avantaj": "Ticari kartlara kıyasla çok daha düşük maliyetle yerel parçalarla üretim",
+          "Kullanım Yeri": "Prototipleme, test ve geniş buat içi sabit düğümler"
+        },
+        seeAlso: ["faketec-open-hardware-pcb", "standalone-handheld-meshtastic-node", "offgrid-solar-meshtastic-node"]
+      },
+      {
+        id: "faketec-open-hardware-pcb",
+        en: "Faketec Open Hardware Community PCB Project",
+        tr: "Faketec Açık Kaynak Donanım PCB Tasarımı",
+        category: "Donanım & Anten",
+        lead: "Meshtastic topluluğunda ticari kartlara alternatif olarak geliştirilen, açık kaynak şema ve Gerber dosyaları paylaşılan modüler kendin-yap PCB platformu.",
+        details: "Faketec, hazır donanım satın almak yerine kendi kartını üretmek isteyen amatör telsizciler için tasarlanmış açık kaynaklı bir donanım projesidir. Standart ESP32 modülü, SX1262 LoRa yongası, şarj kontrol entegresi ve anten hatlarını tek bir PCB üzerinde optimize eder. Kullanıcılar GitHub'dan indirdikleri Gerber dosyalarını JLCPCB veya PCBWay gibi üreticilere göndererek baskılı devrelerini bastırabilir ve bileşenleri kendileri lehimleyerek düşük maliyetli Meshtastic düğümleri üretebilir.",
+        github: "blog.purgatoria.tr/2025/06/lora-meshtastic-cihaz-secimi.html",
+        infobox: {
+          "Proje Adı": "Faketec Open Hardware Meshtastic PCB",
+          "Tasarım Formatı": "Açık kaynak KiCad şeması ve üretim Gerber dosyaları",
+          "Üretim Yolu": "Çevrimiçi PCB fabrikasyon siparişi (PCB / PCBA)",
+          "Topluluk Katkısı": "Toplu siparişlerle parça başı maliyeti minimize etme"
+        },
+        seeAlso: ["diy-uzay-montaj-breadboard-node", "heltec-wireless-stick-v3-lite", "ebyte-eora-pi-hardware"]
+      },
+      {
+        id: "share-phone-location-to-mesh",
+        en: "Share Phone Location to Mesh GPS Emulation Feature",
+        tr: "Telefona Bağımlı GPS Konum Paylaşımı",
+        category: "Yazılım & İstemciler",
+        lead: "Dahili donanımsal GPS alıcısı bulunmayan ekonomik LoRa kartlarının, Bluetooth üzerinden eşleştiği akıllı telefonun GPS sensörünü kullanarak haritada konum bildirmesi.",
+        details: "Kart üzerinde yerleşik GPS modülü bulunması hem donanım maliyetini hem de pil tüketimini artırır. Meshtastic mobil uygulamasındaki 'Share Phone Location To Mesh' özelliği aktif edildiğinde, telefon kendi GPS yongasından aldığı anlık koordinatları periyodik olarak Bluetooth üzerinden telsiz kartına aktarır. Telsiz bu koordinatları kendi konum paketi gibi paketleyerek LoRa örgü ağına yayınlar. Böylece yalın istemci kartları sıfır ek maliyetle tam konum desteğine kavuşur.",
+        github: "blog.purgatoria.tr/2025/06/lora-meshtastic-cihaz-secimi.html",
+        infobox: {
+          "Özellik Adı": "Share Phone Location to Mesh",
+          "Gereksinim": "Bluetooth LE ile bağlı akıllı telefon + Meshtastic mobil uygulaması",
+          "Avantajı": "GPS modülü olmayan kartlarda sıfır maliyetle anlık konum yayını",
+          "Pil Tasarrufu": "Telsiz üzerinde sürekli uydu arayan GPS alıcısının pil yükünü ortadan kaldırma"
+        },
+        seeAlso: ["heltec-tracker-uc6580-gnss", "heltec-wireless-stick-v3-lite", "cross-platform-client-matrix"]
       }
     ];
 

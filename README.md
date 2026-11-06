@@ -826,6 +826,18 @@ Meshtastic donanımını kontrol etmek, mesajlaşıp harita görüntülemek ve a
 - **meshtastic.js HTTP İstemci İletim Katmanı (`meshtastic-js-http-transport`):** Web tarayıcılarında `sendToRadio` ve `onFromRadio` metotlarıyla HTTP/Protobuf katmanını soyutlama.
 - **Protoman ile Meshtastic REST Protobuf Test ve Hata Ayıklama (`protoman-http-testing-tool`):** Postman benzeri arayüzle `.proto` şemaları üzerinden binary PUT/GET testleri yapma.
 
+### 🇹🇷 Türkiye Topluluğu ve Meshtastic Cihaz Seçim Rehberi (blog.purgatoria.tr/2025/06/lora-meshtastic-cihaz-secimi.html)
+- **Türkiye ISM Bandı ve Frekans Uyumluluğu (`turkiye-ism-band-frequency-compliance`):** BTK kurallarına göre yasal 433 MHz ve 868 MHz ISM bantları ile yasaklı 915 MHz bandı farkları.
+- **TA Mesh MQTT Çapraz Frekans Köprüleme Altyapısı (`tamesh-mqtt-cross-band-bridging`):** 433 MHz ve 868 MHz telsiz ağları arasındaki paketlerin sunucu tarafında köprülenmesi.
+- **Heltec Wireless Stick V3 Lite F/P Donanım Mimarisi (`heltec-wireless-stick-v3-lite`):** ESP32-S3 ve SX1262 yongalı, ekransız, daimi baz istasyonu ve tekrarlayıcılar için en ekonomik kart.
+- **Heltec Tracker ve Dahili UC6580 GNSS Entegrasyonu (`heltec-tracker-uc6580-gnss`):** Çift IPEX anten soketi, seramik anten ve 0.96" ekranıyla telefonsuz bağımsız mobil takip düğümü.
+- **Ebyte EoRa Pi Geliştirme Kartı Mimarisi (`ebyte-eora-pi-hardware`):** ESP32-S3 + SX1262, OLED ekran ve gövdede sağlam SMA-F soketiyle hem 433 hem 868 MHz destekli alternatif kart.
+- **Müstakil (Standalone) El Terminali Düğüm Mimarisi (`standalone-handheld-meshtastic-node`):** Telefona ihtiyaç duymadan klavye veya rotary encoder ile doğrudan mesaj yazılabilen telsiz terminali.
+- **Şebeke Dışı (Off-Grid) Güneş Enerjili Telsiz Düğümü (`offgrid-solar-meshtastic-node`):** Güneş paneli, şarj regülatörü ve lityum bataryayla dağ zirvelerinde 7/24 çalışan röle istasyonu.
+- **Kendin-Yap (DIY) Uzay Montaj Meshtastic Düğümü (`diy-uzay-montaj-breadboard-node`):** Standart ESP32/nRF52 kartı ile ayrık SX1262 LoRa modülünü jumper kablolarıyla doğrudan birleştirme.
+- **Faketec Açık Kaynak Donanım PCB Tasarımı (`faketec-open-hardware-pcb`):** Açık kaynak Gerber dosyalarıyla fabrikada bastırılıp elle dizilebilen topluluk PCB projesi.
+- **Telefona Bağımlı GPS Konum Paylaşımı (`share-phone-location-to-mesh`):** GPS modülü olmayan kartların, Bluetooth üzerinden telefonun GPS koordinatlarını örgü ağına aktarması.
+
 ### 🔹 Açık Standart ve Tedarikçi Bağımsızlığı (Open Architecture & Vendor Neutrality)
 Meshtastic'in hiçbir tescilli ticari protokole veya tek bir donanım üreticisine bağımlı kalmamasını sağlayan açık kaynak ekosistem felsefesi (GPL-3.0 lisansı ve açık Protobuf şemaları). Semtech SX1262/SX1276/LR1121 telsizleri ile ESP32, nRF52840 ve RP2040 işlemcili onlarca farklı üreticinin (Heltec, LilyGO, RAKwireless) donanımları tam uyumla birlikte çalışabilir.
 
