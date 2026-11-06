@@ -201,8 +201,11 @@ Aşırı sıcak veya dondurucu soğuk hava koşullarında telsiz frekansının k
   - **ST LIS2DH 3-Eksenli İvmeölçer:** WisMesh Tag ve Pod'da harekete duyarlı akıllı uyku (smart sleep) ve otomatik konum tetikleme sağlayan MEMS hareket sensörü.
 - **Seeed Studio Donanım Ekosistemi:**
   - **SenseCAP Indicator:** 3.95" / 4.0" 480x480 RGB kapasitif dokunmatik ekran, ESP32-S3 + RP2040 çift MCU mimarisi, Semtech SX1262 telsizi ve Grove portlarıyla donatılmış masaüstü/araç içi kontrol paneli.
+  - **SenseCAP Solar Node (P1 / P1 Pro):** Entegre 5W güneş paneli, 4 adet 18650 pil yuvası, nRF52840 MCU, SX1262 telsiz, CN3165 solar şarj ve XIAO L76K GPS barındıran ağır hizmet dış ortam rölesi.
   - **SenseCAP MeshTracker X1:** Kredi kartı boyutunda (IP66 su geçirmez), Semtech LR2021 LoRa çipi, çift bant L1+L5 GNSS, dahili barometre, buzzer ve 1100 mAh Li-ion pille donatılmış bağımsız takip cihazı.
-  - **SenseCAP Card Tracker T1000-E:** nRF52840 ve Semtech SX1262 LoRa telsizine sahip, manyetik pogo-pin şarjlı, ışık ve sıcaklık sensörlü ultra ince kart takip donanımı.
+  - **SenseCAP Card Tracker T1000-E:** nRF52840 ve Semtech SX1262 LoRa telsizine sahip, manyetik pogo-pin şarjlı, MediaTek AG3335 GNSS'li, ışık ve sıcaklık sensörlü ultra ince kart takip donanımı.
+    - **Manyetik Pogo-Pin Arayüzü:** Su geçirmez gövde contasını bozmadan pil şarjı, USB seri port ve DFU firmware yükleme sağlayan yaylı kontak sistemi.
+    - **T1000-E Tek Tuş Mantığı:** Tek buton üzerinden çift tıkla konum pingi, 3 tıkla GPS aç/kapat, 4 tıkla sessize alma ve kablo takılırken basılı tutarak DFU moduna alma.
   - **Wio Tracker L1 & L1 Lite:** USB Type-C, harici güneş paneli ve 3.7V Li-ion batarya üçlü güç girişli; çoklu-GNSS, 1.3" OLED veya 2.13" E-Ink ekranlı esnek takip ve telemetri düğümü.
   - **Seeed XIAO & Wio-SX1262 Kiti:** Başparmak tırnağı boyutundaki (XIAO ESP32-S3 / XIAO nRF52840) mikro kontrolcüleri Wio-SX1262 LoRa eklentisiyle birleştiren modüler DIY geliştirme kiti.
   - **Wio-WM1110 Modülü:** Nordic nRF52840 MCU ile Semtech LR1110 (LoRa + GNSS + Wi-Fi Sniffer) hibrit konumlandırma ve IoT geliştirme kartı.

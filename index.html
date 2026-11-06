@@ -3404,6 +3404,70 @@
           "Avantaj": "Sıfır lehimleme ile anında tak-çalıştır telemetri"
         },
         seeAlso: ["sensecap-indicator", "wio-tracker-l1", "telemetry", "sensor"]
+      },
+      {
+        id: "sensecap-solar-node",
+        en: "Seeed SenseCAP Solar Node (P1 / P1 Pro)",
+        tr: "Seeed SenseCAP Solar Node (Güneş Enerjili Dış Ortam Rölesi)",
+        category: "Donanım & Çipler",
+        lead: "Entegre 5W güneş paneline, 4 adet 18650 lityum pil yuvasına, Nordic nRF52840 MCU ve Semtech SX1262 LoRa telsizine sahip, uzak arazilerde bakım gerektirmeden çalışan ağır hizmet dış ortam Meshtastic röle düğümü.",
+        details: "P1 (pilsiz/GPS'siz) ve P1 Pro (4x 3350mAh pil ve XIAO L76K GNSS entegre) modelleri bulunur. Dahili CN3165 solar şarj devresi ve iç Grove sensör portu barındırır. Dağ zirvelerine, orman gözetleme kulelerine veya tarım arazilerine monte edilerek kesintisiz bölgesel `ROUTER` veya `REPEATER` omurgası oluşturur.",
+        github: "meshtastic.org/docs/hardware/devices/seeed-studio/sensecap",
+        infobox: {
+          "Enerji Sistemi": "Dahili 5W Güneş Paneli + 4x 18650 Pil Yuvası",
+          "Şarj Kontrolcüsü": "CN3165 Güneş Enerjisi Şarj Çipi",
+          "İşlemci & RF": "Nordic nRF52840 + Semtech SX1262 (Wio-SX1262)",
+          "Konumlandırma": "Dahili XIAO L76K GNSS (P1 Pro modelinde)"
+        },
+        seeAlso: ["wismesh-repeater", "rak4631-core", "router", "repeater"]
+      },
+      {
+        id: "mediatek-ag3335-gnss",
+        en: "MediaTek AG3335 Ultra-Low Power GNSS",
+        tr: "MediaTek AG3335 Ultra Düşük Güçlü GNSS Alıcısı",
+        category: "Donanım & Çipler",
+        lead: "SenseCAP Card Tracker T1000-E gibi kompakt ve pil kısıtlı takip cihazlarında kullanılan, çoklu uydu takımyıldızını (GPS, GLONASS, Galileo, BeiDou) destekleyen yüksek hassasiyetli minyatür konumlandırma yongası.",
+        details: "Saniyeler içinde ilk konum tespiti (TTFF - Time To First Fix) sağlayabilen gelişmiş uydu izleme motoruna ve mikroamper seviyelerinde akıllı uyku güç modlarına sahiptir. Ultra ince kart form faktörlerinde batarya tüketimini minimuma indirir.",
+        github: "meshtastic.org/docs/hardware/devices/seeed-studio/sensecap",
+        infobox: {
+          "Üretici": "MediaTek",
+          "Uydu Sistemleri": "GPS, GLONASS, Galileo, BeiDou",
+          "Kullanıldığı Donanım": "SenseCAP Card Tracker T1000-E",
+          "Öne Çıkan Yönü": "Ultra düşük enerji tüketimi ve hızlı soğuk başlatma"
+        },
+        seeAlso: ["sensecap-t1000e", "dual-band-gnss", "rak12500-gnss"]
+      },
+      {
+        id: "pogo-pin-magnetic-interface",
+        en: "Magnetic Pogo-Pin Charging & DFU Interface",
+        tr: "Manyetik Pogo-Pin Şarj ve DFU Arayüzü",
+        category: "Donanım & Çipler",
+        lead: "IP65/IP66 su ve toz geçirmez gövdeye sahip ince kart takipçilerinde (T1000-E vb.), fiziksel USB soketi deliği açmadan yaylı manyetik kontaklar üzerinden şarj ve DFU veri iletişimi sağlayan arayüz.",
+        details: "Gövde contalarının açılmasına gerek kalmadan cihaza doğrudan yapışan manyetik kablo üzerinden hem batarya şarj edilir hem de seri terminal/USB CDC haberleşmesi ve `.uf2` firmware güncelleme işlemleri gerçekleştirilir.",
+        github: "meshtastic.org/docs/hardware/devices/seeed-studio/sensecap",
+        infobox: {
+          "Konektör Tipi": "Yaylı Manyetik Pogo-Pin Kontakları",
+          "Desteklenen Hatlar": "5V Besleme, Toprak (GND), USB D+ / D- Veri",
+          "Avantaj": "Sızdırmazlık contasını bozmadan su altı/dış ortam koruması",
+          "Kullanım": "SenseCAP T1000-E, endüstriyel takip donanımları"
+        },
+        seeAlso: ["sensecap-t1000e", "uf2-dfu", "cdc-acm"]
+      },
+      {
+        id: "t1000e-button-actions",
+        en: "SenseCAP T1000-E Single-Button Multi-Click Logic",
+        tr: "SenseCAP T1000-E Tek Tuş Çoklu Tıklama Mantığı",
+        category: "Yazılım & Protobuf",
+        lead: "Ekranı ve reset butonu bulunmayan SenseCAP T1000-E kart takipçisinde tek bir ön yüz tuşu üzerinden sağlanan çok fonksiyonlu donanım ve mesh yönetim mantığı.",
+        details: "Meshtastic firmware 2.5+ ile entegre olan bu mantıkta:<br>• Çift tık: Ağ üzerinden anlık manuel konum pingi yayar.<br>• 3 tık: GPS modülünü manuel olarak açar veya kapatır.<br>• 4 tık: Cihazın sesli zilini (buzzer) geçici olarak sessize alır.<br>• 5 saniye basış: Cihazı tamamen kapatır.<br>• Manyetik kablo takılırken basılı tutma: Cihazı doğrudan DFU / UF2 önyükleyici moduna geçirir.",
+        github: "meshtastic.org/docs/hardware/devices/seeed-studio/sensecap",
+        infobox: {
+          "Cihaz": "SenseCAP Card Tracker T1000-E",
+          "Çift Tıklama": "Manuel konum paketi tetikleme (Position Ping)",
+          "Üç Tıklama": "GPS gücünü aç/kapat",
+          "DFU Modu": "Kablo takılırken butona basılı tutma"
+        },
+        seeAlso: ["sensecap-t1000e", "multi-click-actions", "uf2-dfu", "t-echo-touch-pad"]
       }
     ];
 
