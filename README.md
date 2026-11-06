@@ -382,6 +382,18 @@ Ev ve kişisel güvenlik için GPS koordinatlarının son basamaklarını kırpa
 ### 🔹 Eşlikçi Uygulamalar ve İstemci Ekosistemi (Companion Apps & Clients)
 Meshtastic donanımını kontrol etmek, mesajlaşıp harita görüntülemek ve ayarları yönetmek için Bluetooth, Wi-Fi veya USB üzerinden bağlanan resmi istemciler (Android, iOS/iPadOS, Meshtastic Web, Python CLI ve meshtasticd Linux servisi). Telsiz cihazıyla Google Protobuf formatında konuşur.
 
+### 📱 Meshtastic Android İstemci Mimarisi (github.com/meshtastic/Meshtastic-Android)
+- **Meshtastic Android Resmi İstemcisi (`meshtastic-android-app`):** Kotlin Multiplatform (KMP) ve Jetpack Compose ile inşa edilmiş; BLE, USB-OTG ve TCP/Wi-Fi üzerinden telsize bağlanarak mesajlaşma, düğüm listesi, SNR/RSSI geçmiş grafikleri ve kanal yönetimi sağlayan açık kaynaklı mobil uygulama.
+- **`MeshService` Ön Plan Servis Orkestrasyonu (`meshservice-foreground`):** Ekran kapalıyken veya telefon derin Doze uykusundayken telsizle veri akışını kesintisiz canlı tutan, kalıcı durum çubuğu bildirimli (`sticky notification`) Android Foreground Service.
+- **Google Play vs F-Droid FOSS Varyantları (`android-build-flavors-google-fdroid`):** Google Maps ve Play servislerini kullanan `google` yapısı ile MapLibre motorlu, tamamen izleyicisiz ve sıfır kapalı kaynak kodlu `fdroid` sürümünün modüler Gradle ayrımı.
+- **Android USB OTG Doğrudan Seri Bağlantı (`android-usb-serial-otg`):** `usb-serial-for-android` altyapısıyla CP210x, CH340 ve CDC-ACM yongalarına USB kablosuyla doğrudan bağlanarak Bluetooth parazitsiz ve sıfır gecikmeli taktik tablet/araç istasyonu kurma imkanı.
+- **MapLibre Çevrimdışı Vektör Harita Motoru (`android-maplibre-offline-maps`):** İnternet ve hücresel kapsama bulunmayan arazide `.mbtiles` vektör kiremitleriyle tam çevrimdışı topografya, yön pusulası ve anlık GPS konum takibi.
+- **Dahili ATAK / CivTAK CoT Sunucusu (`android-atak-cot-integration`):** Yerel `127.0.0.1:8089` portunda çalışan mTLS TAK sunucusu sayesinde harici bir forwarder eklentisine gerek kalmadan ATAK/CivTAK uygulamalarıyla doğrudan Cursor-on-Target (CoT) veri köprüsü.
+- **Jetpack Glance Canlı Ağ Widget'ları (`android-jetpack-glance-widgets`):** Uygulamayı açmadan telefonun ana ekranından canlı aktif düğüm sayısını, kanal doluluğunu ve hedeflenen dost düğümün batarya/mesafesini gösteren `LocalStatsWidget` ve `NodeTrackerWidget`.
+- **Otomatik Ağ Keşif Modülü (`android-local-mesh-discovery`):** Bölgedeki aktif mesh ağlarını ve komşuluk ilişkilerini tespit etmek için telsizi LoRa modem preset'leri ve beacon yuvaları arasında sırayla taratan `:feature:discovery` bileşeni.
+- **Kritik Bildirimler ve DND Baypas (`android-critical-alerts-dnd`):** Android Bildirim Kanalları üzerinden acil SOS ve afet çağrılarının sistemin "Rahatsız Etmeyin" (Do Not Disturb) modunu delerek sesli/titreşimli uyarı vermesini sağlayan yüksek öncelikli uyarı mekanizması.
+- **Kable BLE Taşıma Katmanı (`android-ble-transport-kable`):** Kotlin Multiplatform reaktif coroutine altyapısıyla çalışan, ToRadio/FromRadio karakteristiklerini dinleyen ve dinamik MTU müzakeresiyle Bluetooth bağlantı kopmalarını önleyen modern BLE sürücüsü.
+
 ### 🔹 Açık Standart ve Tedarikçi Bağımsızlığı (Open Architecture & Vendor Neutrality)
 Meshtastic'in hiçbir tescilli ticari protokole veya tek bir donanım üreticisine bağımlı kalmamasını sağlayan açık kaynak ekosistem felsefesi (GPL-3.0 lisansı ve açık Protobuf şemaları). Semtech SX1262/SX1276/LR1121 telsizleri ile ESP32, nRF52840 ve RP2040 işlemcili onlarca farklı üreticinin (Heltec, LilyGO, RAKwireless) donanımları tam uyumla birlikte çalışabilir.
 

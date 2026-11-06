@@ -4141,6 +4141,169 @@
           "Montaj Şartı": "En az 10-16 mm² kalın bakır hatla doğrudan harici topraklamaya bağlanmalıdır"
         },
         seeAlso: ["coaxial-cable-attenuation", "collinear-antenna", "rak9155-solar-repeater"]
+      },
+
+      /* 22. Meshtastic Android İstemci Uygulaması ve Mimarisi (github.com/meshtastic/Meshtastic-Android) */
+      {
+        id: "meshtastic-android-app",
+        en: "Meshtastic Android Official Client Application",
+        tr: "Meshtastic Android Resmi İstemci Uygulaması",
+        category: "Yazılım & Protobuf",
+        lead: "Android akıllı telefon ve tabletlerin Bluetooth LE, USB-OTG veya Wi-Fi/TCP üzerinden LoRa telsiz düğümlerine bağlanarak mesajlaşma, harita takibi, düğüm yönetimi ve şebekesiz acil durum koordinasyonu sağlayan modern Kotlin Multiplatform (KMP) ve Jetpack Compose tabanlı resmi mobil istemcisi.",
+        details: "Google Play Store ve F-Droid üzerinden dağıtılır. `meshtastic/Meshtastic-Android` açık kaynak deposunda geliştirilen uygulama; tam düğüm listesi, SNR/RSSI sinyal geçmişi grafikleri, traceroute rota görselleştirme, 256-bit AES kanal yönetimi ve QR kodla kanal paylaşımı sunar. Arka planda Android işletim sisteminin agresif pil tasarrufu kısıtlamalarına takılmadan radyo iletişimini canlı tutan modüler bir mimariye sahiptir.",
+        github: "meshtastic/Meshtastic-Android",
+        infobox: {
+          "Platform": "Android (API 26+ / Android 8.0+)",
+          "Dil & Çerçeve": "Kotlin Multiplatform & Jetpack Compose",
+          "Bağlantı Türleri": "Bluetooth LE, USB-OTG Serial, TCP/Wi-Fi",
+          "Dağıtım": "Google Play Store & F-Droid (FOSS)",
+          "Lisans": "GPL-3.0 Açık Kaynak"
+        },
+        seeAlso: ["companion-app", "meshservice-foreground", "android-build-flavors-google-fdroid", "android-atak-cot-integration"]
+      },
+      {
+        id: "meshservice-foreground",
+        en: "MeshService Foreground Architecture",
+        tr: "MeshService ve Ön Plan Servis Orkestrasyonu",
+        category: "Yazılım & Protobuf",
+        lead: "Meshtastic Android uygulamasının ekran kapalıyken veya telefon derin uykuya (Doze moduna) geçtiğinde bile LoRa telsiziyle olan BLE/USB veri akışını kesintisiz sürdürmesini sağlayan Android Ön Plan Servisi (Foreground Service).",
+        details: "`:core:service` modülü altındaki `MeshServiceOrchestrator` sınıfı tarafından yönetilir. Kalıcı bir Android durum çubuğu bildirimi (sticky notification) göstererek işletim sisteminin bellek temizleyicisi (OOM Killer) tarafından servisinin sonlandırılmasını engeller. Gelen LoRa paketlerini arka planda çözüp yerel veritabanına kaydeder, acil bildirimleri tetikler ve telsizle telefon arasındaki keepalive/ping döngüsünü sürekli idare eder.",
+        github: "meshtastic/Meshtastic-Android: core/service/MeshService.kt",
+        infobox: {
+          "Servis Tipi": "Android Foreground Service",
+          "Yönetici": "MeshServiceOrchestrator",
+          "Bildirim": "Kalıcı Durum Çubuğu Bildirimi (Sticky Notification)",
+          "Görevi": "Doze modunda telsiz bağlantısını ve paket alımını canlı tutma"
+        },
+        seeAlso: ["meshtastic-android-app", "android-ble-transport-kable", "android-critical-alerts-dnd"]
+      },
+      {
+        id: "android-build-flavors-google-fdroid",
+        en: "Android Build Flavors (Google Play vs F-Droid FOSS)",
+        tr: "Android Dağıtım Varyantları: Google Play vs F-Droid FOSS",
+        category: "Yazılım & Protobuf",
+        lead: "Meshtastic-Android projesinin kod tabanında mülkiyetli Google servislerine bağımlı olan 'google' sürümü ile tamamen açık kaynak ve gizlilik odaklı 'fdroid' sürümünü ayıran Gradle yapı varyantları (build flavors).",
+        details: "'google' varyantı Google Haritalar SDK'sı, Google Play Konum Hizmetleri, Firebase Crashlytics ve Datadog izleme araçlarını içerir. Buna karşılık 'fdroid' varyantı, sıfır kapalı kaynak kütüphane ilkesiyle (FOSS) derlenir; harita sağlayıcısı olarak MapLibre Native kullanır ve Google Play Services barındırmayan de-Googled (GrapheneOS, LineageOS, CalyxOS) gizlilik odaklı cihazlarda sorunsuz çalışır.",
+        github: "meshtastic/Meshtastic-Android: androidApp/build.gradle.kts",
+        infobox: {
+          "Yapı Varyantları": "google (Play Store) ve fdroid (FOSS)",
+          "F-Droid Harita Motoru": "MapLibre Native (Tamamen Açık Kaynak)",
+          "Google Harita Motoru": "Google Maps SDK",
+          "Gizlilik": "F-Droid sürümünde izleyici veya telemetri bulunmaz"
+        },
+        seeAlso: ["meshtastic-android-app", "android-maplibre-offline-maps"]
+      },
+      {
+        id: "android-usb-serial-otg",
+        en: "Android USB OTG Hardware Serial Interface",
+        tr: "Android USB OTG Doğrudan Seri İletişim",
+        category: "Donanım & Çevre Birimleri",
+        lead: "Bir Android cihazın USB-C veya micro-USB OTG kablosu üzerinden Meshtastic LoRa kartına Bluetooth olmadan doğrudan kabloyla bağlanmasını sağlayan donanımsal seri port sürücü katmanı.",
+        details: "'usb-serial-for-android' kütüphanesini kullanır. Silabs CP210x, WCH CH340, FTDI, Prolific PL2303 ve yerel USB CDC-ACM protokollerini destekler. Bluetooth'un parazit yaptığı veya batarya harcadığı senaryolarda sıfır gecikmeli, kopmayan ve güvenilir bir veri yolu sağlar; araç içi veya sabit tablet istasyonlarında cihazın şarj olurken aynı anda telsizle haberleşmesini mümkün kılar.",
+        github: "meshtastic/Meshtastic-Android: core/serial/UsbSerialTransport.kt",
+        infobox: {
+          "Protokol": "USB Host / OTG Serial",
+          "Desteklenen Çipler": "CP2102/4, CH340/1, CDC-ACM, FT232",
+          "Avantajı": "Bluetooth paraziti yok, sıfır gecikme, tam stabilite",
+          "Kullanım": "Araç içi tabletler, taktik paneller, acil durum merkezleri"
+        },
+        seeAlso: ["meshtastic-android-app", "meshservice-foreground", "cp210x"]
+      },
+      {
+        id: "android-maplibre-offline-maps",
+        en: "MapLibre Offline Vector Mapping Engine",
+        tr: "MapLibre ve Çevrimdışı Vektör Harita Motoru",
+        category: "Yazılım & Protobuf",
+        lead: "Meshtastic Android uygulamasında hücresel şebeke veya internet bağlantısı olmayan dağ ve afet bölgelerinde düğüm konumlarını, rota izlerini ve arazi yükseltilerini gösteren çevrimdışı vektör harita altyapısı.",
+        details: "F-Droid sürümünde ve modern multiplatform harita arayüzünde MapLibre Native motoru kullanılır. Kullanıcılar OpenMapTiles veya MapTiler formatındaki MBTiles vektör kiremit arşivlerini telefonun dahili hafızasına indirerek internetten tamamen bağımsız topografik arazi haritalarına sahip olur. Düğümlerin GPS koordinatları, yön pusulası açısı ve telemetri geçmişi harita üzerine gerçek zamanlı işlenir.",
+        github: "meshtastic/Meshtastic-Android: feature/map-maplibre",
+        infobox: {
+          "Harita Kütüphanesi": "MapLibre Native / Compose Multiplatform",
+          "Desteklenen Dosya": ".mbtiles Vektör / Raster Kiremit Arşivleri",
+          "Çalışma Prensibi": "%100 İnternetsiz Çevrimdışı Render",
+          "Özellikler": "Düğüm işaretçileri, mesafe ölçümü, pusula yön vektörü"
+        },
+        seeAlso: ["meshtastic-android-app", "android-build-flavors-google-fdroid", "meshmap"]
+      },
+      {
+        id: "android-atak-cot-integration",
+        en: "Built-in Local ATAK CoT Server Integration",
+        tr: "Dahili ATAK / CivTAK ve Cursor-on-Target Entegrasyonu",
+        category: "Entegrasyonlar",
+        lead: "Meshtastic Android uygulamasının yerel loopback arayüzünde (127.0.0.1:8089) mTLS destekli bir TAK sunucusu çalıştırarak harici bir eklentiye gerek kalmadan ATAK/CivTAK uygulamalarıyla doğrudan CoT veri alışverişi yapmasını sağlayan mimari.",
+        details: "Geleneksel olarak ayrı bir 'Meshtastic ATAK Forwarder' eklentisi gerektiren askeri/sivil taktik entegrasyon, Android uygulamasının içine doğrudan yerel bir TAK sunucusu olarak entegre edilmiştir. ATAK veya iTAK uygulaması telefonun kendi yerel portuna bağlanır; telsiz ağından gelen konum paketleri (PLI) ve GeoChat mesajları otomatik olarak Cursor-on-Target (CoT) formatına dönüştürülüp taktik ekrana aktarılır.",
+        github: "meshtastic/Meshtastic-Android: feature/atak",
+        infobox: {
+          "Yerel Sunucu": "127.0.0.1:8089 (Loopback TCP/mTLS)",
+          "Veri Standardı": "Cursor on Target (CoT XML/Protobuf)",
+          "Uyumlu Yazılımlar": "ATAK-CIV, CivTAK, iTAK, WinTAK",
+          "İşlev": "Şebekesiz durumsal farkındalık, haritada dost unsur takibi (PLI)"
+        },
+        seeAlso: ["atak", "cot", "meshtastic-android-app"]
+      },
+      {
+        id: "android-jetpack-glance-widgets",
+        en: "Android Jetpack Glance Home Screen Widgets",
+        tr: "Jetpack Glance ile Masaüstü Canlı Ağ Widget'ları",
+        category: "Yazılım & Protobuf",
+        lead: "Android ana ekranına ve kilit ekranına eklenebilen, uygulamayı açmaya gerek kalmadan yerel mesh ağının sağlığını ve belirli bir düğümün durumunu anlık gösteren modern Jetpack Glance widget bileşenleri.",
+        details: "`:feature:widget` modülü altında `LocalStatsWidget` ve `NodeTrackerWidget` olarak geliştirilmiştir. `LocalStatsWidget`; ağdaki toplam aktif düğüm sayısını, kanal kullanım oranını ve son duyulan telsiz paketinin sinyal kalitesini gösterir. `NodeTrackerWidget` ise kullanıcının favorilediği bir dostun veya aracın batarya seviyesini, son duyulma süresini, mesafesini ve aradaki sekme (hop) sayısını doğrudan ana ekranda canlı tutar.",
+        github: "meshtastic/Meshtastic-Android: feature/widget",
+        infobox: {
+          "Çerçeve": "Android Jetpack Glance (Compose tabanlı widget API)",
+          "Widget Türleri": "LocalStatsWidget & NodeTrackerWidget",
+          "Gösterilen Veriler": "Düğüm sayısı, batarya %, mesafe, hop sayısı, kanal doluluğu",
+          "Minimum Android": "Android 8.0+ (API 26)"
+        },
+        seeAlso: ["meshtastic-android-app", "meshservice-foreground"]
+      },
+      {
+        id: "android-local-mesh-discovery",
+        en: "Local Mesh Automated Discovery Module",
+        tr: "Yerel Ağ Otomatik Keşif Modülü (:feature:discovery)",
+        category: "Ağ & Protokol",
+        lead: "Kullanıcının bulunduğu coğrafi bölgedeki aktif Meshtastic ağlarını ve komşu kanalları otomatik olarak tespit etmek için telsizi standart LoRa modem preset'leri ve beacon kanalları arasında sırayla taratan akıllı keşif motoru.",
+        details: "`:feature:discovery` modülü, telsiz donanımını sırasıyla ShortFast, LongFast, MediumFast ve özel fener (beacon) kanallarına ayarlar; her kanalda belirli bir dinleme süresi (dwell time) kalarak havadaki düğüm duyurularını ve komşuluk paketlerini toplar. Tarama sonunda kullanıcıya bölgede kaç farklı aktif ağ olduğu, düğüm yoğunlukları ve bağlantı kaliteleri sıralı bir envanter olarak sunulur.",
+        github: "meshtastic/Meshtastic-Android: feature/discovery",
+        infobox: {
+          "Modül": ":feature:discovery",
+          "Tarama Döngüsü": "LoRa Modem Presets (ShortFast, LongFast vb.) + Beacon Slots",
+          "Dwell Time": "Kanal başına ayarlanabilir dinleme süresi",
+          "Çıktı": "Bölgesel aktif ağlar, düğüm sayıları ve SNR kalitesi listesi"
+        },
+        seeAlso: ["meshtastic-android-app", "channel-presets", "router"]
+      },
+      {
+        id: "android-critical-alerts-dnd",
+        en: "Critical Alerts & Do Not Disturb (DND) Bypass",
+        tr: "Kritik Bildirimler ve Rahatsız Etmeyin (DND) Geçişi",
+        category: "Yazılım & Protobuf",
+        lead: "Meshtastic acil durum mesajlarının, SOS çağrılarının ve kritik sistem uyarılarının Android'in 'Rahatsız Etmeyin' (Do Not Disturb - DND) modunu delerek sesli ve titreşimli olarak kullanıcıyı uyandırmasını sağlayan yüksek öncelikli bildirim mimarisi.",
+        details: "Android Bildirim Kanalları (Notification Channels) mimarisi üzerine kuruludur. Uygulama; genel kanal mesajları, doğrudan mesajlar ve yeni düğüm katılımları için standart öncelikli kanallar kullanırken; 'Alerts' kategorisi için sistem düzeyinde DND baypas izni talep eder. Kullanıcı ilk kurulumda (onboarding) yönlendirilir; böylece gece uykusunda veya sessiz modda dahi afet/kaza anında gelen hayati uyarılar kaçırılmaz.",
+        github: "meshtastic/Meshtastic-Android: core/notification",
+        infobox: {
+          "Özellik": "Android Notification Channels & DND Bypass",
+          "Hedef Trafik": "Acil SOS mesajları, kritik alarm telemetrisi",
+          "Kurulum": "İlk açılışta (Onboarding) doğrudan Android sistem ayarlarına yönlendirme",
+          "Güvenlik": "Gereksiz sohbetler sessizde kalırken hayat kurtarıcı mesajlar çalar"
+        },
+        seeAlso: ["meshtastic-android-app", "meshservice-foreground", "sos-operation-mode"]
+      },
+      {
+        id: "android-ble-transport-kable",
+        en: "Kable Reactive BLE Multiplatform Transport Layer",
+        tr: "Kable ile Kotlin Multiplatform BLE Taşıma Katmanı",
+        category: "Yazılım & Protobuf",
+        lead: "Meshtastic mobil uygulamasının Bluetooth Low Energy üzerinden donanım kartlarıyla veri alışverişini reaktif, kararlı ve eşzamansız (asynchronous coroutines) olarak yöneten modern BLE protokol sürücüsü.",
+        details: "Kotlin Multiplatform için geliştirilmiş Kable kütüphanesini temel alır. Meshtastic telsizinin standart BLE GATT servisindeki ToRadio (telefona veri gönderme), FromRadio (telsizden veri okuma) ve FromNum karakteristiklerine abone olur. Android BLE yığınındaki bilinen bağlantı kopmalarına karşı otomatik MTU müzakeresi (MTU negotiation), GATT bağlantı havuzu ve akış denetimi (flow control) uygular.",
+        github: "meshtastic/Meshtastic-Android: core/bluetooth",
+        infobox: {
+          "Kütüphane": "Kable (Kotlin Multiplatform BLE Coroutines)",
+          "GATT Servisi": "Meshtastic BLE Service UUID",
+          "Karakteristikler": "ToRadio, FromRadio, FromNum",
+          "Özellikler": "Otomatik MTU boyutu müzakeresi, kesintisiz yeniden bağlanma (auto-reconnect)"
+        },
+        seeAlso: ["meshtastic-android-app", "meshservice-foreground", "bluetooth-pin"]
       }
     ];
 
