@@ -706,6 +706,18 @@ Meshtastic donanımını kontrol etmek, mesajlaşıp harita görüntülemek ve a
 - **Adafruit IO Eylem Tetikleyicileri ve Uyarılar (`adafruit-io-action-triggers-alerting`):** Batarya voltajı 3.3V altına düştüğünde veya SOS geldiğinde anında e-posta/webhook bildirimi fırlatma.
 - **Adafruit IO Katı Konu İsim Alanı Kısıtlaması (`adafruit-io-mqtt-topic-namespace`):** Yalnızca `username/feeds/...` formatına izin veren yapı nedeniyle ara köprü betiğinin zorunluluğu.
 
+### 🐧 meshtasticd Yerel Linux Daemon Mimarisi ve İstasyon Yönetimi (meshtastic.org/docs/meshtasticd)
+- **meshtasticd Yerel Linux Arka Plan Servisi (`meshtasticd-native-daemon`):** Mikrodenetleyiciye gerek kalmadan Raspberry Pi ve Linux sunucuları doğrudan telsiz düğümüne dönüştürme.
+- **Portduino Arduino POSIX Donanım Soyutlama Çatısı (`portduino-abstraction-framework`):** Arduino API'lerini ve RadioLib kütüphanesini Linux çekirdek çağrılarına uyarlayan C++ katmanı.
+- **meshtasticd config.yaml Yapılandırma Standardı (`meshtasticd-config-yaml`):** LoRa modülü, SPI/GPIO pin haritası ve web sunucu portlarını yöneten ana YAML dosyası.
+- **meshtasticd Modüler Dizin Mimarisi (`meshtasticd-config-d-modular-directory`):** Nginx tarzı `available.d` şablonları ve `config.d` aktif diziniyle tak-çıkar donanım yönetimi.
+- **Linux spidev Çekirdek Sürücüsü ve GPIO Bağlantısı (`linux-spidev-lora-interface`):** Waveshare/Dragino LoRa şapkalarını `/dev/spidev0.0` üzerinden sıfır USB gecikmesiyle sürme.
+- **meshtasticd Yerleşik Gömülü Web Sunucusu (`meshtasticd-native-webserver`):** Harici Nginx gerekmeden doğrudan port 80/443 üzerinden çalışan modern WebUI istemcisi.
+- **meshtasticd TCP Port 4403 İstemci API Arayüzü (`meshtasticd-tcp-api-port-4403`):** Python CLI, Android uygulaması ve otomasyon botlarının ağ üzerinden telsize bağlanma soketi.
+- **meshtasticd Sanal ve Donanımsız Simülasyon Modu (`meshtasticd-virtual-simulated-node`):** Fiziksel telsiz donanımı olmadan laboratuvar ortamında sanal örgü ağları test etme.
+- **USB-SPI Köprü Adaptörleri ve MeshStick Donanımı (`usb-to-spi-meshstick-interface`):** GPIO pinleri olmayan standart PC'lere CP2130/CH341 yongalı USB dongle ile LoRa bağlama.
+- **meshtasticd systemd Servis ve Watchdog Yönetimi (`meshtasticd-systemd-service-management`):** Arka plan servisinin sistem açılışında başlaması, çökme anında diriltilmesi ve log izleme.
+
 ### 🔹 Açık Standart ve Tedarikçi Bağımsızlığı (Open Architecture & Vendor Neutrality)
 Meshtastic'in hiçbir tescilli ticari protokole veya tek bir donanım üreticisine bağımlı kalmamasını sağlayan açık kaynak ekosistem felsefesi (GPL-3.0 lisansı ve açık Protobuf şemaları). Semtech SX1262/SX1276/LR1121 telsizleri ile ESP32, nRF52840 ve RP2040 işlemcili onlarca farklı üreticinin (Heltec, LilyGO, RAKwireless) donanımları tam uyumla birlikte çalışabilir.
 

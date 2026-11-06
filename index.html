@@ -8479,6 +8479,166 @@
           "Çözüm": "Python veya Node-RED ara katman dönüştürücü köprüsü kullanımı"
         },
         seeAlso: ["mqtt-root-topic-hierarchy", "adafruit-io-python-bridge", "nodered-change-node-payload-mapping"]
+      },
+      {
+        id: "meshtasticd-native-daemon",
+        en: "meshtasticd Native Linux Daemon Architecture",
+        tr: "meshtasticd Yerel Linux Arka Plan Servis Mimarisi",
+        category: "Yazılım & İstemciler",
+        lead: "Meshtastic düğüm yazılımını mikrodenetleyici yerine doğrudan Raspberry Pi, Linux sunucular ve masaüstü bilgisayarlarda yerel (native) 64-bit ikili süreç olarak çalıştıran arka plan servisi.",
+        details: "`meshtasticd`, standart ESP32 veya nRF52 firmware kod tabanını Portduino katmanı sayesinde Linux POSIX ortamında derleyerek çalıştırır. Tek kart bilgisayarları (Raspberry Pi, Orange Pi) veya ev sunucularını doğrudan güçlü bir Meshtastic telsiz düğümüne dönüştürür. SPI veya USB üzerinden bağlanan SX1262 LoRa yongalarını sürer; dahili web sunucusu, TCP API ve MQTT köprüsüyle 7/24 kesintisiz yüksek performanslı ana üs istasyonları (base station) kurulmasını sağlar.",
+        github: "meshtastic.org/docs/meshtasticd",
+        infobox: {
+          "Yazılım Türü": "Sistem Arka Plan Programı (Daemon / Native POSIX Binary)",
+          "Uyumlu Sistemler": "Debian, Ubuntu, Raspberry Pi OS, Fedora, OpenWrt, Alpine, Docker",
+          "Desteklenen İşlemciler": "ARM64 (aarch64), ARMhf (armv7), x86_64 (amd64)",
+          "Görevi": "Mikrodenetleyici ihtiyacını ortadan kaldırarak Linux'u bağımsız telsiz düğümü yapma"
+        },
+        seeAlso: ["portduino-abstraction-framework", "meshtasticd-config-yaml", "raspberry-pi-mosquitto-server"]
+      },
+      {
+        id: "portduino-abstraction-framework",
+        en: "Portduino Arduino POSIX Hardware Abstraction Framework",
+        tr: "Portduino Arduino POSIX Donanım Soyutlama Çatısı",
+        category: "Yazılım & İstemciler",
+        lead: "Gömülü Arduino kütüphanelerinin ve `setup()`/`loop()` döngülerinin standart Linux işletim sistemlerinde POSIX iş parçacığı (pthread) olarak çalışmasını sağlayan C++ soyutlama katmanı.",
+        details: "Meshtastic firmware kodları geleneksel olarak Arduino ve FreeRTOS API'lerine dayanır. Portduino framework'ü, `digitalWrite()`, `pinMode()`, `SPI.transfer()` ve `millis()` gibi donanım çağrılarını Linux çekirdeğinin `spidev`, `sysfs`/`libgpiod` ve `nanosleep()` çağrılarına çevirir. Böylece RadioLib ve Protobuf kütüphaneleri hiçbir değişiklik yapılmadan x86_64 veya ARM64 Linux üzerinde yerel makine kodu hızında çalıştırılabilir.",
+        github: "meshtastic.org/docs/meshtasticd",
+        infobox: {
+          "Çatı": "Portduino (Arduino to Linux POSIX Emulator Layer)",
+          "Programlama Dili": "C++17 / C++20",
+          "Soyutlanan Birimler": "GPIO, SPI (spidev), I2C (/dev/i2c), Seri Port (TTY), Zamanlayıcılar",
+          "Avantajı": "Aynı firmware çekirdek kodunun hem MCU'da hem Linux'ta çalışmasını sağlama"
+        },
+        seeAlso: ["meshtasticd-native-daemon", "linux-spidev-lora-interface", "meshtasticd-systemd-service-management"]
+      },
+      {
+        id: "meshtasticd-config-yaml",
+        en: "meshtasticd config.yaml Daemon Configuration Specification",
+        tr: "meshtasticd config.yaml Daemon Yapılandırma Standardı",
+        category: "Yazılım & İstemciler",
+        lead: "`meshtasticd` servisinin LoRa radyo yongasını, pin haritasını, web sunucu portunu ve ağ tercihlerini yöneten ana YAML metin yapılandırma dosyası.",
+        details: "Genellikle `/etc/meshtasticd/config.yaml` konumunda saklanır. Dosyada `Lora:` (Modül modeli, CS, IRQ, Busy, Reset pinleri), `Webserver:` (Port 80/443, SSL sertifikaları), `General:` (Özel MAC adresi, Düğüm adı) ve `Display:` (I2C OLED ekran ayarları) blokları bulunur. Mikrodenetleyicilerde komut satırından veya Bluetooth ile girilen ayarlar, `meshtasticd` ortamında bu YAML dosyası düzenlenip `systemctl restart meshtasticd` denilerek uygulanır.",
+        github: "meshtastic.org/docs/meshtasticd",
+        infobox: {
+          "Dosya Yolu": "/etc/meshtasticd/config.yaml",
+          "Format": "YAML (Human-readable Data Serialization)",
+          "Temel Bloklar": "Lora, Webserver, General, Display, GPS, Logging",
+          "Yeniden Yükleme": "sudo systemctl restart meshtasticd"
+        },
+        seeAlso: ["meshtasticd-config-d-modular-directory", "linux-spidev-lora-interface", "mosquitto-conf-configuration"]
+      },
+      {
+        id: "meshtasticd-config-d-modular-directory",
+        en: "meshtasticd Modular Configuration Directories (available.d & config.d)",
+        tr: "meshtasticd Modüler Yapılandırma Dizinleri (available.d ve config.d)",
+        category: "Yazılım & İstemciler",
+        lead: "Farklı LoRa şapkaları (HAT) ve ekran modelleri için hazır ayar dosyalarının barındırıldığı ve sembolik bağlarla etkinleştirildiği Nginx tarzı modüler yapılandırma dizin mimarisi.",
+        details: "Paket kurulumuyla birlikte `/etc/meshtasticd/available.d/` dizinine yaygın donanımlar için şablonlar (örneğin `lora-waveshare-1262.yaml`, `display-ssd1306.yaml`) yüklenir. Kullanıcı kendi donanımına uyan dosyayı kopyalayarak veya sembolik bağ (symlink) ile `/etc/meshtasticd/config.d/` aktif dizinine ekler. `meshtasticd` açılışta ana `config.yaml` ile birlikte `config.d/*.yaml` parçalarını otomatik birleştirir (merge). Donanım değişikliklerinde ana dosyayı bozmadan kolay tak-çıkar yönetimi sağlar.",
+        github: "meshtastic.org/docs/meshtasticd",
+        infobox: {
+          "Şablon Dizini": "/etc/meshtasticd/available.d/",
+          "Aktif Dizin": "/etc/meshtasticd/config.d/",
+          "Tasarım Deseni": "Debian/Nginx tarzı conf.d / sites-available modülerliği",
+          "Desteklenen Şablonlar": "Waveshare SX1262, Dragino LoRa HAT, RAK WisHat, MeshStick"
+        },
+        seeAlso: ["meshtasticd-config-yaml", "linux-spidev-lora-interface", "home-assistant-mqtt-yaml-configuration"]
+      },
+      {
+        id: "linux-spidev-lora-interface",
+        en: "Linux spidev Kernel Driver & GPIO Direct LoRa Interface",
+        tr: "Linux spidev Çekirdek Sürücüsü ve GPIO Doğrudan LoRa Bağlantısı",
+        category: "Donanım & Anten",
+        lead: "Raspberry Pi ve Linux SBC kartlarında fiziksel SX1262/SX1276 LoRa telsiz entegrelerinin USB dönüştürücüye gerek kalmadan doğrudan SPI veriyolundan sürülmesini sağlayan donanım katmanı.",
+        details: "Linux çekirdeğinin `/dev/spidev0.0` sürücüsü yüksek hızlı SPI haberleşmesini yürütürken; CS (Chip Select), IRQ (Kesme İsteği), Busy (Meşgul) ve Reset hatları `libgpiod` veya `/sys/class/gpio` üzerinden kontrol edilir. Örneğin Waveshare SX1262 LoRa HAT için `CS: 8`, `IRQ: 25`, `Busy: 24`, `Reset: 22` pinleri atanır. SPI doğrudan donanım veriyolu olduğu için USB gecikmelerini (latency) ortadan kaldırır; saniyede binlerce telsiz kesmesini sıfır gecikmeyle işler.",
+        github: "meshtastic.org/docs/meshtasticd",
+        infobox: {
+          "Arayüz Yolu": "/dev/spidev0.0 (SPI Bus 0, Chip Select 0)",
+          "Sürücü Yolu": "Linux spidev çekirdek modülü & GPIO Controller",
+          "Desteklenen Çipler": "Semtech SX1262, SX1268, SX1276, SX1280, LR1121",
+          "Performans Avantajı": "USB-Seri darboğazı yok, mikrosaniye düzeyinde donanım kesme yanıtı"
+        },
+        seeAlso: ["portduino-abstraction-framework", "meshtasticd-config-yaml", "usb-to-spi-meshstick-interface"]
+      },
+      {
+        id: "meshtasticd-native-webserver",
+        en: "meshtasticd Native Embedded Web Server & WebUI",
+        tr: "meshtasticd Yerleşik Gömülü Web Sunucusu ve Web Arayüzü",
+        category: "Yazılım & İstemciler",
+        lead: "Harici bir web sunucusu (Nginx, Apache) kurmaya gerek kalmadan, doğrudan `meshtasticd` sürecinin içinden port 80/443 üzerinden hizmet veren modern WebUI istemcisi.",
+        details: "`config.yaml` dosyasında `Webserver: Port: 80` tanımlandığında devreye girer. Tarayıcıdan Raspberry Pi'ın IP adresine (`http://192.168.1.50/`) girildiğinde resmi Meshtastic Web istemcisi açılır. Kullanıcılar mesaj yazabilir, kanal anahtarlarını değiştirebilir, telemetri grafiklerini inceleyebilir ve Bluetooth veya seri kabloya ihtiyaç duymadan yerel ağdaki tüm cihazlardan (telefon, tablet, PC) telsizi yönetebilir. İsteğe bağlı olarak TLS/SSL sertifikalarıyla HTTPS güvenliği sağlanabilir.",
+        github: "meshtastic.org/docs/meshtasticd",
+        infobox: {
+          "Hizmet Portu": "Port 80 (HTTP) / Port 443 (HTTPS)",
+          "Arayüz": "Meshtastic Resmi Web İstemcisi (HTML5, Vue/React, WebSockets)",
+          "Yetenekler": "Canlı sohbet, kanal yapılandırması, radyo ayarları, telemetri izleme",
+          "Erişim": "Yerel ağ (LAN) veya VPN üzerinden tarayıcıyla sıfır kurulumlu erişim"
+        },
+        seeAlso: ["meshtasticd-tcp-api-port-4403", "meshtasticd-config-yaml", "nodered-dashboard-ui-widgets"]
+      },
+      {
+        id: "meshtasticd-tcp-api-port-4403",
+        en: "meshtasticd TCP Port 4403 Client API Network Interface",
+        tr: "meshtasticd TCP Port 4403 İstemci API Ağ Arayüzü",
+        category: "Ağ & Protokol",
+        lead: "Meshtastic Python CLI, Android uygulaması ve harici entegrasyon botlarının ağ üzerinden `meshtasticd` düğümüne bağlanıp kontrol etmesini sağlayan TCP soket soket arayüzü.",
+        details: "Mikrodenetleyicilerde USB seri kablosuyla (`/dev/ttyUSB0`) yapılan komutlaşma, `meshtasticd` ortamında yerel TCP soketiyle yürütülür. `meshtasticd` varsayılan olarak `0.0.0.0:4403` portunu dinler. Örneğin komut satırından `meshtastic --host 192.168.1.50 --info` veya `meshtastic --host localhost --sendtext 'Tatbikat Mesajı'` çalıştırıldığında istemci 4403 portuna bağlanarak Protobuf paketlerini ağ üzerinden çift yönlü takas eder.",
+        github: "meshtastic.org/docs/meshtasticd",
+        infobox: {
+          "Soket Bağlantısı": "TCP 0.0.0.0:4403 (Meshtastic Standart API Portu)",
+          "Uyumlu İstemciler": "Meshtastic Python CLI, Android App (Wi-Fi), Meshtastic-UI, Botlar",
+          "Protokol": "Çerçevelenmiş (Framed) Protobuf ikili veri akışı",
+          "Kullanım": "Ağ üzerinden uzaktan telsiz yönetimi ve betik otomasyonu"
+        },
+        seeAlso: ["meshtasticd-native-webserver", "paho-network-event-loop", "python-meshtastic-bot-pipeline"]
+      },
+      {
+        id: "meshtasticd-virtual-simulated-node",
+        en: "meshtasticd Virtual & Simulated Headless Node Mode",
+        tr: "meshtasticd Sanal ve Donanımsız Simülasyon Modu",
+        category: "Yazılım & İstemciler",
+        lead: "Fiziksel bir LoRa telsiz kartı veya radyo çipi takmadan, tamamen ağ üzerinden simüle edilmiş sanal bir Meshtastic düğümü çalıştırma yeteneği.",
+        details: "Yazılım geliştiricilerin ve ağ yöneticilerinin donanım satın almadan protokol geliştirmesini, MQTT köprülerini test etmesini ve kriz senaryolarını simüle etmesini sağlar. `config.yaml` dosyasında fiziksel radyo tanımlanmadığında veya sanal simülatör modu seçildiğinde `meshtasticd` ağ arayüzleri ve Protobuf motoruyla çalışmaya devam eder. MQTT üzerinden diğer sanal ve gerçek düğümlerle veri takası yaparak devasa LoRa ağlarının laboratuvar ortamında test edilmesine olanak tanır.",
+        github: "meshtastic.org/docs/meshtasticd",
+        infobox: {
+          "Çalışma Türü": "Donanımsız Sanal Düğüm (Hardware-less Simulation / Dummy Radio)",
+          "Kullanım Alanı": "CI/CD otomatik test boru hatları, bot yazılımı geliştirme, protokol simülasyonu",
+          "Ağ Bağlantısı": "MQTT ve UDP Sanal Mesh tünelleme",
+          "Avantajı": "Sıfır donanım maliyetiyle yüzlerce düğümlük ağ ortamlarını test edebilme"
+        },
+        seeAlso: ["meshtasticd-native-daemon", "public-mqtt-server-infrastructure", "systemd-daemon-python-mqtt-service"]
+      },
+      {
+        id: "usb-to-spi-meshstick-interface",
+        en: "USB-to-SPI Bridge Hardware Adapters & MeshStick",
+        tr: "USB-SPI Köprü Adaptörleri ve MeshStick Donanım Arayüzü",
+        category: "Donanım & Anten",
+        lead: "GPIO pinleri bulunmayan standart masaüstü bilgisayarlara, mini PC'lere ve sunuculara LoRa radyo modüllerini USB portu üzerinden bağlayan köprü arabirimi.",
+        details: "Normal bilgisayarlarda doğrudan SPI veriyolu bulunmaz. CP2130, CH341 veya FTDI FT232H gibi USB-to-SPI köprüleme yongalarını barındıran modüller (örneğin MeshStick veya USB LoRa dongle'ları), USB paketlerini yüksek hızlı SPI sinyallerine çevirir. `meshtasticd` bu köprü adaptörlerini tanıyarak USB üzerinden SX1262 modülünü sürer. Kullanıcıların Raspberry Pi aramasına gerek kalmadan eski bir Intel NUC veya dizüstü bilgisayarı güçlü bir Meshtastic kulesi yapmasını sağlar.",
+        github: "meshtastic.org/docs/meshtasticd",
+        infobox: {
+          "Köprü Yongaları": "Silicon Labs CP2130, WCH CH341, FTDI FT232H/FT4232",
+          "Cihaz Örnekleri": "MeshStick, USB-to-SPI LoRa Dongle, Waveshare USB-SPI adaptörü",
+          "Bağlantı Türü": "USB 2.0 / USB 3.0 Type-A veya Type-C",
+          "Hedef Platform": "x86_64 masaüstü bilgisayarlar, Intel NUC, sanallaştırma sunucuları"
+        },
+        seeAlso: ["linux-spidev-lora-interface", "meshtasticd-native-daemon", "serial-override-console-serial-port"]
+      },
+      {
+        id: "meshtasticd-systemd-service-management",
+        en: "meshtasticd systemd Service Lifecycle & Watchdog Management",
+        tr: "meshtasticd systemd Servis ve Gözetleyici (Watchdog) Yönetimi",
+        category: "Yazılım & İstemciler",
+        lead: "`meshtasticd` sürecinin Linux sistemlerinde arka planda önyükleme anında otomatik başlamasını, çökme durumunda anında diriltilmesini ve durum denetimini sağlayan systemd servis birimi.",
+        details: "Paket kurulumuyla `/lib/systemd/system/meshtasticd.service` dosyası sisteme işlenir. `sudo systemctl enable --now meshtasticd` komutuyla daimi arka plan servisi yapılır. `Restart=always` ve `RestartSec=5` direktifleri sayesinde SPI kesmesi kopsa veya beklenmedik bir istisna oluşsa dahi servis saniyeler içinde yeniden başlar. `journalctl -u meshtasticd -f` ile tüm telsiz paketleri, SNR değerleri ve web sunucu istekleri canlı sistem logundan gerçek zamanlı izlenebilir.",
+        github: "meshtastic.org/docs/meshtasticd",
+        infobox: {
+          "Servis Adı": "meshtasticd.service",
+          "Yönetim Komutları": "systemctl start / stop / restart / status meshtasticd",
+          "Log İzleme": "journalctl -u meshtasticd -f -o cat",
+          "Güvenilirlik": "Restart=always, Watchdog Sec, otomatik sistem açılışı (system boot)"
+        },
+        seeAlso: ["systemd-daemon-python-mqtt-service", "meshtasticd-native-daemon", "meshtasticd-config-yaml"]
       }
     ];
 
