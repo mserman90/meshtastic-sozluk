@@ -7359,6 +7359,166 @@
           "Amacı": "Telsizden önce sunucu katmanındaki tüm ağ sorunlarını izole etme"
         },
         seeAlso: ["mosquitto-sub-cli", "mosquitto-pub-cli", "eclipse-mosquitto-broker"]
+      },
+      {
+        id: "paho-mqtt-python-client",
+        en: "Eclipse Paho MQTT Python Client Library (paho-mqtt)",
+        tr: "Eclipse Paho MQTT Python İstemci Kütüphanesi (paho-mqtt)",
+        category: "Yazılım & İstemciler",
+        lead: "Python betikleri üzerinden Meshtastic MQTT sunucularına bağlanarak telemetri, konum ve mesaj paketlerini okuma ve göndermeyi sağlayan resmi açık kaynak istemci kütüphanesi.",
+        details: "`pip install paho-mqtt` komutuyla kurulan bu kütüphane, Python geliştiricilerinin Meshtastic ağ geçitleriyle doğrudan konuşmasını sağlar. TCP, TLS şifreleme ve WebSocket bağlantılarını destekler. Hem ham ikili Protobuf paketlerini hem de JSON formatındaki düğüm telemetrilerini yakalamak, veritabanına (PostgreSQL, InfluxDB) kaydetmek veya sahaya otomatik LoRa acil durum mesajları enjekte etmek için temel yazılım katmanıdır.",
+        github: "meshtastic.org/docs/software/integrations/mqtt/mqtt-python",
+        infobox: {
+          "Paket": "paho-mqtt (PyPI)",
+          "Kurulum": "pip install paho-mqtt",
+          "Desteklenen Protokoller": "MQTT v3.1, v3.1.1, v5.0",
+          "Kullanım Alanı": "Python botları, veri toplayıcılar, özel IoT panelleri"
+        },
+        seeAlso: ["paho-callback-api-v2", "paho-on-message-callback", "eclipse-mosquitto-broker"]
+      },
+      {
+        id: "paho-callback-api-v2",
+        en: "Paho MQTT Callback API Version 2 (CallbackAPIVersion.VERSION2)",
+        tr: "Paho MQTT Geri Çağrı API Sürüm 2 (CallbackAPIVersion.VERSION2)",
+        category: "Yazılım & İstemciler",
+        lead: "Paho-MQTT v2.0+ kütüphanesinde zorunlu kılınan, MQTT v5.0 özelliklerini ve tip güvenliğini artıran modern istemci başlatma standardı.",
+        details: "Paho-MQTT kütüphanesi sürüm 2.0 ile birlikte eski API yapısını kullanımdan kaldırmıştır (deprecated). Modern Python kodlarında `client = mqtt.Client(mqtt.CallbackAPIVersion.VERSION2)` tanımlanması zorunludur. Bu sürüm, geri çağrı fonksiyonlarına `reason_codes` ve `properties` gibi MQTT v5.0 metadata nesnelerini ileterek ağ kopmalarının ve paket retlerinin programatik olarak çok daha hassas yakalanmasını sağlar.",
+        github: "meshtastic.org/docs/software/integrations/mqtt/mqtt-python",
+        infobox: {
+          "API Tanımı": "mqtt.Client(mqtt.CallbackAPIVersion.VERSION2)",
+          "Sürüm Gereksinimi": "paho-mqtt >= 2.0.0",
+          "Sağladığı Özellikler": "Gelişmiş hata kodları, MQTT v5 paket özellikleri desteği",
+          "Önemi": "Eski kodlardaki başlatma uyarılarını ve uyumsuzlukları önler"
+        },
+        seeAlso: ["paho-mqtt-python-client", "paho-on-message-callback", "paho-on-publish-acknowledgement"]
+      },
+      {
+        id: "paho-on-message-callback",
+        en: "Paho on_message Event Callback Handler",
+        tr: "Paho on_message Olay Geri Çağrı İşleyicisi",
+        category: "Yazılım & İstemciler",
+        lead: "Meshtastic MQTT konusuna yeni bir telsiz paketi ulaştığında tetiklenen ve konu, servis kalitesi ve veri yükünü işleyen olay yakalama fonksiyonu.",
+        details: "`client.on_message = on_message` şeklinde atanır ve `def on_message(client, userdata, msg):` imzasını taşır. Meshtastic telsizinden gelen paketler `msg.topic` üzerinden ayrıştırılır (ör. `msh/EU_868/2/json/...`); `msg.payload` içerisindeki JSON veya ikili veri çözülür. Geliştirici bu fonksiyon içinde örneğin gelen bir SOS uyarısını Telegram botuna fırlatabilir, röle açıp kapatabilir veya otomatik bir yanıt (ACK) basabilir.",
+        github: "meshtastic.org/docs/software/integrations/mqtt/mqtt-python",
+        infobox: {
+          "Fonksiyon İmzası": "def on_message(mosq, obj, msg):",
+          "Gelen Parametreler": "msg.topic (Konu), msg.payload (Veri yükü), msg.qos (Hizmet kalitesi)",
+          "Çalışma Şekli": "Asenkron olay güdümlü (Event-driven)",
+          "Tipik Kullanım": "Gelen telsiz mesajlarını ayrıştırma ve otomasyon tetikleme"
+        },
+        seeAlso: ["paho-mqtt-python-client", "paho-network-event-loop", "mqtt-bidirectional-ping-pong"]
+      },
+      {
+        id: "paho-network-event-loop",
+        en: "Paho MQTT Network Event Loop Management (loop(), loop_forever())",
+        tr: "Paho MQTT Ağ Olay Döngüsü Yönetimi (loop(), loop_forever())",
+        category: "Yazılım & İstemciler",
+        lead: "Arka planda ağ soketini dinleyen, giden paketleri fırlatan ve PING kalp atışlarını yöneten Paho ağ döngüsü mekanizması.",
+        details: "MQTT bağlantısının canlı kalabilmesi için istemcinin ağ soketini düzenli okuması ve yazması gerekir. Python betiklerinde `while client.loop() == 0:` döngüsü soket I/O işlemlerini yürütür ve bağlantı hatasında döngüden çıkar. Alternatif olarak bloklayıcı `client.loop_forever()` veya arka planda bağımsız bir iş parçacığı (threading) başlatan bloklamayan `client.loop_start()` fonksiyonu kullanılabilir. Bu döngü kopan Wi-Fi bağlantılarında otomatik yeniden bağlanmayı yönetir.",
+        github: "meshtastic.org/docs/software/integrations/mqtt/mqtt-python",
+        infobox: {
+          "Metotlar": "loop(), loop_forever(), loop_start() / loop_stop()",
+          "Görevi": "Soket I/O, keepalive PINGREQ gönderimi, callback tetikleme",
+          "Hata Tespiti": "Dönüş kodu 0 harici olduğunda bağlantı kopması algılanır",
+          "Threading": "loop_start() ile ana betiği bloklamadan arka planda çalışma"
+        },
+        seeAlso: ["paho-mqtt-python-client", "mqtt-keepalive-heartbeat", "paho-on-message-callback"]
+      },
+      {
+        id: "mqtt-bidirectional-ping-pong",
+        en: "MQTT Bidirectional Ping-Pong & Automated Response Pattern",
+        tr: "MQTT Çift Yönlü Ping-Pong ve Otomatik Yanıt Deseni",
+        category: "Yazılım & İstemciler",
+        lead: "Gelen bir telsiz mesajına karşılık `on_message` bloğu içinden anında yeni bir onay veya komut paketi basılmasını sağlayan etkileşimli desen.",
+        details: "Dokümantasyondaki örnekte `on_message` içinde çalıştırılan `mosq.publish('pong', 'ack', 0)` çağrısı, çift yönlü etkileşimin temelidir. Sahadaki bir arama kurtarma personeli telsizinden 'DURUM?' mesajı attığında, sunucudaki Python betiği bunu yakalar; batarya seviyesi, hava durumu ve baz istasyonu koordinatlarını hesaplayarak Meshtastic downlink konusuna otomatik 'PONG: İSTASYON-1 AKTİF, PİL: %95' yanıtı basar.",
+        github: "meshtastic.org/docs/software/integrations/mqtt/mqtt-python",
+        infobox: {
+          "Tasarım Deseni": "Request-Reply / Ping-Pong Reaktifi",
+          "Tetikleme": "on_message callback içerisinden client.publish() çağrısı",
+          "Uygulama": "Otomatik telemetri sorguları, 'ping/pong' bağlantı testi",
+          "Meshtastic Uyumu": "msh/.../json/mqtt konusuna otomatik yanıt basma"
+        },
+        seeAlso: ["paho-on-message-callback", "mqtt-json-downlink-injection", "python-meshtastic-bot-pipeline"]
+      },
+      {
+        id: "mqtt-qos-levels-meshtastic",
+        en: "MQTT Quality of Service (QoS 0/1/2) in Meshtastic Mesh",
+        tr: "Meshtastic Örgü Ağlarında MQTT Hizmet Kalitesi (QoS 0/1/2) Seviyeleri",
+        category: "Ağ & Protokol",
+        lead: "Meshtastic MQTT paketlerinin broker ile istemciler arasındaki teslimat garantisini belirleyen 0, 1 ve 2 servis kalitesi seviyeleri.",
+        details: "QoS 0 ('En fazla bir kez'), onay beklemeden fırlatılan hafif iletimdir; yüksek hacimli periyodik telemetri ve ortam sensörü paketlerinde ağ yükünü düşük tutmak için kullanılır. QoS 1 ('En az bir kez'), broker'dan PUBACK onayı bekler ve telsiz geçitlerinin kritik SOS mesajlarını garantili iletmesini sağlar. QoS 2 ('Tam olarak bir kez'), 4 adımlı el sıkışma gerektirdiğinden düşük bant genişlikli sahra internetinde genellikle tercih edilmez. Meshtastic ekosistemi ağırlıklı olarak QoS 0 ve QoS 1 ile çalışır.",
+        github: "meshtastic.org/docs/software/integrations/mqtt/mqtt-python",
+        infobox: {
+          "QoS 0": "Fire-and-forget (Onaysız, en düşük gecikme ve bant tüketimi)",
+          "QoS 1": "PUBACK onaylı (Garantili teslimat, mükerrer olasılığı var)",
+          "QoS 2": "Exactly once (En yüksek protokol ek yükü)",
+          "Öneri": "Telemetri için QoS 0, acil durum ve metin için QoS 1"
+        },
+        seeAlso: ["paho-mqtt-python-client", "multi-gateway-mqtt-deduplication", "eclipse-mosquitto-broker"]
+      },
+      {
+        id: "paho-on-publish-acknowledgement",
+        en: "Paho on_publish Transmission Acknowledgement Callback",
+        tr: "Paho on_publish İletim Onay Geri Çağrı Fonksiyonu",
+        category: "Yazılım & İstemciler",
+        lead: "Python betiğinden broker'a fırlatılan bir mesajın sunucuya başarıyla ulaştığını ve kuyruğa alındığını teyit eden geri çağrı fonksiyonu.",
+        details: "`client.on_publish = on_publish` atanarak `def on_publish(mosq, obj, mid, reason_codes, properties):` imzasıyla çalıştırılır. Özellikle QoS 1 veya QoS 2 ile kritik telsiz downlink mesajı basıldığında, broker'dan gelen ACK paketiyle bu fonksiyon tetiklenir. `mid` (Message ID) değeri eşleştirilerek komutun broker tarafından kabul edildiği doğrulanır; böylece sahra botları mesajın kaybolmadığından emin olarak log tutabilir.",
+        github: "meshtastic.org/docs/software/integrations/mqtt/mqtt-python",
+        infobox: {
+          "Fonksiyon İmzası": "def on_publish(client, userdata, mid, reason_codes, properties):",
+          "Parametreler": "mid (Mesaj takip kimliği), reason_codes (Sonuç kodu)",
+          "Kritik Rol": "QoS 1/2 mesajlarının sunucuya vardığını kesinleştirme",
+          "Hata Yakalama": "Giden mesaj havuzunu (buffer) takip etme imkanı"
+        },
+        seeAlso: ["paho-callback-api-v2", "mqtt-qos-levels-meshtastic", "python-mqtt-telemetry-publisher"]
+      },
+      {
+        id: "mqtt-keepalive-heartbeat",
+        en: "MQTT Keepalive Heartbeat & PINGREQ Interval Negotiation",
+        tr: "MQTT Canlı Tutma (Keepalive) Kalp Atışı ve Zaman Aşımı Yönetimi",
+        category: "Ağ & Protokol",
+        lead: "İstemci ile broker arasında sessiz dönemlerde bağlantının kopmadığını teyit eden 60 saniyelik PINGREQ/PINGRESP periyodu.",
+        details: "`client.connect('localhost', 1883, 60)` çağrısındaki son parametre (60 saniye), MQTT Keepalive süresidir. Ağ üzerinde veri trafiği akmadığında istemci broker'a otomatik `PINGREQ` gönderir ve broker `PINGRESP` döner. Süre aşılırsa broker istemcinin çöktüğünü varsayarak soketi kapatır ve eğer tanımlanmışsa 'Son Arzu' (LWT - Last Will and Testament) mesajını yayınlar. Bu mekanizma, hücresel modem veya uydu bağlantılı sahra geçitlerinde kopan oturumların anında algılanmasını sağlar.",
+        github: "meshtastic.org/docs/software/integrations/mqtt/mqtt-python",
+        infobox: {
+          "Parametre": "keepalive (Varsayılan örnek: 60 saniye)",
+          "Paket Çifti": "PINGREQ (İstemci) ve PINGRESP (Sunucu)",
+          "Amacı": "Sessiz hatlarda TCP oturumunun canlılığını denetleme",
+          "Kopma Durumu": "1.5 kat süre aşımında broker soketi düşürür"
+        },
+        seeAlso: ["paho-network-event-loop", "paho-mqtt-python-client", "eclipse-mosquitto-broker"]
+      },
+      {
+        id: "python-mqtt-telemetry-publisher",
+        en: "Python Automated Sensor Telemetry Publishing Loop",
+        tr: "Python Otomasyonlu Sensör Telemetri Yayın Döngüsü",
+        category: "Yazılım & İstemciler",
+        lead: "Dış sensörlerden veya simülatörlerden toplanan çevresel verileri (sıcaklık, nem, voltaj) düzenli aralıklarla MQTT konularına basan yayıncı döngüsü.",
+        details: "Dokümantasyondaki yayıncı örneği, `while True:` döngüsü içinde rastgele sıcaklık üreterek `client.publish('env/test/TEMPERATURE', randNumber)` komutuyla broker'a veri basar ve `time.sleep(1)` ile bekler. Gerçek dünya uygulamalarında bu yapı; Raspberry Pi'ye takılı endüstriyel Modbus sensörlerini, rüzgar hız ölçerlerini veya güneş paneli şarj kontrol cihazlarını okuyup Meshtastic JSON downlink formatında telsiz ağına enjekte eden telemetri istasyonlarına dönüştürülür.",
+        github: "meshtastic.org/docs/software/integrations/mqtt/mqtt-python",
+        infobox: {
+          "Yapı": "while True: publish() + time.sleep(aralık)",
+          "Örnek Konu": "env/test/TEMPERATURE veya msh/US/2/json/mqtt/",
+          "Entegrasyon": "BME680, INA219, rüzgar gülü, radyasyon sayaçları",
+          "Kullanım": "Hava durumu istasyonları, tarımsal sensör ağları"
+        },
+        seeAlso: ["paho-mqtt-python-client", "mqtt-json-downlink-injection", "python-meshtastic-bot-pipeline"]
+      },
+      {
+        id: "python-meshtastic-bot-pipeline",
+        en: "Python Meshtastic Gateway Bot & Event Pipeline Architecture",
+        tr: "Python Meshtastic Ağ Geçidi Bot ve Olay Boru Hattı Mimarisi",
+        category: "Kullanım Kılavuzları & Pratik Senaryolar",
+        lead: "Meshtastic telsizlerinden gelen hava paketlerini yakalayıp Telegram, Discord, e-posta veya veritabanlarına yönlendiren uçtan uca Python bot mimarisi.",
+        details: "`paho-mqtt` kütüphanesini kullanarak inşa edilen reaktif bir entegrasyon omurgasıdır. Sahadan gelen bir düğüm acil yardım mesajı (`TEXT_MESSAGE_APP` veya CoT) gönderdiğinde, Python betiği bunu MQTT'den yakalar, koordinatları harita bağlantısına çevirir ve Afet Koordinasyon Merkezi'nin Telegram grubuna acil bildirim fırlatır. Aynı şekilde Telegram'dan yazılan bir yönetici talimatı, `sendtext` JSON yükü olarak Meshtastic downlink konusuna basılarak kilometrelerce uzaktaki telsiz ekranlarına anında düşürülür.",
+        github: "meshtastic.org/docs/software/integrations/mqtt/mqtt-python",
+        infobox: {
+          "Girdi": "Meshtastic LoRa -> Wi-Fi Gateway -> Mosquitto Broker",
+          "İşleme": "Paho-MQTT Python Script (Filtreleme, tetikleme, parsing)",
+          "Çıktı": "Telegram Botu / Discord Webhook / PostgreSQL / REST API",
+          "Özellik": "İnternet dünyası ile telsiz dünyası arasında çift yönlü köprü"
+        },
+        seeAlso: ["paho-mqtt-python-client", "mqtt-bidirectional-ping-pong", "node-red-flow-integration"]
       }
     ];
 

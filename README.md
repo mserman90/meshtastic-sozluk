@@ -622,6 +622,18 @@ Meshtastic donanımını kontrol etmek, mesajlaşıp harita görüntülemek ve a
 - **TCP Port 1883 Güvenlik Duvarı Yapılandırması (`mosquitto-firewall-port-1883`):** macOS Güvenlik Duvarı veya Linux `ufw` üzerinde 1883 TCP portunu açarak telsiz bağlantı engellerini kaldırma.
 - **Yerel MQTT Döngüsel Doğrulama İş Akışı (`local-mqtt-loopback-verification`):** Telsiz bağlanmadan önce `mosquitto_sub` ve `mosquitto_pub` ile sunucunun çalıştığını kanıtlayan döngüsel test yöntemi.
 
+### 🐍 Python Paho-MQTT Entegrasyonu ve Betik Otomasyonu (meshtastic.org/docs/software/integrations/mqtt/mqtt-python)
+- **Eclipse Paho MQTT Python İstemcisi (`paho-mqtt-python-client`):** Python betikleriyle Meshtastic MQTT sunucularına bağlanarak telemetri ve mesaj paketlerini işleyen temel istemci kütüphanesi.
+- **Paho Callback API v2 Standardı (`paho-callback-api-v2`):** Modern paho-mqtt v2.0+ kodlarında MQTT v5.0 hata kodları ve tip güvenliği sağlayan `CallbackAPIVersion.VERSION2` başlatma protokolü.
+- **Paho on_message Geri Çağrı İşleyicisi (`paho-on-message-callback`):** Telsizden yeni bir paket geldiğinde asenkron tetiklenen ve konu, veri yükü ve QoS bilgilerini ayrıştıran olay fonksiyonu.
+- **Paho Ağ Olay Döngüsü Yönetimi (`paho-network-event-loop`):** Soket I/O, keepalive paketleri ve otomatik yeniden bağlanmayı arka planda işleten `loop()` ve `loop_start()` mekanizması.
+- **MQTT Çift Yönlü Ping-Pong Deseni (`mqtt-bidirectional-ping-pong`):** Gelen telsiz sorgularına `on_message` içinden anında otomatik telemetri veya onay yanıtı basılmasını sağlayan etkileşimli mimari.
+- **Meshtastic MQTT Hizmet Kalitesi Seviyeleri (`mqtt-qos-levels-meshtastic`):** Telemetri için hafif QoS 0 ve acil durum telsiz mesajları için PUBACK onaylı QoS 1 seviyelerinin kullanım kuralları.
+- **Paho on_publish İletim Onay Fonksiyonu (`paho-on-publish-acknowledgement`):** Fırlatılan kritik telsiz downlink komutlarının broker tarafından teslim alındığını teyit eden geri çağrı izleme yapısı.
+- **MQTT Canlı Tutma Kalp Atışı (`mqtt-keepalive-heartbeat`):** Sessiz sahra ağlarında istemci ile broker arasındaki TCP oturumunun canlılığını denetleyen 60 saniyelik PINGREQ/PINGRESP periyodu.
+- **Python Sensör Telemetri Yayın Döngüsü (`python-mqtt-telemetry-publisher`):** Harici sensörlerden veya simülatörlerden gelen verileri periyodik olarak MQTT'ye basan otomatik yayın döngüsü mimarisi.
+- **Python Meshtastic Ağ Geçidi Bot Mimarisi (`python-meshtastic-bot-pipeline`):** Telsiz paketlerini Telegram, Discord, e-posta veya veritabanlarına çift yönlü köprüleyen uçtan uca reaktif bot omurgası.
+
 ### 🔹 Açık Standart ve Tedarikçi Bağımsızlığı (Open Architecture & Vendor Neutrality)
 Meshtastic'in hiçbir tescilli ticari protokole veya tek bir donanım üreticisine bağımlı kalmamasını sağlayan açık kaynak ekosistem felsefesi (GPL-3.0 lisansı ve açık Protobuf şemaları). Semtech SX1262/SX1276/LR1121 telsizleri ile ESP32, nRF52840 ve RP2040 işlemcili onlarca farklı üreticinin (Heltec, LilyGO, RAKwireless) donanımları tam uyumla birlikte çalışabilir.
 
