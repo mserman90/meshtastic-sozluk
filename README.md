@@ -778,6 +778,18 @@ Meshtastic donanımını kontrol etmek, mesajlaşıp harita görüntülemek ve a
 - **meshtasticd v2.6.5+ Yerel MeshTadpole Sürücü Desteği (`meshtadpole-meshtasticd-v265-support`):** Sıfır manuel YAML konfigürasyonuyla tam tak-çalıştır Linux desteği.
 - **MeshTadpole Taşınabilir Sahra Baz İstasyonu (`meshtadpole-portable-field-station`):** Laptop pilinden beslenerek sahra çadırında internet olmadan CalTopo/ATAK harita merkezi kurma.
 
+### 🕹️ MeshStick USB LoRa Telsiz Arayüzü ve Kule Konuşlandırması (meshtastic.org/docs/meshtasticd/hardware/radios/usb/meshstick)
+- **MeshStick USB LoRa Çevre Birimi Telsiz Adaptörü (`meshstick-usb-lora-transceiver`):** Elecrow üretimi, PC ve sunucuları USB üzerinden doğrudan LoRa ağına bağlayan telsiz adaptörü.
+- **MeshStick lora-meshstick.yaml Hazır Donanım Şablonu (`meshstick-lora-yaml-preset`):** `available.d` altındaki hazır konfigürasyon parçasıyla tek tıkla `meshtasticd` entegrasyonu.
+- **MeshStick Ana Makineye Bağımlı Çevre Birimi Mimarisi (`meshstick-host-dependent-architecture`):** Dahili MCU/batarya barındırmadan tüm hesaplamayı host sunucu CPU'suna devreden mimari.
+- **MeshStick Linux udev Kuralları ve Kalıcı Port Eşleme (`meshstick-udev-rules-binding`):** `/dev/meshstick` sembolik bağı ile sunucu açılışında port kaymalarını engelleme.
+- **MeshStick +22 dBm Yüksek Güçlü RF Ön Uç Mimarisi (`meshstick-high-power-rf-front-end`):** TCXO kristali, LC harmonik filtreleri ve 50 Ohm SMA çıkışıyla şehirlerarası menzil.
+- **MeshStick 7/24 Daimi Kule ve Ev Baz İstasyonu (`meshstick-always-on-base-station`):** Ev sunucusu veya kule bilgisayarına bağlı kesintisiz `ROUTER` konuşlandırması.
+- **MeshStick ve Bağımsız Mikrodenetleyici Karşılaştırması (`meshstick-vs-standalone-mcu-comparison`):** Saha için pilli taşınabilir el telsizi ile kule için USB çevre birimi farkları.
+- **MeshStick Termal Dağılım ve Sürekli Çalışma Dayanımı (`meshstick-thermal-continuous-duty-cycle`):** PCB termal geçiş delikleriyle 24/7 kesintisiz TX döngüsünde aşırı ısınmayı önleme.
+- **MeshStick Docker Konteyner Cihaz Eşleme Kuralı (`meshstick-docker-device-mapping`):** `--privileged` gerektirmeden izole donanım geçişiyle konteynerize ağ geçidi çalıştırma.
+- **MeshStick Çoklu Dongle ile Çapraz Frekans Rölesi (`meshstick-multi-dongle-cross-repeater`):** Tek sunucuda 433 MHz ve 868 MHz iki dongle ile çapraz telsiz köprüsü kurma.
+
 ### 🔹 Açık Standart ve Tedarikçi Bağımsızlığı (Open Architecture & Vendor Neutrality)
 Meshtastic'in hiçbir tescilli ticari protokole veya tek bir donanım üreticisine bağımlı kalmamasını sağlayan açık kaynak ekosistem felsefesi (GPL-3.0 lisansı ve açık Protobuf şemaları). Semtech SX1262/SX1276/LR1121 telsizleri ile ESP32, nRF52840 ve RP2040 işlemcili onlarca farklı üreticinin (Heltec, LilyGO, RAKwireless) donanımları tam uyumla birlikte çalışabilir.
 

@@ -9439,6 +9439,166 @@
           "Avantajı": "Harici batarya veya şarj kablosu olmadan laptop pilinden beslenme"
         },
         seeAlso: ["meshtadpole-usb-lora-dongle", "caltopo-desktop-edition", "atak-eud-tactical-deployment"]
+      },
+      {
+        id: "meshstick-usb-lora-transceiver",
+        en: "MeshStick USB LoRa Peripheral Transceiver Adapter",
+        tr: "MeshStick USB LoRa Çevre Birimi Telsiz Adaptörü",
+        category: "Donanım & Anten",
+        lead: "Raspberry Pi, mini PC ve ev sunucularını standart bir USB portu üzerinden doğrudan Meshtastic LoRa ağına bağlayan Elecrow üretimi öncü USB telsiz adaptörü.",
+        details: "MeshStick, geleneksel bağımsız el telsizlerinden farklı olarak kendi mikrodenetleyicisine veya lityum bataryasına sahip değildir; saf bir çevre birimi olarak tasarlanmıştır. İçerisinde Semtech SX1262 LoRa yongası ve WCH CH341 USB-to-SPI köprüsü barındırır. Linux ana makinede çalışan `meshtasticd` arka plan servisi telsizi sürer; böylece bilgisayar doğrudan antene bağlanarak yüksek güçlü bir ana üs istasyonuna dönüşür.",
+        github: "meshtastic.org/docs/meshtasticd/hardware/radios/usb/meshstick",
+        infobox: {
+          "Üretici": "Elecrow (Meshtastic Onaylı Donanım)",
+          "Yonga Mimarisi": "Semtech SX1262 LoRa + WCH CH341 USB-to-SPI",
+          "Konnektörler": "USB Type-A Erkek & 50 Ohm SMA Dişi Anten Soketi",
+          "Kullanım Modeli": "Ana bilgisayar (Host) üzerinden meshtasticd ile yönetim"
+        },
+        seeAlso: ["meshtadpole-usb-lora-dongle", "usb-to-spi-meshstick-interface", "meshtasticd-native-daemon"]
+      },
+      {
+        id: "meshstick-lora-yaml-preset",
+        en: "MeshStick lora-meshstick.yaml Ready Hardware Preset",
+        tr: "MeshStick lora-meshstick.yaml Hazır Donanım Şablonu",
+        category: "Yazılım & İstemciler",
+        lead: "`meshtasticd` kurulumuyla birlikte gelen ve MeshStick USB adaptörünün pin eşlemelerini tek bir komutla sisteme tanıtan resmi YAML ayar dosyası.",
+        details: "Paket kurulduğunda `/etc/meshtasticd/available.d/lora-meshstick.yaml` dosyası hazır bulunur. Kullanıcı `sudo cp /etc/meshtasticd/available.d/lora-meshstick.yaml /etc/meshtasticd/config.d/` komutunu çalıştırarak şablonu aktif eder. Bu dosya içinde SX1262 modül tipi, SPI hızı, DIO2 RF anahtarlama mantığı ve CH341 GPIO kesme hatları önceden tanımlanmıştır; kullanıcıların donanım pinleriyle uğraşmasını engeller.",
+        github: "meshtastic.org/docs/meshtasticd/hardware/radios/usb/meshstick",
+        infobox: {
+          "Kaynak Dosya": "/etc/meshtasticd/available.d/lora-meshstick.yaml",
+          "Hedef Dizin": "/etc/meshtasticd/config.d/",
+          "İçerik": "Lora: Module: sx1262, DIO2_AS_RF_SWITCH: true, spidev ayarları",
+          "Uygulama": "sudo systemctl restart meshtasticd"
+        },
+        seeAlso: ["meshtasticd-config-d-modular-directory", "meshtasticd-config-yaml", "meshstick-usb-lora-transceiver"]
+      },
+      {
+        id: "meshstick-host-dependent-architecture",
+        en: "MeshStick Host-Dependent Hardware Peripheral Architecture",
+        tr: "MeshStick Ana Makineye Bağımlı Çevre Birimi Mimarisi",
+        category: "Donanım & Anten",
+        lead: "Cihaz üzerinde CPU, RAM veya dahili flash bellek barındırmayan, tüm paket yönlendirme ve kriptografi işlemlerini bağlı olduğu bilgisayarın işlemcisine devreden mimari.",
+        details: "Geleneksel ESP32 tabanlı düğümler kısıtlı 520 KB RAM ile boğuşurken, MeshStick ana bilgisayarın gigabaytlarca RAM'ini ve çok çekirdekli CPU gücünü kullanır. Düğümün çökmesi veya RAM tükenmesi sorunu ortadan kalkar. Binlerce komşuluk kaydı (NodeDB), saatlerce süren sinyal grafikleri ve yoğun MQTT trafiği Linux sunucu tarafından işlenir; MeshStick yalnızca radyo frekansını havaya basan ve dinleyen fiziksel bir uç birim olarak görev yapar.",
+        github: "meshtastic.org/docs/meshtasticd/hardware/radios/usb/meshstick",
+        infobox: {
+          "İşlemci / Bellek": "Yok (Tüm işlemler Host CPU ve RAM üzerinde yürütülür)",
+          "Enerji Kaynağı": "USB Portu (5V DC, ~100-150 mA TX akımı)",
+          "Avantajı": "Sıfır RAM/Flash darboğazı, sınırsız NodeDB ve log kapasitesi",
+          "Gereksinim": "Sürekli açık bir Linux ana makine (Raspberry Pi, NUC, Sunucu)"
+        },
+        seeAlso: ["meshstick-vs-standalone-mcu-comparison", "meshtasticd-native-daemon", "portduino-abstraction-framework"]
+      },
+      {
+        id: "meshstick-udev-rules-binding",
+        en: "MeshStick Linux udev Persistent Device Node Binding",
+        tr: "MeshStick Linux udev Kuralları ve Kalıcı Port Eşleme",
+        category: "Yazılım & İstemciler",
+        lead: "Linux sistemine takılan MeshStick dongle'ına sabit ve öngörülebilir bir aygıt yolu (`/dev/meshstick`) atayarak port kaymalarını önleyen sistem kuralı.",
+        details: "Birden fazla USB cihaz takılı sunucularda yeniden başlatma sonrası aygıt numaraları (`/dev/ttyUSB0` yerine `/dev/ttyUSB1`) değişebilir. `/etc/udev/rules.d/99-meshstick.rules` dosyasına `SUBSYSTEM==\"usb\", ATTRS{idVendor}==\"1a86\", ATTRS{idProduct}==\"7523\", SYMLINK+=\"meshstick\"` kuralı eklenir. `udevadm control --reload-rules` komutuyla kural aktif edilir. Böylece `config.yaml` veya Docker Compose dosyasında kalıcı olarak `/dev/meshstick` yolu referans verilebilir.",
+        github: "meshtastic.org/docs/meshtasticd/hardware/radios/usb/meshstick",
+        infobox: {
+          "Kural Dosyası": "/etc/udev/rules.d/99-meshstick.rules",
+          "USB ID": "idVendor: 1a86 (WCH), idProduct: 7523 (CH340/CH341)",
+          "Oluşturulan Sembolik Bağ": "/dev/meshstick",
+          "Önlediği Sorun": "Sunucu açılışında USB portlarının yer değiştirmesi ve servisin çökmesi"
+        },
+        seeAlso: ["ch341-eeprom-serial-provisioning", "docker-usb-bus-passthrough", "meshstick-docker-device-mapping"]
+      },
+      {
+        id: "meshstick-high-power-rf-front-end",
+        en: "MeshStick +22 dBm High-Power RF Front-End Architecture",
+        tr: "MeshStick +22 dBm Yüksek Güçlü RF Ön Uç Mimarisi",
+        category: "Donanım & Anten",
+        lead: "Semtech SX1262 yongasının azami çıkış gücünü sağlayan dahili güç amplifikatörü devresi ve harmonik bastırıcı alçak geçiren filtre tasarımı.",
+        details: "MeshStick, donanımsal olarak +22 dBm (yaklaşık 160 mW) tepe çıkış gücünü destekler. Kart üzerindeki RF hattı, 50 Ohm empedansa tam uyumlu mikroşerit (microstrip) hatlarla tasarlanmıştır. Dahili TCXO kristali frekans kaymasını önlerken, üçüncü ve beşinci harmonikleri süzen LC filtreleri parazit yayılımını engeller. Harici yüksek kazançlı çatı anteni (ör. 6 dBi fiberglass colinear) ile birleştiğinde şehir genelinde onlarca kilometrelik kapsama alanı oluşturur.",
+        github: "meshtastic.org/docs/meshtasticd/hardware/radios/usb/meshstick",
+        infobox: {
+          "Maksimum Çıkış Gücü": "+22 dBm (160 mW)",
+          "RF Empedansı": "50 Ohm Standart SMA Çıkışı",
+          "Harmonik Filtreleme": "Çok kutuplu LC Alçak Geçiren Filtre (Low-Pass Filter)",
+          "Frekans Seçenekleri": "868 MHz (Avrupa/Türkiye) / 915 MHz (ABD)"
+        },
+        seeAlso: ["meshtadpole-sma-antenna-coupling", "meshstick-thermal-continuous-duty-cycle", "rak6421-raspberry-pi-hat"]
+      },
+      {
+        id: "meshstick-always-on-base-station",
+        en: "MeshStick 24/7 Always-On Base Station & Infrastructure Deployment",
+        tr: "MeshStick 7/24 Daimi Kule ve Ev Baz İstasyonu Konuşlandırması",
+        category: "Ağ & Protokol",
+        lead: "Ev sunucusu, NAS veya kule bilgisayarına takılarak yıl boyu kesintisiz çalışan ve tüm mahallenin trafiğini yönlendiren altyapı düğümü rolü.",
+        details: "Pille çalışan el telsizleri birkaç gün içinde şarj gerektirirken, MeshStick bir ev sunucusuna (Home Assistant kutusu, Raspberry Pi, Intel NUC) takılarak 7/24 kesintisiz çalışır. `ROUTER` veya `ROUTER_CLIENT` rolüne alınarak daimi olarak çatıda açık kalır. Hem yerel LoRa örgü ağındaki paketleri havada röleler, hem de dahili MQTT köprüsüyle internet üzerinden diğer şehir ve bölge ağlarına bağlar.",
+        github: "meshtastic.org/docs/meshtasticd/hardware/radios/usb/meshstick",
+        infobox: {
+          "Önerilen Cihaz Rolü": "ROUTER veya ROUTER_CLIENT",
+          "Ana Makine": "Raspberry Pi 4/5, Intel NUC, Synology NAS, Eski PC",
+          "Çalışma Süresi": "365 Gün / 7/24 Kesintisiz (Şebeke / UPS beslemeli)",
+          "İşlev": "Bölgesel paket röleleme ve MQTT omurga köprüleme"
+        },
+        seeAlso: ["meshstick-host-dependent-architecture", "solar-node-architecture", "public-mqtt-server-infrastructure"]
+      },
+      {
+        id: "meshstick-vs-standalone-mcu-comparison",
+        en: "MeshStick vs. Standalone MCU Node Architectural Comparison",
+        tr: "MeshStick ve Bağımsız Mikrodenetleyici Düğüm Karşılaştırması",
+        category: "Donanım & Anten",
+        lead: "Bağımsız çalışan ESP32/nRF52 taşınabilir düğümleri ile ana makineye bağımlı MeshStick USB mimarisi arasındaki donanımsal ve operasyonel farklar.",
+        details: "Heltec veya T-Beam gibi bağımsız düğümler dahili Bluetooth, Wi-Fi, GPS ve pil şarj devresiyle elde taşınabilir bir taktik cihazdır; ancak sınırlı RAM ve flash belleğe sahiptir. MeshStick ise pilsiz ve ekransızdır; tek başına çalışamaz ancak bağlı olduğu Linux sunucusunun devasa işlem gücü, sınırsız kayıt alanı, yerleşik web sunucusu ve doğrudan kablolu Ethernet bağlantısı sayesinde kurumsal ve kule konuşlandırmalarında çok daha yüksek kararlılık sunar.",
+        github: "meshtastic.org/docs/meshtasticd/hardware/radios/usb/meshstick",
+        infobox: {
+          "Bağımsız Düğüm (ESP32/nRF52)": "Taşınabilir, pilli, ekranlı, Bluetooth'lu, sınırlı RAM (520KB)",
+          "MeshStick (USB Çevre Birimi)": "Sabit kule/sunucu, pilsiz, sınırsız RAM/disk, Ethernet/WebUI",
+          "Maliyet": "Her iki yaklaşım da ekonomik; kullanım amacı farklıdır",
+          "Seçim Kriteri": "Saha personeli için Standalone; Kule/Karargah için MeshStick"
+        },
+        seeAlso: ["meshstick-host-dependent-architecture", "meshtasticd-native-daemon", "heltec-v3-esp32-s3"]
+      },
+      {
+        id: "meshstick-thermal-continuous-duty-cycle",
+        en: "MeshStick Thermal Dissipation & Continuous Duty-Cycle Reliability",
+        tr: "MeshStick Termal Dağılım ve Sürekli Çalışma Dayanımı",
+        category: "Donanım & Anten",
+        lead: "Yoğun afet tatbikatlarında ve sürekli paket aktarımında (TX) Semtech SX1262 yongasının aşırı ısınmasını önleyen PCB termal soğutma tasarımı.",
+        details: "Telsiz entegreleri +22 dBm güçte yayın yaparken önemli miktarda ısı açığa çıkarır. MeshStick PCB'sinde SX1262 altındaki termal ped (thermal pad), çok sayıda bakır kaplamalı geçiş deliği (thermal vias) ile kartın arka yüzeyindeki geniş bakır zemin düzlemine (ground plane) bağlanmıştır. Bu pasif soğutma mimarisi, kapalı sunucu kasalarında veya sahra kutularında yaz sıcağında dahi çipin güvenli çalışma sıcaklığında kalmasını sağlar.",
+        github: "meshtastic.org/docs/meshtasticd/hardware/radios/usb/meshstick",
+        infobox: {
+          "Termal Tasarım": "Geniş arka yüzey bakır düzlemi & Termal geçiş delikleri (Vias)",
+          "Çalışma Sıcaklık Aralığı": "-40°C ile +85°C",
+          "TX Görev Döngüsü (Duty Cycle)": "%100 sürekli TX döngüsüne dayanıklı RF yapısı",
+          "Avantajı": "Aşırı ısınma kaynaklı güç düşüşünü (thermal throttling) engelleme"
+        },
+        seeAlso: ["meshstick-high-power-rf-front-end", "meshtadpole-sx1262-tcxo-stability", "meshstick-always-on-base-station"]
+      },
+      {
+        id: "meshstick-docker-device-mapping",
+        en: "MeshStick Docker Container Hardware Device Passthrough Pattern",
+        tr: "MeshStick Docker Konteyner Cihaz Eşleme Kuralı",
+        category: "Yazılım & İstemciler",
+        lead: "Docker konteyneri içinde çalışan `meshtasticd` servisinin USB portundaki MeshStick donanımına doğrudan erişmesini sağlayan `devices` yapılandırma deseni.",
+        details: "`docker-compose.yml` dosyasında `services.meshtasticd.devices` altına `- /dev/bus/usb/001/005:/dev/bus/usb/001/005` veya udev kuralı tanımlanmışsa `- /dev/meshstick:/dev/meshstick` satırı eklenir. Bu sayede konteyner tüm host donanımlarına erişim yetkisi almadan (`--privileged` kullanmadan) yalnızca MeshStick'in USB soketine izole erişir. Konteyner güncellendiğinde veya yeniden başlatıldığında telsiz kesintisiz çalışmaya devam eder.",
+        github: "meshtastic.org/docs/meshtasticd/hardware/radios/usb/meshstick",
+        infobox: {
+          "Compose Tanımı": "devices: - /dev/meshstick:/dev/meshstick (veya /dev/bus/usb/...)",
+          "Güvenlik İlkesi": "--privileged bayrağına gerek kalmadan en az yetkili donanım erişimi",
+          "Yeniden Başlatma": "restart: unless-stopped ile otomatik kurtarma",
+          "Uyumlu İmaj": "meshtastic/meshtasticd:latest veya :daily-alpine"
+        },
+        seeAlso: ["docker-usb-bus-passthrough", "docker-compose-meshtasticd-stack", "meshstick-udev-rules-binding"]
+      },
+      {
+        id: "meshstick-multi-dongle-cross-repeater",
+        en: "MeshStick Multi-Dongle Cross-Frequency LoRa Repeater",
+        tr: "MeshStick Çoklu Dongle ile Çapraz Frekans Rölesi",
+        category: "Ağ & Protokol",
+        lead: "Aynı ana bilgisayara takılan biri 433 MHz, diğeri 868 MHz iki MeshStick ile iki farklı frekanstaki LoRa örgü ağları arasında çift yönlü otomatik paket köprüsü kurma.",
+        details: "Farklı frekans standartlarına sahip telsizler donanımsal olarak doğrudan konuşamaz. Bir Linux sunucusuna (Raspberry Pi) EEPROM seri numaraları farklı iki MeshStick takılır. Sunucuda iki ayrı `meshtasticd` oturumu çalıştırılır; biri 433 MHz'i dinler, diğeri 868 MHz'i. Yerel Node-RED veya Python köprüsü, 433 MHz'den gelen afet paketini anında 868 MHz telsizine enjekte eder. Şehirdeki iki farklı frekans filosu tek bir sunucu üzerinden birbirine bağlanır.",
+        github: "meshtastic.org/docs/meshtasticd/hardware/radios/usb/meshstick",
+        infobox: {
+          "Donanım Gereksinimi": "2 Adet MeshStick (1x 433 MHz + 1x 868 MHz) + 1 Sunucu",
+          "Ayırt Etme Yöntemi": "CH341 EEPROM seri numarası (ch341eeprom)",
+          "Köprüleme Aracı": "Node-RED, Python paho-mqtt köprüsü veya MQTT bridge",
+          "Kullanım": "433 MHz amatör telsiz ağı ile 868 MHz sivil afet ağını birleştirme"
+        },
+        seeAlso: ["ch341-eeprom-serial-provisioning", "nodered-telegram-bot-mesh-bridge", "meshstick-always-on-base-station"]
       }
     ];
 
