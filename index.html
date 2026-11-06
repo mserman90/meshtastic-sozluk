@@ -3906,6 +3906,72 @@
           "Uyumlu Modül": "Meshtastic Canned Message & Text Module"
         },
         seeAlso: ["raspberry-pi-pico-lora", "canned-messages", "m5stack-cardputer", "t-deck"]
+      },
+
+      /* 20. Donanım Destek Seviyeleri ve Topluluk Ekosistemi (meshtastic.org/docs/hardware/devices/community-supported) */
+      {
+        id: "community-supported-hardware",
+        en: "Community Supported Hardware Tier",
+        tr: "Topluluk Destekli Donanım Seviyesi",
+        category: "Ağ & Protokol",
+        lead: "Meshtastic'in resmi üretici ortaklık programında yer almayan, üretimi sonlanmış (legacy) veya bağımsız geliştiricilerce tasarlanmış; firmware derlemeleri devam eden ancak hata desteği tamamen topluluk gönüllülerine dayanan donanım sınıfı.",
+        details: "Bu gruptaki kartlar GitHub CI/CD boru hatlarında otomatik derlenmeye devam eder fakat çekirdek geliştirici ekibi tarafından öncelikli donanımsal hata ayıklama (debugging) ve garanti desteği verilmez. Kullanıcıların teknik sorunlarda Meshtastic Discord veya forum topluluğundan yardım alması beklenir.",
+        github: "meshtastic.org/docs/hardware/devices/community-supported",
+        infobox: {
+          "Destek Modeli": "Gönüllü Topluluk & Forum Desteği (Discord)",
+          "Bellenim Dağıtımı": "GitHub Otomatik Sürüm Derlemeleri",
+          "Kapsam": "Eski modeller, bağımsız DIY projeleri, sponsorluğu biten kartlar",
+          "Tavsiye": "Yeni başlayanlar yerine deneyimli geliştiriciler için uygundur"
+        },
+        seeAlso: ["officially-supported-hardware", "partner-backer-program", "community-ci-matrix"]
+      },
+      {
+        id: "officially-supported-hardware",
+        en: "Officially Supported Hardware Tier",
+        tr: "Resmi Destekli Donanım Seviyesi",
+        category: "Ağ & Protokol",
+        lead: "Meshtastic Partner & Backer programına dahil üreticilerin ürettiği; çekirdek geliştirici ekibi tarafından doğrudan test edilen, Web Flasher ve resmi istemci uygulamalarına tam entegre birinci sınıf donanım kategorisi.",
+        details: "RAKwireless WisBlock, Seeed Studio SenseCAP, Heltec ve LilyGO'nun aktif amiral gemisi cihazlarını kapsar. Yeni bir Meshtastic sürümü çıktığında tüm yeni protokol özellikleri ve güvenlik yamaları öncelikli olarak bu donanımlarda doğrulanır. Yeni başlayanlar için en kararlı deneyimi sunar.",
+        github: "meshtastic.org/docs/hardware/devices",
+        infobox: {
+          "Destek Seviyesi": "Meshtastic Çekirdek Ekibi & Üretici Doğrulaması",
+          "Yükleme": "Web Flasher (flasher.meshtastic.org) Tam Uyumluluk",
+          "Örnekler": "RAK4631, SenseCAP T1000-E, Heltec V3, T-Beam",
+          "Tavsiye": "Yeni kullanıcılar ve kritik saha ağları için birincil tercih"
+        },
+        seeAlso: ["community-supported-hardware", "partner-backer-program", "web-flasher"]
+      },
+      {
+        id: "partner-backer-program",
+        en: "Meshtastic Partner & Backer Program",
+        tr: "Meshtastic Üretici Ortaklık ve Destekçi Programı",
+        category: "Ağ & Protokol",
+        lead: "Donanım üreticilerinin Meshtastic açık kaynak projesine sürekli finansal ve teknik kaynak sağlayarak donanımlarının resmi destek almasını ve geliştirici ekibiyle uyumlu çalışmasını garanti altına alan iş birliği çerçevesi.",
+        details: "Açık kaynak projenin sunucu, test cihazı ve geliştirici altyapı maliyetlerini finanse eder. Programa katılan üreticilerin cihazları resmi dokümantasyonda öncelikli listelenir, Meshtastic markasıyla sertifikalandırılır ve Web Flasher'da sorunsuz güncellenir.",
+        github: "meshtastic.org/docs/hardware/devices",
+        infobox: {
+          "Program Türü": "Açık Kaynak Donanım Üretici Sponsorluk Modeli",
+          "Avantajlar": "Öncelikli firmware desteği, Web Flasher entegrasyonu, resmi sertifika",
+          "Katılımcılar": "RAKwireless, Seeed Studio, Heltec, LilyGO vb.",
+          "Amaç": "Meshtastic ekosisteminin açık kaynak sürdürülebilirliği"
+        },
+        seeAlso: ["officially-supported-hardware", "community-supported-hardware"]
+      },
+      {
+        id: "community-ci-matrix",
+        en: "Community Automated CI/CD Build Matrix",
+        tr: "Topluluk Donanımları CI/CD Derleme Matrisi",
+        category: "Yazılım & Protobuf",
+        lead: "Meshtastic GitHub deposunda her kod değişikliğinde (commit/pull request) onlarca farklı resmi ve topluluk destekli donanım varyantını PlatformIO ile eşzamanlı derleyen otomatik test mimarisi.",
+        details: "ESP32, ESP32-S3, ESP32-C3, ESP32-C6, nRF52840, RP2040 ve STM32 mimarilerini paralel GitHub Actions işçilerinde derler. Bu sayede üretici desteği bitmiş olsa dahi topluluk kartlarının en son bellenim özelliklerini hatasız alabilmesi yazılımsal olarak denetlenir.",
+        github: "meshtastic/firmware: .github/workflows",
+        infobox: {
+          "Altyapı": "GitHub Actions + PlatformIO Derleme Matrisi",
+          "Desteklenen Mimariler": "ESP32, nRF52, RP2040, STM32WLE5",
+          "İşlev": "Eski ve topluluk kartlarının yeni sürümlerle geriye uyumluluğu",
+          "Çıktı": "Her sürümde 50+ farklı hedef cihaz için .bin ve .uf2 dosyaları"
+        },
+        seeAlso: ["platformio", "community-supported-hardware", "web-flasher"]
       }
     ];
 

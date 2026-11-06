@@ -241,6 +241,11 @@ Aşırı sıcak veya dondurucu soğuk hava koşullarında telsiz frekansının k
   - **Raspberry Pi Pico & Pico 2 (RP2040 / RP2350):** Waveshare LoRa modülü eklenerek tam teşekküllü Meshtastic düğümüne dönüştürülen düşük maliyetli açık donanım platformu.
   - **Waveshare Pico LoRa Modülü:** Pico'nun 40 pinli başlığına doğrudan oturan, Semtech SX1262 telsizli ve SMA soketli tak-çalıştır genişleme kartı.
   - **CardKB I2C Donanım Klavyesi:** Pico ve ESP32 kartlarının GPIO 4/5 (I2C) pinlerine bağlanarak telefonsuz metin ve Canned Message girişi sağlayan 50 tuşlu mini klavye.
+- **Donanım Destek Seviyeleri ve Ekosistem Yönetişimi:**
+  - **Resmi Destekli Donanımlar (Officially Supported Tier):** Partner ve Backer programına dahil üreticilerin ürettiği (RAK4631, SenseCAP T1000-E, Heltec V3, T-Beam vb.); çekirdek geliştirici ekibi tarafından doğrudan test edilen, Web Flasher ve istemci uygulamalarında tam desteklenen birinci sınıf donanım sınıfı.
+  - **Topluluk Destekli Donanımlar (Community Supported Tier):** Üretici sponsorluğu bulunmayan, üretimi sonlanmış (legacy) veya bağımsız açık kaynak DIY projeleri; GitHub derlemeleri süren fakat teknik desteği Discord ve forum topluluğuna dayanan kartlar.
+  - **Meshtastic Partner & Backer Programı:** Donanım üreticilerinin Meshtastic açık kaynak projesine altyapı ve finansman sağlayarak cihazlarının resmi sertifikasyon ve öncelikli yazılım desteği almasını güvenceye alan iş birliği çerçevesi.
+  - **Topluluk CI/CD Derleme Matrisi:** Her kod değişikliğinde onlarca farklı resmi ve topluluk kart hedefini GitHub Actions ve PlatformIO ile eşzamanlı derleyerek geriye dönük uyumluluğu koruyan otomatik test hattı.
 
 ### 🔹 USB-Seri Dönüştürücüler ve Sürücüler (Serial Drivers)
 Bilgisayar ile cihaz arasında seri haberleşme (UART) ve firmware yükleme sağlayan köprü entegreleri:
