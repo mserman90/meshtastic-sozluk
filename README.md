@@ -169,7 +169,15 @@ Standart L1 frekansının yanı sıra modern sivil L5 frekansını eşzamanlı i
 Aşırı sıcak veya dondurucu soğuk hava koşullarında telsiz frekansının kaymasını önleyen yüksek kararlılıklı osilatör bileşeni. SX1262 LoRa yongalarında dar bant genişliklerinde (125 kHz) frekans kayması yaşanmadan paketlerin çözülebilmesini sağlar; zorlu kış şartlarındaki dağ rölelerinde hayati öneme sahiptir.
 
 ### 🔹 Popüler Cihaz Modelleri
-- **Heltec WiFi LoRa 32 (V2 / V3):** En yaygın ve ucuz ESP32-S3 tabanlı, dahili OLED ekranlı geliştirme kartı.
+- **Heltec Automation Ekosistemi:**
+  - **WiFi LoRa 32 (V2 / V3 / V4):** En yaygın ESP32-S3 tabanlı, dahili 0.96" OLED ekranlı, Type-C portlu ve bütçe dostu klasik geliştirme kartı.
+  - **Vision Master Serisi (E213 / E290 / T190):** ESP32-S3R8 MCU, HT-RA62 (SX1262) telsizi; 2.13" / 2.90" E-Ink veya 1.9" TFT ekranlı, InkHUD uyumlu çok yönlü terminaller.
+  - **Mesh Node T114:** Ultra düşük güç tüketimli Nordic nRF52840 MCU, SX1262 LoRa, çift pil/solar girişi ve GNSS portuna sahip yeni nesil Heltec kartı.
+  - **MeshPocket:** Qi2 manyetik kablosuz şarjlı (5000 / 10000 mAh) powerbank kasasına entegre nRF52840, SX1262 ve 2.13 inç E-Ink ekranlı hibrit acil durum telsizi.
+  - **Capsule Sensor V3:** ESP32-S3FN8, SX1262, 250 mAh pil, manyetik şarj portu ve değiştirilebilir modüler sensör soketli IP65 su geçirmez minyatür telemetri kapsülü.
+  - **HT-CT62 & HT-RA62:** ESP32-C3 RISC-V veya SX1262 tabanlı, özel DIY kartlar ve gömülü projeler için yüzey montajlı (SMD) minyatür LoRa modülleri.
+  - **Heltec Buton Mantığı:** PRG/PROG tuşuna kısa basış ekran döngüsü, ~0.5 sn menü açma/onaylama, ~4 sn kapatma ve açılışta seri bootloader geçişi.
+  - **MOSFET Periferik Güç Anahtarlaması:** Harici GT-U7 GPS modüllerinin bataryayı hızla bitirmesini önlemek için GPIO üzerinden firmware kontrollü transistörle güç kesme mimarisi.
 - **LilyGO Telsiz ve Terminal Ekosistemi:**
   - **LilyGO TTGO T-Beam (v1.1 / v1.2):** 18650 pil yuvası, u-blox GPS, dahili AXP192/AXP2101 PMIC ve LoRa telsizi barındıran klasik saha ve araç takip düğümü.
   - **T-Beam Supreme (ESP32-S3 Core):** ESP32-S3FN8 çift çekirdekli işlemci, Semtech SX1262, u-blox NEO-M10S GNSS, BME280 çevre sensörü (sıcaklık/nem/basınç), QMI8658 IMU, manyetometre ve AXP2101 PMIC'li amiral gemisi.

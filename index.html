@@ -3532,6 +3532,136 @@
           "Uyumlu Donanımlar": "Wio Tracker L2 Pro, T5 E-Paper, T-Deck Plus"
         },
         seeAlso: ["wio-tracker-l2-pro", "t-deck-plus", "telemetry", "tracker"]
+      },
+
+      /* 17. Heltec Automation Donanım Ekosistemi (meshtastic.org/docs/hardware/devices/heltec-automation) */
+      {
+        id: "heltec-vision-master",
+        en: "Heltec Vision Master Series (E213 / E290 / T190)",
+        tr: "Heltec Vision Master Serisi (E-Ink & TFT Geliştirme Kartları)",
+        category: "Donanım & Çipler",
+        lead: "ESP32-S3R8 işlemci ve HT-RA62 (SX1262) LoRa telsizini farklı ekran mimarileriyle birleştiren; E213 (2.13\" E-Ink), E290 (2.90\" E-Ink) ve T190 (1.9\" Renkli TFT) modellerinden oluşan Heltec geliştirme kartı ailesi.",
+        details: "E-mürekkep modelleri güneş ışığında net görünürlük ve ultra düşük uyku tüketimi sunarken InkHUD firmware arayüzü ile uyumludur. T190 renkli modeli ise 170x320 piksel çözünürlükle zengin görsel telemetri sunar. Çift kullanıcı butonu, harici anten konnektörü ve lityum pil şarj devresi barındırır.",
+        github: "meshtastic.org/docs/hardware/devices/heltec-automation/vision-master",
+        infobox: {
+          "İşlemci (MCU)": "Espressif ESP32-S3R8 (Xtensa LX7 Çift Çekirdek)",
+          "LoRa Telsiz Modülü": "Heltec HT-RA62 (Semtech SX1262)",
+          "Ekran Seçenekleri": "2.13\" E-Ink / 2.90\" E-Ink / 1.9\" Renkli TFT LCD",
+          "Arayüz Desteği": "Standart Meshtastic UI & InkHUD"
+        },
+        seeAlso: ["heltec-v3", "inkhud-firmware", "t-echo", "heltec-ht-ra62"]
+      },
+      {
+        id: "heltec-mesh-node-t114",
+        en: "Heltec Mesh Node T114",
+        tr: "Heltec Mesh Node T114 (Düşük Güçlü nRF52840 Düğümü)",
+        category: "Donanım & Çipler",
+        lead: "Heltec'in ESP32 yerine ultra düşük güç tüketimli Nordic nRF52840 MCU mimarisine geçiş yaptığı; Semtech SX1262 LoRa telsizi, dahili Bluetooth LE 5.0 ve çift 1.25mm pil/solar girişine sahip modern saha kartı.",
+        details: "Güneş enerjili sabit yönlendiriciler (`ROUTER` / `REPEATER`) ve uzun ömürlü taşınabilir el cihazları için optimize edilmiştir. Harici GPS modülü bağlamak için özel soket, Type-C USB portu ve nRF52 DFU önyükleyicisi içerir.",
+        github: "meshtastic.org/docs/hardware/devices/heltec-automation/mesh-node",
+        infobox: {
+          "İşlemci": "Nordic Semiconductor nRF52840 (ARM Cortex-M4F)",
+          "LoRa Telsizi": "Semtech SX1262 (Sub-GHz)",
+          "Güç Girişleri": "USB Type-C + 1.25mm Li-Po Pil + 1.25mm Solar Panel",
+          "Uyku Akımı": "Mikroamper seviyesinde ultra düşük bekleme tüketimi"
+        },
+        seeAlso: ["nrf52840", "rak4631-core", "heltec-v3", "heltec-button-navigation"]
+      },
+      {
+        id: "heltec-meshpocket",
+        en: "Heltec MeshPocket (Qi2 Power Bank Node)",
+        tr: "Heltec MeshPocket (Qi2 Manyetik Şarjlı Taşınabilir Düğüm)",
+        category: "Donanım & Çipler",
+        lead: "Qi2 manyetik kablosuz şarj destekli powerbank (5000 mAh veya 10000 mAh) kasası içerisine entegre edilmiş Nordic nRF52840 işlemci, SX1262 LoRa telsizi ve 2.13 inç E-Ink ekrandan oluşan hepsi bir arada hibrit taşınabilir Meshtastic cihazı.",
+        details: "Akıllı telefonun arkasına MagSafe/Qi2 manyetik olarak yapışarak hem telefonu kablosuz şarj eder hem de telefondan bağımsız otonom bir LoRa mesh düğümü olarak çalışır. Güneş altında rahat okunan e-mürekkep ekranı gelen mesajları sürekli gösterir.",
+        github: "meshtastic.org/docs/hardware/devices/heltec-automation/meshpocket",
+        infobox: {
+          "Batarya & Şarj": "5000 mAh / 10000 mAh Dahili Pil + Qi2 Manyetik Kablosuz Şarj",
+          "İşlemci & Telsiz": "Nordic nRF52840 + Semtech SX1262",
+          "Ekran": "2.13 inç Güneş Işığında Okunabilir E-Ink",
+          "Kullanım": "Telefon arkası entegre powerbank ve acil durum telsizi"
+        },
+        seeAlso: ["nrf52840", "t-echo", "wismesh-pocket", "sensecap-x1"]
+      },
+      {
+        id: "heltec-ht-ct62",
+        en: "Heltec HT-CT62 SMD Module",
+        tr: "Heltec HT-CT62 (ESP32-C3 & SX1262 Yüzey Montaj Modülü)",
+        category: "Donanım & Çipler",
+        lead: "Espressif tek çekirdekli RISC-V ESP32-C3 yongası ile Semtech SX1262 telsizini minyatür bir pul (stamp) boyutunda birleştiren, ekransız ve pilsiz kompakt SMD LoRa modülü.",
+        details: "Kendin-yap (DIY) topluluk projelerinde, 'faketec' tarzı özel tasarım taşıyıcı kartlarda ve minyatür sensör düğümlerinde ana çekirdek olarak doğrudan PCB üzerine lehimlenir. Wi-Fi ve Bluetooth LE desteğine sahiptir.",
+        github: "meshtastic.org/docs/hardware/devices/heltec-automation/ht62",
+        infobox: {
+          "Mikrodenetleyici": "Espressif ESP32-C3 (32-bit RISC-V)",
+          "LoRa Alıcı-Verici": "Semtech SX1262",
+          "Form Faktörü": "Yüzey Montajlı (SMD / Stamp Hole) Pul Modül",
+          "Kullanım Amacı": "Özel DIY kartlar, kompakt sensörler ve gömülü projeler"
+        },
+        seeAlso: ["esp32-c3", "sx1262", "tlora-c6", "wio-e5-module"]
+      },
+      {
+        id: "heltec-capsule-sensor-v3",
+        en: "Heltec Capsule Sensor V3",
+        tr: "Heltec Capsule Sensor V3 (Minyatür Modüler Kapsül Düğümü)",
+        category: "Donanım & Çipler",
+        lead: "ESP32-S3FN8 işlemci, SX1262 telsiz, 250 mAh dahili pil, manyetik şarj soketi ve alt modüler sensör arayüzüne sahip IP65 su geçirmez minyatür tak-çalıştır Meshtastic sensör kapsülü.",
+        details: "Alt kısmına değiştirilebilir sensör modülleri (sıcaklık/nem, GNSS GPS, CO2 veya hareket) takılarak zorlu dış mekan ortamlarına, araçlara veya tarım sahalarına bırakılır. ESP32-S3 sayesinde WirelessBoot Wi-Fi üzerinden kablosuz firmware güncellemelerini destekler.",
+        github: "meshtastic.org/docs/hardware/devices/heltec-automation/lora32",
+        infobox: {
+          "Koruma Standardı": "IP65 Su ve Toz Geçirmez Kapsül Kasa",
+          "İşlemci & RF": "ESP32-S3FN8 + Semtech SX1262",
+          "Batarya & Şarj": "250 mAh Şarj Edilebilir Pil + Manyetik Şarj Soketi",
+          "Sensör Arayüzü": "Değiştirilebilir Alt Modüler Sensör Tabanı"
+        },
+        seeAlso: ["sensecap-t1000e", "wismesh-tag", "telemetry", "sensor"]
+      },
+      {
+        id: "heltec-ht-ra62",
+        en: "Heltec HT-RA62 Sub-GHz LoRa Module",
+        tr: "Heltec HT-RA62 Yüzey Montajlı LoRa Telsiz Modülü",
+        category: "Donanım & Çipler",
+        lead: "Semtech SX1262 LoRa yongası ve RF empedans eşleme devresini barındıran; Vision Master ve Heltec kartlarının radyo haberleşmesini sağlayan SMD telsiz modülü.",
+        details: "Standart Sub-GHz frekanslarını (433/868/915 MHz) destekler; +22 dBm'e kadar çıkış gücü, mükemmel harmonik filtreleme ve IPEX anten soketiyle donatılmıştır.",
+        github: "meshtastic.org/docs/hardware/devices/heltec-automation/vision-master",
+        infobox: {
+          "Telsiz Yongası": "Semtech SX1262",
+          "Çıkış Gücü": "+22 dBm Maksimum",
+          "Anten Bağlantısı": "U.FL / IPEX Soketi",
+          "Kullanıldığı Donanımlar": "Vision Master E213/E290/T190, Heltec Geliştirme Kartları"
+        },
+        seeAlso: ["sx1262", "heltec-vision-master", "tx-power"]
+      },
+      {
+        id: "heltec-button-navigation",
+        en: "Heltec Multi-Function Button Navigation Logic",
+        tr: "Heltec Çok Fonksiyonlu Buton Gezinim Mantığı",
+        category: "Yazılım & Protobuf",
+        lead: "Heltec V3, V4, Vision Master ve Mesh Node T114 kartlarında fiziksel PRG/PROG/BOOT butonu üzerinden sağlanan ekran, menü, kapatma ve önyükleyici kontrol mantığı.",
+        details: "• Kısa basış: Bir sonraki bilgi ekranına geçer (menü açıksa aşağı kaydırır).<br>• 0.5 saniye basılı tutma: Mevcut ekranın bağlam menüsünü açar veya seçili öğeyi onaylar.<br>• ~4 saniye basılı tutup bırakma: Cihazı 4 tonlu yükselen ses eşliğinde kapatır (açılıştan 30 sn sonra aktifleşir).<br>• Açılış esnasında basılı tutma: ESP32'yi seri bootloader (ROM indirme) moduna geçirir.",
+        github: "meshtastic.org/docs/hardware/devices/heltec-automation/lora32/buttons",
+        infobox: {
+          "Tuşlar": "PRG / PROG / BOOT + RST Tuşu",
+          "Ekran Değiştirme": "Kısa basış",
+          "Menü Açma/Seçme": "~0.5 saniye basılı tutma",
+          "Kapatma": "~4 saniye basılı tutup bırakma"
+        },
+        seeAlso: ["heltec-v3", "heltec-mesh-node-t114", "t-echo-touch-pad", "t1000e-button-actions"]
+      },
+      {
+        id: "mosfet-gps-power-switch",
+        en: "MOSFET / Hardware Peripheral Power Switching",
+        tr: "MOSFET / Periferik Donanım Güç Anahtarlaması",
+        category: "Donanım & Çipler",
+        lead: "Heltec LoRa32 ve bütçe kartlarına harici GT-U7/u-blox GPS modülleri veya sensörler eklenirken, bataryanın hızla tükenmesini engellemek için GPIO kontrollü bir MOSFET transistör ile yapılan güç kesme mimarisi.",
+        details: "Sürekli çalışan bir GPS alıcısı 20-50 mA akım çekerek 1000 mAh bataryayı saatler içinde bitirebilir. Firmware tarafından sürülen P-kanal veya N-kanal bir MOSFET anahtar sayesinde, GPS modülü sadece konum paketi gönderileceği zaman uyandırılır ve koordinat alındıktan sonra enerjisi tamamen kesilir.",
+        github: "meshtastic.org/docs/hardware/devices/heltec-automation/lora32/peripherals",
+        infobox: {
+          "Kontrol Yöntemi": "Firmware GPIO Tetiklemeli P/N-Kanal MOSFET",
+          "Amaç": "GPS ve sensör bekleme akımını sıfıra indirmek",
+          "Batarya Tasarrufu": "Pil ömrünü saatlerden günlere çıkarır",
+          "Kullanım": "Heltec V3 DIY GPS eklemeleri ve harici telemetri"
+        },
+        seeAlso: ["heltec-v3", "pmic", "telemetry", "tracker"]
       }
     ];
 
