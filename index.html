@@ -9759,6 +9759,167 @@
           "Kullanım Alanı": "Dağ zirvesi telsiz röleleri, telemetri ağ geçitleri, afet haberleşme kuleleri"
         },
         seeAlso: ["rpi-meshtasticd-hardware-architecture", "rak6421-raspberry-pi-hat", "meshtasticd-always-on-base-station"]
+      },
+      {
+        id: "developer-contributor-workflow",
+        en: "Meshtastic Developer and Contributor Workflow",
+        tr: "Meshtastic Geliştirici ve Katkı Sağlayıcı İş Akışı",
+        category: "Topluluk & Katkı",
+        lead: "Meshtastic açık kaynak ekosistemine kod, dokümantasyon veya test katkısı sunmak isteyen geliştiriciler için resmi olarak önerilen üç adımlı temel katılım metodolojisi.",
+        details: "Meshtastic, geleneksel kurumsal projelerdeki katı yol haritaları yerine topluluk ihtiyaçlarıyla evrilen dinamik bir yapıya sahiptir. Katkı sağlamak isteyen geliştiricilere üç aşamalı bir yöntem önerilir: 1. Meshtastic donanımını ve istemcilerini bizzat sahada kullanarak pratik deneyim kazanmak; 2. Kod yazmaya başlamadan önce Discord kanallarında (#firmware, #android, #apple, #web, #python) maintainer ve topluluk üyeleriyle fikri tartışmak; 3. Büyük mimari değişiklikler yerine açık pull request'leri test etmek ve mevcut issue'ları çözerek küçük adımlarla güven inşa etmek.",
+        github: "meshtastic.org/docs/developers",
+        infobox: {
+          "Metodoloji": "1. Kullanım (Pratik Deneyim) -> 2. Discord İstişaresi -> 3. Küçük Adımlar",
+          "İletişim Platformu": "Meshtastic Discord Sunucusu",
+          "Hedef": "Teorik spekülasyon yerine sahada test edilmiş sağlam çözümler üretme",
+          "Başlangıç Noktası": "Açık PR'ları test etmek ve hata bildirimlerini doğrulamak"
+        },
+        seeAlso: ["pr-acceptance-best-practices", "discord-collaborative-governance", "contributor-peer-review-culture"]
+      },
+      {
+        id: "pr-acceptance-best-practices",
+        en: "Meshtastic Pull Request Acceptance and Review Guidelines",
+        tr: "Meshtastic Pull Request Kabul ve İnceleme Standartları",
+        category: "Topluluk & Katkı",
+        lead: "Geliştiricilerin açtığı Pull Request'lerin (PR) çekirdek ekip tarafından incelenmesi ve başarıyla ana koda birleştirilmesi (merge) için belirlenen en iyi katkı pratikleri.",
+        details: "Topluluk projelerinde habersiz gönderilen devasa PR'ların birçoğu mimari uyumsuzluk veya inceleme zorluğu nedeniyle reddedilir. Meshtastic yönergeleri, geliştiricilerin kod yazmadan önce GitHub Issue veya Discord üzerinden niyet bildirmesini, PR'ları tek bir konuya odaklanmış dar kapsamlı parçalara bölmesini, teorik varsayımlar yerine gerçek saha testlerine dayandırmasını ve inceleme sürecini yapıcı bir diyalog olarak görmesini şart koşar.",
+        github: "meshtastic.org/docs/developers",
+        infobox: {
+          "Temel İlke": "Kodlamadan önce konuş (Talk before you build)",
+          "Kapsam Kuralı": "Küçük, odaklı ve kolay test edilebilir bağımsız PR'lar",
+          "Doğrulama": "Fiziksel telsiz donanımları üzerinde saha testi sonuçları",
+          "İnceleme Süreci": "Gönüllü maintainer geri bildirimlerine dayalı yinelemeli süreç"
+        },
+        seeAlso: ["drive-by-pr-anti-pattern", "developer-contributor-workflow", "contributor-peer-review-culture"]
+      },
+      {
+        id: "multi-repo-github-organization",
+        en: "Meshtastic Multi-Repository GitHub Organization",
+        tr: "Meshtastic Çoklu Depo GitHub Organizasyon Mimarisi",
+        category: "Topluluk & Katkı",
+        lead: "Meshtastic ekosisteminin donanım, gömülü yazılım, mobil uygulamalar, kütüphaneler ve dokümantasyon olmak üzere 100'den fazla bağımsız GitHub deposuna yayılan modüler mimarisi.",
+        details: "Meshtastic tek bir devasa monolitik depo (monorepo) yerine çoklu depo stratejisi izler. Cihaz yazılımı `firmware`, veri yapıları `protobufs`, Android uygulaması `Meshtastic-Android`, Apple ekosistemi `Meshtastic-Apple`, web arayüzü `web`, Python araçları `python` ve Linux arka planı `meshtasticd` gibi özel depolarda bağımsız sürüm döngüleriyle geliştirilir. Bu modülerlik, farklı uzmanlık alanlarındaki geliştiricilerin izole çalışabilmesini sağlar.",
+        github: "meshtastic.org/docs/developers",
+        infobox: {
+          "Organizasyon": "github.com/meshtastic",
+          "Depo Sayısı": "100+ bağımsız açık kaynak depo",
+          "Ana Depolar": "firmware, protobufs, Meshtastic-Android, Meshtastic-Apple, web, python",
+          "Bağımlılık Yönetimi": "Ortak Protobuf şemaları ve git submodule yapıları"
+        },
+        seeAlso: ["device-apis-ecosystem", "cross-platform-client-matrix", "client-api-protobuf-bridge"]
+      },
+      {
+        id: "device-apis-ecosystem",
+        en: "Meshtastic Device APIs Ecosystem Architecture",
+        tr: "Meshtastic Cihaz API Ekosistemi ve Arayüz Mimarisi",
+        category: "Ağ & Protokol",
+        lead: "Meshtastic telsiz düğümleriyle haberleşmek, veri alışverişi yapmak veya cihaz üzerinde yerel eklentiler çalıştırmak için sunulan üç temel API katmanı.",
+        details: "Ekosistem üç temel programlama arabirimi (API) sunar: 1. Client API (dış istemcilerin Bluetooth LE, Seri/USB port veya WiFi/TCP üzerinden düğümle konuşmasını sağlar); 2. Module API (firmware içerisinde C++ ile yerel sensör, telemetri veya yönlendirme modülleri geliştirmeyi sağlar); 3. HTTP REST/JSON API (dahili web sunucusuna sahip cihazların doğrudan ağ üzerinden HTTP GET/POST çağrılarıyla yönetilmesini sağlar).",
+        github: "meshtastic.org/docs/developers",
+        infobox: {
+          "1. Client API": "Bluetooth, USB Seri, TCP/IP üzerinden harici istemci kontrolü",
+          "2. Module API": "Cihaz firmware'i içinde yerleşik C++ modül geliştirme",
+          "3. HTTP API": "Web soketleri ve REST istekleriyle tarayıcı/ağ entegrasyonu",
+          "Ortak Dil": "Google Protocol Buffers (Protobuf)"
+        },
+        seeAlso: ["client-api-protobuf-bridge", "module-api-firmware-extension", "cross-platform-client-matrix"]
+      },
+      {
+        id: "client-api-protobuf-bridge",
+        en: "Meshtastic Client API Protocol Buffers Bridge",
+        tr: "Meshtastic Client API ve Protobuf Köprüleme Mekanizması",
+        category: "Ağ & Protokol",
+        lead: "Python CLI, Android, iOS ve Web istemcilerinin telsiz cihazına bağlanarak komut göndermesini ve telemetri almasını sağlayan standart Protobuf köprüsü.",
+        details: "Meshtastic cihazları istemcilerle konuşurken metin tabanlı JSON yerine ikili (binary) Protocol Buffers formatını kullanır. İstemci kütüphanesi fiziksel katmanda Seri port (115200 baud), Bluetooth LE (özel GATT karakteristikleri) veya TCP soketi üzerinden telsize `ToRadio` protobuf paketleri gönderir ve telsizden `FromRadio` yanıtları alır. Bu köprü kanal ayarlarını, şifreleme anahtarlarını, konum ve kısa mesaj paketlerini evrensel olarak taşır.",
+        github: "meshtastic.org/docs/developers",
+        infobox: {
+          "Fiziksel Katmanlar": "USB Seri, BLE (Bluetooth Low Energy), TCP/IP Soket",
+          "Gelen/Giden Paketler": "ToRadio (İstemciden Cihaza) / FromRadio (Cihazdan İstemciye)",
+          "Veri Formatı": "Google Protocol Buffers (.proto)",
+          "İstemci Dilleri": "Python, TypeScript/JS, Swift, Kotlin, Go, C++"
+        },
+        seeAlso: ["device-apis-ecosystem", "module-api-firmware-extension", "multi-repo-github-organization"]
+      },
+      {
+        id: "module-api-firmware-extension",
+        en: "Meshtastic Module API C++ Firmware Extension Interface",
+        tr: "Meshtastic Module API C++ Firmware Eklenti Mimarisi",
+        category: "Yazılım & İstemciler",
+        lead: "Geliştiricilerin firmware çekirdeğini değiştirmeden telsiz düğümüne yeni telemetri sensörleri, özel paket işleyicileri ve ekran arayüzleri eklemesini sağlayan C++ modül arayüzü.",
+        details: "Meshtastic firmware'i `MeshModule` ve `ProtobufModule` temel C++ sınıfları üzerine kurulmuştur. Yeni bir özellik veya sensör eklemek isteyen bir geliştirici, bu sınıflardan türeyen bir modül yazar ve `setup()`, `handleReceived()`, `sendOurPosition()` veya `loop()` sanal metodlarını ezerek (override) telsiz örgü ağına gelen veya giden paketleri filtreleyebilir, GPIO çıkışlarını sürebilir ya da I2C sensör verilerini otomatik ağa yayınlayabilir.",
+        github: "meshtastic.org/docs/developers",
+        infobox: {
+          "Temel C++ Sınıfları": "MeshModule, ProtobufModule, SinglePortModule",
+          "Kritik Metotlar": "setup(), loop(), handleReceived(), wantPacket()",
+          "Örnek Modüller": "TelemetryModule, RangeTestModule, CannedMessageModule",
+          "Avantajı": "Çekirdek yönlendirme (routing) koduna dokunmadan modüler genişleme"
+        },
+        seeAlso: ["device-apis-ecosystem", "client-api-protobuf-bridge", "rpi-i2c-arm-bus-configuration"]
+      },
+      {
+        id: "discord-collaborative-governance",
+        en: "Meshtastic Discord Collaborative Open Governance",
+        tr: "Meshtastic Discord Tabanlı İşbirlikçi Karar Mekanizması",
+        category: "Topluluk & Katkı",
+        lead: "Meshtastic projesinin katı hiyerarşik komite toplantıları yerine Discord kanallarındaki açık ve gerçek zamanlı diyaloglarla şekillenen yönetişim ve gelişim modeli.",
+        details: "Meshtastic ekosisteminde resmi bir üst düzey yol haritası (roadmap) veya sert milestone takvimleri bulunmaz. Projenin mimari yönü, yeni telsiz yongalarının desteği veya arayüz standartları `#firmware`, `#android`, `#apple`, `#web`, `#python` ve `#hardware` Discord kanallarında gönüllü çekirdek geliştiriciler ile saha kullanıcılarının karşılıklı fikir alışverişiyle şekillenir. Kod yazmadan önce toplulukla temas kurmak projenin en temel kültür kuralıdır.",
+        github: "meshtastic.org/docs/developers",
+        infobox: {
+          "Yönetişim Biçimi": "Doğal Liyakate Dayalı Açık Kaynak Topluluk Yönetimi",
+          "Ana İletişim Kanalları": "#firmware, #android, #apple, #web, #python, #hardware",
+          "Kültür İlkesi": "Gizli el sıkışma veya kapalı kapılar yok; herkes eşit katılabilir",
+          "Sonuç": "Hızlı geri bildirim döngüleri ve organik proje büyümesi"
+        },
+        seeAlso: ["developer-contributor-workflow", "pr-acceptance-best-practices", "contributor-peer-review-culture"]
+      },
+      {
+        id: "drive-by-pr-anti-pattern",
+        en: "Drive-By Pull Request Anti-Pattern in Open Source",
+        tr: "Açık Kaynakta Drive-By Pull Request Karşıtı Politika",
+        category: "Topluluk & Katkı",
+        lead: "Geliştiricilerin toplulukla hiçbir ön iletişim kurmadan ve saha ihtiyaçlarını doğrulamadan tek seferde açtığı devasa mimari PR'ların projeye getirdiği yük ve kaçınma yolları.",
+        details: "'Drive-by PR', bir geliştiricinin Discord veya GitHub Issue üzerinde hiç tartışmadan yüzlerce satırlık radikal kod değişikliklerini doğrudan göndermesi durumudur. Bu tür PR'lar teknik açıdan başarılı görünse bile projenin uzun vadeli vizyonuyla uyuşmayabilir, diğer platformların (Android, iOS vb.) Protobuf sözleşmesini bozabilir veya bakım yükü getirebilir. Meshtastic yönergeleri, geliştiricileri büyük PR'lar yerine maintainer'larla önceden konuşmaya ve küçük iteratif değişiklikler sunmaya yönlendirir.",
+        github: "meshtastic.org/docs/developers",
+        infobox: {
+          "Anti-Pattern Tanımı": "Ön iletişimsiz, devasa ve habersiz tek seferlik kod katkısı",
+          "Neden Başarısız Olur": "İnceleme zorluğu, mimari vizyon çatışması, çapraz platform kırılmaları",
+          "Çözüm": "Önceden Discord'da niyet belirtme ve küçük odaklı PR parçaları sunma",
+          "Maintainer Yükü": "Gönüllü inceleyicilerin zamanını korumak için sıkı filtreleme"
+        },
+        seeAlso: ["pr-acceptance-best-practices", "developer-contributor-workflow", "contributor-peer-review-culture"]
+      },
+      {
+        id: "cross-platform-client-matrix",
+        en: "Meshtastic Cross-Platform Client Matrix",
+        tr: "Meshtastic Çapraz Platform İstemci Matrisi",
+        category: "Yazılım & İstemciler",
+        lead: "Meshtastic telsiz ekosistemini masaüstü, mobil ve sunucu platformlarında temsil eden uyumlu istemci kütüphaneleri ve uygulama ailesi.",
+        details: "Meshtastic ekosistemi geniş bir işletim sistemi ve platform yelpazesini destekler: 1. Android (Kotlin tabanlı mobil uygulama, Google Play & F-Droid); 2. Apple (Swift tabanlı iOS, iPadOS, watchOS ve macOS yerel uygulaması); 3. Web Client (Web Bluetooth ve Web Serial API ile doğrudan Chrome/Edge üzerinden telsize bağlanan web istemcisi); 4. Python (CLI aracı ve otomasyon kütüphanesi); 5. Linux meshtasticd (sunucular ve Raspberry Pi için yerel arka plan servisi). Tüm bu platformlar ortak Protobuf şemalarıyla kusursuz senkronize çalışır.",
+        github: "meshtastic.org/docs/developers",
+        infobox: {
+          "Android": "Kotlin (github.com/meshtastic/Meshtastic-Android)",
+          "Apple (iOS/macOS)": "Swift (github.com/meshtastic/Meshtastic-Apple)",
+          "Web": "TypeScript & Vue/React (client.meshtastic.org)",
+          "Python / CLI": "Python 3 (github.com/meshtastic/python)",
+          "Linux Daemon": "C++ meshtasticd (github.com/meshtastic/meshtasticd)"
+        },
+        seeAlso: ["multi-repo-github-organization", "client-api-protobuf-bridge", "device-apis-ecosystem"]
+      },
+      {
+        id: "contributor-peer-review-culture",
+        en: "Contributor Peer Review and Trust Building Culture",
+        tr: "Meshtastic Katkıcı Eş İnceleme ve Güven İnşa Kültürü",
+        category: "Topluluk & Katkı",
+        lead: "Açık kaynak projede saygınlık ve maintainer güveni kazanmanın en hızlı yolu olarak diğer geliştiricilerin PR'larını test etme ve doğrulama prensibi.",
+        details: "Meshtastic geliştirici kılavuzu, ekibe yeni katılan geliştiricilerin hemen büyük kodlar yazmak yerine mevcut açık pull request'leri test etmesini ve donanım üzerindeki deneyimlerini raporlamasını tavsiye eder. Bir donanım projesinde yüzlerce farklı cihaz kombinasyonunu test etmek çekirdek ekibin en çok zorlandığı alandır. Başkalarının kodunu test eden ve hata ayıklayan katkıcılar hem kod tabanını derinlemesine öğrenir hem de topluluk nezdinde hızlı bir güven ve itibar kazanır.",
+        github: "meshtastic.org/docs/developers",
+        infobox: {
+          "Önerilen Faaliyet": "Açık PR'ları farklı kartlarda (ESP32, nRF52, SX1262) test etmek",
+          "Kazanım": "Kod tabanını maintainer gözüyle anlama ve topluluk kredisi kazanma",
+          "Test Raporu": "Donanım modeli, firmware sürümü ve konsol logları ile geri bildirim",
+          "Topluluk Değeri": "Geliştirici ekibinin test yükünü hafifleten en kritik gönüllü rol"
+        },
+        seeAlso: ["pr-acceptance-best-practices", "developer-contributor-workflow", "discord-collaborative-governance"]
       }
     ];
 

@@ -802,6 +802,18 @@ Meshtastic donanımını kontrol etmek, mesajlaşıp harita görüntülemek ve a
 - **Raspberry Pi Modern /boot/firmware/config.txt Dosya Yolu Standardı (`rpi-boot-firmware-config-path`):** Debian Bookworm ile gelen yeni UEFI uyumlu önyükleme yapılandırma dizini standardı.
 - **Raspberry Pi Compute Module Endüstriyel Taşıyıcı Entegrasyonu (`rpi-compute-module-carrier-integration`):** Dahili eMMC ve mini PCIe yuvasıyla microSD arızalarını önleyen endüstriyel baz istasyonları.
 
+### 💻 Meshtastic Geliştirici Ekosistemi ve Katkı Mimarisi (meshtastic.org/docs/developers)
+- **Meshtastic Geliştirici ve Katkı Sağlayıcı İş Akışı (`developer-contributor-workflow`):** "Kullan, Discord'da Tartış, Küçük Adımlarla İlerle" üç aşamalı açık kaynak metodolojisi.
+- **Meshtastic Pull Request Kabul ve İnceleme Standartları (`pr-acceptance-best-practices`):** Önceden fikir birliği sağlama, dar odaklı PR ve saha testleriyle doğrulama ilkeleri.
+- **Meshtastic Çoklu Depo GitHub Organizasyon Mimarisi (`multi-repo-github-organization`):** 100'den fazla bağımsız açık kaynak depoya yayılan modüler ekosistem yapısı.
+- **Meshtastic Cihaz API Ekosistemi ve Arayüz Mimarisi (`device-apis-ecosystem`):** Dış istemciler için Client API, C++ eklentileri için Module API ve web için HTTP REST/JSON API üçlüsü.
+- **Meshtastic Client API ve Protobuf Köprüleme Mekanizması (`client-api-protobuf-bridge`):** USB Seri, BLE ve TCP üzerinden `ToRadio`/`FromRadio` ikili Protobuf paketleriyle haberleşme standardı.
+- **Meshtastic Module API C++ Firmware Eklenti Mimarisi (`module-api-firmware-extension`):** Firmware çekirdeğini bozmadan `ProtobufModule` ve `MeshModule` sınıflarıyla telsize sensör ve telemetri ekleme.
+- **Meshtastic Discord Tabanlı İşbirlikçi Karar Mekanizması (`discord-collaborative-governance`):** Katı yol haritası yerine geliştirici kanallarındaki (#firmware, #android vb.) açık diyaloglarla şekillenen yönetişim.
+- **Açık Kaynakta Drive-By Pull Request Karşıtı Politika (`drive-by-pr-anti-pattern`):** Ön tartışmasız ve doğrulanmamış devasa tek seferlik kod gönderimlerinin projeye getirdiği yük ve önlemler.
+- **Meshtastic Çapraz Platform İstemci Matrisi (`cross-platform-client-matrix`):** Android Kotlin, Apple Swift, Web Client, Python CLI ve Linux meshtasticd ekosisteminin tam uyumu.
+- **Meshtastic Katkıcı Eş İnceleme ve Güven İnşa Kültürü (`contributor-peer-review-culture`):** Açık PR'ları farklı telsiz kartlarında test ederek topluluk içinde hızlı güven ve itibar kazanma.
+
 ### 🔹 Açık Standart ve Tedarikçi Bağımsızlığı (Open Architecture & Vendor Neutrality)
 Meshtastic'in hiçbir tescilli ticari protokole veya tek bir donanım üreticisine bağımlı kalmamasını sağlayan açık kaynak ekosistem felsefesi (GPL-3.0 lisansı ve açık Protobuf şemaları). Semtech SX1262/SX1276/LR1121 telsizleri ile ESP32, nRF52840 ve RP2040 işlemcili onlarca farklı üreticinin (Heltec, LilyGO, RAKwireless) donanımları tam uyumla birlikte çalışabilir.
 
