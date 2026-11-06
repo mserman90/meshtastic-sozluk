@@ -223,6 +223,17 @@ Aşırı sıcak veya dondurucu soğuk hava koşullarında telsiz frekansının k
   - **Wio-WM1110 Modülü:** Nordic nRF52840 MCU ile Semtech LR1110 (LoRa + GNSS + Wi-Fi Sniffer) hibrit konumlandırma ve IoT geliştirme kartı.
   - **Wio-E5 (STM32WLE5JC):** ARM Cortex-M4 işlemci ile SX126x telsizini tek silikon çipte birleştiren monolitik LoRaWAN ve Meshtastic SoC modülü.
   - **Grove Modüler Bağlantı Sistemi:** 4-pinli standart polarize konnektörle çevre sensörlerinin (BME680, SHT40 vb.) lehimleme gerektirmeden tak-çalıştır bağlanmasını sağlayan ekosistem.
+- **B&Q Consulting Donanımları (Neil Hao Tasarımları):**
+  - **Nano G2 Ultra & Nano Serisi:** Doğa sporları için özel tasarlanmış; nRF52840, entegre geniş bantlı iç anten (815-940 MHz), GPS ve hafif dayanıklı kasalı kompakt el cihazı.
+  - **Station G1 / G2 Serisi:** Yüksek güçlü RF güç amplifikatörlü (PA), düşük gürültülü ön yükselticili (LNA), pirinç SMA soketli sabit baz istasyonu ve omurga rölesi.
+- **Elecrow Donanım ve HMI Ekosistemi:**
+  - **ThinkNode M1:** nRF52840, SX1262 LoRa, dahili GNSS GPS ve güneş ışığında okunabilir E-Ink ekranlı taşınabilir saha düğümü.
+  - **CrowPanel Advance HMI Serisi:** 2.4" ile 7.0" arası canlı IPS dokunmatik ekranlı, ESP32-S3 tabanlı, masaüstü Meshtastic UI (MUI) ekran terminali.
+  - **Elecrow MeshStick:** CH341 USB-SPI köprülü; Raspberry Pi, ev sunucusu veya Linux bilgisayarlarda `meshtasticd` çalıştırmak için tak-çalıştır USB LoRa telsiz çubuğu.
+- **muzi ᴡᴏʀᴋꜱ Taktik ve Modüler Sistemleri:**
+  - **R1 Neo:** Uçak sınıfı CNC alüminyum ve karbon fiber PETG kasalı, tam donanımsal GPS güç kesme anahtarlı, NTC batarya korumalı ve kırbaç antenli taktik arazi terminali.
+  - **BASE Modüler Sistem (Base Uno & Duo):** Base Uno (nRF52840 + SX1262) ve Base Duo (Semtech LR1121 Sub-GHz & 2.4 GHz) çekirdeklerini barındıran modüler taşıyıcı mimari.
+  - **Super I/O Eklenti Kartı:** Base Uno/Duo üzerine dikey istiflenen (stackable); sisteme bağımsız GPS, ekran soketi ve sensör arayüzü kazandıran genişleme modülü.
 
 ### 🔹 USB-Seri Dönüştürücüler ve Sürücüler (Serial Drivers)
 Bilgisayar ile cihaz arasında seri haberleşme (UART) ve firmware yükleme sağlayan köprü entegreleri:

@@ -3662,6 +3662,152 @@
           "Kullanım": "Heltec V3 DIY GPS eklemeleri ve harici telemetri"
         },
         seeAlso: ["heltec-v3", "pmic", "telemetry", "tracker"]
+      },
+
+      /* 18. Gelişmiş Üretici Ekosistemi (Heltec RadioCore, B&Q Consulting, Elecrow, muziWORKS) */
+      {
+        id: "heltec-radiocore",
+        en: "Heltec RadioCore Modular Series (RC32 / RCC6 / RC52)",
+        tr: "Heltec RadioCore Modüler Mimari",
+        category: "Donanım & Çipler",
+        lead: "Standart 40x24 mm form faktöründe, karttan-karta (BTB - Board-to-Board) konnektör ve çift 10-pin sokete sahip; Semtech SX1262 telsizini ESP32-S3 (RC32), ESP32-C6 (RCC6) veya nRF52840 (RC52) işlemcileriyle birleştiren tak-çıkar modüler çekirdek ailesi.",
+        details: "Geliştiricilerin taşıyıcı ana kartı değiştirmeden sadece çekirdek modülü değiştirerek Wi-Fi (ESP32) veya ultra düşük güç (nRF52) moduna geçmesini sağlar. RD02G taşıyıcı kartı veya özel tasarlanmış devreler üzerine vida/lehim gerektirmeden takılır.",
+        github: "meshtastic.org/docs/hardware/devices/heltec-automation/radiocore",
+        infobox: {
+          "Form Faktörü": "40.10 x 23.82 x 12.54 mm Standart BTB Modül",
+          "İşlemci Varyantları": "RC32 (ESP32-S3) / RCC6 (ESP32-C6) / RC52 (nRF52840)",
+          "LoRa Telsizi": "Semtech SX1262",
+          "Avantaj": "Farklı MCU mimarileri arasında donanımsal tak-çıkar geçiş"
+        },
+        seeAlso: ["wisblock", "heltec-v3", "heltec-mesh-node-t114"]
+      },
+      {
+        id: "nano-g2-ultra",
+        en: "B&Q Consulting Nano G2 Ultra & Nano Series",
+        tr: "B&Q Consulting Nano G2 Ultra & Nano Serisi",
+        category: "Donanım & Çipler",
+        lead: "Neil Hao tarafından doğa yürüyüşü, kayak ve açık hava sporları için özel olarak sıfırdan tasarlanmış; nRF52840 MCU, dahili geniş bant LoRa anteni (815-940 MHz), dahili GPS ve hafif dayanıklı kasalı kompakt el terminali.",
+        details: "Meshtastic için özel olarak baştan tasarlanan ilk bağımsız cihaz serilerindendir. Ultra düşük güç tüketimi, optimize edilmiş RF empedans katı ve cep boyutundaki ergonomisiyle telefon bağımlılığı olmadan güvenilir saha haberleşmesi sunar.",
+        github: "meshtastic.org/docs/hardware/devices/b-and-q-consulting/nano",
+        infobox: {
+          "Tasarımcı": "Neil Hao (B&Q Consulting)",
+          "İşlemci & Telsiz": "Nordic nRF52840 + Semtech SX1262",
+          "Anten": "Entegre Geniş Bantlı İç LoRa Anteni (815-940 MHz)",
+          "Kullanım": "Açık hava macera sporları, arama kurtarma, hafif EDC"
+        },
+        seeAlso: ["station-g2", "t-echo", "sensecap-x1"]
+      },
+      {
+        id: "station-g2",
+        en: "B&Q Consulting Station G1 / G2 Series",
+        tr: "B&Q Consulting Station G1 / G2 Baz İstasyonu",
+        category: "Donanım & Çipler",
+        lead: "Yüksek güçlü RF güç amplifikatörü (PA), düşük gürültülü ön yükseltici (LNA), sağlam pirinç SMA anten soketi ve ESP32 WROOM işlemcisiyle donatılmış yüksek performanslı sabit baz istasyonu ve röle donanımı.",
+        details: "Zorlu kentsel gürültü ortamlarında veya dağdan dağa sabit omurga linklerinde kullanılmak üzere tasarlanmıştır. Geniş harici I/O bağlantı noktaları ve yüksek çıkış gücü sayesinde zayıf telsiz sinyallerini dahi toplayarak güvenilir bölgesel yönlendirme (`ROUTER`) sağlar.",
+        github: "meshtastic.org/docs/hardware/devices/b-and-q-consulting/station-series",
+        infobox: {
+          "İşlemci & RF": "ESP32 WROOM + Semtech SX1262 + Yüksek Güçlü PA/LNA",
+          "Kasa & Anten": "Endüstriyel Kasa + Dayanıklı Harici SMA Soketi",
+          "İşlev": "Sabit baz istasyonu, acil durum komuta merkezi rölesi",
+          "Bağlantı": "Wi-Fi, BLE ve Harici Genişleme Portları"
+        },
+        seeAlso: ["nano-g2-ultra", "wismesh-repeater", "tx-power"]
+      },
+      {
+        id: "elecrow-thinknode",
+        en: "Elecrow ThinkNode Series (ThinkNode M1)",
+        tr: "Elecrow ThinkNode M1 (Düşük Güçlü E-Paper Düğümü)",
+        category: "Donanım & Çipler",
+        lead: "Elecrow tarafından açık hava keşifleri ve saha operasyonları için geliştirilen; Nordic nRF52840 MCU, Semtech SX1262 LoRa, dahili GNSS GPS ve güneş ışığında okunabilir E-Ink ekrana sahip taşınabilir Meshtastic el cihazı.",
+        details: "Düşük güçlü nRF52 mimarisi ve statik e-mürekkep ekranı sayesinde tek şarjla günlerce kesintisiz çalışır. Kompakt koruyucu kasası, entegre lityum bataryası ve dahili anteniyle kutudan çıktığı anda kullanıma hazırdır.",
+        github: "meshtastic.org/docs/hardware/devices/elecrow/thinknode",
+        infobox: {
+          "İşlemci & RF": "Nordic nRF52840 + Semtech SX1262",
+          "Ekran": "Güneş Işığında Okunabilir E-Ink (E-Paper) Ekran",
+          "Konumlandırma": "Entegre Yüksek Hassasiyetli Çoklu-GNSS",
+          "Kullanım": "Açık hava yürüyüşleri, acil durum afet haberleşmesi"
+        },
+        seeAlso: ["t-echo", "heltec-vision-master", "sensecap-x1"]
+      },
+      {
+        id: "elecrow-crowpanel",
+        en: "Elecrow CrowPanel Advance HMI Series",
+        tr: "Elecrow CrowPanel Advance Dokunmatik HMI Paneli",
+        category: "Donanım & Çipler",
+        lead: "2.4 inçten 7.0 inçe kadar farklı boyutlarda canlı IPS kapasitif dokunmatik ekran seçeneklerine sahip, ESP32-S3 işlemcili ve modüler SX1262 LoRa eklentili profesyonel insan-makine arayüzü (HMI) ekran terminali.",
+        details: "Meshtastic UI (MUI) grafik arayüzünü akıcı bir şekilde çalıştırarak masaüstü baz istasyonları, acil durum koordinasyon masaları veya araç içi harita/sohbet terminalleri oluşturmak için idealdir. Wi-Fi ve Bluetooth üzerinden MQTT sunucularına köprü görevi görebilir.",
+        github: "meshtastic.org/docs/hardware/devices/elecrow/crowpanel",
+        infobox: {
+          "Ekran Boyutları": "2.4\", 2.8\", 3.5\", 4.3\", 5.0\", 7.0\" Canlı IPS Dokunmatik",
+          "İşlemci (MCU)": "Espressif ESP32-S3 (Çift Çekirdek Xtensa @ 240 MHz)",
+          "LoRa Desteği": "Modüler Semtech SX1262 LoRa Kartı",
+          "Kullanım Amacı": "Masaüstü kontrol merkezi ve araç konsolu Meshtastic UI"
+        },
+        seeAlso: ["sensecap-indicator", "wio-tracker-l2-pro", "esp32-s3"]
+      },
+      {
+        id: "elecrow-meshstick",
+        en: "Elecrow MeshStick (USB LoRa Transceiver)",
+        tr: "Elecrow MeshStick (USB LoRa Telsiz Çubuğu)",
+        category: "Donanım & Çipler",
+        lead: "CH341 USB-to-SPI köprü entegresi ile Semtech SX1262 telsizini standart bir USB bellek formunda birleştiren; Raspberry Pi, ev sunucusu veya Linux bilgisayarlara doğrudan LoRa telsizi kazandıran tak-çalıştır USB aygıtı.",
+        details: "Dahili bir batarya veya mikrodenetleyici barındırmaz; USB üzerinden takıldığı ana bilgisayarda `meshtasticd` (Meshtastic Linux Daemon) arka plan servisiyle sürülür. Ev tipi internet MQTT ağ geçitleri veya Linux tabanlı yerel sunucu röleleri kurmak için son derece kompakt ve pratik bir çözümdür.",
+        github: "meshtastic.org/docs/hardware/devices/elecrow/meshstick",
+        infobox: {
+          "Arayüz": "Standart USB Type-A / Type-C Portu",
+          "Köprü Yongası": "WCH CH341 USB-SPI Köprüsü",
+          "LoRa Çipi": "Semtech SX1262 Sub-GHz",
+          "Kullanım Modu": "Linux / Raspberry Pi üzerinde meshtasticd sunucusu"
+        },
+        seeAlso: ["linux-native", "mqtt", "ch340-ch9102", "sx1262"]
+      },
+      {
+        id: "muziworks-r1-neo",
+        en: "muzi ᴡᴏʀᴋꜱ R1 Neo Tactical Outdoor Node",
+        tr: "muzi ᴡᴏʀᴋꜱ R1 Neo Taktik Arazi Düğümü",
+        category: "Donanım & Çipler",
+        lead: "Havacılık sınıfı CNC işlenmiş alüminyum taban ve karbon fiber takviyeli PETG gövdeye sahip; Nordic nRF52840 MCU, SX1262 telsiz, dahili GPS ve donanımsal GPS güç kesme anahtarı içeren ultra dayanıklı taktik arazi terminali.",
+        details: "Zorlu dağcılık, arama-kurtarma ve taktik operasyonlar için tasarlanmıştır. Bataryanın aşırı soğuk veya sıcakta zarar görmesini engelleyen dahili NTC sıcaklık sensörü, esnek kırılmaz kırbaç (whip) anteni ve günlerce süren batarya ömrü sunar. Donanımsal GPS anahtarı sayesinde konum istenmediğinde uydu alıcısının gücü %100 kesilerek tam gizlilik ve pil tasarrufu sağlanır.",
+        github: "meshtastic.org/docs/hardware/devices/muziworks/r1-neo",
+        infobox: {
+          "Gövde Malzemesi": "CNC Uçak Sınıfı Alüminyum + PETG Karbon Fiber",
+          "İşlemci & Telsiz": "Nordic nRF52840 + Semtech SX1262",
+          "Özel Donanım": "Fiziksel GPS Güç Kesme Anahtarı + NTC Sıcaklık Koruması",
+          "Kullanım": "Taktik operasyonlar, zorlu kış dağcılığı, askeri/sivil arama-kurtarma"
+        },
+        seeAlso: ["muziworks-base-system", "nrf52840", "t-echo", "sensecap-x1"]
+      },
+      {
+        id: "muziworks-base-system",
+        en: "muzi ᴡᴏʀᴋꜱ BASE Modular System (Base Uno & Duo)",
+        tr: "muzi ᴡᴏʀᴋꜱ BASE Modüler Sistem (Base Uno & Duo)",
+        category: "Donanım & Çipler",
+        lead: "muzi ᴡᴏʀᴋꜱ tarafından açık hava ve saha geliştiricileri için tasarlanmış; Base Uno (nRF52840 + SX1262 Sub-GHz) ve Base Duo (Semtech LR1121 Sub-GHz & 2.4 GHz LoRa) çekirdeklerini temel alan modüler geliştirme mimarisi.",
+        details: "Ultra düşük güç tüketimli çekirdek mimarisini dikey genişleme yuvalarıyla buluşturur. Üzerine Super I/O ve ekran kartları takılarak avuç içi telsizlerden sabit güneş enerjili kule rölelerine kadar her türlü saha cihazına dönüştürülebilir.",
+        github: "meshtastic.org/docs/hardware/devices/muziworks/muzi-base",
+        infobox: {
+          "Base Uno": "Nordic nRF52840 + Semtech SX1262 (Sub-GHz LoRa)",
+          "Base Duo": "Semtech LR1121 (Çift Bant Sub-GHz & 2.4 GHz LoRa)",
+          "Genişleme": "Super I/O dikey istiflenebilir bağlantı soketi",
+          "Geliştirici": "muzi ᴡᴏʀᴋꜱ"
+        },
+        seeAlso: ["muziworks-r1-neo", "muziworks-super-io", "wisblock", "semtech-lr2021"]
+      },
+      {
+        id: "muziworks-super-io",
+        en: "muzi ᴡᴏʀᴋꜱ Super I/O Expansion Board",
+        tr: "muzi ᴡᴏʀᴋꜱ Super I/O Modüler Genişleme Kartı",
+        category: "Donanım & Çipler",
+        lead: "muzi ᴡᴏʀᴋꜱ Base Uno ve Base Duo taşıyıcı kartlarına dikey olarak istiflenen (stackable); sisteme bağımsız GNSS GPS, OLED/TFT ekran soketleri, çoklu sensör girişleri ve donanım butonları ekleyen modüler eklenti kartı.",
+        details: "Geliştiricilerin lehimleme yapmadan BASE sistemi üzerine ekran, buton veya sensör takmasını sağlar. Modüler tasarımı sayesinde cihaz ihtiyaç duyulan göreve göre (örneğin sadece takipçi veya tam teşekküllü ekranlı telsiz) saniyeler içinde konfigüre edilir.",
+        github: "meshtastic.org/docs/hardware/devices/muziworks/muzi-base/super-io",
+        infobox: {
+          "Form": "Dikey İstiflenebilir (Stackable) Eklenti Kartı",
+          "Uyumlu Taban": "muzi ᴡᴏʀᴋꜱ Base Uno & Base Duo",
+          "Eklenen Özellikler": "Dahili GPS Modülü, Ekran Arayüzü, Donanım Butonları",
+          "Kullanım Amacı": "Modüler el telsizi ve sensör istasyonu prototipleme"
+        },
+        seeAlso: ["muziworks-base-system", "muziworks-r1-neo", "wisblock"]
       }
     ];
 
