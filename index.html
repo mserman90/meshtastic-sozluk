@@ -2983,7 +2983,135 @@
           "Fonksiyon": "LoRa-MQTT Çift Yönlü Ağ Geçidi",
           "Kullanım": "Topluluk altyapısı ve bölgesel internet köprüleri"
         },
-        seeAlso: ["mqtt", "rak13800-ethernet", "uplink-downlink", "tamesh-org"]
+        seeAlso: ["mqtt", "rak13800-ethernet", "rak19018-poe", "rak11200-core", "wismesh-repeater", "tamesh-org"]
+      },
+      {
+        id: "wismesh-1w-booster",
+        en: "RAK WisMesh 1W Booster Starter Kit",
+        tr: "RAK WisMesh 1W Yüksek Güçlü RF Booster Kiti",
+        category: "Donanım & Çipler",
+        lead: "Zorlu coğrafi koşullarda, derin kanyonlarda veya aşırı uzun menzilli görüş hatlarında kullanılmak üzere tasarlanan, 1 Watt (+30 dBm) LoRa çıkış gücüne sahip özel Meshtastic kiti.",
+        details: "Nordic nRF52840 (RAK3401) mikrodenetleyicisi ile Semtech SX1262 ve Skyworks SKY66122 güç amplifikatörünü (PA/LNA) barındıran RAK13302 modülünü bir araya getirir. Standart 22 dBm LoRa düğümlerine kıyasla sinyal çıkış gücünü 30 dBm'e (1000 mW) çıkarır; yüksek akım ihtiyacı nedeniyle kararlı harici 5V veya doğrudan Li-ion batarya beslemesi gerektirir.",
+        github: "meshtastic.org/docs/hardware/devices/rak-wireless/wismesh/1w-booster",
+        infobox: {
+          "Çıkış Gücü": "30 dBm (1000 mW / 1 Watt)",
+          "İşlemci Modülü": "RAK3401 (Nordic nRF52840 MCU)",
+          "LoRa / RF PA": "SX1262 + Skyworks SKY66122 PA/LNA",
+          "Güç Gereksinimi": "Kararlı 5V / Batarya (Yüksek Anlık TX Akımı)"
+        },
+        seeAlso: ["rak13302-1w-transceiver", "rak3401-core", "tx-power", "sx1262"]
+      },
+      {
+        id: "rak13302-1w-transceiver",
+        en: "RAK13302 1W LoRa Transceiver Module",
+        tr: "RAK13302 1W LoRa Güç Amplifikatörlü Telsiz Modülü",
+        category: "Donanım & Çipler",
+        lead: "Semtech SX1262 LoRa alıcı-vericisi ile Skyworks SKY66122 RF ön uç güçlendiriciyi (PA + LNA + SAW filtre) birleştiren, WisBlock uyumlu 1 Watt (+30 dBm) LoRa IO modülü.",
+        details: "Standart LoRa alıcı-vericilerinin 100 mW (20-22 dBm) seviyesindeki çıkış gücünü 10 katına (1000 mW) katlayarak menzili dramatik şekilde artırır. Dahili LNA (Düşük Gürültülü Amplifikatör) sayesinde zayıf gelen sinyallerde alıcı hassasiyetini korur. İletim anında yüksek akım çektiği için WisBlock 3.3V hattı yerine doğrudan 5V güç kaynağından beslenmesi zorunludur.",
+        github: "meshtastic.org/docs/hardware/devices/rak-wireless/wismesh/1w-booster",
+        infobox: {
+          "RF Güç Güçlendirici": "Skyworks SKY66122 FEM PA/LNA",
+          "Temel Çip": "Semtech SX1262",
+          "Maksimum Çıkış": "+30 dBm (1000 mW)",
+          "Besleme Gerilimi": "5V Harici Güç Hattı (Doğrudan)"
+        },
+        seeAlso: ["wismesh-1w-booster", "sx1262", "tx-power", "wisblock"]
+      },
+      {
+        id: "rak3401-core",
+        en: "RAK3401 WisBlock Core Module",
+        tr: "RAK3401 nRF52840 Yüksek Güçlü Çekirdek Modülü",
+        category: "Donanım & Çipler",
+        lead: "WisMesh 1W Booster kiti ve yüksek akım çeken RF donanımları için tasarlanmış, Nordic nRF52840 ARM Cortex-M4F işlemcili WisBlock çekirdek kartı.",
+        details: "RAK4631'den farklı olarak üzerinde doğrudan yerleşik LoRa telsizi barındırmaz; harici yüksek güçlü RAK13302 (1W) LoRa modülünü sürmek ve BLE 5.0 bağlantısını yönetmek için optimize edilmiş pin konfigürasyonuna sahiptir. Düşük güç tüketimi ve yüksek işlem kapasitesi sunar.",
+        github: "meshtastic.org/docs/hardware/devices/rak-wireless/wismesh/1w-booster",
+        infobox: {
+          "İşlemci (MCU)": "Nordic Semiconductor nRF52840",
+          "Mimari": "ARM Cortex-M4F @ 64 MHz (1MB Flash, 256KB RAM)",
+          "Kablosuz": "Bluetooth Low Energy (BLE 5.0)",
+          "Uyumlu Telsiz": "RAK13302 1W LoRa IO Modülü"
+        },
+        seeAlso: ["rak4631-core", "wismesh-1w-booster", "rak13302-1w-transceiver"]
+      },
+      {
+        id: "wismesh-pod",
+        en: "RAK WisMesh Pod (RAK10708 Turnkey Node)",
+        tr: "RAK WisMesh Pod (RAK10708 Entegre Cep Düğümü)",
+        category: "Donanım & Çipler",
+        lead: "Montaj veya lehim gerektirmeden kutudan çıktığı anda çalışmaya hazır, dahili GNSS, titreşim/hareket sensörü, sesli buzzer ve bataryaya sahip ultra kompakt Meshtastic cihazı.",
+        details: "Nordic nRF52840 ve Semtech SX1262 mimarisi üzerine kuruludur. Enjeksiyon kalıp gövdesinin içine gizlenmiş LoRa, BLE ve GNSS antenleri bulunur. ST LIS2DH 3 eksenli ivmeölçeri sayesinde hareket algılandığında uyanıp konum paketleri gönderir; durağan halde ise derin uyku moduna geçerek dahili 1000 mAh bataryasının günlerce yetmesini sağlar.",
+        github: "meshtastic.org/docs/hardware/devices/rak-wireless/wismesh/pod",
+        infobox: {
+          "Ürün Kodu": "RAK10708",
+          "İşlemci & RF": "Nordic nRF52840 + Semtech SX1262",
+          "Sensörler": "Çoklu GNSS (GPS) + ST LIS2DH İvmeölçer + Sesli Buzzer",
+          "Batarya": "Dahili 1000 mAh Şarj Edilebilir Li-ion"
+        },
+        seeAlso: ["wismesh-tag", "wismesh-pocket", "lis2dh-accelerometer", "sensecap-t1000e"]
+      },
+      {
+        id: "wismesh-repeater-mini",
+        en: "RAK WisMesh Repeater Mini (Solar Outdoor Node)",
+        tr: "RAK WisMesh Repeater Mini (Kompakt Güneş Enerjili Dış Ortam Rölesi)",
+        category: "Donanım & Çipler",
+        lead: "RAK19003 kompakt ana kart ve RAK4631 çekirdek modülü üzerine inşa edilen, entegre güneş paneli ve 3200 mAh bataryaya sahip IP67 korumalı taşınabilir aktarıcı istasyonu.",
+        details: "Standart WisMesh Repeater'a kıyasla daha hafif ve taşınabilir bir gövdeye sahiptir. Doğa kamplarında, geçici arama-kurtarma saha üslerinde veya balkon ve teraslarda doğrudan direğe veya duvara kelepçelenerek sıfır kablolama ile 7/24 kesintisiz `ROUTER` veya `REPEATER` düğümü olarak görev yapar.",
+        github: "meshtastic.org/docs/hardware/devices/rak-wireless/wismesh/repeater",
+        infobox: {
+          "Ana Kart & Çekirdek": "RAK19003 + RAK4631 (nRF52840 + SX1262)",
+          "Muhafaza Standardı": "IP67 Su ve Toz Geçirmez Dış Ortam Kutusu",
+          "Enerji Sistemi": "Entegre Güneş Paneli + 3200 mAh Li-ion Batarya",
+          "Firmware Hedefi": "firmware-rak4631.uf2"
+        },
+        seeAlso: ["wismesh-repeater", "rak19007-base", "rak4631-core", "router"]
+      },
+      {
+        id: "rak19018-poe",
+        en: "RAK19018 WisBlock PoE Module",
+        tr: "RAK19018 WisBlock Ethernet Üzerinden Güç (PoE) Modülü",
+        category: "Donanım & Çipler",
+        lead: "WisMesh Ethernet Gateway ve RAK19007 tabanlı dış mekan istasyonlarına IEEE 802.3af PoE (Power over Ethernet) standardında enerji sağlayan güç dönüştürücü modülü.",
+        details: "Cat5/6 Ethernet kablosu üzerinden gelen 37-57V DC gerilimi WisBlock sisteminin ihtiyaç duyduğu kararlı 5V gerilime dönüştürür. Dış mekan çatı ve kule montajlarında harici elektrik hattı veya güneş paneli çekme zorunluluğunu ortadan kaldırarak tek bir Ethernet kablosu ile hem veri (MQTT) hem de kesintisiz enerji iletimi sağlar.",
+        github: "meshtastic.org/docs/hardware/devices/rak-wireless/wismesh/gateway",
+        infobox: {
+          "PoE Standardı": "IEEE 802.3af Power over Ethernet",
+          "Giriş Gerilimi": "37V - 57V DC",
+          "Çıkış Gerilimi": "5V DC Regüle Besleme",
+          "Kullanım Yeri": "WisMesh Ethernet Gateway & Dış Ortam Düğümleri"
+        },
+        seeAlso: ["rak13800-ethernet", "wismesh-gateway", "mqtt"]
+      },
+      {
+        id: "rak11200-core",
+        en: "RAK11200 WisBlock Core ESP32 Module",
+        tr: "RAK11200 ESP32 Çift Çekirdekli WisBlock İşlemci Modülü",
+        category: "Donanım & Çipler",
+        lead: "Espressif ESP32-WROVER yongasına dayanan; 2.4 GHz Wi-Fi ve Bluetooth bağlantılarını WisBlock modüler mimarisine kazandıran çekirdek modülü.",
+        details: "WisMesh Wi-Fi Gateway modelinde yerel telsiz paketlerini doğrudan kablosuz ev veya kurumsal Wi-Fi şebekesine bağlayarak MQTT sunucularına aktarmak için kullanılır. nRF52 serisine göre daha yüksek güç tüketimine sahip olmakla birlikte yüksek Wi-Fi bant genişliği ve TCP/IP soket esnekliği sunar.",
+        github: "meshtastic.org/docs/hardware/devices/rak-wireless/wismesh/gateway",
+        infobox: {
+          "Yonga Seti": "Espressif ESP32-WROVER (Çift Çekirdek Xtensa @ 240 MHz)",
+          "Kablosuz Standartları": "2.4 GHz 802.11 b/g/n Wi-Fi & Bluetooth LE",
+          "Bellek": "4 MB SPI Flash + 8 MB PSRAM",
+          "Kullanım Amacı": "WisMesh Wi-Fi MQTT Gateway & Web Sunucusu"
+        },
+        seeAlso: ["rak4631-core", "wismesh-gateway", "esp32"]
+      },
+      {
+        id: "lis2dh-accelerometer",
+        en: "ST LIS2DH 3-Axis Accelerometer",
+        tr: "ST LIS2DH 3 Eksenli Ultra Düşük Güçlü İvmeölçer",
+        category: "Donanım & Çipler",
+        lead: "WisMesh Tag, WisMesh Pod ve çeşitli Meshtastic takip cihazlarında hareket tespiti, akıllı uyku (smart sleep) ve hırsızlık/düşme alarmları için kullanılan mikroelektromekanik (MEMS) sensör.",
+        details: "İşlemciye I2C veri yolu üzerinden bağlanır ve mikroamper seviyelerinde akım çeker. Cihaz sabit dururken GPS alıcısını ve telsiz iletimini uykuya sokar; hareket algılandığı anda kesme (interrupt) üreterek düğümü uyandırır ve konum güncellemesi yayımlatır. Böylece batarya ömrünü günlerce veya haftalarca uzatır.",
+        github: "meshtastic.org/docs/hardware/devices/rak-wireless/wismesh/tag",
+        infobox: {
+          "Üretici": "STMicroelectronics",
+          "Eksen Sayısı": "3 Eksen (X, Y, Z)",
+          "Haberleşme Arayüzü": "I2C / SPI",
+          "Temel Görevi": "Harekete duyarlı konum yayını ve akıllı pil koruma"
+        },
+        seeAlso: ["wismesh-tag", "wismesh-pod", "tracker", "rak12500-gnss"]
       }
     ];
 

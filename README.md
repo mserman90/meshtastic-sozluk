@@ -176,13 +176,18 @@ Aşırı sıcak veya dondurucu soğuk hava koşullarında telsiz frekansının k
   - **RAK19007 / RAK19003 Taban Kartları:** USB-C, solar şarj ve lehim gerektirmeyen sensör yuvaları barındıran 2. nesil WisBlock taşıyıcı kartları.
   - **RAK4631 Çekirdek Modülü:** Nordic nRF52840 ve Semtech SX1262 içeren ultra düşük güçlü ($< 15\text{ }\mu\text{A}$) ana işlemci modülü.
   - **RAK12500 GNSS & RAK13800 Ethernet:** Tak-çalıştır u-blox ZOE-M8Q GPS ve kablolu 10/100 Ethernet MQTT ağ geçidi genişleme modülleri.
-- **RAK WisMesh Serisi (Kullanıma Hazır Fabrika Cihazları):**
+- **RAK WisMesh Serisi (Kullanıma Hazır Fabrika Cihazları ve Modülleri):**
   - **WisMesh Board ONE:** nRF52840, SX1262, 1.3" OLED ekran ve GPS yuvasını birleştiren Meshtastic'e özel entegre anakart.
   - **WisMesh Pocket:** Özel koruyucu kasalı, 1.3" OLED ekranlı, butonlu ve bataryalı kullanıma hazır kompakt el telsizi.
   - **WisMesh Tap:** Dokunmatik ekranlı bağımsız Meshtastic mesajlaşma ve harita terminali.
-  - **WisMesh Tag:** nRF52840 ve GNSS barındıran IP66 su ve toz geçirmez kompakt personel takip cihazı.
-  - **WisMesh Repeater:** Entegre güneş paneli, IP67 kutu ve fiberglas koliner antenle donatılmış dış ortam dağ/çatı rölesi.
-  - **WisMesh Gateway:** Ethernet PoE veya Wi-Fi üzerinden çalışan IP67 endüstriyel dış mekan LoRa-MQTT ağ geçidi.
+  - **WisMesh Tag:** nRF52840, SX1262, AT6558R GNSS ve ST LIS2DH ivmeölçer barındıran IP66 su ve toz geçirmez kompakt personel/varlık takip cihazı.
+  - **WisMesh Pod (RAK10708):** Kutudan çıktığı anda kullanıma hazır; çoklu-takımyıldız GNSS, hareket algılayıcı LIS2DH, buzzer ve 1000 mAh bataryalı entegre cep düğümü.
+  - **WisMesh 1W Booster Starter Kit:** 1 Watt (+30 dBm) çıkış gücüne sahip RAK13302 LoRa amplifikatörü ve RAK3401 nRF52840 işlemcisiyle uzun menzil ve derin kanyonlar için geliştirilmiş güçlendirilmiş platform.
+    - **RAK13302 1W LoRa Modülü:** Semtech SX1262 ve Skyworks SKY66122 PA/LNA içeren, 1000 mW TX gücü için harici 5V besleme gerektiren WisBlock telsiz modülü.
+    - **RAK3401 Çekirdek Modülü:** 1W RF modülünü sürmek için optimize edilmiş Nordic nRF52840 çekirdek kartı.
+  - **WisMesh Repeater & Repeater Mini:** Entegre güneş paneli, IP67 Unify kutu, 3200 mAh batarya ve fiberglas koliner antenle donatılmış bağımsız dış ortam dağ/çatı aktarıcı istasyonları.
+  - **WisMesh Gateway (Ethernet & Wi-Fi):** RAK13800 Ethernet + RAK19018 PoE veya RAK11200 ESP32 Wi-Fi üzerinden çalışan IP67 endüstriyel dış mekan LoRa-MQTT ağ geçidi istasyonu.
+  - **ST LIS2DH 3-Eksenli İvmeölçer:** WisMesh Tag ve Pod'da harekete duyarlı akıllı uyku (smart sleep) ve otomatik konum tetikleme sağlayan MEMS hareket sensörü.
 - **LilyGO T-Deck:** Dahili klavyeye, trackball'a ve ekrana sahip, telefonsuz bağımsız kullanılan Meshtastic mesajlaşma cihazı.
 - **SenseCAP MeshTracker X1 (Seeed Studio):** Kredi kartı boyutunda (IP66 su geçirmez), Semtech LR2021 LoRa çipi, çift bant L1+L5 GNSS, dahili barometre, buzzer ve 1100 mAh Li-ion pille donatılmış bağımsız takip cihazı.
 - **SenseCAP Card Tracker T1000-E (Seeed Studio):** nRF52840 ve Semtech SX1262 LoRa telsizine sahip, manyetik pogo-pin şarjlı, ışık ve sıcaklık sensörlü ultra ince kart takip donanımı.
