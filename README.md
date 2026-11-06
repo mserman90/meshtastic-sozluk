@@ -227,8 +227,17 @@ Bir Meshtastic cihazının, kilometrelerce ötedeki diğer bir cihazın GPIO pin
 
 ## 8. 👥 Meshtastic Toplulukları ve Ağları (Türkiye ve Dünya)
 
-### 🇹🇷 Meshtastic Türkiye Topluluğu ve Şehir Ağları
-Türkiye genelinde deprem ve afet acil durum hazırlığı, amatör telsizcilik (TRAC vb.), AKUT/AFAD gönüllüleri ve açık kaynak meraklılarını buluşturan bağımsız örgüsel telsiz inisiyatifi:
+### 🇹🇷 TA Mesh (tamesh.org / Purgatoria) & Türkiye Topluluğu
+[Purgatoria](https://purgatoria.net) çatısı altında geliştirilen [TA Mesh (tamesh.org)](https://tamesh.org), Türkiye genelinde internetten bağımsız, afet ve acil durumlara dayanıklı merkeziyetsiz LoRa iletişim altyapısı kuran öncü topluluk platformudur ([GitHub: Purgatoria/tamesh.org](https://github.com/Purgatoria/tamesh.org)):
+- **Özel Kanal:** `TA_Mesh` (Türkiye için ortak açık kanal)
+- **Çift Bant Desteği (Cross-Linking):** Hem 433 MHz hem de 868 MHz frekanslarını kullanan cihazları sunucu köprüleri üzerinden çapraz bağlama kabiliyeti.
+- **Yerel Altyapı:**
+  - **MQTT Sunucusu (Broker):** `mqtt.tamesh.org` (Port: 1883 TCP, 8883 SSL/TLS)
+  - **Canlı Harita:** [map.tamesh.org](https://map.tamesh.org)
+  - **Topoloji İzleme:** [topo.tamesh.org](https://topo.tamesh.org)
+  - **Rehberler:** Cihaz kurulum kılavuzları ve MQTT katılım formu.
+
+### 🏙️ Türkiye Şehir Ağları ve Bölgesel Röleler
 - **İstanbul Mesh Ağı:** Çamlıca, Aydos Ormanı, Beylikdüzü ve Boğaz sırtlarındaki güneş enerjili sabit yönlendiriciler (Router) ile kıtalararası köprüleme.
 - **Ankara Mesh Ağı:** Çankaya, Dikmen, ODTÜ ve Keçiören sabit istasyonları ile başkent genelinde haberleşme omurgası.
 - **İzmir & Ege Mesh Ağı:** Yamanlar ve Nif Dağı röleleri ile körfez hattında kesintisiz acil durum ağı.
@@ -238,8 +247,8 @@ Türkiye genelinde deprem ve afet acil durum hazırlığı, amatör telsizcilik 
   - **Modem Profili:** `LongFast` (varsayılan)
   - **Birincil Kanal Anahtarı:** Varsayılan açık anahtar (`AQ==`)
 
-### 🌐 Dünyadaki Meshtastic Toplulukları
-- **Austin Mesh (Teksas, ABD):** Dünyanın en organize ve popüler şehir ağı; yüzlerce güneş enerjili tepe ve su kulesi yönlendiricisiyle tüm metropolitan alanı kapsar.
+### 🌐 Dünyadaki Öncü Meshtastic Toplulukları
+- **[Austin Mesh (austinmesh.org)](https://austinmesh.org) (Teksas, ABD):** Dünyanın en organize ve popüler referans şehir ağı ([GitHub: austin-mesh](https://github.com/austin-mesh)); su kuleleri ve tepelere monte edilen yüzlerce güneş enerjili RAK WisBlock yönlendiricisiyle tüm metropolitan alanı kapsar.
 - **UK Mesh (Birleşik Krallık):** 868 MHz bandında Londra ve İngiltere genelini kapsayan geniş çatı röleleri ağı.
 - **DL-Mesh / Freifunk (Almanya):** Almanya'nın köklü kablosuz özgür halk ağı Freifunk ile Meshtastic LoRa entegrasyonu.
 - **Bay Mesh & NYC Mesh (ABD):** San Francisco Silikon Vadisi ve New York metropolünde teknoloji çalışanlarınca kurulan yüksek katlı gökdelen röleleri.

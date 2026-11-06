@@ -632,7 +632,9 @@
         <div class="sidebar-title">Gezinti</div>
         <ul class="sidebar-links">
           <li><a href="#" class="active" onclick="resetFilters(); return false;">📖 Tüm Maddeler <span class="count-badge" id="totalTermCount">0</span></a></li>
-          <li><a href="#meshtastic-turkiye" onclick="jumpToTerm('meshtastic-turkiye'); return false;">🇹🇷 Türkiye Topluluğu</a></li>
+          <li><a href="#tamesh-org" onclick="jumpToTerm('tamesh-org'); return false;">🇹🇷 TA Mesh (tamesh.org)</a></li>
+          <li><a href="#meshtastic-turkiye" onclick="jumpToTerm('meshtastic-turkiye'); return false;">🇹🇷 Türkiye Şehir Ağları</a></li>
+          <li><a href="#austin-mesh" onclick="jumpToTerm('austin-mesh'); return false;">🇺🇸 Austin Mesh (Referans Ağ)</a></li>
           <li><a href="#meshtastic-global" onclick="jumpToTerm('meshtastic-global'); return false;">🌐 Dünya Toplulukları</a></li>
           <li><a href="#meshmap" onclick="jumpToTerm('meshmap'); return false;">🗺️ Canlı Ağ Haritaları</a></li>
           <li><a href="#yasal-uyarilar" onclick="jumpToTerm('yasal-uyarilar'); return false;">⚖️ Yasal Uyarılar &amp; Beyan</a></li>
@@ -747,6 +749,24 @@
 
       /* Topluluk ve Bölgesel Ağlar */
       {
+        id: "tamesh-org",
+        en: "TA Mesh (tamesh.org / Purgatoria)",
+        tr: "TA Mesh — Meshtastic Türkiye Topluluğu İnisiyatifi",
+        category: "Topluluk & Ağlar",
+        lead: "Purgatoria çatısı altında geliştirilen, Türkiye genelinde internetten bağımsız, afet ve acil durumlara dayanıklı merkeziyetsiz LoRa iletişim altyapısı kuran öncü topluluk platformu (tamesh.org).",
+        details: "<b>Topluluk ve Misyon:</b><br>TA Mesh, Türkiye'deki Meshtastic kullanıcılarını tek bir çatı altında toplamak, yerel altyapı oluşturmak ve afet anında alternatif haberleşme kanalları tesis etmek için kurulmuş gönüllü bir harekettir.<br><br><b>Özel Kanal Yapısı (TA_Mesh):</b><br>Topluluk, küresel varsayılan ayarlar yerine Türkiye ağına özel <code>TA_Mesh</code> kanal adını kullanır. Bu kanal genellikle açık (şifresiz) çalışır ve katılımcıların birbirini kolayca bulmasını sağlar.<br><br><b>Çift Bant (433 MHz & 868 MHz) Çapraz İşleme (Cross-Linking):</b><br>Türkiye'deki donanım çeşitliliğini kucaklamak adına, hem 433 MHz hem de 868 MHz frekanslarını kullanan cihazlar topluluk sunucusu köprüleriyle çapraz olarak birbirine bağlanmıştır.<br><br><b>Yerli MQTT ve Harita Altyapısı:</b><br>• <b>MQTT Sunucusu (Broker):</b> <code>mqtt.tamesh.org</code> (Port: 1883 TCP, 8883 SSL/TLS)<br>• <b>Canlı Düğüm Haritası:</b> <code>map.tamesh.org</code><br>• <b>Ağ Topolojisi:</b> <code>topo.tamesh.org</code><br>• <b>Rehberler &amp; Başvuru:</b> Cihaz kurulum kılavuzları ve MQTT katılım formu tamesh.org sitesinde sunulmaktadır.",
+        github: "Purgatoria/tamesh.org (https://github.com/Purgatoria/tamesh.org)",
+        infobox: {
+          "Resmi Site": "https://tamesh.org",
+          "GitHub Deposu": "Purgatoria/tamesh.org",
+          "Özel Kanal": "TA_Mesh",
+          "MQTT Broker": "mqtt.tamesh.org (1883/8883)",
+          "Haritalar": "map.tamesh.org / topo.tamesh.org",
+          "Frekans Desteği": "868 MHz & 433 MHz (Cross-link)"
+        },
+        seeAlso: ["meshtastic-turkiye", "mqtt", "meshmap", "primary-channel"]
+      },
+      {
         id: "meshtastic-turkiye",
         en: "Meshtastic Turkey Community & Networks",
         tr: "Meshtastic Türkiye Topluluğu ve Şehir Ağları",
@@ -778,7 +798,24 @@
           "Resmi Forum": "meshtastic.discourse.group",
           "Resmi Topluluk": "Discord (50k+ üye), Reddit r/meshtastic"
         },
-        seeAlso: ["meshtastic-turkiye", "meshmap", "mqtt", "router"]
+        seeAlso: ["meshtastic-turkiye", "tamesh-org", "meshmap", "mqtt", "router"]
+      },
+      {
+        id: "austin-mesh",
+        en: "Austin Mesh (austinmesh.org)",
+        tr: "Austin Mesh — Küresel Şehir Ağı Modeli",
+        category: "Topluluk & Ağlar",
+        lead: "Teksas'ta kurulan, açık kaynak dokümantasyonu, güneş enerjili kule röleleri ve şehir çapındaki kapsama başarısıyla dünya genelindeki tüm bölgesel mesh ağlarına ilham veren referans topluluk projesi.",
+        details: "<b>Öne Çıkan Özellikler:</b><br>• Yüksek binalar, tepe istasyonları ve su kulelerine monte edilmiş 100'den fazla güneş enerjili RAK4631 WisBlock yönlendiricisi barındırır.<br>• Açık kaynak GitHub deposu üzerinden güneş paneli şarj devreleri, su geçirmez kutu tasarımları ve ideal anten yerleşim kılavuzları paylaşılmaktadır.<br>• Yerel afet tatbikatlarında ve sivil acil durum ağlarında resmi kurumlarla koordineli çalışmaktadır.",
+        github: "austin-mesh (https://github.com/austin-mesh)",
+        infobox: {
+          "Resmi Site": "austinmesh.org",
+          "GitHub": "github.com/austin-mesh",
+          "Bölge / Frekans": "US_915 (915 MHz)",
+          "Donanım Standardı": "RAK4631 + Güneş Paneli",
+          "Etki": "Dünya genelindeki şehir ağlarına referans"
+        },
+        seeAlso: ["meshtastic-global", "tamesh-org", "router", "wisblock"]
       },
       {
         id: "meshmap",
