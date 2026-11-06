@@ -34,6 +34,21 @@ Bu sözlüğün Wikipedia tarzı arama motoruna, A-Z fihristine, bilgi kutuları
 
 ## 1. Ağ Mimarisi ve İletişim Protokolü (Network & Protocol)
 
+### 🔹 Off-Grid İletişim (Off-Grid Communication)
+Hücresel baz istasyonları (GSM/LTE/5G), internet servis sağlayıcıları (ISP), uydu abonelikleri veya elektrik şebekesinden bağımsız otonom telsiz haberleşme mimarisi. Afetlerde, arama-kurtarmada ve vahşi doğada harici hiçbir altyapıya ihtiyaç duymadan cihazdan cihaza kesintisiz haberleşme olanağı tanır.
+
+### 🔹 Merkeziyetsiz Ağ Mimarisi (Decentralized Network Architecture)
+Merkezi bir sunucu, baz istasyonu denetleyicisi veya ana omurga gerektirmeyen, tüm düğümlerin eşit yetkiyle veri aktarımına katıldığı kendi kendini organize eden örgü (mesh) topolojisi. Tek bir hata noktası (Single Point of Failure - SPOF) barındırmaz; düğümler kapansa dahi ağ otomatik olarak alternatif rotalar bularak çalışmaya devam eder (Self-Healing).
+
+### 🔹 Eşler Arası İletişim (Peer-to-Peer / P2P)
+İstemci-sunucu hiyerarşisi olmaksızın, iki veya daha fazla LoRa telsiz düğümünün doğrudan birbirleriyle veya aracı komşu eşler üzerinden veri alıp vermesini sağlayan haberleşme modeli.
+
+### 🔹 Hava Süresi Adaleti ve Spektrum Yönetimi (Airtime Fairness & Fair Access)
+Paylaşımlı lisanssız RF frekans bandının tek bir düğüm veya aşırı konuşkan cihaz tarafından tıkanmasını önleyen algoritma bütünü. Token-bucket mekanizması ve kanal doluluğuna göre dinamik gecikmeler (backoff) uygulayarak acil durum ve metin mesajlarına spektrumda her zaman öncelikli ve adil yer açar.
+
+### 🔹 Genel Yayın İletişimi (Broadcast Messaging)
+Ağdaki tüm düğümlerin veya belirli bir kanala abone olmuş tüm telsizlerin alması amacıyla `0xFFFFFFFF` (`NODENUM_BROADCAST`) genel yayın adresine gönderilen şifreli veya açık paketler. Afet duyuruları, durum ikazları ve grup mesajlaşmaları bu yöntemle tüm ağa taşkın yönlendirme (flood routing) ile yayılır.
+
 ### 🔹 Mesh Network (Örgüsel Ağ / Ağ Örgüsü)
 Merkezi bir yönlendirici (router), baz istasyonu veya internet bağlantısına ihtiyaç duymaksızın, her cihazın hem alıcı hem verici hem de aktarıcı olarak çalıştığı merkeziyetsiz kablosuz topoloji. Meshtastic'te tüm düğümler kapsama alanını el birliğiyle genişletir.
 
@@ -202,9 +217,18 @@ Ev ve kişisel güvenlik için GPS koordinatlarının son basamaklarını kırpa
 ### 🔹 Fixed Position (Sabit Konum Modu)
 Üzerinde GPS alıcısı bulunmayan sabit tepe yönlendiricilerine ve ev istasyonlarına manuel koordinat tanımlanmasını sağlayan mod (`fixed_position`). Uyduları aramayarak enerji tasarrufu sağlar ve haritada doğru noktada görünür.
 
+### 🔹 Eşlikçi Uygulamalar ve İstemci Ekosistemi (Companion Apps & Clients)
+Meshtastic donanımını kontrol etmek, mesajlaşıp harita görüntülemek ve ayarları yönetmek için Bluetooth, Wi-Fi veya USB üzerinden bağlanan resmi istemciler (Android, iOS/iPadOS, Meshtastic Web, Python CLI ve meshtasticd Linux servisi). Telsiz cihazıyla Google Protobuf formatında konuşur.
+
+### 🔹 Açık Standart ve Tedarikçi Bağımsızlığı (Open Architecture & Vendor Neutrality)
+Meshtastic'in hiçbir tescilli ticari protokole veya tek bir donanım üreticisine bağımlı kalmamasını sağlayan açık kaynak ekosistem felsefesi (GPL-3.0 lisansı ve açık Protobuf şemaları). Semtech SX1262/SX1276/LR1121 telsizleri ile ESP32, nRF52840 ve RP2040 işlemcili onlarca farklı üreticinin (Heltec, LilyGO, RAKwireless) donanımları tam uyumla birlikte çalışabilir.
+
 ---
 
 ## 6. Radyo Frekansı (RF) ve Yayılım (RF & Propagation)
+
+### 🔹 LPWAN (Düşük Güçlü Geniş Alan Ağı - Low-Power Wide-Area Network)
+Düşük veri hızları karşılığında kilometrelerce fiziksel kapsama alanı ve yıllara varan batarya ömrü sunmak üzere optimize edilmiş kablosuz telekomünikasyon ağı kategorisi. LoRa modülasyonu sayesinde yüksek alıcı hassasiyeti (-140 dBm) ve 100 mW altı çıkış güçleriyle onlarca kilometrelik menzil sağlar.
 
 ### 🔹 Chirp Spread Spectrum (CSS)
 LoRa'nın temel modülasyon tekniği. Veri bitleri, frekansı zamanla yukarı ("up-chirp") veya aşağı ("down-chirp") kayan sürekli sinyaller halinde iletilir. Bu sayede sinyal termal gürültü tabanının altında olsa dahi çözülebilir.
