@@ -9119,6 +9119,166 @@
           "Kullanım": "Operasyon anında telsiz kulesine uzaktan yeni şifreli acil hat ekleme"
         },
         seeAlso: ["meshtastic-python-cli-tcp-host", "meshtasticd-tcp-api-port-4403", "ha-multi-channel-mqtt-subscription"]
+      },
+      {
+        id: "rak6421-raspberry-pi-hat",
+        en: "RAKwireless RAK6421 WisHat Raspberry Pi LoRa Interface",
+        tr: "RAKwireless RAK6421 WisHat Raspberry Pi LoRa Genişleme Kartı",
+        category: "Donanım & Anten",
+        lead: "Raspberry Pi'ın 40-pin GPIO başlığına takılarak Semtech SX1262 LoRa telsiz entegresini SPI veriyolu üzerinden `meshtasticd` servisine bağlayan endüstriyel şapka kartı.",
+        details: "RAKwireless tarafından üretilen RAK6421 (veya RAK2287/WisHat adaptörleri), dahili RF empedans filtreleri ve koruma diyotlarıyla kule montajlarına uygun yüksek kararlılık sunar. `meshtasticd` için `/etc/meshtasticd/available.d/lora-rak6421.yaml` hazır şablonu kullanılarak doğrudan aktif edilir. 22 dBm'e kadar çıkış gücünü destekler; düşük gürültü figürü (NF) ile uzak mesafe sahra bağlantılarında paket kayıplarını minimuma indirir.",
+        github: "meshtastic.org/docs/meshtasticd/hardware",
+        infobox: {
+          "Telsiz Entegresi": "Semtech SX1262 (LoRa / FSK Transceiver)",
+          "Form Faktörü": "Raspberry Pi Standart 40-pin HAT",
+          "Veriyolu Arayüzü": "Donanım SPI (spidev0.0) & GPIO Kesmeleri",
+          "Frekans Bantları": "433 MHz / 868 MHz (AB) / 915 MHz (ABD)"
+        },
+        seeAlso: ["linux-spidev-lora-interface", "meshtasticd-native-daemon", "meshadv-pi-dedicated-hat"]
+      },
+      {
+        id: "meshadv-pi-dedicated-hat",
+        en: "MeshAdv-Pi v1.1 Dedicated Meshtastic Raspberry Pi HAT",
+        tr: "MeshAdv-Pi v1.1 Özel Raspberry Pi Meshtastic Şapkası",
+        category: "Donanım & Anten",
+        lead: "Meshtastic topluluğu tarafından Raspberry Pi için özel olarak tasarlanan; SX1262 LoRa telsizi, dahili GPS modülü ve lityum batarya yönetimini tek kartta toplayan taktik kule donanımı.",
+        details: "MeshAdv-Pi v1.1, standart telsiz şapkalarının ötesine geçerek açık kaynak afet haberleşmesi için entegre bir çözüm sunar. Kart üzerinde harici aktif GPS anten konnektörü, hassas TCXO kristali, I2C ekran soketi ve Raspberry Pi'ı elektrik kesintilerinde saatlerce ayakta tutan 18650 pil şarj devresi (UPS) bulunur. `/etc/meshtasticd/available.d/lora-meshadv-pi.yaml` şablonuyla tak-çalıştır kullanılır.",
+        github: "meshtastic.org/docs/meshtasticd/hardware",
+        infobox: {
+          "Üretici / Tasarım": "Meshtastic Açık Donanım Topluluğu",
+          "Entegre Birimler": "SX1262 LoRa, L76K GNSS (GPS), Li-Ion UPS Devresi",
+          "Kristal Türü": "Sıcaklık Dengelemeli Kristal Osilatör (TCXO)",
+          "Kullanım Amacı": "Güneş enerjili dağ röleleri ve bağımsız taktik merkez üsleri"
+        },
+        seeAlso: ["rak6421-raspberry-pi-hat", "solar-node-architecture", "linux-spidev-lora-interface"]
+      },
+      {
+        id: "adafruit-rfm9x-radio-bonnet",
+        en: "Adafruit RFM9x LoRa Radio Bonnet & FeatherWing Interface",
+        tr: "Adafruit RFM9x LoRa Radyo Bonnesi ve SPI Eklentisi",
+        category: "Donanım & Anten",
+        lead: "Raspberry Pi Zero ve standart Pi modelleri için geliştirilen, Semtech SX1276 tabanlı RFM95W modülü ve 128x32 OLED mini ekranı barındıran kompakt radyo şapkası.",
+        details: "Adafruit Radio Bonnet kartı, küçük boyutlu Raspberry Pi Zero istasyonları için idealdir. SX1276 çip mimarisine sahip RFM95W telsizi SPI üzerinden bağlanırken, kart üzerindeki küçük butonlar ve mini I2C OLED ekran da `meshtasticd` tarafından sürülebilir. `/etc/meshtasticd/available.d/lora-adafruit-rfm9x.yaml` yapılandırma şablonuyla eşleştirilir; 100 mW (+20 dBm) çıkış gücüyle yerel acil durum ağ geçitlerinde yaygın tercih edilir.",
+        github: "meshtastic.org/docs/meshtasticd/hardware",
+        infobox: {
+          "Radyo Modülü": "HopeRF RFM95W / Semtech SX1276",
+          "Ekran & Butonlar": "128x32 I2C OLED & 3 Adet Kullanıcı Butonu",
+          "Uyumlu Modeller": "Raspberry Pi Zero W / 2W, Pi 3, Pi 4, Pi 5",
+          "Kullanım": "Taşınabilir saha ağ geçidi ve küçük boyutlu masaüstü baz istasyonu"
+        },
+        seeAlso: ["elecrow-rfm95-iot-hat", "linux-spidev-lora-interface", "meshtasticd-i2c-spi-display-peripherals"]
+      },
+      {
+        id: "elecrow-rfm95-iot-hat",
+        en: "Elecrow LoRa RFM95 IoT Raspberry Pi Expansion Board",
+        tr: "Elecrow LoRa RFM95 IoT Raspberry Pi Genişleme Kartı",
+        category: "Donanım & Anten",
+        lead: "Raspberry Pi için geliştirilen, 868 MHz veya 433 MHz HopeRF RFM95W LoRa modülünü yerleşik SMA anten konnektörüyle sunan açık donanım kartı.",
+        details: "Elecrow IoT HAT, eğitim ve amatör telsiz projelerinde yaygın kullanılan ekonomik bir SPI donanım modülüdür. SPI veriyolu pinleri ve GPIO kesme hatları Raspberry Pi başlığına doğrudan oturur. `available.d` altındaki `lora-elecrow-rfm95.yaml` dosyasıyla saniyeler içinde `meshtasticd` ortamına bağlanır. Düşük güç tüketimi sayesinde bataryalı ve güneş enerjili saha konuşlandırmalarında stabil bir performans sağlar.",
+        github: "meshtastic.org/docs/meshtasticd/hardware",
+        infobox: {
+          "Donanım Yongası": "HopeRF RFM95W (SX1276 LoRa Core)",
+          "Anten Çıkışı": "Kart üzeri 50 Ohm SMA Dişi Konnektör",
+          "Çalışma Gerilimi": "Raspberry Pi 3.3V GPIO Rayı",
+          "Şablon Dosyası": "/etc/meshtasticd/available.d/lora-elecrow-rfm95.yaml"
+        },
+        seeAlso: ["adafruit-rfm9x-radio-bonnet", "rak6421-raspberry-pi-hat", "linux-spidev-lora-interface"]
+      },
+      {
+        id: "ch341-eeprom-serial-provisioning",
+        en: "CH341 USB LoRa EEPROM Unique Serial Number Provisioning",
+        tr: "CH341 USB LoRa EEPROM Benzersiz Seri Numarası Yazımı",
+        category: "Donanım & Anten",
+        lead: "Aynı Linux sunucusuna birden fazla CH341 tabanlı USB MeshStick takıldığında işletim sisteminin dongle'ları karıştırmaması için donanım EEPROM'una benzersiz seri numarası yazma tekniği.",
+        details: "WCH CH341 yongası varsayılan olarak sabit bir USB Vendor/Product ID (`1a86:7523`) yayınlar ve seri numarası alanı boş gelir. Aynı sunucuya 433 MHz ve 868 MHz iki ayrı MeshStick bağlandığında Linux aygıtları ayırt edemez. Kart üzerine 24C02 I2C EEPROM lehimlenip `ch341eeprom` aracı ile `MESHSTICK-01` ve `MESHSTICK-02` gibi özel seri numaraları yazıldığında, `udev` kuralları her dongle'a sabit bir `/dev/meshstick_868` sembolik bağı atar ve iki ayrı `meshtasticd` süreci çakışmadan çalışır.",
+        github: "meshtastic.org/docs/meshtasticd/hardware",
+        infobox: {
+          "Yonga Seti": "WCH CH341 USB-to-SPI Köprüsü",
+          "EEPROM Türü": "24C02 / 24C04 I2C Seri EEPROM",
+          "Yazılım Aracı": "ch341eeprom CLI aracı",
+          "Faydası": "Çok frekanslı kule sunucularında donanım karışıklığını ve port kaymasını engelleme"
+        },
+        seeAlso: ["usb-to-spi-meshstick-interface", "docker-usb-bus-passthrough", "meshtasticd-native-daemon"]
+      },
+      {
+        id: "sx1302-sx1303-concentrator-incompatibility",
+        en: "Semtech SX1302 & SX1303 LoRaWAN Concentrator Incompatibility",
+        tr: "Semtech SX1302 ve SX1303 LoRaWAN Konsantratör Uyumsuzluğu",
+        category: "Donanım & Anten",
+        lead: "Çok kanallı LoRaWAN ağ geçitlerinde (ChirpStack, The Things Network) kullanılan SX1302/SX1303 baz istasyonu kartlarının Meshtastic protokolüyle neden çalışamayacağını açıklayan mimari kısıt.",
+        details: "SX1302 ve SX1303 entegreleri 'Konsantratör' (Concentrator) olarak tasarlanmıştır; aynı anda 8 farklı frekans kanalında LoRaWAN paketlerini dinleyen bir DSP radyo dizisidir. Ancak bu yongalar bağımsız bir LoRa düğümü gibi serbest noktadan-noktaya (point-to-point) paket yayını yapamaz ve SX1262 gibi tek kanallı alıcı-verici mantığına (CSMA/CA) sahip değildir. Bu nedenle `meshtasticd`, SX1302/SX1303 LoRaWAN şapkalarını desteklemez; yalnızca SX1262/SX1276 gibi gerçek telsiz (transceiver) entegreleriyle çalışır.",
+        github: "meshtastic.org/docs/meshtasticd/hardware",
+        infobox: {
+          "Uyumsuz Yongalar": "Semtech SX1301, SX1302, SX1303 (LoRaWAN Concentrator)",
+          "Desteklenen Yongalar": "Semtech SX1262, SX1268, SX1276, SX1280 (Single-channel Transceiver)",
+          "Fark": "Konsantratör çok kanallı dinleyici DSP'dir; Transceiver tek kanallı çift yönlü telsizdir",
+          "Sonuç": "LoRaWAN gateway kartları Meshtastic düğümü olarak KULLANILAMAZ"
+        },
+        seeAlso: ["uart-at-command-radio-incompatibility", "linux-spidev-lora-interface", "rak6421-raspberry-pi-hat"]
+      },
+      {
+        id: "uart-at-command-radio-incompatibility",
+        en: "UART AT-Command Based LoRa Radio HAT Incompatibility",
+        tr: "UART AT Komutlu Telsiz Şapkalarının Desteklenmemesi",
+        category: "Donanım & Anten",
+        lead: "Seri porttan yüksek seviyeli AT komutlarıyla (`AT+SEND=...`) çalışan LoRa şapkalarının Meshtastic'in gelişmiş fiziksel katman gereksinimleri nedeniyle desteklenmeme prensibi.",
+        details: "Piyasada bulunan bazı ucuz LoRa modülleri (Reyax RYLR896, Ebyte E32 vb.) mikrodenetleyiciye UART üzerinden 'AT' metin komutlarıyla bağlanır. Ancak Meshtastic'in karmaşık örgü yönlendirmesi, kanalı dinlemeden konuşmama (CAD - Channel Activity Detection), milisaniyelik zaman damgaları ve ham Protobuf bayt aktarımı Semtech çipinin SPI yazmaçlarına (registers) doğrudan ve mikrosaniyelik erişim gerektirir. UART arayüzü bu erişimi engellediğinden `meshtasticd` yalnızca doğrudan SPI bağlantılı telsizleri destekler.",
+        github: "meshtastic.org/docs/meshtasticd/hardware",
+        infobox: {
+          "Engellenen Mimari": "UART / Seri Port AT Komutlu Şapkalar (Reyax, Ebyte UART)",
+          "Gereksinim": "Doğrudan SPI Yazmaç Erişimi (Direct Register-Level SPI Access)",
+          "Eksik Özellikler": "CAD (Kanal Aktivite Tespiti), Hassas SNR/RSSI okuma, Raw Protobuf TX",
+          "Alternatif": "Doğrudan SPI pinlerine sahip SX1262 modülleri kullanılmalıdır"
+        },
+        seeAlso: ["sx1302-sx1303-concentrator-incompatibility", "linux-spidev-lora-interface", "portduino-abstraction-framework"]
+      },
+      {
+        id: "waveshare-sx1262-lorawan-hat-limitations",
+        en: "Waveshare SX1262 LoRaWAN HAT Hardware Limitations & Mute Policy",
+        tr: "Waveshare SX1262 LoRaWAN HAT Donanım Kısıtlamaları ve Mute Politikası",
+        category: "Donanım & Anten",
+        lead: "Yaygın satılan Waveshare SX1262 LoRaWAN şapkasında tespit edilen donanım tasarım kısıtlamaları ve ağ trafiğini bozmaması için önerilen sessiz istemci (`CLIENT_MUTE`) modu.",
+        details: "Waveshare'in 'LoRaWAN HAT for Raspberry Pi' kartında anten RF anahtarlama devresi ve güç yönetimi tasarımında bazı donanım kısıtları bulunur. Uzun Meshtastic paketlerinde paket bozulması veya aşırı ısınma durumları görülebilmektedir. Meshtastic geliştiricileri bu kart kullanılırken `/etc/meshtasticd/config.yaml` içinde cihaz rolünün `CLIENT_MUTE` olarak yapılandırılmasını önerir; böylece kart mesajları sorunsuz dinler ve web arayüzünde görüntüler, fakat örgü ağında röleleme yaparak hatalı paket tekrarına sebep olmaz.",
+        github: "meshtastic.org/docs/meshtasticd/hardware",
+        infobox: {
+          "Donanım Kartı": "Waveshare SX1262 LoRaWAN HAT for Raspberry Pi",
+          "Tespit Edilen Kısıt": "Uzun paketlerde RF anahtarlama zamanlaması ve paket iletim anomalileri",
+          "Önerilen Rol": "CLIENT_MUTE (Sadece dinleme / istasyon monitörü modu)",
+          "Uygulama": "İzleme istasyonları, yerel MQTT dinleyicileri ve hava kalitesi panoları"
+        },
+        seeAlso: ["pine64-pinedio-lora-hat-constraints", "rak6421-raspberry-pi-hat", "linux-spidev-lora-interface"]
+      },
+      {
+        id: "pine64-pinedio-lora-hat-constraints",
+        en: "Pine64 PineDio LoRa HAT Hardware Constraints & Advisory",
+        tr: "Pine64 PineDio LoRa HAT Donanım Kısıtları ve Topluluk Tavsiyesi",
+        category: "Donanım & Anten",
+        lead: "Pine64 tarafından üretilen PineDio LoRa şapkasında yaşanan donanım zamanlama ve kesme kararsızlıkları nedeniyle `meshtasticd` altında kullanımına yönelik resmi uyarılar.",
+        details: "PineDio LoRa HAT, Semtech SX1262 tabanlı olmasına rağmen kart üzerindeki GPIO yönlendirmeleri, seviye dönüştürücüler (level shifters) ve kesme (IRQ) pini zamanlamaları Linux çekirdeğiyle her zaman kararlı çalışmayabilir. Yoğun örgü trafiğinde paket kaçırma ve donanım kilitlenmeleri rapor edilmiştir. Bu nedenle kritik kule konuşlandırmalarında PineDio yerine RAK6421 veya MeshAdv-Pi gibi doğrulanmış donanımların tercih edilmesi önerilir.",
+        github: "meshtastic.org/docs/meshtasticd/hardware",
+        infobox: {
+          "Donanım Modeli": "Pine64 PineDio LoRa HAT for Pinebook / Raspberry Pi",
+          "Sorun Türü": "GPIO seviye dönüştürücü ve IRQ kesme kararsızlığı",
+          "Kullanım Durumu": "Deneysel (Experimental) - Kritik sahra görevlerinde önerilmez",
+          "Tavsiye Edilen Alternatif": "RAK6421 WisHat veya MeshAdv-Pi v1.1"
+        },
+        seeAlso: ["waveshare-sx1262-lorawan-hat-limitations", "rak6421-raspberry-pi-hat", "linux-spidev-lora-interface"]
+      },
+      {
+        id: "meshtasticd-i2c-spi-display-peripherals",
+        en: "meshtasticd I2C & SPI Hardware Display Peripherals",
+        tr: "meshtasticd I2C ve SPI Ekran Çevre Birimleri Desteği",
+        category: "Donanım & Anten",
+        lead: "`meshtasticd` servisinin Raspberry Pi'a takılan OLED veya E-Paper ekranları Linux I2C/SPI sürücüleri üzerinden doğrudan sürerek telsiz durumunu gösterme kabiliyeti.",
+        details: "Sunucu veya sahra kutusuna harici monitör bağlamadan telsizin durumunu görmek için kart başlığına 0.96 inç SSD1306, SH1106 I2C OLED veya Waveshare E-Paper ekran takılabilir. `config.yaml` dosyasında `Display: Model: ssd1306`, `I2C: 1` tanımlandığında `meshtasticd` ekranı başlatır. Ekran üzerinde canlı düğüm sayısı, son gelen mesaj, kanal adı, batarya durumu ve IP adresi sürekli döngüyle gösterilir; operatör şebekesiz ortamda telsizin durumunu anında okur.",
+        github: "meshtastic.org/docs/meshtasticd/hardware",
+        infobox: {
+          "Desteklenen Ekranlar": "SSD1306 (128x64 / 128x32 OLED), SH1106, ST7789 TFT, E-Paper",
+          "Veriyolu Bağlantısı": "I2C (/dev/i2c-1) veya İkincil SPI (spidev0.1)",
+          "Görüntülenen Bilgiler": "Kanal Adı, Düğüm Kimliği, Son Mesaj, Komşu Sayısı, IP Adresi",
+          "Yapılandırma": "/etc/meshtasticd/config.yaml -> Display bloğu"
+        },
+        seeAlso: ["meshtasticd-config-yaml", "adafruit-rfm9x-radio-bonnet", "linux-spidev-lora-interface"]
       }
     ];
 

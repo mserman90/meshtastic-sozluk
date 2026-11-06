@@ -754,6 +754,18 @@ Meshtastic donanımını kontrol etmek, mesajlaşıp harita görüntülemek ve a
 - **meshtasticd Düğüm Kimliği ve Şifreleme Kalıcılığı (`meshtasticd-node-identity-persistence`):** Yeniden başlatmalarda Node ID, Ed25519 ve TLS anahtarlarını koruma ilkesi.
 - **meshtasticd TCP Üzerinden Uzaktan Kanal Yapılandırması (`meshtasticd-tcp-channel-provisioning`):** Port 4403 üzerinden telsiz kulesine uzaktan şifreli kanal ve PSK anahtarı ekleme.
 
+### 🔌 meshtasticd Donanım Şapkaları ve Çevre Birimleri (meshtastic.org/docs/meshtasticd/hardware)
+- **RAKwireless RAK6421 WisHat LoRa Kartı (`rak6421-raspberry-pi-hat`):** Semtech SX1262 yongasını 40-pin GPIO üzerinden endüstriyel kule kararlılığıyla bağlama.
+- **MeshAdv-Pi v1.1 Özel Meshtastic Şapkası (`meshadv-pi-dedicated-hat`):** Dahili SX1262, aktif GPS ve 18650 lityum pil yönetim devresini tek kartta sunan taktik donanım.
+- **Adafruit RFM9x LoRa Radyo Bonnesi (`adafruit-rfm9x-radio-bonnet`):** Raspberry Pi Zero ve standart modeller için mini OLED ekranlı kompakt telsiz şapkası.
+- **Elecrow LoRa RFM95 IoT Genişleme Kartı (`elecrow-rfm95-iot-hat`):** Ekonomik ve düşük güçlü sahra konuşlandırmaları için SMA antenli RFM95W kartı.
+- **CH341 USB LoRa EEPROM Benzersiz Seri No Yazımı (`ch341-eeprom-serial-provisioning`):** Aynı sunucuda çalışan birden fazla MeshStick için donanım seviyesinde ID atama.
+- **Semtech SX1302/SX1303 LoRaWAN Konsantratör Uyumsuzluğu (`sx1302-sx1303-concentrator-incompatibility`):** Konsantratör çok kanallı gateway çipleri ile tek kanallı mesh telsiz farkı.
+- **UART AT Komutlu Telsizlerin Desteklenmemesi (`uart-at-command-radio-incompatibility`):** Meshtastic CAD ve Protobuf zamanlaması için doğrudan SPI register erişim gereksinimi.
+- **Waveshare SX1262 LoRaWAN HAT Donanım Kısıtları (`waveshare-sx1262-lorawan-hat-limitations`):** RF anahtarlama anomalileri nedeniyle tavsiye edilen `CLIENT_MUTE` sessiz dinleme modu.
+- **Pine64 PineDio LoRa HAT Donanım Kısıtları (`pine64-pinedio-lora-hat-constraints`):** GPIO seviye dönüştürücü ve IRQ kesme kararsızlığına yönelik resmi uyarılar.
+- **meshtasticd I2C ve SPI Ekran Çevre Birimleri (`meshtasticd-i2c-spi-display-peripherals`):** SSD1306 OLED ve E-Paper ekranlarda canlı kanal ve düğüm telemetrisi gösterme.
+
 ### 🔹 Açık Standart ve Tedarikçi Bağımsızlığı (Open Architecture & Vendor Neutrality)
 Meshtastic'in hiçbir tescilli ticari protokole veya tek bir donanım üreticisine bağımlı kalmamasını sağlayan açık kaynak ekosistem felsefesi (GPL-3.0 lisansı ve açık Protobuf şemaları). Semtech SX1262/SX1276/LR1121 telsizleri ile ESP32, nRF52840 ve RP2040 işlemcili onlarca farklı üreticinin (Heltec, LilyGO, RAKwireless) donanımları tam uyumla birlikte çalışabilir.
 
