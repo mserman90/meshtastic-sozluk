@@ -58,6 +58,21 @@ Meshtastic firmware'inin temel yönlendirme mekanizması. Bir düğüm paket ald
 2. Paket daha önce iletilmemişse ve `hop_limit` 0'dan büyükse, rastgele bir bekleme süresinin (backoff delay) ardından paket tekrar havaya fırlatılır.
 3. Böylece rota tablosu oluşturma zahmeti olmadan paket ağda hızla dağıtılır.
 
+### 🔹 Yönetilen Taşkın Yönlendirme (Managed Flooding)
+Meshtastic'in kör taşkın (naive flooding) yerine; atlama sınırları (hop limits), paket tekilleştirme, SNR tabanlı çekişme pencereleri ve havada tekrar bastırmasını harmanlayarak geliştirdiği akıllı örgüsel yönlendirme algoritması (`Mesh Broadcast Algorithm`). Ağdaki yayın fırtınalarını (broadcast storm) önler.
+
+### 🔹 SNR Ağırlıklı Çekişme Penceresi ve Mesafe Önceliği (SNR-Weighted Contention)
+"Uzak Düğümler Önce İletir" (*Farther nodes flood first*) prensibiyle çalışan radyo gecikme algoritması. Zayıf sinyal (düşük SNR) alan en uzaktaki rölelere daha kısa bekleme süresi verilir; böylece paket tek sıçramada en uzağa ulaştırılırken, yakındaki cihazlar gereksiz tekrarları bastırır.
+
+### 🔹 Tekrar Yayınını Bastırma (Rebroadcast Suppression)
+Bir düğümün havadaki bir paketi tekrarlamak üzere geri sayım sayacındayken (backoff delay), komşu bir rölenin aynı paketi başarıyla havaya bastığını duyması durumunda kendi iletimini iptal etmesi. Hava süresinden büyük tasarruf sağlar.
+
+### 🔹 Sonraki Atlama Yönlendirmesi (Next-Hop Routing)
+Doğrudan mesajlarda (DM) tüm ağı taşkınla meşgul etmek yerine, NodeDB önbelleğinde saklanan en iyi ara komşu rotası üzerinden hedefe yönelik iletim (directed unicast) yapan verimli yönlendirme tekniği.
+
+### 🔹 Uyarlamalı Yayın Ölçekleme ve Dinamik Kısma (Adaptive Broadcast Scaling)
+Ağdaki aktif düğüm sayısı arttıkça veya frekans doluluğu yükseldikçe, NodeInfo, Position ve Telemetry durum paketlerinin gönderim periyotlarını otomatik çarpanlarla uzatarak 100+ düğümlü büyük ağlarda kilitlenmeyi önleyen dengeleme mekanizması.
+
 ### 🔹 Hop Limit (Atlama Sınırı)
 Bir paketin kaynaktan çıktıktan sonra kaç kez tekrarlanabileceğini (röle edilebileceğini) belirleyen sayaç. Varsayılan genellikle 3, izin verilen maksimum değer 7'dir. Her tekrarda değer 1 azalır; 0'a ulaştığında paket artık yeniden yayınlanmaz. Bu mekanizma paketlerin sonsuz döngüye (packet storm) girmesini önler.
 
@@ -171,6 +186,8 @@ Aşırı sıcak veya dondurucu soğuk hava koşullarında telsiz frekansının k
 | **SENSOR** | Sensör Düğümü | Sıcaklık, nem, gaz, basınç sensörlerini periyodik olarak okuyup telemetri portuna basan istasyon modu. |
 | **TAK / TAK_TRACKER** | Taktik Harita Terminali | ATAK / CivTAK askeri harita uygulamaları ile entegre çalışan taktik durum farkındalık modu. |
 | **LOST_AND_FOUND** | Kayıp Eşya Bulucu | Düşük enerjiyle periyodik kimlik sinyali yayan ve bulan kişinin konum bildirmesine yardımcı olan mod. |
+| **ROUTER_LATE** | Gecikmeli Altyapı Rölesi | Çekişme penceresinin sonuna kadar bekler; paket yerel istemcilerce tekrarlanmazsa devreye girip güçlü çıkışıyla uzak mesafelere aktarır. |
+| **CLIENT_BASE** | Sabit Üs / Ev İstasyonu | Ev veya karargah cihazı; favorilere eklenmiş el telsizlerinin paketlerini bastırma (suppression) kurallarını esneterek sadakatle yineler. |
 
 ---
 
@@ -259,6 +276,9 @@ Sinyalin havada kapladığı frekans aralığı (ör. 125 kHz, 250 kHz, 500 kHz)
 
 ### 🔹 VSWR (Voltage Standing Wave Ratio)
 Antenin empedans uyumunu ve vericiden çıkan gücün ne kadarının geri yansıdığını gösteren katsayı. 1.0 idealdir, 1.5 altı mükemmeldir, 2.0 üzerindeki değerler cihazın çıkış katına zarar verebilir.
+
+### 🔹 LoRa Sembol Süresi ve Yuva Zamanlaması ($T_{sym}$ Slot Time)
+Bir LoRa cıvıltı (chirp) sembolünün havada iletilmesi için geçen süre ($T_{sym} = 2^{SF} / BW$). Meshtastic'in tüm CSMA/CA çekişme yuvaları (contention slot times) ve dinamik geri sayım süreleri bu sembol süresi baz alınarak hesaplanır. Paket çarpışmaları matematiksel olarak en aza indirgenir.
 
 ---
 

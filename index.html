@@ -2260,6 +2260,137 @@
           "Kullanım Alanı": "Dağcılık, Arama-Kurtarma, Hava Durumu"
         },
         seeAlso: ["sensecap-x1", "telemetry-app", "node-entity-sensors", "dual-band-gnss"]
+      },
+
+      /* 10. Ağ Mimarisi, Taşkın Algoritması ve Genel Bakış (meshtastic.org/docs/overview) */
+      {
+        id: "managed-flooding",
+        en: "Managed Flooding (Mesh Broadcast Algorithm)",
+        tr: "Yönetilen Taşkın Yönlendirme Algoritması",
+        category: "Ağ & Protokol",
+        lead: "Meshtastic'in kör taşkın (naive flooding) yerine; atlama sınırları (hop limits), paket tekilleştirme, SNR tabanlı çekişme pencereleri ve havada tekrar bastırmasını harmanlayarak geliştirdiği akıllı örgüsel yönlendirme algoritması.",
+        details: "Geleneksel kör taşkın ağlarında her düğüm duyduğu her paketi anında tekrar iletir ve bu durum çok kısa sürede 'Yayın Fırtınası'na (Broadcast Storm) ve kanalın kilitlenmesine yol açar. Meshtastic'in Yönetilen Taşkın (Managed Flooding) algoritması ise: 1) Paketin daha önce duyulup duyulmadığını PacketID ile denetler, 2) Alınan sinyal gücüne (SNR) göre dinamik gecikme uygular, 3) Paketin başka bir düğümce havada iletildiğini duyarsa kendi iletimini iptal eder (suppression), 4) Hop Limit sıfırlandığında yayını sonlandırır.",
+        github: "meshtastic.org/docs/overview/mesh-algo",
+        infobox: {
+          "Algoritma Türü": "Managed Flooding (Akıllı Taşkın)",
+          "Temel Korumalar": "Hop Limit, SNR Gecikmesi, Bastırma (Suppression)",
+          "Hedef": "Yayın fırtınasını ve kanal tıkanıklığını önleme",
+          "Uygulama Alanı": "Tüm genel kanal ve grup yayınları"
+        },
+        seeAlso: ["controlled-flood-routing", "snr-contention-window", "rebroadcast-suppression", "hop-limit"]
+      },
+      {
+        id: "snr-contention-window",
+        en: "SNR-Weighted Contention Window",
+        tr: "SNR Ağırlıklı Çekişme Penceresi ve Mesafe Önceliği",
+        category: "Ağ & Protokol",
+        lead: "Meshtastic ağında bir paketi alan düğümlerin, sinyal-gürültü oranına (SNR) bağlı olarak hesaplanan rastgele bekleme pencereleriyle en uzaktaki düğümlere öncelikli yayın hakkı tanıması mekanizması.",
+        details: "'Uzak Düğümler Önce İletir' (Farther nodes flood first) prensibiyle çalışır. Vericiden uzaktaki bir düğüm zayıf sinyal (düşük SNR) alır. Algoritma düşük SNR değerlerine daha kısa çekişme gecikmesi atar; böylece en uzaktaki röle paketi herkesten önce tekrar havaya basarak menzili tek bir adımda en uzağa taşır. Vericiye çok yakın olan yüksek SNR'lı cihazlar ise daha uzun süre bekler ve uzak rölenin paketi fırlattığını duyduklarında kendi yayınlarını iptal ederler.",
+        github: "meshtastic.org/docs/overview/mesh-algo",
+        infobox: {
+          "Çalışma Prensibi": "Farther nodes flood first (Uzak düğüm önce basar)",
+          "Girdi Parametresi": "MeshPacket.rx_snr (Desibel / dB)",
+          "Gecikme Penceresi": "Düşük SNR = Kısa Gecikme, Yüksek SNR = Uzun Gecikme",
+          "Faydası": "Maksimum menzil sıçraması & gereksiz tekrarları önleme"
+        },
+        seeAlso: ["snr", "managed-flooding", "rebroadcast-suppression", "implicit-ack"]
+      },
+      {
+        id: "rebroadcast-suppression",
+        en: "Rebroadcast Suppression",
+        tr: "Tekrar Yayınını Bastırma (Gereksiz İletimi İptal Etme)",
+        category: "Ağ & Protokol",
+        lead: "Bir düğümün havadaki bir paketi tekrarlamak üzere bekleme süresindeyken, başka bir komşu düğümün aynı paketi başarıyla yayınladığını duyması durumunda kendi iletimini iptal etmesi.",
+        details: "Telsiz frekansında (RF) aynı paketin birden fazla komşu tarafından aynı anda havaya fırlatılması hava süresini (airtime) tüketir ve paket çarpışmalarına yol açar. Meshtastic düğümleri geri sayım sayacındayken (backoff) telsiz dinlemesinde kalır. Eğer aynı Packet ID'ye sahip bir paket havada duyulursa, düğüm 'paket zaten ağda ilerliyor' kararı vererek kendi kuyruğundaki paketi sessizce düşürür (suppress). Bu sayede hava trafiğinde %70'e varan tasarruf sağlanır.",
+        github: "meshtastic.org/docs/overview/mesh-algo",
+        infobox: {
+          "Mekanizma": "Havada Tekrar Algılama & İptal",
+          "Tetikleyici": "Aynı Packet ID'nin havada duyulması",
+          "Sonuç": "Yerel kuyruktaki TX iptali",
+          "Tasarruf": "Gereksiz hava süresi ve çarpışma önleme"
+        },
+        seeAlso: ["implicit-ack", "snr-contention-window", "managed-flooding", "airtime"]
+      },
+      {
+        id: "next-hop-routing",
+        en: "Next-Hop Routing (Directed Unicast)",
+        tr: "Sonraki Atlama Yönlendirmesi (Hedefe Doğrudan Rota)",
+        category: "Ağ & Protokol",
+        lead: "Doğrudan mesajlarda (DM) tüm ağı taşkınla boğmak yerine, hedef düğüme giden bilinen en iyi ara komşu düğümler üzerinden paket ileten akıllı unicast yönlendirme tekniği.",
+        details: "Meshtastic'in NodeDB veritabanında saklanan traceroute ve komşuluk bilgileri sayesinde, cihazlar belirli bir hedef düğüme ulaşmak için paketi tüm kanala fırlatmak yerine doğrudan 'sonraki atlama' (next-hop) komşusuna yönlendirebilir. Eğer hedefe giden yol bozulursa sistem otomatik olarak genel taşkın moduna (managed flooding) geri dönerek rotayı yeniden keşfeder.",
+        github: "meshtastic.org/docs/overview/mesh-algo",
+        infobox: {
+          "Yönlendirme Modu": "Hedefe Yönelik (Directed Unicast)",
+          "Hedef": "Doğrudan Mesajlar (DM)",
+          "Kullanılan Veri": "NodeDB Rota Önbelleği & Traceroute",
+          "Yedek Mekanizma": "Managed Flood (Otomatik Geri Dönüş)"
+        },
+        seeAlso: ["direct-message", "nodedb", "traceroute", "managed-flooding"]
+      },
+      {
+        id: "adaptive-broadcast-scaling",
+        en: "Adaptive Broadcast Scaling & Dynamic Throttling",
+        tr: "Uyarlamalı Yayın Ölçekleme ve Dinamik Kısma",
+        category: "Ağ & Protokol",
+        lead: "Ağdaki aktif düğüm sayısı arttıkça veya frekans doluluğu yükseldikçe, durum ve telemetri paketlerinin gönderim aralığını otomatik olarak uzatan akıllı dengeleme algoritması.",
+        details: "Küçük bir grupta (5-10 düğüm) her cihazın birkaç dakikada bir konum ve telemetri atması sorun yaratmazken; 100+ düğümlü yoğun şehir ağlarında bu durum frekansı tamamen çökertebilir. Meshtastic firmware'i, son saatte duyulan çevrimiçi düğüm sayısını (`online_nodes`) ve anlık kanal doluluk oranını (`chUtil`) izler. Düğüm sayısı arttıkça `nodeinfo_broadcast_secs` ve `position_broadcast_secs` periyotlarını çarpanlarla (scaling factor) otomatik olarak öteler.",
+        github: "meshtastic.org/docs/overview/mesh-algo",
+        infobox: {
+          "Girdi Metrikleri": "Aktif Düğüm Sayısı (NodeDB) & ChUtil",
+          "Etkilenen Paketler": "NodeInfo, Position, Telemetry",
+          "Ölçekleme": "Dinamik Çarpan (Adaptive Backoff)",
+          "Hedef": "100+ düğümlü büyük ağlarda kilitlenmeyi önleme"
+        },
+        seeAlso: ["channel-utilization", "airtime-fairness", "duty-cycle", "telemetry-app"]
+      },
+      {
+        id: "router-late",
+        en: "ROUTER_LATE (Late Infrastructure Relay Role)",
+        tr: "ROUTER_LATE (Gecikmeli Altyapı Rölesi Rolü)",
+        category: "Düğüm Rolleri",
+        lead: "Yüksek tepe ve kulelerde konumlandırılan, ancak gereksiz hava trafiği yaratmamak için paketi önce yerel istemcilerin iletmesini bekleyen, kimse iletmezse devreye giren emniyet rölesi rolü.",
+        details: "Standart ROUTER rolü paketleri en kısa gecikmeyle çok agresif yineler; bu da vadideki veya şehirdeki yerel istemcilerin sesini bastırabilir. ROUTER_LATE rolü ise çekişme penceresinin sonuna kadar bekler. Eğer yerel düğümler paketi bir sonraki hedefe ulaştıramazsa (havada tekrar duyulmazsa), ROUTER_LATE son çare emniyet kemeri olarak devreye girip güçlü çıkışıyla paketi uzak coğrafyalara fırlatır.",
+        github: "meshtastic/protobufs: config.proto (Role.ROUTER_LATE)",
+        infobox: {
+          "Rol Adı": "ROUTER_LATE",
+          "Çalışma Mantığı": "Gecikmeli İletim (Late Backstop Relay)",
+          "Konum": "Yüksek Kuleler, Zirveler, Çatılar",
+          "Avantajı": "Yerel frekansı boğmadan kör noktalara köprüleme"
+        },
+        seeAlso: ["router", "repeater", "router-client", "snr-contention-window"]
+      },
+      {
+        id: "client-base",
+        en: "CLIENT_BASE (Base Station / Favorited Nodes Hub)",
+        tr: "CLIENT_BASE (Sabit Üs / Tercihli Düğümler İstasyonu)",
+        category: "Düğüm Rolleri",
+        lead: "Ev veya arama-kurtarma karargahındaki sabit istasyonlar için tasarlanan, favorilere eklenmiş el cihazlarının paketlerini standart bastırma kurallarını esneterek kesinlikle tekrarlayan istemci rolü.",
+        details: "Arazideki bir takipçinin (tracker) veya aile bireyinin el telsizinin ürettiği acil durum ve telemetri paketlerinin ev istasyonu tarafından asla kaçırılmamasını garanti eder. Normalde bir paket havada başka bir cihazca ulaştırıldığında bastırılabilirken; CLIENT_BASE rolü favori (`is_favorite`) olarak işaretlenmiş düğümlerin paketlerini sadakatle yakalar, onaylar (ACK) ve yerel ağa köprüler.",
+        github: "meshtastic/protobufs: config.proto (Role.CLIENT_BASE)",
+        infobox: {
+          "Rol Adı": "CLIENT_BASE",
+          "Kullanım Amacı": "Ev İstasyonu, Karargah ve Aile Hub'ı",
+          "Özel Davranış": "Favori düğümler için bastırmayı (suppression) esnetme",
+          "Donanım": "Sabit antenli ev istasyonları"
+        },
+        seeAlso: ["client", "tracker", "rebroadcast-suppression", "fixed-position"]
+      },
+      {
+        id: "symbol-duration",
+        en: "LoRa Symbol Duration & Slot Time",
+        tr: "LoRa Sembol Süresi ve Yuva Zamanlaması (T_sym)",
+        category: "RF & Yayılım",
+        lead: "Bir LoRa cıvıltı (chirp) sembolünün havada iletilmesi için geçen süre ($T_{sym} = 2^{SF} / BW$) ve CSMA/CA çekişme yuvalarının (slot times) temel zaman birimi.",
+        details: "Meshtastic'in tüm zamanlama, bekleme (backoff) ve kanal dinleme pencereleri LoRa sembol süresi ($T_{sym}$) cinsinden hesaplanır. Örneğin SF7 ve 250 kHz bant genişliğinde bir sembol süresi yaklaşık 0.5 milisaniye iken; SF12 ve 125 kHz ayarında bu süre yaklaşık 32.8 milisaniyeye fırlar. Çekişme pencereleri sembol sürelerinin tam katları şeklinde dilimlenerek paket çarpışmaları matematiksel olarak minimize edilir.",
+        github: "meshtastic/firmware: src/mesh/RadioLibInterface.cpp",
+        infobox: {
+          "Formül": "T_sym = (2^SF) / Bandwidth",
+          "Birim": "Milisaniye (ms)",
+          "SF7 @ 250kHz": "~0.512 ms",
+          "SF12 @ 125kHz": "~32.768 ms",
+          "Kullanım": "CSMA/CA Slot Zamanlaması ve Çekişme"
+        },
+        seeAlso: ["spreading-factor", "bandwidth", "csma-ca", "snr-contention-window"]
       }
     ];
 
