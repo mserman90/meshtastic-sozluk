@@ -1,0 +1,1770 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Meshtastic Vikipedi — Özgür Yazılım ve Donanım Terimleri Sözlüğü</title>
+  <meta name="description" content="Meshtastic açık kaynaklı şebekesiz (off-grid) LoRa örgüsel telsiz ağı için kapsamlı Türkçe-İngilizce teknik ansiklopedi ve terimler sözlüğü.">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='45' fill='%232a4b8d'/><path d='M30 50 L50 30 L70 50 L50 70 Z' fill='none' stroke='white' stroke-width='6'/><circle cx='50' cy='30' r='8' fill='%2367c23a'/><circle cx='30' cy='50' r='8' fill='%2367c23a'/><circle cx='70' cy='50' r='8' fill='%2367c23a'/><circle cx='50' cy='70' r='8' fill='%2367c23a'/></svg>">
+  <style>
+    :root {
+      --wiki-bg: #ffffff;
+      --wiki-surface: #f8f9fa;
+      --wiki-border: #a2a9b1;
+      --wiki-light-border: #eaecf0;
+      --wiki-text: #202122;
+      --wiki-subtext: #54595d;
+      --wiki-link: #3366cc;
+      --wiki-link-visited: #795cb2;
+      --wiki-link-hover: #447ff5;
+      --wiki-infobox-bg: #f8f9fa;
+      --wiki-infobox-header: #cce0ff;
+      --wiki-highlight: #fff9c4;
+      --wiki-code-bg: #f1f3f5;
+      --wiki-tag-bg: #eaf3ff;
+      --wiki-tag-color: #1a4480;
+      --wiki-shadow: 0 1px 3px rgba(0,0,0,0.08);
+      --font-serif: 'Linux Libertine', Georgia, 'Times New Roman', serif;
+      --font-sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      --font-mono: SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', monospace;
+    }
+
+    [data-theme="dark"] {
+      --wiki-bg: #101418;
+      --wiki-surface: #1a1f26;
+      --wiki-border: #384250;
+      --wiki-light-border: #28303a;
+      --wiki-text: #e1e4e8;
+      --wiki-subtext: #9ba3af;
+      --wiki-link: #6db3f2;
+      --wiki-link-visited: #b39ddb;
+      --wiki-link-hover: #9cd0fc;
+      --wiki-infobox-bg: #161b22;
+      --wiki-infobox-header: #1f3654;
+      --wiki-highlight: #453c0a;
+      --wiki-code-bg: #21262d;
+      --wiki-tag-bg: #1c2d42;
+      --wiki-tag-color: #8bc3ff;
+      --wiki-shadow: 0 2px 6px rgba(0,0,0,0.4);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: var(--font-sans);
+      background-color: var(--wiki-bg);
+      color: var(--wiki-text);
+      line-height: 1.6;
+      font-size: 14.5px;
+      transition: background 0.2s, color 0.2s;
+    }
+
+    /* Üst Başlık (Wikipedia Vector Header) */
+    header.wiki-header {
+      border-bottom: 1px solid var(--wiki-light-border);
+      background: var(--wiki-surface);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: var(--wiki-shadow);
+    }
+    .header-inner {
+      max-width: 1440px;
+      margin: 0 auto;
+      padding: 8px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+    .wiki-brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+      color: inherit;
+    }
+    .wiki-logo {
+      width: 42px;
+      height: 42px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, #1b3d75, #2f6eb8);
+      border-radius: 50%;
+      color: white;
+      font-size: 22px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.15);
+    }
+    .wiki-title-group h1 {
+      font-family: var(--font-serif);
+      font-size: 1.3rem;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+      line-height: 1.2;
+    }
+    .wiki-title-group p {
+      font-size: 0.75rem;
+      color: var(--wiki-subtext);
+    }
+
+    /* Arama Çubuğu */
+    .wiki-search-box {
+      flex: 1;
+      max-width: 520px;
+      position: relative;
+    }
+    .search-input-wrapper {
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+    .search-input-wrapper input {
+      width: 100%;
+      padding: 8px 36px 8px 36px;
+      border: 1px solid var(--wiki-border);
+      border-radius: 20px;
+      font-size: 0.9rem;
+      background: var(--wiki-bg);
+      color: var(--wiki-text);
+      outline: none;
+      transition: all 0.2s;
+    }
+    .search-input-wrapper input:focus {
+      border-color: var(--wiki-link);
+      box-shadow: 0 0 0 2px rgba(51, 102, 204, 0.2);
+    }
+    .search-icon {
+      position: absolute;
+      left: 12px;
+      font-size: 14px;
+      color: var(--wiki-subtext);
+      pointer-events: none;
+    }
+    .search-clear {
+      position: absolute;
+      right: 12px;
+      cursor: pointer;
+      background: none;
+      border: none;
+      color: var(--wiki-subtext);
+      font-size: 16px;
+      display: none;
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .btn-wiki {
+      background: var(--wiki-surface);
+      border: 1px solid var(--wiki-border);
+      padding: 6px 12px;
+      border-radius: 4px;
+      font-size: 0.82rem;
+      color: var(--wiki-text);
+      text-decoration: none;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: background 0.15s;
+    }
+    .btn-wiki:hover {
+      background: var(--wiki-light-border);
+    }
+
+    /* Ana Düzen (Sidebar + İçerik) */
+    .wiki-container {
+      max-width: 1440px;
+      margin: 0 auto;
+      padding: 20px;
+      display: grid;
+      grid-template-columns: 240px 1fr;
+      gap: 28px;
+    }
+
+    /* Sol Kenar Çubuğu (Sidebar) */
+    aside.wiki-sidebar {
+      position: sticky;
+      top: 75px;
+      height: calc(100vh - 90px);
+      overflow-y: auto;
+      padding-right: 10px;
+      font-size: 0.85rem;
+    }
+    .sidebar-section {
+      margin-bottom: 24px;
+    }
+    .sidebar-title {
+      font-weight: 700;
+      text-transform: uppercase;
+      font-size: 0.72rem;
+      letter-spacing: 0.5px;
+      color: var(--wiki-subtext);
+      padding-bottom: 6px;
+      border-bottom: 1px solid var(--wiki-light-border);
+      margin-bottom: 10px;
+    }
+    .sidebar-links {
+      list-style: none;
+    }
+    .sidebar-links li {
+      margin-bottom: 5px;
+    }
+    .sidebar-links a {
+      color: var(--wiki-link);
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 4px 6px;
+      border-radius: 4px;
+      transition: background 0.1s;
+    }
+    .sidebar-links a:hover {
+      background: var(--wiki-surface);
+      text-decoration: underline;
+    }
+    .sidebar-links a.active {
+      font-weight: 700;
+      background: var(--wiki-tag-bg);
+      color: var(--wiki-tag-color);
+    }
+    .count-badge {
+      background: var(--wiki-light-border);
+      color: var(--wiki-subtext);
+      padding: 1px 6px;
+      border-radius: 10px;
+      font-size: 0.72rem;
+      font-weight: normal;
+    }
+
+    /* A-Z Harf Şeridi */
+    .alphabet-nav {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 4px;
+      margin-bottom: 12px;
+    }
+    .letter-btn {
+      width: 26px;
+      height: 26px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid var(--wiki-light-border);
+      background: var(--wiki-surface);
+      border-radius: 3px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      cursor: pointer;
+      color: var(--wiki-link);
+      transition: all 0.15s;
+    }
+    .letter-btn:hover, .letter-btn.active {
+      background: var(--wiki-link);
+      color: white;
+      border-color: var(--wiki-link);
+    }
+
+    /* Ana İçerik Alanı */
+    main.wiki-content {
+      min-width: 0;
+    }
+
+    /* Vikipedi Üst Bildirim Kutusu (Notice Box) */
+    .wiki-notice {
+      background: var(--wiki-surface);
+      border-left: 4px solid #2a4b8d;
+      border-top: 1px solid var(--wiki-light-border);
+      border-right: 1px solid var(--wiki-light-border);
+      border-bottom: 1px solid var(--wiki-light-border);
+      padding: 14px 18px;
+      margin-bottom: 24px;
+      border-radius: 0 4px 4px 0;
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+    }
+    .notice-icon {
+      font-size: 26px;
+      line-height: 1;
+    }
+    .notice-text h2 {
+      font-family: var(--font-serif);
+      font-size: 1.15rem;
+      margin-bottom: 4px;
+    }
+    .notice-text p {
+      font-size: 0.88rem;
+      color: var(--wiki-subtext);
+    }
+
+    /* Kategori ve Filtre Çubukları */
+    .filter-pills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-bottom: 20px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid var(--wiki-light-border);
+    }
+    .pill {
+      background: var(--wiki-surface);
+      border: 1px solid var(--wiki-border);
+      padding: 4px 12px;
+      border-radius: 14px;
+      font-size: 0.8rem;
+      cursor: pointer;
+      color: var(--wiki-text);
+      transition: all 0.15s;
+    }
+    .pill:hover {
+      background: var(--wiki-light-border);
+    }
+    .pill.active {
+      background: #2a4b8d;
+      color: white;
+      border-color: #2a4b8d;
+    }
+
+    /* Terim Maddesi (Article Card) */
+    article.wiki-entry {
+      border: 1px solid var(--wiki-light-border);
+      border-radius: 6px;
+      background: var(--wiki-bg);
+      padding: 20px 24px;
+      margin-bottom: 28px;
+      box-shadow: var(--wiki-shadow);
+      position: relative;
+      transition: all 0.25s ease;
+    }
+    article.wiki-entry.flash-highlight {
+      background-color: var(--wiki-highlight);
+      border-color: #fbc02d;
+      box-shadow: 0 0 12px rgba(251, 192, 45, 0.4);
+    }
+
+    .entry-header {
+      border-bottom: 1px solid var(--wiki-light-border);
+      padding-bottom: 10px;
+      margin-bottom: 16px;
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .entry-title {
+      font-family: var(--font-serif);
+      font-size: 1.55rem;
+      font-weight: 600;
+      color: var(--wiki-text);
+      display: flex;
+      align-items: baseline;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    .entry-tr-title {
+      font-size: 1.1rem;
+      font-weight: 400;
+      color: var(--wiki-subtext);
+      font-style: italic;
+    }
+    .entry-badges {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .category-badge {
+      font-size: 0.72rem;
+      padding: 2px 8px;
+      border-radius: 4px;
+      background: var(--wiki-tag-bg);
+      color: var(--wiki-tag-color);
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.3px;
+    }
+
+    /* İçerik Gövdesi ve Infobox Izgarası */
+    .entry-body {
+      display: grid;
+      grid-template-columns: 1fr 310px;
+      gap: 22px;
+      align-items: start;
+    }
+    @media (max-width: 900px) {
+      .entry-body {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .entry-text p {
+      margin-bottom: 12px;
+      text-align: justify;
+    }
+    .entry-lead {
+      font-size: 1rem;
+      line-height: 1.7;
+    }
+    .entry-lead b {
+      color: var(--wiki-text);
+    }
+    .entry-section-title {
+      font-family: var(--font-serif);
+      font-size: 1.05rem;
+      font-weight: 700;
+      margin: 16px 0 8px 0;
+      border-bottom: 1px solid var(--wiki-light-border);
+      padding-bottom: 3px;
+      color: var(--wiki-text);
+    }
+    .entry-text ul {
+      margin-left: 20px;
+      margin-bottom: 12px;
+    }
+    .entry-text li {
+      margin-bottom: 4px;
+    }
+
+    /* Wikipedia Tarzı Bilgi Kutusu (Infobox) */
+    .wiki-infobox {
+      background: var(--wiki-infobox-bg);
+      border: 1px solid var(--wiki-border);
+      border-radius: 4px;
+      font-size: 0.8rem;
+      width: 100%;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+    }
+    .infobox-title {
+      background: var(--wiki-infobox-header);
+      padding: 8px 10px;
+      text-align: center;
+      font-weight: 700;
+      font-size: 0.9rem;
+      border-bottom: 1px solid var(--wiki-border);
+      border-radius: 3px 3px 0 0;
+    }
+    .infobox-table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    .infobox-table th, .infobox-table td {
+      padding: 6px 10px;
+      border-bottom: 1px solid var(--wiki-light-border);
+      vertical-align: top;
+      text-align: left;
+    }
+    .infobox-table th {
+      width: 38%;
+      color: var(--wiki-subtext);
+      font-weight: 600;
+    }
+    .infobox-table tr:last-child th,
+    .infobox-table tr:last-child td {
+      border-bottom: none;
+    }
+
+    /* Kod ve Etiketler */
+    code {
+      font-family: var(--font-mono);
+      font-size: 0.86em;
+      background: var(--wiki-code-bg);
+      padding: 2px 5px;
+      border-radius: 3px;
+      border: 1px solid var(--wiki-light-border);
+      color: #b31d28;
+    }
+    [data-theme="dark"] code {
+      color: #ff7b72;
+    }
+    .wikilink {
+      color: var(--wiki-link);
+      text-decoration: none;
+      cursor: pointer;
+      font-weight: 500;
+    }
+    .wikilink:hover {
+      text-decoration: underline;
+    }
+
+    /* Sonuç Bulunamadı */
+    .no-results {
+      text-align: center;
+      padding: 60px 20px;
+      background: var(--wiki-surface);
+      border: 1px dashed var(--wiki-border);
+      border-radius: 6px;
+      display: none;
+    }
+
+    /* Altbilgi (Footer) */
+    footer.wiki-footer {
+      border-top: 1px solid var(--wiki-light-border);
+      background: var(--wiki-surface);
+      padding: 30px 20px;
+      margin-top: 40px;
+      font-size: 0.82rem;
+      color: var(--wiki-subtext);
+    }
+    .footer-inner {
+      max-width: 1440px;
+      margin: 0 auto;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: 20px;
+      align-items: center;
+    }
+
+    /* Mobil Uyumluluk */
+    @media (max-width: 768px) {
+      .wiki-container {
+        grid-template-columns: 1fr;
+      }
+      aside.wiki-sidebar {
+        display: none;
+      }
+      .header-inner {
+        flex-direction: column;
+        align-items: stretch;
+      }
+      .wiki-search-box {
+        max-width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Üst Başlık (Header) -->
+  <header class="wiki-header">
+    <div class="header-inner">
+      <a href="#" class="wiki-brand" onclick="resetFilters(); return false;">
+        <div class="wiki-logo">📡</div>
+        <div class="wiki-title-group">
+          <h1>Meshtastic Vikipedi</h1>
+          <p>Özgür Şebekesiz Telsiz ve Ağ Terimleri Ansiklopedisi</p>
+        </div>
+      </a>
+
+      <!-- Arama Çubuğu -->
+      <div class="wiki-search-box">
+        <div class="search-input-wrapper">
+          <span class="search-icon">🔍</span>
+          <input type="text" id="searchInput" placeholder="Terim, kısaltma, çip veya kavram ara... (ör. LoRa, SX1262, Hop Limit)" autocomplete="off">
+          <button id="searchClear" class="search-clear" onclick="clearSearch()">&times;</button>
+        </div>
+      </div>
+
+      <!-- Eylemler -->
+      <div class="header-actions">
+        <button class="btn-wiki" onclick="goToRandomTerm()" title="Rastgele bir terim maddesini aç">🎲 Rastgele Madde</button>
+        <button class="btn-wiki" id="themeToggleBtn" onclick="toggleTheme()" title="Karanlık/Aydınlık Tema">🌓 Tema</button>
+        <a href="https://github.com/mserman90/meshtastic-sozluk" target="_blank" class="btn-wiki">📂 GitHub</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Ana Kapsayıcı -->
+  <div class="wiki-container">
+    
+    <!-- Sol Kenar Çubuğu (Sidebar) -->
+    <aside class="wiki-sidebar">
+      <div class="sidebar-section">
+        <div class="sidebar-title">Gezinti</div>
+        <ul class="sidebar-links">
+          <li><a href="#" class="active" onclick="resetFilters(); return false;">📖 Tüm Maddeler <span class="count-badge" id="totalTermCount">0</span></a></li>
+          <li><a href="https://github.com/meshtastic" target="_blank">🌐 Meshtastic Resmi GitHub ↗</a></li>
+          <li><a href="https://meshtastic.org/docs/" target="_blank">📚 Resmi Dokümantasyon ↗</a></li>
+        </ul>
+      </div>
+
+      <div class="sidebar-section">
+        <div class="sidebar-title">Kategoriler</div>
+        <ul class="sidebar-links" id="sidebarCategoryList">
+          <!-- JS ile doldurulacak -->
+        </ul>
+      </div>
+
+      <div class="sidebar-section">
+        <div class="sidebar-title">A-Z Harf Fihristi</div>
+        <div class="alphabet-nav" id="alphabetNav">
+          <!-- JS ile doldurulacak -->
+        </div>
+      </div>
+
+      <div class="sidebar-section">
+        <div class="sidebar-title">Ekosistem Sürümleri</div>
+        <p style="font-size:0.75rem; color:var(--wiki-subtext);">
+          Firmware: <b>v2.5+</b><br>
+          Protobufs: <b>v2.5.x</b><br>
+          Modülasyon: <b>Semtech LoRa CSS</b>
+        </p>
+      </div>
+    </aside>
+
+    <!-- Ana İçerik Alanı -->
+    <main class="wiki-content">
+
+      <!-- Wikipedia Karşılama Panosu -->
+      <div class="wiki-notice">
+        <div class="notice-icon">🌐</div>
+        <div class="notice-text">
+          <h2>Meshtastic Ansiklopedik Türkçe Sözlük</h2>
+          <p>
+            Meshtastic, hücresel şebekeler, internet veya merkezi yönlendiriciler olmaksızın, düşük güçlü <b>LoRa</b> radyo sinyalleriyle şifreli ve merkeziyetsiz bir örgüsel (mesh) veri ağı oluşturan açık kaynaklı bir platformdur. Bu sözlük, resmi <code>meshtastic/firmware</code> ve <code>meshtastic/protobufs</code> depoları temel alınarak hazırlanmıştır.
+          </p>
+        </div>
+      </div>
+
+      <!-- Kategori Hap Filtreleri -->
+      <div class="filter-pills" id="categoryPills">
+        <!-- JS ile dinamik üretilecek -->
+      </div>
+
+      <!-- Arama / Filtre Sonuç Bilgisi -->
+      <div id="filterStatus" style="margin-bottom: 14px; font-size: 0.85rem; color: var(--wiki-subtext); display: none;"></div>
+
+      <!-- Madde Listesi (Entries) -->
+      <div id="entriesContainer">
+        <!-- JS ile dinamik render edilecek -->
+      </div>
+
+      <!-- Sonuç Bulunamadı Kutusu -->
+      <div id="noResults" class="no-results">
+        <h3>Aradığınız kriterlere uygun terim bulunamadı.</h3>
+        <p style="color:var(--wiki-subtext); margin-top:8px;">Arama terimini değiştirerek veya filtreleri temizleyerek tekrar deneyebilirsiniz.</p>
+        <button class="btn-wiki" style="margin-top:14px;" onclick="resetFilters()">Tüm Maddeleri Göster</button>
+      </div>
+
+    </main>
+  </div>
+
+  <!-- Altbilgi (Footer) -->
+  <footer class="wiki-footer">
+    <div class="footer-inner">
+      <div>
+        <p><b>Meshtastic Türkçe-İngilizce Terimler Sözlüğü</b> — Açık Kaynaklı Topluluk Projesi</p>
+        <p>İçerikler GNU GPL v3.0 lisansı altında sunulmuştur. Meshtastic® açık kaynak projesinin tescilli markasıdır.</p>
+      </div>
+      <div>
+        <a href="https://github.com/mserman90/meshtastic-sozluk" target="_blank" class="btn-wiki">GitHub'da Görüntüle ve Katkıda Bulun</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Veri Seti ve Uygulama Mantığı -->
+  <script>
+    const DICTIONARY_DATA = [
+      /* 1. Ağ Mimarisi ve Protokol */
+      {
+        id: "mesh-network",
+        en: "Mesh Network",
+        tr: "Örgüsel Ağ / Ağ Örgüsü",
+        category: "Ağ & Protokol",
+        lead: "Merkezi bir sunucu, baz istasyonu veya internet bağlantısı gerektirmeksizin, her bir cihazın (düğümün) hem alıcı hem verici hem de veri aktarıcısı (röle) olarak görev yaptığı dağıtık ağ topolojisi.",
+        details: "Meshtastic ekosisteminde düğümler, kapsama alanları dışındaki diğer cihazlara paketleri birbirleri üzerinden zıplatarak (hop mekanizması) iletir. Böylece altyapısız, afet durumlarında veya kırsal arazide kilometrelerce genişlikte telsiz iletişim alanı el birliğiyle örülmüş olur.",
+        github: "meshtastic/firmware: src/mesh/MeshService.cpp",
+        infobox: {
+          "Tür": "Ağ Topolojisi",
+          "Katman": "Katman 3 (Ağ Katmanı)",
+          "Yönlendirme": "Controlled Flood Routing",
+          "Merkeziyet": "Tamamen Dağıtık (Peer-to-Peer)"
+        },
+        seeAlso: ["controlled-flood-routing", "hop-limit", "node"]
+      },
+      {
+        id: "controlled-flood-routing",
+        en: "Controlled Flood Routing",
+        tr: "Kontrollü Taşkın Yönlendirme",
+        category: "Ağ & Protokol",
+        lead: "Meshtastic'in karmaşık dinamik yönlendirme tabloları kurmak yerine kullandığı, her benzersiz paketi çevreye kontrollü olarak yeniden fırlatma esasına dayalı algoritma.",
+        details: "Bir düğüm paket aldığında önce <code>Packet ID</code> kontrolü yapar. Eğer paket daha önce duyulmamışsa ve paketteki <code>hop_limit</code> sıfırdan büyükse, cihaz rastgele bir bekleme süresi (backoff) hesaplar ve paketi tekrar yayınlar. Bu sayede düğümler hareket etse dahi rota kopması yaşanmaz.",
+        github: "meshtastic/firmware: src/mesh/Router.cpp",
+        infobox: {
+          "Protokol": "Meshtastic Router Engine",
+          "Algoritma": "Flood Routing + Random Backoff",
+          "Döngü Önleme": "Hop Limit + Packet ID Cache"
+        },
+        seeAlso: ["hop-limit", "csma-ca", "mesh-network"]
+      },
+      {
+        id: "hop-limit",
+        en: "Hop Limit / Hop Count",
+        tr: "Atlama Sınırı / Sayaç",
+        category: "Ağ & Protokol",
+        lead: "Bir paketin hedef düğüme ulaşana kadar ağdaki cihazlar üzerinden en fazla kaç kez aktarılabileceğini belirleyen 3-bitlik tamsayı sayaç.",
+        details: "Varsayılan değer genellikle 3, protokolce izin verilen maksimum değer ise 7'dir. Paket her bir aracı düğüm tarafından tekrar yayınlandığında hop_limit değeri 1 azaltılır. Sayaç 0 olduğunda cihazlar paketi işler ancak havaya tekrar iletmez.",
+        github: "meshtastic/protobufs: mesh.proto (MeshPacket.hop_limit)",
+        infobox: {
+          "Boyut": "3 bit (0 - 7 arası)",
+          "Varsayılan": "3 atlama",
+          "İşlev": "Ağda sonsuz döngüyü engelleme"
+        },
+        seeAlso: ["hop-start", "controlled-flood-routing", "traceroute"]
+      },
+      {
+        id: "hop-start",
+        en: "Hop Start",
+        tr: "Başlangıç Atlama Sayısı",
+        category: "Ağ & Protokol",
+        lead: "Paketi ilk oluşturan kaynak cihazın atadığı başlangıç atlama sınırı.",
+        details: "Örneğin bir paket <code>hop_start = 3</code> ile gönderilmiş ve alıcıya <code>hop_limit = 1</code> ile ulaşmışsa, alıcı paketin yolda 2 ara düğüm üzerinden geçtiğini (3 - 1 = 2 hop) anlar.",
+        github: "meshtastic/protobufs: mesh.proto (MeshPacket.hop_start)",
+        infobox: {
+          "Boyut": "3 bit",
+          "Amacı": "Atlama mesafesini ve rota teşhisini hesaplama"
+        },
+        seeAlso: ["hop-limit", "traceroute"]
+      },
+      {
+        id: "node",
+        en: "Node / Peer",
+        tr: "Düğüm / Eş",
+        category: "Ağ & Protokol",
+        lead: "Meshtastic firmware'i çalıştıran ve ağda bir alıcı/verici telsiz kartı ile yer alan her bir bağımsız fiziksel cihaz.",
+        details: "Her düğüm bir mikrokontrolcü (ESP32, nRF52840 vb.), bir Semtech LoRa telsizi ve bir anten içerir. Düğümler akıllı telefonlara BLE veya Wi-Fi ile bağlanabileceği gibi, dağ başlarında bağımsız röle olarak da bırakılabilir.",
+        github: "meshtastic/firmware: src/mesh/NodeDB.cpp",
+        infobox: {
+          "Bileşenler": "MCU + LoRa Radyo + Anten",
+          "Bağlantı": "BLE, Wi-Fi, Seri Port, LoRa"
+        },
+        seeAlso: ["node-id", "nodedb", "client", "router"]
+      },
+      {
+        id: "node-id",
+        en: "Node ID / Node Number",
+        tr: "Düğüm Kimliği / Numarası",
+        category: "Ağ & Protokol",
+        lead: "Her cihaza donanım MAC adresinden türetilerek atanan benzersiz 32-bitlik işaretsiz tamsayı kimlik.",
+        details: "Telsiz paketlerinin kaynak (from) ve hedef (to) kısımlarında bu numara kullanılır. Kullanıcı arayüzlerinde genellikle onaltılık (hex) tabanda <code>!2a3b4c5d</code> biçiminde görüntülenir. <code>0xFFFFFFFF</code> yayın (broadcast) adresidir.",
+        github: "meshtastic/protobufs: mesh.proto (NodeInfo.num)",
+        infobox: {
+          "Format": "32-bit unsigned int (Hex: !xxxxxxxx)",
+          "Yayın Adresi": "0xFFFFFFFF (^all)",
+          "Kaynak": "Bluetooth/Wi-Fi MAC Adresi"
+        },
+        seeAlso: ["node", "nodedb", "direct-message"]
+      },
+      {
+        id: "nodedb",
+        en: "NodeDB (Node Database)",
+        tr: "Düğüm Veritabanı",
+        category: "Ağ & Protokol",
+        lead: "Cihazın duyduğu tüm komşu düğümlerin kimlik, ad, konum, sinyal kalitesi (SNR) ve son iletişim zamanını sakladığı bellek tablosu.",
+        details: "NodeDB, RAM üzerinde hızlı erişim için tutulurken belirli periyotlarla flash belleğe yazılır. Cihaz kapatılıp açıldığında önceki eşlerin bilgileri korunur.",
+        github: "meshtastic/firmware: src/mesh/NodeDB.h",
+        infobox: {
+          "Saklama": "RAM + SPIFFS/LittleFS Flash",
+          "İçerik": "Ad, Model, GPS Konumu, SNR, Son Görülme",
+          "Kapasite": "Tipik 80 - 200 düğüm (RAM kapasitesine bağlı)"
+        },
+        seeAlso: ["node", "node-id", "telemetry"]
+      },
+      {
+        id: "primary-channel",
+        en: "Primary Channel",
+        tr: "Birincil Kanal",
+        category: "Ağ & Protokol",
+        lead: "Cihazın 0 numaralı kanal slotunda tanımlanan, frekans parametrelerini ve temel ağ senkronizasyonunu yöneten zorunlu kanal.",
+        details: "Birincil kanalın şifreleme anahtarı (PSK) ve modem profili (ör. LongFast) cihazın radyo frekans ayarlarını doğrudan belirler. Ağdaki tüm eşlerin birincil kanalda aynı parametreleri kullanması gerekir.",
+        github: "meshtastic/protobufs: channel.proto",
+        infobox: {
+          "Slot": "Slot 0",
+          "Etkisi": "Tüm radyo RF parametrelerini belirler",
+          "Zorunluluk": "Evet"
+        },
+        seeAlso: ["secondary-channel", "psk", "modem-preset"]
+      },
+      {
+        id: "secondary-channel",
+        en: "Secondary Channel",
+        tr: "İkincil Kanal",
+        category: "Ağ & Protokol",
+        lead: "Kullanıcıların genel kanaldan bağımsız olarak özel arkadaş, aile veya operasyon grupları kurabilmesi için eklenen 7 adede kadar ek mantıksal kanal.",
+        details: "İkincil kanallar birincil kanalın frekansında yayınlanır fakat kendilerine ait ayrı AES şifreleme anahtarlarına sahiptir. Sadece anahtarı bilen grup üyeleri mesajları çözebilir.",
+        github: "meshtastic/protobufs: channel.proto",
+        infobox: {
+          "Slotlar": "Slot 1 - 7",
+          "Kripto": "Bağımsız AES-128 / AES-256",
+          "Amaç": "Özel takım/aile şifreli sohbeti"
+        },
+        seeAlso: ["primary-channel", "psk"]
+      },
+      {
+        id: "modem-preset",
+        en: "Modem Preset",
+        tr: "Modem Ön Ayarı",
+        category: "Ağ & Protokol",
+        lead: "LoRa yayılma faktörü (SF), bant genişliği (BW) ve kodlama oranını (CR) tek bir standart profil altında birleştiren hazır radyo ayar şablonları.",
+        details: "Örnekler:<br>• <code>LONG_FAST</code>: Standart genel kullanım dengesi (SF11, BW 250kHz).<br>• <code>LONG_SLOW</code>: Maksimum menzil, çok düşük hız (SF12, BW 125kHz).<br>• <code>SHORT_FAST</code>: Yüksek veri aktarım hızı, kısa menzil.",
+        github: "meshtastic/firmware: src/mesh/RadioInterface.cpp",
+        infobox: {
+          "Standart Profil": "LongFast (Varsayılan)",
+          "Etkilenen Parametreler": "Spreading Factor, Bandwidth, Coding Rate",
+          "Ayar Yeri": "LoraConfig.modem_preset"
+        },
+        seeAlso: ["lora", "spreading-factor", "bandwidth"]
+      },
+      {
+        id: "airtime",
+        en: "Airtime",
+        tr: "Hava Süresi / Yayın Süresi",
+        category: "Ağ & Protokol",
+        lead: "Bir telsiz paketinin LoRa frekansında havada aktarılırken harcadığı fiziksel süre (milisaniye cinsinden).",
+        details: "Büyük paketler ve yüksek yayılma faktörleri (SF12 gibi) hava süresini saniyelere çıkarabilir. Hava süresinin uzaması paket çarpışma ihtimalini artırır ve pil tüketimini hızlandırır.",
+        github: "meshtastic/firmware: src/mesh/RadioLibInterface.cpp",
+        infobox: {
+          "Birim": "Milisaniye (ms)",
+          "Bağlı Olduğu Faktörler": "SF, BW, CR, Preamble, Payload Boyutu"
+        },
+        seeAlso: ["duty-cycle", "channel-utilization", "spreading-factor"]
+      },
+      {
+        id: "duty-cycle",
+        en: "Duty Cycle",
+        tr: "Görev Döngüsü / Yasal Yayın Oranı",
+        category: "Ağ & Protokol",
+        lead: "Bölgesel frekans düzenleme kurumları (ör. ETSI) tarafından bir cihazın belirli bir sürede havayı meşgul etmesine izin verilen azami yüzde sınırı.",
+        details: "Örneğin Avrupa ve Türkiye'de 868 MHz bandında saatlik görev döngüsü %1 ile sınırlandırılmıştır. Meshtastic firmware'i bu kuralı otomatik olarak denetler ve sınırı aşmamak için paketleri kuyrukta bekletir.",
+        github: "meshtastic/firmware: src/mesh/AirTime.cpp",
+        infobox: {
+          "Avrupa/TR Standardı": "868 MHz için saatlik azami %1",
+          "İhlal Sonucu": "Telsiz yayın kısıtlaması (TX throttle)"
+        },
+        seeAlso: ["airtime", "channel-utilization"]
+      },
+      {
+        id: "channel-utilization",
+        en: "Channel Utilization (ChUtil)",
+        tr: "Kanal Doluluk Oranı",
+        category: "Ağ & Protokol",
+        lead: "Düğümün bulunduğu LoRa frekansının çevredeki tüm yayınlar tarafından ne kadar meşgul edildiğini gösteren yüzde değeri.",
+        details: "%25'in üzerindeki kanal dolulukları radyo sinyallerinin birbirini ezmesine (packet collision) yol açar. Bu durumda ağ yöneticileri düğüm rollerini <code>CLIENT_MUTE</code> moduna alarak hava kirliliğini azaltır.",
+        github: "meshtastic/protobufs: telemetry.proto (DeviceMetrics.channel_utilization)",
+        infobox: {
+          "Birim": "Yüzde (%)",
+          "İdeal Aralık": "%0 - %15",
+          "Kritik Eşik": "> %25 (Aşırı gürültü/çarpışma)"
+        },
+        seeAlso: ["airtime", "csma-ca", "client-mute"]
+      },
+      {
+        id: "csma-ca",
+        en: "CSMA/CA",
+        tr: "Taşıyıcı Algılamalı Çoklu Erişim / Çarpışma Önleme",
+        category: "Ağ & Protokol",
+        lead: "Bir cihazın havaya paket göndermeden önce frekansı dinleyip boş olduğunu teyit etmesini sağlayan erişim protokolü.",
+        details: "Meshtastic, Semtech çiplerinin CAD (Channel Activity Detection) yeteneğini kullanarak havada başka bir LoRa ön sinyali (preamble) olup olmadığını kontrol eder; frekans meşgulse rastgele bir süre geri çekilip bekler (backoff).",
+        github: "meshtastic/firmware: src/mesh/RadioLibInterface.cpp",
+        infobox: {
+          "Açılım": "Carrier Sense Multiple Access with Collision Avoidance",
+          "Yöntem": "CAD (Kanal Aktivite Tespiti) + Rastgele Bekleme"
+        },
+        seeAlso: ["controlled-flood-routing", "airtime"]
+      },
+      {
+        id: "direct-message",
+        en: "Direct Message (DM)",
+        tr: "Doğrudan Mesaj",
+        category: "Ağ & Protokol",
+        lead: "Ağdaki belirli bir tek düğüme yönlendirilen ve yalnızca hedef düğüm tarafından çözülebilen uçtan uca şifreli bire bir mesaj.",
+        details: "Mesaj tüm ağ tarafından röle edilerek taşınsa da içeriği alıcının açık anahtarı (Public Key) ile şifrelendiğinden, aradaki aktarıcı düğümler metni okuyamaz.",
+        github: "meshtastic/firmware: src/mesh/MeshService.cpp",
+        infobox: {
+          "Hedef": "Spesifik Düğüm Kimliği (!xxxxxxxx)",
+          "Şifreleme": "PKC (Curve25519 / AES)",
+          "Gizlilik": "Uçtan Uca Şifreli"
+        },
+        seeAlso: ["pkc", "node-id"]
+      },
+      {
+        id: "traceroute",
+        en: "Traceroute",
+        tr: "Yol İzleme / Rota Keşfi",
+        category: "Ağ & Protokol",
+        lead: "Bir paketin hedef düğüme giderken hangi ara düğümler üzerinden ve hangi SNR sinyal kalitesiyle geçtiğini adım adım haritalayan teşhis mekanizması.",
+        details: "Gönderilen özel rota takip paketi, geçtiği her düğümde o düğümün kimliğini ve duyduğu SNR değerini listeye ekler; hedefe vardığında dönen yanıt tüm iletim zincirini kullanıcıya gösterir.",
+        github: "meshtastic/firmware: src/modules/TracerouteModule.cpp",
+        infobox: {
+          "Port": "TRACEROUTE_APP (Port 70)",
+          "İşlev": "Ağ topolojisini ve röle zincirini analiz etme"
+        },
+        seeAlso: ["hop-limit", "snr", "routing-app"]
+      },
+      {
+        id: "store-and-forward",
+        en: "Store and Forward (S&F)",
+        tr: "Depola ve İlet",
+        category: "Ağ & Protokol",
+        lead: "Uyku modunda olan veya geçici olarak kapsama alanı dışına çıkan istemciler için mesajları kendi belleğinde saklayan ve istemci ağa döndüğünde ona teslim eden yönlendirici eklentisi.",
+        details: "Özellikle pil tasarruflu el cihazlarının kapalı olduğu saatlerde gönderilen mesajların kaybolmasını engeller.",
+        github: "meshtastic/firmware: src/modules/StoreForwardModule.cpp",
+        infobox: {
+          "Gereksinim": "Yönlendirici rolünde geniş RAM/Flash",
+          "İşlev": "Çevrimdışı mesaj kuyruğu"
+        },
+        seeAlso: ["router", "client"]
+      },
+
+      /* 2. Donanım ve Çipler */
+      {
+        id: "sx1262",
+        en: "Semtech SX1262",
+        tr: "SX1262 LoRa Radyo Entegresi",
+        category: "Donanım & Çipler",
+        lead: "Meshtastic ekosistemindeki modern donanımların altın standardı olan, ultra düşük güç tüketimli ve yüksek menzilli Semtech LoRa alıcı-verici yongası.",
+        details: "-148 dBm'e varan alıcı duyarlılığı ve +22 dBm (160 mW) programlanabilir çıkış gücü sunar. Eski SX1276'ya kıyasla alma modunda yaklaşık %50 daha az akım tüketir.",
+        github: "meshtastic/firmware: src/mesh/RadioLibInterface.cpp",
+        infobox: {
+          "Üretici": "Semtech Corporation",
+          "Frekans Aralığı": "150 - 960 MHz (Sub-GHz)",
+          "Maksimum Güç": "+22 dBm",
+          "Duyarlılık": "-148 dBm"
+        },
+        seeAlso: ["sx1276", "lr1121", "lora"]
+      },
+      {
+        id: "sx1276",
+        en: "Semtech SX1276 / SX1278",
+        tr: "SX1276 Klasik LoRa Çipi",
+        category: "Donanım & Çipler",
+        lead: "İlk nesil TTGO T-Beam ve erken dönem LoRa kartlarında yaygın olarak kullanılan klasik Semtech radyo alıcı-vericisi.",
+        details: "Kararlı ve güvenilirdir ancak dinleme modunda SX1262'ye göre daha fazla pil tüketir. Günümüzde yeni projelerde yerini SX1262'ye bırakmaktadır.",
+        github: "meshtastic/firmware: variants/tbeam",
+        infobox: {
+          "Üretici": "Semtech Corporation",
+          "Maksimum Güç": "+20 dBm",
+          "Nesil": "1. Nesil LoRa Transceiver"
+        },
+        seeAlso: ["sx1262", "t-beam"]
+      },
+      {
+        id: "lr1121",
+        en: "Semtech LR1121",
+        tr: "LR1121 Çok Bantlı Telsiz Çipi",
+        category: "Donanım & Çipler",
+        lead: "Hem Sub-GHz (868/915 MHz) hem de 2.4 GHz LoRa ve uydu bantlarını tek yongada destekleyen yeni nesil Semtech telsiz işlemcisi.",
+        details: "Meshtastic firmware'ine küresel çapta lisanssız 2.4 GHz LoRa iletişimi ve LEO (Alçak Dünya Yörüngesi) uydu bağlantı yeteneği kazandırmıştır.",
+        github: "meshtastic/firmware: src/mesh/RadioLibInterface.cpp",
+        infobox: {
+          "Frekans": "Sub-GHz + 2.4 GHz ISM + Uydu S-Band",
+          "Özellik": "Küresel 2.4 GHz LoRa ve Uydu Desteği"
+        },
+        seeAlso: ["sx1262", "lora"]
+      },
+      {
+        id: "esp32-s3",
+        en: "ESP32-S3",
+        tr: "Espressif Çift Çekirdekli MCU",
+        category: "Donanım & Çipler",
+        lead: "Wi-Fi ve Bluetooth 5 (BLE) destekli, Heltec V3 gibi modern popüler Meshtastic kartlarında kullanılan güçlü mikrokontrolcü.",
+        details: "Yüksek işlem gücü sayesinde yerel WebUI sunucusu ve MQTT istemcisi çalıştırabilir. Ancak nRF yongalarına kıyasla pil tüketimi daha yüksektir.",
+        github: "meshtastic/firmware: variants/heltec_v3",
+        infobox: {
+          "Üretici": "Espressif Systems",
+          "Çekirdek": "Xtensa Dual-Core 32-bit LX7",
+          "Kablosuz": "Wi-Fi 802.11 b/g/n + BLE 5.0"
+        },
+        seeAlso: ["nrf52840", "heltec-v3"]
+      },
+      {
+        id: "nrf52840",
+        en: "Nordic nRF52840",
+        tr: "Nordic Ultra Düşük Güçlü MCU",
+        category: "Donanım & Çipler",
+        lead: "Cortex-M4 mimarili, pil ve güneş paneli ile çalışan düğümlerde aylar süren çalışma ömrü sunan lider mikrokontrolcü.",
+        details: "Wi-Fi barındırmaz fakat mükemmel bir Bluetooth Low Energy (BLE) yığınına sahiptir. RAK WisBlock ve LilyGO T-Echo cihazlarının kalbini oluşturur.",
+        github: "meshtastic/firmware: variants/rak4631",
+        infobox: {
+          "Üretici": "Nordic Semiconductor",
+          "Çekirdek": "ARM Cortex-M4 with FPU (64 MHz)",
+          "Öne Çıkan Yönü": "Mikroamper düzeyinde uyku akımı"
+        },
+        seeAlso: ["esp32-s3", "wisblock", "t-echo"]
+      },
+      {
+        id: "pmic",
+        en: "PMIC (Power Management IC)",
+        tr: "Güç Yönetim Entegresi",
+        category: "Donanım & Çipler",
+        lead: "Lityum pil şarjını, voltaj regülatörlerini, aşırı akım korumasını ve GPS/ekran güç hatlarını yöneten I2C kontrollü akıllı yonga.",
+        details: "Meshtastic kartlarında genellikle AXP192 veya AXP2101 entegreleri kullanılır. Firmware bu çiple konuşarak pil voltajını ve anlık akım tüketimini okur.",
+        github: "meshtastic/firmware: src/power.cpp",
+        infobox: {
+          "Yaygın Çipler": "AXP192, AXP2101",
+          "İletişim": "I2C Veri Yolu",
+          "Görev": "Pil şarjı, güç anahtarlama, voltaj okuma"
+        },
+        seeAlso: ["telemetry", "t-beam"]
+      },
+      {
+        id: "heltec-v3",
+        en: "Heltec WiFi LoRa 32 V3",
+        tr: "Heltec V3 Geliştirme Kartı",
+        category: "Donanım & Çipler",
+        lead: "ESP32-S3 işlemcisi, SX1262 LoRa telsizi, dahili Type-C portu ve 0.96 inç OLED ekranı ile dünyanın en popüler bütçe dostu Meshtastic kartı.",
+        details: "Kompakt boyutu ve ucuz fiyatı sayesinde amatörler ve şehir içi ağ kurucuları için ilk tercih edilen cihazdır.",
+        github: "meshtastic/firmware: variants/heltec_wifi_lora_32_V3",
+        infobox: {
+          "MCU": "ESP32-S3 (240MHz)",
+          "LoRa Çipi": "SX1262",
+          "Ekran": "Dahili 0.96\" Beyaz OLED",
+          "USB": "Type-C"
+        },
+        seeAlso: ["esp32-s3", "sx1262"]
+      },
+      {
+        id: "t-beam",
+        en: "LilyGO TTGO T-Beam",
+        tr: "LilyGO T-Beam Saha Kartı",
+        category: "Donanım & Çipler",
+        lead: "Kart üzerinde entegre 18650 pil yuvası, u-blox GPS modülü, anten soketleri ve AXP güç yönetimi barındıran klasik saha ve araç takip cihazı.",
+        details: "T-Beam Supreme sürümünde ESP32-S3 ve SX1262 yongalarına güncellenmiştir.",
+        github: "meshtastic/firmware: variants/tbeam",
+        infobox: {
+          "Pil Yuvası": "Dahili 18650 Li-ion",
+          "Konum": "Dahili GNSS / GPS",
+          "Kullanım Alanı": "Araç takibi, yürüyüş, sabit röle"
+        },
+        seeAlso: ["pmic", "sx1262", "tracker"]
+      },
+      {
+        id: "wisblock",
+        en: "RAKwireless WisBlock (RAK4631)",
+        tr: "RAK WisBlock Modüler Sistem",
+        category: "Donanım & Çipler",
+        lead: "Nordic nRF52840 işlemci ve SX1262 telsiz modülünü birleştiren, güneş panelleriyle yıllarca bakım gerektirmeden çalışan modüler profesyonel donanım.",
+        details: "RAK19007 ana taşıyıcı kartı üzerine çevre sensörleri (BME680 vb.) lehim gerektirmeden vida ile takılabilir.",
+        github: "meshtastic/firmware: variants/rak4631",
+        infobox: {
+          "Mimari": "Modüler Bloklar",
+          "MCU": "nRF52840 (RAK4631)",
+          "Öne Çıkan Yönü": "Güneş enerjili kule ve tepe röleleri"
+        },
+        seeAlso: ["nrf52840", "router", "repeater"]
+      },
+      {
+        id: "t-deck",
+        en: "LilyGO T-Deck",
+        tr: "LilyGO T-Deck Bağımsız Terminal",
+        category: "Donanım & Çipler",
+        lead: "Dahili QWERTY klavyeye, renkli ekrana, trackball faresi ve LoRa telsizine sahip, akıllı telefona hiç ihtiyaç duymadan mesajlaşmayı sağlayan bağımsız el cihazı.",
+        details: "BlackBerry telefonlarını andıran tasarımıyla acil durumlarda telefon şarjı bitse dahi haberleşmeyi sürdürmek için idealdir.",
+        github: "meshtastic/firmware: variants/t-deck",
+        infobox: {
+          "Ekran": "2.8 inç Renkli IPS LCD",
+          "Klavye": "Fiziksel QWERTY Mikro Klavye",
+          "İşlev": "Telefonsuz bağımsız mesajlaşma"
+        },
+        seeAlso: ["esp32-s3", "text-message-app"]
+      },
+
+      /* 3. Düğüm Rolleri */
+      {
+        id: "client",
+        en: "CLIENT",
+        tr: "İstemci (Varsayılan Rol)",
+        category: "Düğüm Rolleri",
+        lead: "Kullanıcıların günlük iletişim için cebinde taşıdığı veya masasında kullandığı standart Meshtastic cihaz rolü.",
+        details: "Bluetooth veya Wi-Fi üzerinden telefon uygulamasına bağlanır. Kullanıcının mesajlarını gönderir, gelen mesajları gösterir ve aynı zamanda şebekedeki diğer paketleri dengeli bir öncelikle çevreye tekrarlar.",
+        github: "meshtastic/firmware: src/mesh/generated/meshtastic/config.pb.h",
+        infobox: {
+          "Rol Sabiti": "Config.DeviceConfig.Role.CLIENT",
+          "Varsayılan": "Evet",
+          "Aktarım Önceliği": "Normal",
+          "Hedef": "Kullanıcı el cihazları"
+        },
+        seeAlso: ["client-mute", "router", "mesh-network"]
+      },
+      {
+        id: "client-mute",
+        en: "CLIENT_MUTE",
+        tr: "Sessiz İstemci",
+        category: "Düğüm Rolleri",
+        lead: "Tüm istemci işlevlerini yerine getiren fakat duyduğu paketleri havaya **asla tekrar yayınlamayan** özel kullanıcı modu.",
+        details: "Yoğun şehir merkezlerinde onlarca cihazın aynı paketi tekrar etmesi hava kirliliğine yol açtığında kullanılır. Düğüm sadece kendi ürettiği mesajları ve konumunu gönderir, yabancı paketleri tekrarlamaz.",
+        github: "meshtastic/firmware: src/mesh/Router.cpp",
+        infobox: {
+          "Rol Sabiti": "CLIENT_MUTE",
+          "Röle Görevi": "Devre Dışı (0 Rebroadcast)",
+          "Kullanım Amacı": "Hava kirliliğini ve paket çarpışmalarını önleme"
+        },
+        seeAlso: ["client", "channel-utilization"]
+      },
+      {
+        id: "router",
+        en: "ROUTER",
+        tr: "Altyapı Yönlendiricisi",
+        category: "Düğüm Rolleri",
+        lead: "Yüksek dağ zirvelerine, baz istasyonu kulelerine veya çatı direklerine yerleştirilen kritik omurga rölesi.",
+        details: "Gelen paketleri diğer tüm istemcilerden daha kısa bir bekleme süresiyle (en yüksek öncelikle) anında tekrarlar. Pili korumak için uyku moduna geçmez; genellikle güneş paneli ve büyük akülerle beslenir.",
+        github: "meshtastic/firmware: src/mesh/Router.cpp",
+        infobox: {
+          "Konum": "Yüksek tepeler, kuleler, çatılar",
+          "Gecikme": "Minimum Backoff Delay (Agresif iletim)",
+          "Güç Kaynağı": "Güneş enerjisi / Kesintisiz güç"
+        },
+        seeAlso: ["repeater", "router-client", "hop-limit"]
+      },
+      {
+        id: "router-client",
+        en: "ROUTER_CLIENT",
+        tr: "İstemci Destekli Yönlendirici",
+        category: "Düğüm Rolleri",
+        lead: "Hem yönlendirici gibi öncelikli röle işlevi gören hem de yerel kullanıcıların Bluetooth ile bağlanıp mesajlaşmasına izin veren hibrit mod.",
+        details: "Dağ evlerinde veya kamp alanlarında hem altyapı omurgası görevi görüp hem de yerel kullanıcılara terminal hizmeti sunmak için tasarlanmıştır.",
+        github: "meshtastic/firmware: src/mesh/Router.cpp",
+        infobox: {
+          "Özellik": "Yönlendirici önceliği + Yerel BLE erişimi"
+        },
+        seeAlso: ["router", "client"]
+      },
+      {
+        id: "repeater",
+        en: "REPEATER",
+        tr: "Salt Tekrarlayıcı / Röle",
+        category: "Düğüm Rolleri",
+        lead: "Bluetooth, ekran ve tüm kullanıcı etkileşimleri kapatılmış, tek amacı gelen paketleri alıp menzili artırmak için fırlatmak olan saf aktarıcı rolü.",
+        details: "Kullanıcı listelerinde görünmez, telemetri üretmez ve hava kirliliği yaratmadan sadece aradaki kör noktaları birbirine bağlar.",
+        github: "meshtastic/firmware: src/mesh/Router.cpp",
+        infobox: {
+          "Bluetooth": "Kapalı",
+          "NodeDB Kaydı": "Görünmez",
+          "Amaç": "Sessiz menzil genişletme"
+        },
+        seeAlso: ["router", "controlled-flood-routing"]
+      },
+      {
+        id: "tracker",
+        en: "TRACKER",
+        tr: "Konum Takip Cihazı",
+        category: "Düğüm Rolleri",
+        lead: "Araç, köpek tasması, paraşüt veya personel takibi için optimize edilmiş, düzenli aralıklarla GPS konumunu ağa basan mod.",
+        details: "Gereksiz ekran yenilemeleri ve Bluetooth etkinlikleri sınırlandırılarak pil ömrü azami düzeye çıkarılır.",
+        github: "meshtastic/firmware: src/modules/PositionModule.cpp",
+        infobox: {
+          "Birincil Görev": "Periyodik GPS yayını",
+          "Donanım": "T-Beam veya RAK GPS modülü"
+        },
+        seeAlso: ["position-app", "t-beam"]
+      },
+      {
+        id: "sensor",
+        en: "SENSOR",
+        tr: "Sensör / İstasyon Modu",
+        category: "Düğüm Rolleri",
+        lead: "BME280, BME680 veya INA219 gibi sensörlerden sıcaklık, nem, hava basıncı veya voltaj verilerini okuyup periyodik olarak ağa duyuran mod.",
+        details: "Hava durumu istasyonları veya tarımsal izleme projelerinde kullanılır.",
+        github: "meshtastic/firmware: src/modules/Telemetry/Telemetry.cpp",
+        infobox: {
+          "Protokol Portu": "TELEMETRY_APP (Port 67)",
+          "Bağlantı": "I2C Sensörleri"
+        },
+        seeAlso: ["telemetry-app", "nodedb"]
+      },
+      {
+        id: "tak",
+        en: "TAK / TAK_TRACKER",
+        tr: "TAK Taktik Terminal Modu",
+        category: "Düğüm Rolleri",
+        lead: "ATAK (Android Tactical Assault Kit) askeri ve sivil durumsal farkındalık yazılımı ile şebekesiz ortak operasyon haritası kurmak için özelleştirilmiş mod.",
+        details: "Cursor on Target (CoT) formatındaki taktik harita verilerini LoRa paketlerine dönüştürerek diğer takım üyelerinin haritalarında canlı gösterir.",
+        github: "meshtastic/firmware: src/modules/AtakPlugin.cpp",
+        infobox: {
+          "Uygulama": "ATAK / CivTAK / WinTAK",
+          "Veri Şeması": "Cursor on Target (CoT)"
+        },
+        seeAlso: ["atak", "cot"]
+      },
+
+      /* 4. Güvenlik ve Kripto */
+      {
+        id: "psk",
+        en: "PSK (Pre-Shared Key)",
+        tr: "Önceden Paylaşılan Anahtar",
+        category: "Güvenlik & Kripto",
+        lead: "Belirli bir kanaldaki tüm mesajları şifrelemek ve çözmek için grup üyeleri arasında önceden paylaşılan simetrik gizli anahtar.",
+        details: "Meshtastic standart olarak AES-128 veya AES-256 şifreleme algoritmalarını kullanır. Anahtara sahip olmayan dinleyiciler telsiz paketlerini havada yakalasa bile içeriğini çözemez.",
+        github: "meshtastic/protobufs: channel.proto (ChannelSettings.psk)",
+        infobox: {
+          "Standart": "AES-128 / AES-256 Simetrik Kripto",
+          "Paylaşım": "Karekod (QR Code) veya URL linki"
+        },
+        seeAlso: ["default-key", "primary-channel", "pkc"]
+      },
+      {
+        id: "default-key",
+        en: "Default Key (AQ==)",
+        tr: "Varsayılan Açık Anahtar",
+        category: "Güvenlik & Kripto",
+        lead: "Meshtastic genel kanallarında (LongFast vb.) kullanılan, şifreleme gizliliği amacı gütmeyen standart açık anahtar (tek baytlık `0x01`).",
+        details: "Tüm fabrikasyon cihazların kutudan çıktığında birbiriyle konuşabilmesini sağlar. Buradaki amaç gizlilik değil, sadece protokol standartlığıdır.",
+        github: "meshtastic/firmware: src/mesh/CryptoEngine.cpp",
+        infobox: {
+          "Base64 Karşılığı": "AQ==",
+          "Hex Karşılığı": "0x01",
+          "Gizlilik Durumu": "Açık / Herkese Görünür"
+        },
+        seeAlso: ["psk", "primary-channel"]
+      },
+      {
+        id: "pkc",
+        en: "Public Key Cryptography (PKC)",
+        tr: "Açık Anahtarlı Kriptografi",
+        category: "Güvenlik & Kripto",
+        lead: "Doğrudan mesajlarda (DM) uçtan uca asimetrik şifreleme sağlayan Curve25519 ve Ed25519 tabanlı güvenlik altyapısı.",
+        details: "Her cihaz açılışta kendi özel anahtarını (Private Key) üretir ve açık anahtarını (Public Key) NODEINFO paketi ile ağa duyurur. Bir cihaza özel mesaj yazıldığında onun açık anahtarı kullanılarak şifrelenir.",
+        github: "meshtastic/firmware: src/mesh/CryptoEngine.cpp",
+        infobox: {
+          "Eğri": "Curve25519 (ECDH Anahtar Değişimi)",
+          "İmzalama": "Ed25519 Dijital İmza",
+          "Kullanım": "Doğrudan Mesajlar (DM)"
+        },
+        seeAlso: ["direct-message", "node-id"]
+      },
+      {
+        id: "admin-channel",
+        en: "Admin Channel / Key",
+        tr: "Yönetici Kanalı ve Anahtarı",
+        category: "Güvenlik & Kripto",
+        lead: "Ulaşılması zor yüksek tepelerdeki rölelerin ayarlarını telsiz frekansı üzerinden uzaktan değiştirmek için yetkilendirilmiş özel kriptografik kanal.",
+        details: "Yönetici anahtarına sahip olmayan kimse cihazın frekansını, gücünü veya rollerini telsiz üzerinden manipüle edemez.",
+        github: "meshtastic/firmware: src/modules/AdminModule.cpp",
+        infobox: {
+          "Port": "ADMIN_APP (Port 32)",
+          "Güvenlik": "Özel RSA/ECC anahtar doğrulaması"
+        },
+        seeAlso: ["admin-app", "router"]
+      },
+
+      /* 5. Yazılım ve Protobufs */
+      {
+        id: "protobufs",
+        en: "Protocol Buffers (Protobufs)",
+        tr: "Google Protokol Tamponları",
+        category: "Yazılım & Protobuf",
+        lead: "Google tarafından geliştirilen, Meshtastic'in tüm yapılandırılmış veri paketlerini ikili (binary) formata sıkıştırmak için kullandığı veri serileştirme standardı.",
+        details: "JSON veya XML gibi metin tabanlı formatlar dar LoRa bantlarında çok fazla hava süresi harcar. Protobuf sayesinde karmaşık telemetri veya mesaj paketleri birkaç onlarca bayta sığdırılır.",
+        github: "meshtastic/protobufs (Resmi Şema Deposu)",
+        infobox: {
+          "Geliştirici": "Google",
+          "Kullanım Yeri": "LoRa paketleri, Seri haberleşme, BLE GATT",
+          "Avantaj": "Kompakt boyut, hızlı ayrıştırma (parsing)"
+        },
+        seeAlso: ["portnums", "airtime"]
+      },
+      {
+        id: "portnums",
+        en: "PortNum (Port Numbers)",
+        tr: "Port Numaralandırma Şeması",
+        category: "Yazılım & Protobuf",
+        lead: "Bir LoRa paketinin başlığında bulunan ve paketin ne tür bir uygulama verisi taşıdığını belirten numaralandırma alanı (`portnums.proto`).",
+        details: "Örnek portlar:<br>• <code>TEXT_MESSAGE_APP = 1</code>: Kullanıcı metin mesajları.<br>• <code>POSITION_APP = 3</code>: GPS konum koordinatları.<br>• <code>NODEINFO_APP = 4</code>: Cihaz kimlik bilgileri.<br>• <code>TELEMETRY_APP = 67</code>: Sensör ve batarya metrikleri.",
+        github: "meshtastic/protobufs: portnums.proto",
+        infobox: {
+          "Tanımlandığı Dosya": "portnums.proto",
+          "İşlev": "Paketin doğru uygulama modülüne yönlendirilmesi"
+        },
+        seeAlso: ["protobufs", "text-message-app", "telemetry-app"]
+      },
+      {
+        id: "text-message-app",
+        en: "TEXT_MESSAGE_APP",
+        tr: "Metin Mesajı Portu (Port 1)",
+        category: "Yazılım & Protobuf",
+        lead: "Kullanıcıların sohbet mesajlarını, acil durum metinlerini ve duyurularını taşıyan 1 numaralı standart port.",
+        details: "Mesaj gövdesi UTF-8 dizgesi olarak kodlanır ve maksimum 228 bayt civarında uzunluğa sahip olabilir.",
+        github: "meshtastic/protobufs: portnums.proto (PortNum.TEXT_MESSAGE_APP = 1)",
+        infobox: {
+          "Port Numarası": "1",
+          "Karakter Kodlama": "UTF-8",
+          "Kapsam": "Genel ve Özel Sohbet"
+        },
+        seeAlso: ["direct-message", "portnums"]
+      },
+      {
+        id: "position-app",
+        en: "POSITION_APP",
+        tr: "Konum Bilgisi Portu (Port 3)",
+        category: "Yazılım & Protobuf",
+        lead: "Enlem, boylam, rakım, uydu zamanı ve hassasiyet (DOP) verilerini taşıyan GPS portu.",
+        details: "Meshtastic uygulamalarındaki harita ekranları bu port üzerinden gelen paketlerle canlı güncellenir.",
+        github: "meshtastic/protobufs: mesh.proto (Position)",
+        infobox: {
+          "Port Numarası": "3",
+          "Veri İçeriği": "Latitude, Longitude, Altitude, Time"
+        },
+        seeAlso: ["tracker", "portnums"]
+      },
+      {
+        id: "telemetry-app",
+        en: "TELEMETRY_APP",
+        tr: "Telemetri Portu (Port 67)",
+        category: "Yazılım & Protobuf",
+        lead: "Cihazın kendi donanım sağlığını (pil voltajı, şarj yüzdesi, kanal doluluğu) ve bağlı çevresel sensör verilerini ileten port.",
+        details: "Bu paketler sayesinde uzaktaki bir dağ yönlendiricisinin aküsünün bitip bitmediği anlaşılır.",
+        github: "meshtastic/protobufs: telemetry.proto",
+        infobox: {
+          "Port Numarası": "67",
+          "Paket Tipleri": "DeviceMetrics, EnvironmentMetrics, PowerMetrics"
+        },
+        seeAlso: ["pmic", "sensor", "channel-utilization"]
+      },
+      {
+        id: "platformio",
+        en: "PlatformIO (PIO)",
+        tr: "Gömülü Yazılım Geliştirme Platformu",
+        category: "Yazılım & Protobuf",
+        lead: "Meshtastic C++ firmware kaynak kodlarının derlendiği, kütüphane bağımlılıklarının yönetildiği modern gömülü geliştirme ortamı.",
+        details: "Visual Studio Code eklentisi olarak çalışır; onlarca farklı işlemci mimarisini (ESP32, nRF52, RP2040) tek bir komutla derleyebilir.",
+        github: "meshtastic/firmware: platformio.ini",
+        infobox: {
+          "Arayüz": "VS Code / CLI",
+          "Kütüphane Yönetimi": "platformio.ini",
+          "Derleyici": "GCC / Clang"
+        },
+        seeAlso: ["web-flasher"]
+      },
+      {
+        id: "web-flasher",
+        en: "Meshtastic Web Flasher",
+        tr: "Web Tabanlı Firmware Yükleyici",
+        category: "Yazılım & Protobuf",
+        lead: "Kullanıcıların herhangi bir derleme yapmadan Chrome veya Edge tarayıcıları üzerinden Web Serial API ile cihaza firmware atmasını sağlayan resmi web aracı.",
+        details: "Kartı USB ile bilgisayara bağlayıp <code>flasher.meshtastic.org</code> adresine girilerek model seçilir ve saniyeler içinde yazılım güncellenir.",
+        github: "meshtastic/web-flasher",
+        infobox: {
+          "Erişim": "flasher.meshtastic.org",
+          "Teknoloji": "Web Serial API",
+          "Sürücü İhtiyacı": "CP210x / CH340 / CH9102"
+        },
+        seeAlso: ["platformio"]
+      },
+
+      /* 6. RF ve Yayılım */
+      {
+        id: "lora",
+        en: "LoRa (Long Range)",
+        tr: "Uzun Menzilli Radyo Modülasyonu",
+        category: "RF & Yayılım",
+        lead: "Semtech tarafından patentlenmiş, Chirp Spread Spectrum (CSS) teknolojisini kullanan, düşük güçle kilometrelerce öteye veri iletebilen fiziksel radyo katmanı.",
+        details: "LoRa modülasyonu gürültü tabanının altında (-20 dB SNR) bile sinyalleri yakalayıp çözebilme kabiliyetine sahiptir. Bu sayede 100 mW gibi minik güçlerle dağdan dağa 100 km+ mesafelere ulaşılmıştır.",
+        github: "meshtastic/firmware: src/mesh/RadioLibInterface.cpp",
+        infobox: {
+          "Geliştirici": "Cycleo / Semtech",
+          "Modülasyon": "Chirp Spread Spectrum (CSS)",
+          "Dünya Rekoru": "Balon/Dağ testlerinde 200+ km"
+        },
+        seeAlso: ["sx1262", "spreading-factor", "bandwidth"]
+      },
+      {
+        id: "spreading-factor",
+        en: "Spreading Factor (SF)",
+        tr: "Yayılma Faktörü",
+        category: "RF & Yayılım",
+        lead: "LoRa'da her bir veri bitini havada temsil etmek için kullanılan cıvıltı (chirp) sayısını belirleyen parametre (SF7 - SF12 arası).",
+        details: "SF değeri büyüdükçe (ör. SF12):<br>• Telsiz alıcı duyarlılığı ve menzili artar.<br>• Parazit direnci yükselir.<br>• Ancak veri iletim hızı aşırı düşer ve hava süresi (airtime) uzar.",
+        github: "meshtastic/firmware: src/mesh/RadioInterface.cpp",
+        infobox: {
+          "Değer Aralığı": "SF7 - SF12",
+          "Kural": "Yüksek SF = Uzak Menzil + Yavaş İletim",
+          "Örnek": "SF11 (LongFast varsayılanı)"
+        },
+        seeAlso: ["lora", "bandwidth", "airtime"]
+      },
+      {
+        id: "bandwidth",
+        en: "Bandwidth (BW)",
+        tr: "Bant Genişliği",
+        category: "RF & Yayılım",
+        lead: "LoRa sinyalinin telsiz spektrumunda kapladığı frekans aralığı genişliği.",
+        details: "Meshtastic'te yaygın olarak 125 kHz, 250 kHz veya 500 kHz kullanılır. Bant genişliği daraldıkça termal gürültü azalır ve alıcı hassasiyeti artar, ancak hız düşer.",
+        github: "meshtastic/firmware: src/mesh/RadioInterface.cpp",
+        infobox: {
+          "Standart Değerler": "125 kHz, 250 kHz, 500 kHz",
+          "Etkisi": "Dar bant = Yüksek alıcı hassasiyeti"
+        },
+        seeAlso: ["spreading-factor", "lora"]
+      },
+      {
+        id: "snr",
+        en: "SNR (Signal-to-Noise Ratio)",
+        tr: "Sinyal-Gürültü Oranı",
+        category: "RF & Yayılım",
+        lead: "Alınan radyo sinyalinin ortamdaki arka plan RF elektromanyetik gürültüsüne olan oranını gösteren desibel (dB) birimi.",
+        details: "Geleneksel telsizler sinyal gürültüden zayıfsa çalışamazken, LoRa -15 dB gibi derin negatif SNR değerlerinde dahi paketleri çözebilir.",
+        github: "meshtastic/protobufs: mesh.proto (MeshPacket.rx_snr)",
+        infobox: {
+          "Birim": "Desibel (dB)",
+          "İyi Sinyal": "> +5 dB",
+          "Sınır Sinyal": "-10 dB ile -20 dB arası"
+        },
+        seeAlso: ["rssi", "lora"]
+      },
+      {
+        id: "rssi",
+        en: "RSSI (Received Signal Strength Indicator)",
+        tr: "Alınan Sinyal Gücü Göstergesi",
+        category: "RF & Yayılım",
+        lead: "Antenden alıcı devreye ulaşan radyo dalgasının mutlak gücünü dBm (desibel-miliwatt) cinsinden belirten değer.",
+        details: "-50 dBm çok güçlü bir sinyali, -125 dBm ise sınırda neredeyse kaybolmak üzere olan bir sinyali ifade eder.",
+        github: "meshtastic/protobufs: mesh.proto (MeshPacket.rx_rssi)",
+        infobox: {
+          "Birim": "dBm",
+          "Mükemmel": "-50 ile -80 dBm",
+          "Zayıf/Sınır": "-120 ile -130 dBm"
+        },
+        seeAlso: ["snr", "vswr"]
+      },
+      {
+        id: "vswr",
+        en: "VSWR (Voltage Standing Wave Ratio)",
+        tr: "Gerilim Durgun Dalga Oranı",
+        category: "RF & Yayılım",
+        lead: "Telsiz çıkış katından antene gönderilen RF enerjisinin ne kadarının empedans uyumsuzluğu nedeniyle geri yansıdığını gösteren oran.",
+        details: "1.0:1 teorik ideal orandır. 1.5 altı mükemmeldir. 2.0 üzerindeki değerler telsiz çipinin çıkış katında (PA) aşırı ısınmaya ve kalıcı donanım hasarına yol açabilir. Antensiz cihaz asla çalıştırılmamalıdır!",
+        github: "Donanım RF Tasarımı / Anten Eşleme",
+        infobox: {
+          "İdeal Değer": "1.0 - 1.3",
+          "Tehlike Sınırı": "> 2.0 (Çip yanma riski)",
+          "Önemli Kural": "Antensiz asla yayın (TX) yapmayın!"
+        },
+        seeAlso: ["sx1262", "rssi"]
+      },
+
+      /* 7. Entegrasyonlar */
+      {
+        id: "mqtt",
+        en: "MQTT Gateway",
+        tr: "MQTT Ağ Geçidi",
+        category: "Entegrasyonlar",
+        lead: "Wi-Fi veya Ethernet donanımına sahip bir Meshtastic düğümünün, yerel telsiz paketlerini internetteki bir MQTT sunucusuna köprülemesi.",
+        details: "Bu sayede dünyanın farklı ülkelerindeki veya şehirlerindeki Meshtastic kullanıcıları internet üzerinden aynı kanalda buluşabilir.",
+        github: "meshtastic/firmware: src/modules/MQTTModule.cpp",
+        infobox: {
+          "Protokol": "MQTT (TCP 1883 / 8883 TLS)",
+          "Varsayılan Broker": "mqtt.meshtastic.org",
+          "Veri Formatı": "JSON veya Protobuf"
+        },
+        seeAlso: ["uplink-downlink", "esp32-s3"]
+      },
+      {
+        id: "uplink-downlink",
+        en: "Uplink / Downlink",
+        tr: "Yukarı Hat / Aşağı Hat",
+        category: "Entegrasyonlar",
+        lead: "MQTT ağ geçidinde verinin telsizden internete mi (Uplink) yoksa internetten telsize mi (Downlink) akacağını belirleyen izin yapılandırması.",
+        details: "Downlink izni dikkatli kullanılmalıdır; internetten kontrolsüzce telsiz frekansına paket basılması yerel hava trafiğini tamamen kilitleyebilir.",
+        github: "meshtastic/protobufs: channel.proto (Channel.uplink_enabled, downlink_enabled)",
+        infobox: {
+          "Uplink": "LoRa -> İnternet (MQTT)",
+          "Downlink": "İnternet (MQTT) -> LoRa",
+          "Güvenlik Tavsiyesi": "Gereksiz Downlink'i kapalı tutun"
+        },
+        seeAlso: ["mqtt", "airtime"]
+      },
+      {
+        id: "atak",
+        en: "ATAK (Android Tactical Assault Kit)",
+        tr: "Android Taktik Saldırı Kiti",
+        category: "Entegrasyonlar",
+        lead: "Askeri, arama-kurtarma ve acil durum ekipleri tarafından kullanılan açık kaynaklı durumsal farkındalık ve harita uygulaması.",
+        details: "Meshtastic ATAK Forwarder eklentisi sayesinde internetin olmadığı afet ortamlarında tüm ekibin konumları, çizilen hedefler ve acil çağrılar telsiz ağı üzerinden canlı haritada akar.",
+        github: "meshtastic/firmware: src/modules/AtakPlugin.cpp",
+        infobox: {
+          "Yazılım": "CivTAK / ATAK-CIV",
+          "İletişim": "Meshtastic ATAK Forwarder Plugin",
+          "Kullanım": "Arama Kurtarma (AKUT/AFAD), Taktik Timler"
+        },
+        seeAlso: ["cot", "tak"]
+      },
+      {
+        id: "cot",
+        en: "Cursor on Target (CoT)",
+        tr: "Hedef Üzerinde İmleç",
+        category: "Entegrasyonlar",
+        lead: "Savunma ve taktiksel sistemlerde koordinat, rota, sembol ve nesneleri tanımlayan standart XML veri şeması.",
+        details: "Meshtastic ATAK modülü CoT verisini kompakt ikili Protobuf paketlerine dönüştürerek dar LoRa frekansından aktarır.",
+        github: "meshtastic/protobufs: atak.proto",
+        infobox: {
+          "Format": "XML -> Meshtastic Protobuf",
+          "Standart": "DoD Cursor on Target Standardı"
+        },
+        seeAlso: ["atak", "tak"]
+      },
+      {
+        id: "remote-hardware",
+        en: "Remote Hardware Module",
+        tr: "Uzaktan Donanım Kontrol Modülü",
+        category: "Entegrasyonlar",
+        lead: "Bir kullanıcının, kilometrelerce uzaktaki bir Meshtastic düğümünün GPIO pinlerini telsiz üzerinden kontrol etmesini veya sensör pini durumunu okumasını sağlayan sistem.",
+        details: "Örneğin dağdaki röleye bağlı bir jeneratörü veya ışıldağı telsizden tek bir komutla uzaktan çalıştırmak mümkündür.",
+        github: "meshtastic/firmware: src/modules/RemoteHardwareModule.cpp",
+        infobox: {
+          "Port": "REMOTE_HARDWARE_APP (Port 8)",
+          "İşlev": "GPIO Açma/Kapama, PWM kontrolü, Pin okuma"
+        },
+        seeAlso: ["admin-channel", "node"]
+      }
+    ];
+
+    // Global durum
+    let activeCategory = "Tümü";
+    let activeLetter = null;
+    let currentSearchTerm = "";
+
+    // DOM Elemanları
+    const searchInput = document.getElementById("searchInput");
+    const searchClear = document.getElementById("searchClear");
+    const entriesContainer = document.getElementById("entriesContainer");
+    const noResults = document.getElementById("noResults");
+    const categoryPills = document.getElementById("categoryPills");
+    const sidebarCategoryList = document.getElementById("sidebarCategoryList");
+    const alphabetNav = document.getElementById("alphabetNav");
+    const totalTermCount = document.getElementById("totalTermCount");
+    const filterStatus = document.getElementById("filterStatus");
+
+    // Başlangıç Kurulumu
+    document.addEventListener("DOMContentLoaded", () => {
+      totalTermCount.textContent = DICTIONARY_DATA.length;
+      setupCategories();
+      setupAlphabetNav();
+      renderEntries();
+
+      // URL hash kontrolü (örn: #sx1262)
+      if (window.location.hash) {
+        const targetId = window.location.hash.substring(1);
+        setTimeout(() => jumpToTerm(targetId), 150);
+      }
+
+      // Canlı arama dinleyicisi
+      searchInput.addEventListener("input", (e) => {
+        currentSearchTerm = e.target.value.trim().toLowerCase();
+        searchClear.style.display = currentSearchTerm ? "block" : "none";
+        renderEntries();
+      });
+    });
+
+    // Kategorileri hazırla
+    function setupCategories() {
+      const categories = ["Tümü", ...new Set(DICTIONARY_DATA.map(d => d.category))];
+
+      // Hap filtreler
+      categoryPills.innerHTML = categories.map(cat => {
+        return `<button class="pill ${cat === 'Tümü' ? 'active' : ''}" onclick="selectCategory('${cat}')">${cat}</button>`;
+      }).join("");
+
+      // Kenar çubuğu kategorileri
+      sidebarCategoryList.innerHTML = categories.filter(c => c !== "Tümü").map(cat => {
+        const count = DICTIONARY_DATA.filter(d => d.category === cat).length;
+        return `<li><a href="#" onclick="selectCategory('${cat}'); return false;">${cat} <span class="count-badge">${count}</span></a></li>`;
+      }).join("");
+    }
+
+    // A-Z Fihristi oluştur
+    function setupAlphabetNav() {
+      const letters = [...new Set(DICTIONARY_DATA.map(d => d.en[0].toUpperCase()))].sort();
+      alphabetNav.innerHTML = letters.map(letter => {
+        return `<button class="letter-btn" onclick="selectLetter('${letter}')">${letter}</button>`;
+      }).join("");
+    }
+
+    // Kategori seç
+    function selectCategory(cat) {
+      activeCategory = cat;
+      activeLetter = null;
+      document.querySelectorAll(".pill").forEach(p => {
+        p.classList.toggle("active", p.textContent === cat);
+      });
+      document.querySelectorAll("#sidebarCategoryList a").forEach(a => {
+        a.classList.toggle("active", a.textContent.startsWith(cat));
+      });
+      document.querySelectorAll(".letter-btn").forEach(b => b.classList.remove("active"));
+      renderEntries();
+    }
+
+    // Harf seç
+    function selectLetter(letter) {
+      if (activeLetter === letter) {
+        activeLetter = null;
+      } else {
+        activeLetter = letter;
+      }
+      document.querySelectorAll(".letter-btn").forEach(b => {
+        b.classList.toggle("active", b.textContent === activeLetter);
+      });
+      renderEntries();
+    }
+
+    // Arama temizleme
+    function clearSearch() {
+      searchInput.value = "";
+      currentSearchTerm = "";
+      searchClear.style.display = "none";
+      renderEntries();
+      searchInput.focus();
+    }
+
+    // Tüm filtreleri sıfırla
+    function resetFilters() {
+      activeCategory = "Tümü";
+      activeLetter = null;
+      currentSearchTerm = "";
+      searchInput.value = "";
+      searchClear.style.display = "none";
+      document.querySelectorAll(".pill").forEach(p => p.classList.toggle("active", p.textContent === "Tümü"));
+      document.querySelectorAll("#sidebarCategoryList a").forEach(a => a.classList.remove("active"));
+      document.querySelectorAll(".letter-btn").forEach(b => b.classList.remove("active"));
+      renderEntries();
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    // Rastgele maddeye git
+    function goToRandomTerm() {
+      resetFilters();
+      const randomIndex = Math.floor(Math.random() * DICTIONARY_DATA.length);
+      const randomTerm = DICTIONARY_DATA[randomIndex];
+      jumpToTerm(randomTerm.id);
+    }
+
+    // Belirli bir maddeye kaydır ve parlat
+    function jumpToTerm(termId) {
+      const el = document.getElementById(termId);
+      if (el) {
+        el.scrollIntoView({ behavior: "smooth", block: "center" });
+        el.classList.add("flash-highlight");
+        setTimeout(() => el.classList.remove("flash-highlight"), 1800);
+        window.history.replaceState(null, null, `#${termId}`);
+      }
+    }
+
+    // Maddeyi HTML olarak oluştur
+    function renderEntries() {
+      let filtered = DICTIONARY_DATA;
+
+      // Kategori filtresi
+      if (activeCategory !== "Tümü") {
+        filtered = filtered.filter(item => item.category === activeCategory);
+      }
+
+      // Harf filtresi
+      if (activeLetter) {
+        filtered = filtered.filter(item => item.en.toUpperCase().startsWith(activeLetter));
+      }
+
+      // Arama filtresi
+      if (currentSearchTerm) {
+        filtered = filtered.filter(item => {
+          return item.en.toLowerCase().includes(currentSearchTerm) ||
+                 item.tr.toLowerCase().includes(currentSearchTerm) ||
+                 item.lead.toLowerCase().includes(currentSearchTerm) ||
+                 item.details.toLowerCase().includes(currentSearchTerm) ||
+                 (item.github && item.github.toLowerCase().includes(currentSearchTerm));
+        });
+      }
+
+      // Filtre durum metni
+      if (activeCategory !== "Tümü" || activeLetter || currentSearchTerm) {
+        filterStatus.style.display = "block";
+        filterStatus.innerHTML = `Toplam <b>${filtered.length}</b> madde listeleniyor ` +
+          (activeCategory !== "Tümü" ? `[Kategori: <i>${activeCategory}</i>] ` : '') +
+          (activeLetter ? `[Harf: <i>${activeLetter}</i>] ` : '') +
+          (currentSearchTerm ? `[Arama: "<i>${currentSearchTerm}</i>"] ` : '') +
+          `— <a href="#" onclick="resetFilters(); return false;" style="color:var(--wiki-link);">Filtreleri Temizle</a>`;
+      } else {
+        filterStatus.style.display = "none";
+      }
+
+      // Sonuç yok kontrolü
+      if (filtered.length === 0) {
+        entriesContainer.innerHTML = "";
+        noResults.style.display = "block";
+        return;
+      }
+      noResults.style.display = "none";
+
+      // Render
+      entriesContainer.innerHTML = filtered.map(item => {
+        // İlgili maddeler linkleri
+        let seeAlsoHtml = "";
+        if (item.seeAlso && item.seeAlso.length > 0) {
+          const links = item.seeAlso.map(refId => {
+            const refObj = DICTIONARY_DATA.find(d => d.id === refId);
+            if (refObj) {
+              return `<a href="#${refId}" class="wikilink" onclick="jumpToTerm('${refId}'); return false;">${refObj.en} (${refObj.tr})</a>`;
+            }
+            return "";
+          }).filter(Boolean).join(" • ");
+          seeAlsoHtml = `
+            <div class="entry-section-title">Ayrıca Bakınız</div>
+            <p style="font-size:0.85rem;">${links}</p>
+          `;
+        }
+
+        // Infobox satırları
+        let infoboxRows = "";
+        if (item.infobox) {
+          infoboxRows = Object.entries(item.infobox).map(([k, v]) => {
+            return `<tr><th>${k}</th><td>${v}</td></tr>`;
+          }).join("");
+        }
+
+        return `
+          <article class="wiki-entry" id="${item.id}">
+            <div class="entry-header">
+              <div class="entry-title">
+                <span>${item.en}</span>
+                <span class="entry-tr-title">${item.tr}</span>
+              </div>
+              <div class="entry-badges">
+                <span class="category-badge">${item.category}</span>
+              </div>
+            </div>
+
+            <div class="entry-body">
+              <div class="entry-text">
+                <p class="entry-lead"><b>${item.en}</b> (${item.tr}); ${item.lead}</p>
+                
+                <div class="entry-section-title">Teknik Açıklama ve İşleyiş</div>
+                <p>${item.details}</p>
+
+                ${item.github ? `
+                  <div class="entry-section-title">GitHub ve Kod Karşılığı</div>
+                  <p style="font-size:0.85rem;"><code>${item.github}</code></p>
+                ` : ''}
+
+                ${seeAlsoHtml}
+              </div>
+
+              <!-- Wikipedia Tarzı Bilgi Kutusu -->
+              <aside class="wiki-infobox">
+                <div class="infobox-title">${item.en}</div>
+                <table class="infobox-table">
+                  <tr><th>Türkçe Adı</th><td>${item.tr}</td></tr>
+                  <tr><th>Kategori</th><td>${item.category}</td></tr>
+                  ${infoboxRows}
+                </table>
+              </aside>
+            </div>
+          </article>
+        `;
+      }).join("");
+    }
+
+    // Tema Değiştirme
+    function toggleTheme() {
+      const current = document.documentElement.getAttribute("data-theme");
+      const target = current === "dark" ? "light" : "dark";
+      document.documentElement.setAttribute("data-theme", target);
+      localStorage.setItem("wiki_theme", target);
+    }
+    // Kayıtlı temayı yükle
+    const savedTheme = localStorage.getItem("wiki_theme") || "light";
+    document.documentElement.setAttribute("data-theme", savedTheme);
+  </script>
+</body>
+</html>
