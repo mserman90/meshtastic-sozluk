@@ -5278,6 +5278,166 @@
           "Kullanım": "Kritik alarmlar, acil durum komutları ve bash/python otomasyonları"
         },
         seeAlso: ["meshtastic-python-cli", "python-cli-dest-targeting", "csma-ca"]
+      },
+      {
+        id: "mpwrd-os",
+        en: "mPWRD-OS (Armbian Linux Distribution for Meshtastic)",
+        tr: "mPWRD-OS (Meshtastic Armbian Linux Dağıtımı)",
+        category: "Yazılım & İstemciler",
+        lead: "Tek kartlı bilgisayarlar (SBC) üzerinde Meshtastic düğümü çalıştırmak için özel olarak tasarlanmış, Armbian ve Debian 13 (Trixie) tabanlı açık kaynaklı Linux işletim sistemi dağıtımı.",
+        details: "Armbian 'userpatches' altyapısı üzerine inşa edilen mPWRD-OS; meshtasticd arka plan servisi, Meshtastic Python CLI, contact uçbirim mesajlaşma arayüzü ve mpwrd-menu yapılandırma aracını önceden kurulu olarak sunar. Raspberry Pi ve Rockchip tabanlı Luckfox gibi tek kartlı bilgisayarların doğrudan birer bağımsız LoRa ağı merkezine, TCP/IP ağ geçidine veya daimi MQTT rölesine dönüştürülmesini sağlar.",
+        github: "github.com/mPWRD-OS/mPWRD-OS",
+        infobox: {
+          "Temel Dağıtım": "Armbian / Debian 13 (Trixie)",
+          "Dahili Bileşenler": "meshtasticd, meshtastic-cli, contact TUI, mpwrd-menu",
+          "Hedef Cihazlar": "Raspberry Pi, Luckfox Lyra/Pico, EByte ECB41, ForLinx",
+          "Yapı Altyapısı": "Armbian userpatches & custom kernel modules"
+        },
+        seeAlso: ["meshtasticd-linux-daemon", "mpwrd-menu-utility", "contact-tui-client", "nymea-ble-provisioning"]
+      },
+      {
+        id: "meshtasticd-linux-daemon",
+        en: "meshtasticd (Meshtastic Linux Daemon Service)",
+        tr: "meshtasticd (Meshtastic Linux Arka Plan Servisi)",
+        category: "Yazılım & İstemciler",
+        lead: "Meshtastic gömülü yazılım mantığını Linux işletim sistemi üzerinde yerel bir arka plan servisi (systemd daemon) olarak çalıştıran ve SPI/GPIO LoRa modüllerini doğrudan süren C++ tabanlı yazılım.",
+        details: "Portduino katmanı sayesinde mikrodenetleyiciler için yazılmış Meshtastic C++ çekirdeğini Linux donanım çağrılarına (spidev, sysfs/libgpiod) çevirir. Bir Raspberry Pi veya Luckfox üzerine takılan SX1262/SX1268 LoRa şapkalarını (HAT) doğrudan kontrol eder. Yerel TCP soketi açarak Python CLI, Web İstemcisi veya özel otomasyon betiklerinin TCP üzerinden düğüme bağlanmasını sağlar.",
+        github: "github.com/meshtastic/meshtasticd",
+        infobox: {
+          "Tür": "Linux Systemd Servisi (C++ / Portduino)",
+          "Haberleşme": "SPI (spidev), GPIO (libgpiod/sysfs), TCP/IP Socket",
+          "Yapılandırma Dosyası": "/etc/meshtasticd/config.yaml",
+          "Kullanım Amacı": "SBC tabanlı kalıcı LoRa röleleri, MQTT sunucuları ve ağ geçitleri"
+        },
+        seeAlso: ["mpwrd-os", "sbc-lora-hat-configuration", "meshtasticd-config-overlays"]
+      },
+      {
+        id: "mpwrd-menu-utility",
+        en: "mpwrd-menu (mPWRD-OS System & Node Management Utility)",
+        tr: "mpwrd-menu (mPWRD-OS Sistem & Düğüm Yönetim Menüsü)",
+        category: "Yazılım & İstemciler",
+        lead: "mPWRD-OS dağıtımında donanım şapkası seçimi, Wi-Fi ağ ayarları, servis durumları ve sistem güncellemelerini yönetmek için geliştirilmiş interaktif metin tabanlı (TUI) konsol menüsü.",
+        details: "SSH veya yerel konsol üzerinden `mpwrd-menu` komutuyla başlatılan bu araç; kullanıcının komut satırında karmaşık YAML veya DTBO dosyalarıyla uğraşmadan hazır donanım şablonlarını (/etc/meshtasticd/available.d) seçmesini, meshtasticd servisini yeniden başlatmasını, Wi-Fi bağlantılarını yönetmesini ve log kayıtlarını incelemesini sağlar. 'whiptail' veya 'dialog' tarzı hafif bir terminal arayüzü sunar.",
+        github: "github.com/mPWRD-OS/mpwrd-menu",
+        infobox: {
+          "Arayüz": "Terminal User Interface (TUI / Konsol Menüsü)",
+          "Çalıştırma": "mpwrd-menu",
+          "Yetkiler": "Sudo / Root erişimi",
+          "Temel Görevler": "Donanım katmanı (overlay) seçimi, servis yönetimi, ağ ayarları"
+        },
+        seeAlso: ["mpwrd-os", "meshtasticd-config-overlays", "contact-tui-client"]
+      },
+      {
+        id: "contact-tui-client",
+        en: "contact TUI (Meshtastic Terminal User Interface Client)",
+        tr: "contact TUI (Meshtastic Uçbirim Mesajlaşma Arayüzü)",
+        category: "Yazılım & İstemciler",
+        lead: "Başsız (headless) Linux sunucularda veya SSH oturumlarında harici bir telefon veya web tarayıcısı olmadan doğrudan uçbirimden mesajlaşmayı ve düğüm yönetimini sağlayan hafif terminal istemcisi.",
+        details: "mPWRD-OS ve Linux tabanlı Meshtastic sistemlerine önceden entegre edilen 'contact', terminal penceresi içinde çok pencereli bir sohbet ekranı, aktif kanal listesi ve duyulan komşu düğümler tablosu oluşturur. Doğrudan yerel meshtasticd TCP soketine veya USB seri porta bağlanır; düşük bant genişlikli SSH bağlantılarında dahi tam fonksiyonel bir telsiz mesajlaşma konsolu sunar.",
+        github: "github.com/fireshaper/contact",
+        infobox: {
+          "Tür": "Terminal Kullanıcı Arayüzü (TUI / Curses)",
+          "Bağlantı": "Yerel TCP soketi (localhost:4403) veya Seri Port",
+          "Özellikler": "Mesaj gönderme/alma, kanal gezinimi, düğüm listesi, sinyal kalitesi",
+          "Kullanım": "SSH üzerinden başsız SBC yönetimi ve acil durum terminali"
+        },
+        seeAlso: ["mpwrd-os", "mpwrd-menu-utility", "meshtastic-python-cli"]
+      },
+      {
+        id: "nymea-ble-provisioning",
+        en: "Nymea BLE Provisioning (Headless Bluetooth Network Setup)",
+        tr: "Nymea BLE Hazırlama (Başsız Bluetooth Ağ Kurulumu)",
+        category: "Yazılım & İstemciler",
+        lead: "Ekranı, klavyesi veya Ethernet kablosu bulunmayan Raspberry Pi gibi tek kartlı bilgisayarların Bluetooth Low Energy üzerinden kablosuz olarak Wi-Fi ağına bağlanmasını sağlayan hazırlama servisi.",
+        details: "mPWRD-OS içine gömülü `nymea-networkmanager` arka plan servisi sayesinde, ilk kez açılan bir Raspberry Pi düğümü BLE üzerinden yapılandırma yayını yapar. Kullanıcı akıllı telefonundaki Meshtastic uygulaması veya bilgisayarındaki Meshtastic Web Flasher üzerinden cihazı Bluetooth ile keşfeder; çevre Wi-Fi ağlarını taratıp parolasını cihaza kablosuz olarak aktarır. Böylece fiziksel monitör veya SD kart içine wpa_supplicant yazma zorunluluğu kalkar.",
+        github: "github.com/nymea/nymea-networkmanager",
+        infobox: {
+          "Protokol": "Bluetooth Low Energy (GATT Service)",
+          "Yazılım": "nymea-networkmanager",
+          "Kullanıldığı Cihazlar": "Raspberry Pi 4 / 5 / Zero 2 W / CM4",
+          "İstemci": "Meshtastic Web Flasher & Mobil Uygulamalar"
+        },
+        seeAlso: ["mpwrd-os", "armbian-web-setup-hotspot", "web-bluetooth-transport"]
+      },
+      {
+        id: "armbian-web-setup-hotspot",
+        en: "Armbian Web Setup Hotspot (Temporary Provisioning AP)",
+        tr: "Armbian Web Kurulum Bağlantı Noktası (Geçici Yapılandırma AP)",
+        category: "Yazılım & İstemciler",
+        lead: "Bluetooth donanımı bulunmayan veya başsız çalışan SBC'lerin ilk kurulumunda geçici bir Wi-Fi erişim noktası yayarak web arayüzü üzerinden ağa bağlanmasını sağlayan hazırlama mekanizması.",
+        details: "Luckfox Lyra Ultra W veya Lyra Zero W gibi Bluetooth donanımı sınırlı kartlarda mPWRD-OS ilk açılışta `armbiansetup` adında şifreli/açık bir geçici Wi-Fi bağlantı noktası oluşturur (varsayılan parola: `armbian1234`). Kullanıcı bu ağa telefon veya bilgisayarla bağlanıp tarayıcıdan `http://10.42.0.1:8080` adresine girerek ev Wi-Fi ağını seçer. Ağ bağlantısı kurulduktan sonra bu geçici AP otomatik olarak kapanır.",
+        github: "meshtastic.org/docs/software/mpwrd-os/provisioning",
+        infobox: {
+          "Varsayılan SSID": "armbiansetup",
+          "Varsayılan Parola": "armbian1234",
+          "Web Kurulum Adresi": "http://10.42.0.1:8080",
+          "Uygulandığı Donanımlar": "Luckfox Lyra Ultra W, Lyra Zero W, Rockchip SBC"
+        },
+        seeAlso: ["mpwrd-os", "nymea-ble-provisioning", "on-device-standalone-web"]
+      },
+      {
+        id: "sbc-lora-hat-configuration",
+        en: "SBC LoRa HAT Configuration (SPI & GPIO Mapping in config.yaml)",
+        tr: "SBC LoRa HAT Yapılandırması (SPI & GPIO Eşleme)",
+        category: "Donanım & Modüller",
+        lead: "Tek kartlı bilgisayarların GPIO pinlerine takılan Semtech SX1262/SX1268 LoRa şapkalarının meshtasticd servisi tarafından tanınması için /etc/meshtasticd/config.yaml dosyasında yapılan donanım eşleme protokolü.",
+        details: "Linux çekirdeğindeki spidev ve libgpiod altyapısını kullanır. YAML dosyasında `Module: sx1262`, `spidev: spidev0.0`, `CS`, `IRQ`, `Busy` ve `Reset` GPIO pin numaraları tanımlanır. Ayrıca RF anahtarlama için `DIO2_AS_RF_SWITCH: true` ve TCXO osilatör voltajı için `DIO3_TCXO_VOLTAGE: true` parametreleri girilerek Waveshare, EByte veya özel üretim LoRa genişleme kartları doğrudan Linux ortamında sürülebilir hale getirilir.",
+        github: "meshtastic.org/docs/software/linux/daemon/configuration",
+        infobox: {
+          "Arayüz": "SPI (MOSI, MISO, SCK, CS) + Kesme/Meşgul GPIO Hatları",
+          "Yapılandırma": "/etc/meshtasticd/config.yaml",
+          "Desteklenen Çipler": "SX1262, SX1268, SX1280, LR1121",
+          "Önemli Parametreler": "DIO2_AS_RF_SWITCH, DIO3_TCXO_VOLTAGE, CS, IRQ, Busy, Reset"
+        },
+        seeAlso: ["meshtasticd-linux-daemon", "sx1262-transceiver", "meshtasticd-config-overlays"]
+      },
+      {
+        id: "meshtasticd-config-overlays",
+        en: "meshtasticd Hardware Overlays & Configuration Templates",
+        tr: "meshtasticd Donanım Şablonları & Katman Sistemi",
+        category: "Yazılım & İstemciler",
+        lead: "Farklı üreticilere ait LoRa şapkaları ve GPS modülleri için önceden hazırlanmış donanım yapılandırma şablonlarının dinamik olarak meshtasticd servisine bağlanmasını sağlayan modüler katman mimarisi.",
+        details: "mPWRD-OS içerisinde `/etc/meshtasticd/available.d/` dizini altında piyasadaki yaygın HAT donanımlarına (Waveshare SX1262, LilyGO T-Beam HAT, EByte vb.) ait YAML profilleri saklanır. `mpwrd-menu` veya komut satırı üzerinden seçilen şablon `/etc/meshtasticd/config.d/` dizinine sembolik bağ (symlink) olarak eklenir. `meshtasticd` başlatılırken `config.d/` altındaki tüm dosyaları alfabetik sırayla birleştirip tek bir master konfigürasyon oluşturur.",
+        github: "github.com/mPWRD-OS/mPWRD-OS/tree/main/overlay",
+        infobox: {
+          "Kaynak Dizin": "/etc/meshtasticd/available.d/",
+          "Etkin Dizin": "/etc/meshtasticd/config.d/",
+          "Yöntem": "Sembolik Bağlama (Symlink) ve Parçalı YAML Birleştirme",
+          "Avantaj": "Manuel pin hesaplaması gerektirmeyen tak-çalıştır donanım desteği"
+        },
+        seeAlso: ["mpwrd-os", "sbc-lora-hat-configuration", "mpwrd-menu-utility"]
+      },
+      {
+        id: "mpwrd-supported-sbc-platforms",
+        en: "mPWRD-OS Supported SBC Platforms",
+        tr: "mPWRD-OS Desteklenen Tek Kartlı Bilgisayarlar (SBC Donanım Matrisi)",
+        category: "Donanım & Modüller",
+        lead: "mPWRD-OS işletim sisteminin optimize edilmiş çekirdek ve cihaz ağacı (Device Tree) yamalarıyla resmi olarak desteklediği tek kartlı bilgisayarlar ve işlemci mimarileri listesi.",
+        details: "Desteklenen donanımlar iki ana sınıfta toplanır: 1) ARM64 / BCM2711 tabanlı Raspberry Pi modelleri (Pi 4, Pi 5, Pi Zero 2 W, Compute Module 4/5); 2) Rockchip RV1106, RV1103 ve RK3506 tabanlı mikro kartlar (Luckfox Lyra Plus, Lyra Ultra W, Lyra Zero W, Pico Max/Mini, EByte ECB41-PGE, ForLinx OK3506). Ayrıca x86_64 UEFI sistemler için genel PC/VM imajları geliştirilmektedir.",
+        github: "meshtastic.org/docs/software/mpwrd-os/supported-hardware",
+        infobox: {
+          "Ana İşlemciler": "Broadcom BCM2711/2712, Rockchip RV1106/RV1103/RK3506, x86_64",
+          "Desteklenen Aileler": "Raspberry Pi, Luckfox Lyra, EByte, ForLinx",
+          "Özellik": "Düşük güç tüketimi, SPI LoRa pin başlıkları, kompakt boyut",
+          "Kullanım": "Sabit baz istasyonları, çatı röleleri, Linux ağ geçitleri"
+        },
+        seeAlso: ["mpwrd-os", "rockchip-maskrom-rkdevtool", "sbc-lora-hat-configuration"]
+      },
+      {
+        id: "rockchip-maskrom-rkdevtool",
+        en: "Rockchip Maskrom Mode & rkdevtool Flashing",
+        tr: "Rockchip Maskrom Modu & rkdevtool Yazma Prosedürü",
+        category: "Donanım & Modüller",
+        lead: "mPWRD-OS çalıştıracak Rockchip tabanlı Luckfox Lyra ve Pico kartlarının dahili SPI NAND veya NOR flaş hafızalarını silmek ve sıfırdan imaj yüklemek için kullanılan donanımsal kurtarma ve yazma protokolü.",
+        details: "Rockchip yongaları (RV1106/RK3506) önyükleme sırasında Boot/Maskrom pini toprağa (GND) çekilerek USB ile bilgisayara bağlandığında 'Maskrom' donanım moduna geçer. Bu modda Windows üzerinde 'rkdevtool' veya Linux üzerinde açık kaynaklı 'upgrade_tool' / 'rkflashtool' yazılımları kullanılarak fabrika bölüntüleri silinir (Erase All Blocks) ve mPWRD-OS Armbian imajı doğrudan onboard flash veya SD karta güvenle yazılır.",
+        github: "meshtastic.org/docs/software/mpwrd-os/rockchip-flashing",
+        infobox: {
+          "Donanım Modu": "Maskrom Mode (Boot pin GND tetiklemeli)",
+          "Yazılım Araçları": "rkdevtool (Windows), upgrade_tool / rkflashtool (Linux)",
+          "Uygulandığı Çipler": "Rockchip RV1106, RV1103, RK3506",
+          "İşlev": "Dahili SPI NAND/NOR flaşı temizleme ve ham mPWRD-OS imajı yükleme"
+        },
+        seeAlso: ["mpwrd-os", "mpwrd-supported-sbc-platforms"]
       }
     ];
 
