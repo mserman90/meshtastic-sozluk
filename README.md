@@ -5,6 +5,7 @@
 [![Canlı Sözlük (Wikipedia Formatında)](https://img.shields.io/badge/Canl%C4%B1%20Web%20S%C3%B6zl%C3%BCk-Wikipedia%20Aray%C3%BCz%C3%BC-blue?style=for-the-badge&logo=wikipedia)](https://mserman90.github.io/meshtastic-sozluk/)
 [![GitHub Repo](https://img.shields.io/badge/GitHub-Meshtastic%20Resmi-24292e?style=for-the-badge&logo=github)](https://github.com/meshtastic)
 [![Lisans](https://img.shields.io/badge/Lisans-GPL--3.0-green?style=for-the-badge)](LICENSE)
+[![Yasal Uyarılar](https://img.shields.io/badge/Yasal%20Uyar%C4%B1lar-Sorumsuzluk%20Beyan%C4%B1-orange?style=for-the-badge)](DISCLAIMER.md)
 
 ---
 
@@ -23,6 +24,8 @@ Bu sözlüğün Wikipedia tarzı arama motoruna, A-Z fihristine, bilgi kutuları
 5. [Yazılım Mimarisi, Firmware ve Protobufs](#5-yazılım-mimarisi-firmware-ve-protobufs-software--firmware)
 6. [Radyo Frekansı (RF) ve Yayılım](#6-radyo-frekansı-rf-ve-yayılım-rf--propagation)
 7. [Entegrasyonlar ve Harici Modüller](#7-entegrasyonlar-ve-harici-modüller-integrations--modules)
+8. [SEO ve Arama Motoru Optimizasyonu](#-seo-ve-arama-motoru-optimizasyonu-google-settings)
+9. [Yasal Uyarılar ve Sorumsuzluk Beyanı](#️-yasal-uyarılar-ve-sorumsuzluk-beyanı-legal-disclaimers)
 
 ---
 
@@ -92,7 +95,7 @@ Chirp Spread Spectrum (CSS) teknolojisini kullanarak radyo dalgaları üreten ve
 
 ### 🔹 MCU (Microcontroller Unit - Mikrodenetleyici)
 Meshtastic yazılımını (firmware) ve FreeRTOS işletim sistemini yürüten ana işlemci.
-- **ESP32 / ESP32-S3:** Espressif üretimi, Wi-Fi ve Bluetooth destekli yüksek işlem kapasiteli çift çekirdekli MCU. Güç tüketimi fazladır ancak yerel web sunucusu ve MQTT ağ geçidi kurabilir.
+- **ESP32 / ESP32-S3:** Espressif üretimi, Wi-Fi ve Bluetooth destekli yüksek işlem kapasiteli çift çekirdekli MCU. Güç tüketimi fazladır ancak yerel WebUI sunucusu ve MQTT ağ geçidi kurabilir.
 - **nRF52840:** Nordic Semiconductor üretimi Cortex-M4 tabanlı ultra düşük güçlü yonga. Bluetooth Low Energy (BLE) içerir; tek pille haftalarca çalışabilir.
 - **RP2040:** Raspberry Pi Vakfı'nın geliştirdiği uygun maliyetli çift çekirdekli mikrodenetleyici.
 
@@ -228,6 +231,18 @@ Bu sözlük Google, Yandex ve Bing gibi arama motorlarında indekslenecek şekil
 - **Sosyal Medya & Önizleme:** Open Graph & Twitter Cards (`og-image.svg`)
 - **Yapılandırılmış Veri:** Schema.org (`WebSite`, `SearchAction`, `DefinedTermSet`)
 - **Google Search Console Doğrulaması:** `index.html` içerisindeki `<meta name="google-site-verification" ...>` etiketi ile tek adımda mülk doğrulaması yapılabilir.
+
+---
+
+## ⚖️ Yasal Uyarılar ve Sorumsuzluk Beyanı (Legal Disclaimers)
+Bu proje, web sitesi ve sözlük içeriği yalnızca **eğitim, teknik araştırma ve bilgi edinme** amacıyla sunulmuştur:
+1. **Acil Durum ve Yaşam Güvenliği:** Meshtastic sistemleri resmi acil durum haberleşme kanallarının (112 Acil Çağrı, AFAD vb.) yerini tutamaz; hayati güvenlik amaçlı birincil sistem olarak kullanılmamalıdır.
+2. **Radyo Frekans Mevzuatı (BTK / ETSI):** LoRa cihazlarını kullanırken bulunduğunuz ülkenin Kısa Mesafe Telsiz Cihazları (SRD/KMT) yönetmeliklerine (Türkiye için 868.0 - 868.6 MHz bandı, azami çıkış gücü ve %1 Görev Döngüsü / Duty Cycle kısıtlamalarına) uyulması yasal zorunluluktur. Lisanssız frekanslarda izinsiz harici güçlendirici (PA) kullanılması cezai sorumluluk doğurur.
+3. **Kriptografi ve Amatör Telsiz:** Amatör telsiz frekanslarında yapılan yayınlarda şifreleme kullanılması yasaktır; şifreleme yalnızca halka açık ISM bantlarında serbesttir.
+4. **Donanım Emniyeti:** Anten takılmadan cihazların vericiye (TX) geçirilmesi telsiz çipinin yanmasına (VSWR hasarı) neden olabilir. Lityum pillerle çalışırken yangın riskine karşı dikkatli olunmalıdır.
+5. **Marka:** Meshtastic®, Meshtastic LLC'nin tescilli markasıdır. Bu site bağımsız bir açık kaynak topluluk çalışmasıdır.
+
+Detaylı yasal bildirimler için [DISCLAIMER.md](DISCLAIMER.md) dosyasını inceleyiniz.
 
 ---
 

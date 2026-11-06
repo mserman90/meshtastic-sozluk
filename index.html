@@ -632,6 +632,7 @@
         <div class="sidebar-title">Gezinti</div>
         <ul class="sidebar-links">
           <li><a href="#" class="active" onclick="resetFilters(); return false;">📖 Tüm Maddeler <span class="count-badge" id="totalTermCount">0</span></a></li>
+          <li><a href="#yasal-uyarilar" onclick="jumpToTerm('yasal-uyarilar'); return false;">⚖️ Yasal Uyarılar &amp; Beyan</a></li>
           <li><a href="https://github.com/meshtastic" target="_blank">🌐 Meshtastic Resmi GitHub ↗</a></li>
           <li><a href="https://meshtastic.org/docs/" target="_blank">📚 Resmi Dokümantasyon ↗</a></li>
         </ul>
@@ -701,12 +702,20 @@
   <!-- Altbilgi (Footer) -->
   <footer class="wiki-footer">
     <div class="footer-inner">
-      <div>
-        <p><b>Meshtastic Türkçe-İngilizce Terimler Sözlüğü</b> — Açık Kaynaklı Topluluk Projesi</p>
-        <p>İçerikler GNU GPL v3.0 lisansı altında sunulmuştur. Meshtastic® açık kaynak projesinin tescilli markasıdır.</p>
+      <div style="max-width: 820px;">
+        <p><b>Meshtastic Türkçe-İngilizce Terimler Sözlüğü</b> — Açık Kaynaklı Topluluk Ansiklopedisi</p>
+        <p style="margin-top: 4px; font-size: 0.78rem;">
+          Bu sitede yer alan içerikler ve teknik bilgiler yalnızca eğitim ve araştırma amaçlıdır. Meshtastic® açık kaynak projesinin tescilli markasıdır.
+          Bu sistemler acil durumlarda birincil can kurtarma aracı olarak kullanılamaz. Telsiz yayını yaparken BTK / ETSI frekans ve %1 Duty Cycle yönetmeliklerine uyulması zorunludur.
+        </p>
+        <p style="margin-top: 8px; font-size: 0.8rem;">
+          <a href="#yasal-uyarilar" class="wikilink" onclick="jumpToTerm('yasal-uyarilar'); return false;">⚖️ Sorumsuzluk Beyanı ve Yasal Uyarılar</a> • 
+          <a href="https://github.com/mserman90/meshtastic-sozluk/blob/main/DISCLAIMER.md" target="_blank" class="wikilink">DISCLAIMER.md Belgesi ↗</a> • 
+          <a href="https://github.com/mserman90/meshtastic-sozluk/blob/main/LICENSE" target="_blank" class="wikilink">GPL-3.0 Lisansı ↗</a>
+        </p>
       </div>
       <div>
-        <a href="https://github.com/mserman90/meshtastic-sozluk" target="_blank" class="btn-wiki">GitHub'da Görüntüle ve Katkıda Bulun</a>
+        <a href="https://github.com/mserman90/meshtastic-sozluk" target="_blank" class="btn-wiki">📂 GitHub'da Katkıda Bulun</a>
       </div>
     </div>
   </footer>
@@ -714,6 +723,25 @@
   <!-- Veri Seti ve Uygulama Mantığı -->
   <script>
     const DICTIONARY_DATA = [
+      /* 0. Yasal Bildirimler ve Sorumsuzluk */
+      {
+        id: "yasal-uyarilar",
+        en: "Legal Disclaimers & Regulatory Notices",
+        tr: "Sorumsuzluk Beyanı ve Yasal Uyarılar",
+        category: "Yasal & Mevzuat",
+        lead: "Meshtastic ve LoRa telsiz ağlarının kullanımıyla ilgili resmi frekans regülasyonları (BTK/ETSI), acil durum ve hayati güvenlik sınırları, amatör telsiz mevzuatı, şifreleme kuralları ve donanım güvenliği bildirimi.",
+        details: "<b>1. Acil Durum ve Yaşam Güvenliği:</b> Meshtastic yazılım ve donanımları, afet veya acil durumlarda 112 Acil Çağrı veya resmi AFAD/Kızılay haberleşmesinin yerini alamaz. Can güvenliği gerektiren operasyonlarda birincil sistem olarak güvenilmemelidir.<br><br><b>2. Telsiz ve RF Mevzuatı (BTK / ETSI):</b> Türkiye Cumhuriyeti sınırları içinde lisanssız halka açık kullanım <b>868.0 - 868.6 MHz</b> bandına tabidir. Yasal azami çıkış gücü (25 mW / +14 dBm) ve saatlik azami <b>%1 Görev Döngüsü (Duty Cycle)</b> kuralına uyulması yasal zorunluluktur. Lisanssız frekanslarda izinsiz harici güçlendirici (PA) kullanılması cezai yaptırımlara tabidir.<br><br><b>3. Amatör Telsiz ve Kriptografi:</b> Halka açık 868 MHz bandında AES şifreleme serbesttir. Ancak amatör telsiz frekanslarında (ör. 433 MHz 70cm amatör bandı) ve çağrı işaretiyle çalışılırken telsiz kanunları gereğince <u>şifreli (kriptolu) yayın yapılması kesinlikle yasaktır</u>; tüm paketlerin açık olması gerekir.<br><br><b>4. Donanım ve Pil Emniyeti:</b> Anten takılmadan cihazların vericiye (TX) geçirilmesi telsiz çipinde kalıcı yanmaya (VSWR arızası) yol açabilir. Lityum pillerle çalışırken kısa devre ve yangın riskine dikkat edilmelidir.<br><br><b>5. Marka ve Garanti:</b> Meshtastic®, Meshtastic LLC'nin tescilli markasıdır. Bu site bağımsız bir açık kaynak çalışması olup, sunulan tüm bilgiler 'OLDUĞU GİBİ' (AS IS) esasıyla garantisiz sağlanmaktadır.",
+        github: "DISCLAIMER.md",
+        infobox: {
+          "Yasal Otorite": "BTK (Türkiye) / ETSI (Avrupa)",
+          "Yasal ISM Bandı": "868.0 - 868.6 MHz",
+          "Görev Döngüsü": "Saatlik azami %1 Duty Cycle",
+          "Acil Durum": "Birincil can güvenliği sistemi DEĞİLDİR",
+          "Lisans": "GPL-3.0 (AS IS / Garantisiz)"
+        },
+        seeAlso: ["duty-cycle", "vswr", "psk", "lora"]
+      },
+
       /* 1. Ağ Mimarisi ve Protokol */
       {
         id: "mesh-network",
