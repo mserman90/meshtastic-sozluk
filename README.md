@@ -394,6 +394,18 @@ Meshtastic donanımını kontrol etmek, mesajlaşıp harita görüntülemek ve a
 - **Kritik Bildirimler ve DND Baypas (`android-critical-alerts-dnd`):** Android Bildirim Kanalları üzerinden acil SOS ve afet çağrılarının sistemin "Rahatsız Etmeyin" (Do Not Disturb) modunu delerek sesli/titreşimli uyarı vermesini sağlayan yüksek öncelikli uyarı mekanizması.
 - **Kable BLE Taşıma Katmanı (`android-ble-transport-kable`):** Kotlin Multiplatform reaktif coroutine altyapısıyla çalışan, ToRadio/FromRadio karakteristiklerini dinleyen ve dinamik MTU müzakeresiyle Bluetooth bağlantı kopmalarını önleyen modern BLE sürücüsü.
 
+### 🍏 Meshtastic Apple Çoklu Platform Mimarisi (meshtastic.org/docs/software/apple)
+- **Meshtastic Apple Çoklu Platform İstemcisi (`meshtastic-apple-app`):** iPhone, iPad, Mac, Apple Watch ve Apple Vision Pro için yerel Swift ve SwiftUI ile geliştirilmiş; BLE, TCP/Wi-Fi ve Seri port destekli resmi Apple ekosistemi istemcisi.
+- **Live Activities ve Dynamic Island Entegrasyonu (`apple-live-activities-dynamic-island`):** ActivityKit ile iPhone kilit ekranında ve Dynamic Island üzerinde canlı telsiz bataryası, aktif düğüm sayısı veya seçilen bir cihazın mesafesi/SNR değerini anlık izleme.
+- **watchOS Eşlikçi Uygulaması ve "Foxhunt" Pusulası (`apple-watchos-foxhunt`):** Apple Watch üzerinden iPhone ile senkronize çalışan ve ~800 metre içindeki kayıp veya dost düğümlere doğru yön oku ve mesafe çizen "Foxhunt" radyo yön bulma pusulası.
+- **Apple CarPlay ve Siri ile Sürüş Odaklı Mesajlaşma (`apple-carplay-integration`):** Otomobil konsolunda CPTemplate arayüzü ve Siri Intent'leri (`INSendMessageIntent`) ile sürüş güvenliğini bozmadan eller serbest sesli telsiz mesajlaşması.
+- **visionOS Uzamsal Deneyim ve 3D Donanım Vitrini (`apple-visionos-spatial`):** Apple Vision Pro'da RealityKit ile telsiz kartlarının 1:1 ölçekli 3D modellerini fiziksel odada masalara koyma, sanal duvar sunucu rafı ve 3D topografya haritası.
+- **Bluetooth Üzerinden Havadan Firmware Güncelleme (`apple-ble-ota-firmware-update`):** Bilgisayara veya kabloya ihtiyaç duymadan GitHub releases üzerinden doğrudan iPhone/iPad BLE bağlantısıyla telsiz bellenimini kablosuz güncelleme (OTA DFU).
+- **Paket Kimlik Doğrulama Seviyeleri (`packet-authentication-protection-levels`):** XEdDSA dijital imzalarıyla gelen paketleri doğrularken `Compatible` (eski uyumlu), `Balanced` (önerilen dengeli) ve `Strict` (sadece imzalı/şifreli paketleri kabul eden katı mod) güvenlik politikaları.
+- **Meshtastic Kilitlenme Modu (`meshtastic-lockdown-mode`):** Cihazın fiziken ele geçirilmesi riskine karşı dahili NVS depolamayı şifreli kilitleyen ve yalnızca yetkili kullanıcının Bluetooth parolasını girmesiyle açılan `MESHTASTIC_LOCKDOWN` güvenlik seviyesi.
+- **CoreBluetooth Arka Plan Durum Restorasyonu (`apple-corebluetooth-background`):** iOS uygulamayı bellekten temizlese dahi gelen telsiz paketinde sistemi arka planda uyandırıp paketi işleyen `bluetooth-central` ve `State Restoration` mimarisi.
+- **Apple MapKit Çevrimdışı Rota ve İşaretçi Yönetimi (`apple-mapkit-offline-waypoints`):** iOS 17 yerel çevrimdışı harita indirme desteği ile internet olmadan dost düğüm GPS pinleri, irtifa, rota çizgileri ve telsizden gönderilen acil Waypoint işaretçilerini haritalandırma.
+
 ### 🔹 Açık Standart ve Tedarikçi Bağımsızlığı (Open Architecture & Vendor Neutrality)
 Meshtastic'in hiçbir tescilli ticari protokole veya tek bir donanım üreticisine bağımlı kalmamasını sağlayan açık kaynak ekosistem felsefesi (GPL-3.0 lisansı ve açık Protobuf şemaları). Semtech SX1262/SX1276/LR1121 telsizleri ile ESP32, nRF52840 ve RP2040 işlemcili onlarca farklı üreticinin (Heltec, LilyGO, RAKwireless) donanımları tam uyumla birlikte çalışabilir.
 

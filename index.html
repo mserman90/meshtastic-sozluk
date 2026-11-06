@@ -4304,6 +4304,169 @@
           "Özellikler": "Otomatik MTU boyutu müzakeresi, kesintisiz yeniden bağlanma (auto-reconnect)"
         },
         seeAlso: ["meshtastic-android-app", "meshservice-foreground", "bluetooth-pin"]
+      },
+
+      /* 23. Meshtastic Apple Ekosistemi ve Çoklu Platform Mimarisi (meshtastic.org/docs/software/apple) */
+      {
+        id: "meshtastic-apple-app",
+        en: "Meshtastic Apple Multiplatform Ecosystem Client",
+        tr: "Meshtastic Apple Çoklu Platform İstemcisi",
+        category: "Yazılım & Protobuf",
+        lead: "iPhone, iPad, Mac, Apple Watch ve Apple Vision Pro cihazlarında yerel Swift ve SwiftUI ile çalışan; LoRa telsizleriyle Bluetooth LE, TCP/Wi-Fi veya seri port üzerinden haberleşen resmi Apple ekosistemi istemcisi.",
+        details: "`meshtastic/Meshtastic-Apple` açık kaynak deposunda geliştirilir. Apple'ın ekosistem gücünden tam olarak yararlanır: SwiftUI tabanlı reaktif kullanıcı arayüzü, CoreBluetooth arka plan bağlantı koruma mimarisi, iCloud anahtarlık (Keychain) senkronizasyonu ve tüm Apple cihazları arasında evrensel kod paylaşımı sağlar. Kullanıcıların şebekesiz ortamlarda mesajlaşmasını, canlı haritada düğümleri izlemesini ve cihaz ayarlarını yönetmesini mümkün kılar.",
+        github: "meshtastic/Meshtastic-Apple",
+        infobox: {
+          "Desteklenen Platformlar": "iOS, iPadOS, macOS, watchOS, visionOS",
+          "Dil & Çerçeve": "Swift / SwiftUI / Combine",
+          "Bağlantı Protokolleri": "CoreBluetooth (BLE), TCP/Wi-Fi, Seri Port",
+          "Dağıtım": "Apple App Store & TestFlight",
+          "Lisans": "GPL-3.0 Açık Kaynak"
+        },
+        seeAlso: ["companion-app", "meshtastic-android-app", "apple-live-activities-dynamic-island", "apple-carplay-integration"]
+      },
+      {
+        id: "apple-live-activities-dynamic-island",
+        en: "Live Activities & Dynamic Island Mesh Integration",
+        tr: "Live Activities ve Dynamic Island Entegrasyonu",
+        category: "Yazılım & Protobuf",
+        lead: "iPhone kilit ekranında ve Dynamic Island alanında uygulamayı açmaya gerek kalmadan bağlı telsizin pil durumunu, ağdaki aktif düğüm sayısını veya takip edilen belirli bir dost düğümün mesafesini canlı gösteren ActivityKit bileşeni.",
+        details: "Apple'ın ActivityKit çerçevesiyle geliştirilmiştir. İki farklı çalışma moduna sahiptir: 'Genel Ağ Durumu' modunda bağlı telsizin batarya yüzdesi, son duyulan paket zamanı ve okunmamış mesaj sayısı gösterilir. 'Düğüm Takibi' modunda ise kullanıcının belirlediği bir cihazın anlık mesafesi, aradaki sekme (hop) sayısı ve SNR sinyal gücü kilit ekranında sürekli güncellenir. Ayrıca Apple Watch Smart Stack ve CarPlay gösterge panelinde de otomatik olarak belirir.",
+        github: "meshtastic/Meshtastic-Apple: MeshtasticWidgetExtension",
+        infobox: {
+          "Çerçeve": "Apple ActivityKit & WidgetKit",
+          "Gösterim Alanları": "Dynamic Island, Kilit Ekranı, Apple Watch Smart Stack, CarPlay",
+          "Modlar": "Genel Ağ Durumu / Özel Düğüm Takibi",
+          "Canlı Veriler": "Batarya %, mesafe, hop sayısı, SNR sinyal gücü"
+        },
+        seeAlso: ["meshtastic-apple-app", "android-jetpack-glance-widgets", "apple-watchos-foxhunt"]
+      },
+      {
+        id: "apple-watchos-foxhunt",
+        en: "watchOS Companion App & Foxhunt Direction Finding Compass",
+        tr: "watchOS Eşlikçi Uygulaması ve 'Foxhunt' Yön Bulma Pusulası",
+        category: "Yazılım & Protobuf",
+        lead: "Apple Watch bilek terminali üzerinden iPhone aracılığıyla mesh paketlerini izleyen ve yaklaşık 800 metre (yarım mil) içindeki düğümleri bulmak için doğrudan pusulalı radyo yön bulma (Foxhunt) ekranı sunan saat uygulaması.",
+        details: "WatchConnectivity çerçevesi üzerinden yakındaki iPhone ile otomatik senkronize olur; saatin LoRa telsizine doğrudan Bluetooth ile bağlanmasına gerek yoktur. Ekranında yer alan 'Foxhunt' (Tilki Avı) radyo yön bulma pusulası, GPS koordinatı yayınlayan yakın kayıp düğümlere, arama kurtarma personeline veya av hayvanı tasmalarına doğru gerçek zamanlı yön oku ve metre cinsinden mesafe gösterir.",
+        github: "meshtastic/Meshtastic-Apple: MeshtasticWatch",
+        infobox: {
+          "Platform": "watchOS (Apple Watch Series 4+ / Ultra)",
+          "İletişim": "WatchConnectivity (iPhone üzerinden köprü)",
+          "Özel Özellik": "Foxhunt Radyo Yön Bulma Pusulası",
+          "Kapsama Alanı": "~800 metre içindeki düğümler için hassas yön vektörü"
+        },
+        seeAlso: ["meshtastic-apple-app", "apple-live-activities-dynamic-island", "lost-and-found"]
+      },
+      {
+        id: "apple-carplay-integration",
+        en: "Apple CarPlay Hands-Free Mesh Messaging",
+        tr: "Apple CarPlay ve Siri ile Sürüş Odaklı Mesajlaşma",
+        category: "Yazılım & Protobuf",
+        lead: "Otomobil multimedya ekranlarında Apple CarPlay üzerinden şebekesiz Meshtastic telsiz mesajlarını görüntülemeyi ve Siri entegrasyonuyla sürüş güvenliğini tehlikeye atmadan sesle mesaj dinleyip göndermeyi sağlayan araç içi arayüz.",
+        details: "iOS 18 ve üzeri sistemlerde CPTemplateApplicationSceneDelegate mimarisi üzerine inşa edilmiştir. İki sekmeli sade bir CarPlay paneli sunar; gelen telsiz mesajlarını sesli okuma ve Siri Intent'leri (INSendMessageIntent, INSearchForMessagesIntent) aracılığıyla sürücünün gözünü yoldan ayırmadan sesli dikteyle mesaj yanıtlamasına izin verir. Araç içi sabit yönlendirici veya mobil takip cihazlarıyla seyahat edenler için idealdir.",
+        github: "meshtastic/Meshtastic-Apple: MeshtasticCarPlay",
+        infobox: {
+          "Arayüz": "Apple CarPlay (CPTemplate)",
+          "Ses Entegrasyonu": "Apple Siri Mesajlaşma Intent'leri",
+          "Gereksinim": "iOS 18+, CarPlay destekli araç / ekran",
+          "Güvenlik": "Sürüş sırasında tamamen eller serbest (hands-free) kontrol"
+        },
+        seeAlso: ["meshtastic-apple-app", "companion-app"]
+      },
+      {
+        id: "apple-visionos-spatial",
+        en: "visionOS Spatial Experience & 3D Hardware Showcase",
+        tr: "visionOS Uzamsal Deneyim ve 3D Donanım Vitrini",
+        category: "Yazılım & Protobuf",
+        lead: "Apple Vision Pro uzamsal bilgisayarında Meshtastic telsiz cihazlarının 1:1 ölçekli fotogerçekçi 3D modellerini fiziksel odada sergileyen ve uzamsal harita üzerinde canlı mesh ağını görselleştiren fütüristik istemci ortamı.",
+        details: "SwiftUI ve RealityKit kullanılarak geliştirilmiştir. 'Hardware Showcase' (Donanım Vitrini) odasında kullanıcılar, RAKwireless, LilyGO, Heltec ve Seeed Studio kartlarının gerçek boyutlu 3D modellerini sanal masalara yerleştirebilir, anten soketlerini ve portlarını inceleyebilir. Ayrıca odanın duvarına sanal bir sunucu kabini (wall rack) yerleştirerek bağlı tüm mesh düğümlerini uzamsal kartlar halinde izleyebilir ve çevrimdışı sokak/arazi haritasını 3D topografya olarak görüntüleyebilir.",
+        github: "meshtastic/Meshtastic-Apple: MeshtasticVision",
+        infobox: {
+          "Platform": "visionOS (Apple Vision Pro)",
+          "Motor": "RealityKit & SwiftUI Spatial Components",
+          "Özellikler": "Hardware Showcase 3D modeller, sanal duvar rafı (wall rack), 3D çevrimdışı topografya haritası",
+          "Kullanım": "Eğitim, donanım sergisi ve uzamsal operasyon merkezi"
+        },
+        seeAlso: ["meshtastic-apple-app", "companion-app"]
+      },
+      {
+        id: "apple-ble-ota-firmware-update",
+        en: "Apple BLE Over-the-Air Firmware Update (OTA DFU)",
+        tr: "Bluetooth Üzerinden Havadan Firmware Güncelleme (BLE OTA DFU)",
+        category: "Yazılım & Protobuf",
+        lead: "Meshtastic Apple uygulamasının, bağlı LoRa telsizinin bellenimini bilgisayara veya USB kablosuna ihtiyaç duymadan doğrudan Bluetooth Low Energy üzerinden resmi GitHub sürüm derlemeleriyle güncelleme yeteneği.",
+        details: "Uygulama arka planda resmi Meshtastic GitHub sürümlerini ve donanım hedef kataloğunu sorgular. Cihazda eski bir firmware tespit edildiğinde kullanıcıya güncelleme bildirimi sunulur. Onay verildiğinde uyumlu kartlar (nRF52840 MCU DFU modülü vb.) Bluetooth üzerinden Over-The-Air (OTA) paket akışıyla güncellenir; işlem tamamlandığında kart otomatik yeniden başlatılarak yeni sürüme geçirilir.",
+        github: "meshtastic/Meshtastic-Apple: Firmware/DFU",
+        infobox: {
+          "Yöntem": "Bluetooth Low Energy OTA DFU (Device Firmware Upgrade)",
+          "Kaynak": "Meshtastic Resmi GitHub Releases",
+          "Avantaj": "Bilgisayarsız, kablosuz, sahada doğrudan telefonla güncelleme",
+          "Güvenlik": "Sağlama toplamı (checksum) ve önyükleyici doğrulaması"
+        },
+        seeAlso: ["dfu-mode", "web-flasher", "meshtastic-apple-app"]
+      },
+      {
+        id: "packet-authentication-protection-levels",
+        en: "Packet Authentication Protection Levels (Compatible, Balanced, Strict)",
+        tr: "Paket Kimlik Doğrulama Seviyeleri: Compatible, Balanced, Strict",
+        category: "Güvenlik & Kriptografi",
+        lead: "Meshtastic cihazının ağdan gelen paketleri XEdDSA dijital imzaları ve PKI asimetrik anahtarları ile doğrularken uygulayacağı güvenlik ve filtreleme sıkılığını belirleyen üç kademeli koruma politikası.",
+        details: "XEdDSA yetenekli firmware sürümlerinde güvenlik ayarları altından yapılandırılır. Üç seviyeden oluşur: 1) Compatible (Uyumlu): İmzalanmamış paketleri kabul eder, imza varsa doğrular; eski cihazlarla maksimum uyumluluk sağlar. 2) Balanced (Dengeli - Tavsiye Edilen): Önceden imza attığı bilinen bir düğümün imzasız yayınlarını reddeder, henüz imzalamayı desteklemeyen düğümleri kabul eder. 3) Strict (Katı): Tüm gelen paketlerde (konum, mesaj, telemetri, yönlendirme) geçerli XEdDSA imzası veya PKI şifre çözümü şart koşar; imzasız veya eski sürümlü tüm paketleri düşürür.",
+        github: "meshtastic.org/docs/software/apple/security",
+        infobox: {
+          "Seviyeler": "Compatible, Balanced (Önerilen), Strict",
+          "Kriptografik İmza": "XEdDSA / Ed25519 Dijital İmza",
+          "Strict Etkisi": "Sahte kimlik (spoofing) ve paket enjeksiyonunu %100 engeller",
+          "Uyumluluk": "Katı mod eski bellenimli cihazların paketlerini eler"
+        },
+        seeAlso: ["pki", "psk", "meshtastic-lockdown-mode"]
+      },
+      {
+        id: "meshtastic-lockdown-mode",
+        en: "Meshtastic Lockdown Hardened Security Mode",
+        tr: "Meshtastic Kilitlenme Modu (MESHTASTIC_LOCKDOWN)",
+        category: "Güvenlik & Kriptografi",
+        lead: "Bir telsiz düğümünün fiziksel olarak ele geçirilmesi (hırsızlık, esir düşme) durumunda dahili NVS flaş belleğindeki kanal anahtarlarını, konum geçmişini ve ağ şifrelerini korumak için tasarlanmış şifreli donanım kilit mekanizması.",
+        details: "`MESHTASTIC_LOCKDOWN` bellenim derleme bayrağı ile aktif edilir. Bu modda çalışan bir LoRa düğümü açıldığında tüm dahili depolama ve telsiz parametreleri kilitli ve şifreli kalır. Cihaz yalnızca sahibi mobil uygulama üzerinden önceden belirlenmiş güvenlik parolasını (passphrase) Bluetooth üzerinden telsize ilettiğinde kilidini açar ve normal yayına başlar. Parola girilmeden cihazdaki kanal anahtarlarına veya ayarlara hiçbir şekilde ulaşılamaz.",
+        github: "meshtastic.org/docs/software/apple/security",
+        infobox: {
+          "Bellenim Bayrağı": "MESHTASTIC_LOCKDOWN",
+          "Koruma Türü": "Donanımsal NVS Flaş Şifreleme ve Kilit",
+          "Kilit Açma": "Bluetooth üzerinden güvenli kullanıcı parolası ile",
+          "Kullanım Alanı": "Taktik timler, yüksek güvenlikli saha istasyonları, gizli operasyonlar"
+        },
+        seeAlso: ["pki", "packet-authentication-protection-levels", "admin-channel"]
+      },
+      {
+        id: "apple-corebluetooth-background",
+        en: "Apple CoreBluetooth Background State Restoration",
+        tr: "CoreBluetooth Arka Plan Durum Restorasyonu",
+        category: "Yazılım & Protobuf",
+        lead: "iOS işletim sisteminin bellek baskısı nedeniyle Meshtastic uygulamasını arka planda kapatması durumunda, LoRa telsizinden yeni bir paket geldiğinde uygulamanın sistem tarafından uyandırılarak paketin işlenmesini sağlayan CoreBluetooth mimarisi.",
+        details: "Apple'ın `CBCentralManagerOptionRestoreIdentifierKey` ve `bluetooth-central` arka plan modu özelliklerini kullanır. iOS sistemi uygulamayı RAM'den temizlese dahi, Bluetooth yongası telsizin GATT bildirimlerini (FromRadio) dinlemeye devam eder. Yeni bir mesaj paketi ulaştığında iOS uygulamayı arka planda gizlice birkaç saniyeliğine uyandırır, paket Protobuf ile çözülür, yerel veritabanına kaydedilir, bildirim basılır ve uygulama tekrar uykuya geçer.",
+        github: "meshtastic/Meshtastic-Apple: Core/Bluetooth",
+        infobox: {
+          "Çerçeve": "Apple CoreBluetooth (CBCentralManager)",
+          "Arka Plan Yetkisi": "UIBackgroundModes: bluetooth-central",
+          "Mekanizma": "State Restoration (Durum Restorasyonu)",
+          "Fayda": "Uygulama kapalıyken bile telsiz mesajlarını kaçırmama"
+        },
+        seeAlso: ["meshtastic-apple-app", "meshservice-foreground"]
+      },
+      {
+        id: "apple-mapkit-offline-waypoints",
+        en: "Apple MapKit Offline Waypoints & Navigation",
+        tr: "Apple MapKit ve Çevrimdışı Rota/İşaretçi Yönetimi",
+        category: "Yazılım & Protobuf",
+        lead: "Meshtastic Apple uygulamasında yerel Apple MapKit harita motoru kullanılarak LoRa düğüm konumlarının, yükseklik profillerinin, acil durum işaretçilerinin (waypoints) ve şebekesiz rota çizgilerinin yönetimi.",
+        details: "Apple Maps vektör kiremitlerini ve iOS 17 ile gelen yerel çevrimdışı harita önbellekleme (Offline Maps Cache) özelliğini destekler. Kullanıcılar dağ veya orman gibi internetin çekmediği sahalara çıkmadan önce bölgeyi çevrimdışı indirir. Uygulama harita üzerinde dost düğümlerin GPS konumlarını, hız vektörlerini, pil seviyelerini ve irtifalarını gerçek zamanlı pinler olarak çizer; ayrıca telsizden gönderilen Waypoint paketlerini otomatik harita işaretçilerine dönüştürür.",
+        github: "meshtastic/Meshtastic-Apple: Views/Map",
+        infobox: {
+          "Harita Motoru": "Apple MapKit Native (SwiftUI Map)",
+          "Çevrimdışı Desteği": "iOS 17+ Yerel Çevrimdışı Harita İndirme",
+          "İşaretlenen Veriler": "Düğüm konumları, irtifa, hız, pil seviyesi, Waypoint işaretçileri",
+          "Özellik": "Rota mesafesi ve yön açısı (bearing) hesaplama"
+        },
+        seeAlso: ["meshtastic-apple-app", "android-maplibre-offline-maps", "meshmap"]
       }
     ];
 
