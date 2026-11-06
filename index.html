@@ -3972,6 +3972,175 @@
           "Çıktı": "Her sürümde 50+ farklı hedef cihaz için .bin ve .uf2 dosyaları"
         },
         seeAlso: ["platformio", "community-supported-hardware", "web-flasher"]
+      },
+
+      /* 21. LoRa Antenleri, RF İletim Hatları ve Test Kılavuzları (meshtastic.org/docs/hardware/antennas) */
+      {
+        id: "lora-antenna-principles",
+        en: "LoRa Antenna Fundamentals & Selection Principles",
+        tr: "LoRa Anten Temelleri ve Seçim Kriterleri",
+        category: "RF & Yayılım",
+        lead: "LoRa düğümlerinin menzilini, sinyal iletim verimliliğini ve telsiz çipi ömrünü belirleyen; 50 Ohm empedans uyumu, düşük VSWR (< 2.0) ve çalışma bölgesine (868/915 MHz) tam rezonans gerektiren temel seçim ilkeleri.",
+        details: "Meshtastic resmi dokümantasyonu, piyasada paket halinde gelen ucuz 'stok' (rubber duck) antenlerin genellikle etiketindeki frekanstan çok farklı çalıştığını veya 2.4 GHz Wi-Fi anteni olduğunu vurgular. Hatalı anten seçimi hem telsiz çipinin çıkış gücünü ısıya dönüştürür hem de menzili birkaç yüz metreye kadar düşürür. Sağlıklı bir LoRa anteni seçiminde; üreticinin SWR grafiği sunması, antenin dBi kazancı (genellikle el cihazları için 1.5–3 dBi, sabit kuleler için 5–6 dBi) ve mekanik dayanıklılığı (fiberglas, pirinç eleman) kritik önem taşır.",
+        github: "meshtastic.org/docs/hardware/antennas",
+        infobox: {
+          "Karakteristik Empedans": "50 Ohm (RF Standardı)",
+          "İdeal VSWR": "< 1.5 (Mükemmel eşleme)",
+          "Maksimum Kabul VSWR": "< 2.0 (Güvenli üst sınır)",
+          "Form Faktörleri": "Stubby (Kompakt), Whip (Kırbaç), Fiberglas Koliner",
+          "En Büyük Tehlike": "Frekansı uyumsuz veya sahte kazançlı stok antenler"
+        },
+        seeAlso: ["vswr", "radiation-pattern-gain", "antenna-testing-nanovna", "no-antenna-tx-damage"]
+      },
+      {
+        id: "radiation-pattern-gain",
+        en: "Antenna Radiation Pattern & Gain (dBi)",
+        tr: "Anten Işıma Deseni ve Kazanç (dBi)",
+        category: "RF & Yayılım",
+        lead: "Bir antenin radyo enerjisini uzaya nasıl yönlendirdiğini gösteren üç boyutlu ışıma geometrisi ve izotropik küresel ışıma referansına (dBi) göre enerjiyi odaklama çarpanı.",
+        details: "Çok yönlü (omni-directional) antenler ek bir RF gücü üretmez; yalnızca mevcut enerjiyi küre şeklinde her yöne saçmak yerine sıkıştırarak ufka doğru yönlendirir. Düşük kazançlı (0–2 dBi) el antenleri küreye yakın bir ışıma deseni çizerek dağ tırmanışlarında veya elin açısı değiştikçe stabil kalır. Yüksek kazançlı (6–9 dBi) baz istasyonu antenleri ise enerjiyi dikey eksende ezerek yassı bir çörek (donut/doughnut) desenine dönüştürür. Çok yüksek kazançlı bir anten yüksek bir tepeye kurulursa, alt vadideki veya yakındaki kullanıcıların üzerinden 'uçup geçerek' (overshoot) kör nokta oluşturabilir.",
+        github: "meshtastic.org/docs/hardware/antennas",
+        infobox: {
+          "Kazanç Birimi": "dBi (İzotropik desibel)",
+          "0 - 2 dBi Işıma": "Geniş küresel desen (El ve mobil cihazlar için ideal)",
+          "5.8 dBi Işıma": "Yassılaşmış çörek (donut) deseni (Genel istasyonlar için ideal)",
+          "> 8 dBi Işıma": "Aşırı dar dikey açı (Düz arazi için, tepeye kurulursa kör nokta yaratır)",
+          "Önemli Kural": "Yüksek dBi her zaman daha iyi demek değildir!"
+        },
+        seeAlso: ["collinear-antenna", "antenna-polarization", "tx-power", "lora-antenna-principles"]
+      },
+      {
+        id: "rf-connectors-sma-ipex",
+        en: "RF Connector Standards (SMA, RP-SMA, U.FL / IPEX)",
+        tr: "RF Konnektör Standartları (SMA, RP-SMA ve U.FL / IPEX)",
+        category: "Donanım & Çevre Birimleri",
+        lead: "Meshtastic kartlarında telsiz yongası ile anten arasındaki fiziksel ve elektriksel bağlantıyı sağlayan koaksiyel soket ve adaptör tipleri.",
+        details: "Meshtastic donanımlarında iki kritik konnektör grubu kullanılır: Kart üstü minyatür bağlantılar (U.FL / IPEX / MHF4) ve dış gövde bağlantıları (SMA). En sık yapılan hata, Wi-Fi dünyasında yaygın olan RP-SMA (Ters Kutuplu SMA) ile Standart SMA'nın karıştırılmasıdır. Standart SMA erkekte merkezde pim (pin), dişi sokette ise merkezde delik bulunur. RP-SMA'da ise bu yerleşim terstir. Standart dişi sokete RP-SMA dişi anten takılırsa merkez iletkenler birbirine temas etmez; bu da açık devreye ve telsiz çipinin yanmasına (TX hasarı) sebep olur.",
+        github: "meshtastic.org/docs/hardware/antennas",
+        infobox: {
+          "Standart LoRa Soketi": "SMA Dişi (Female - Ortası delikli)",
+          "Standart Anten Ucu": "SMA Erkek (Male - Ortasında pim olan)",
+          "Wi-Fi Tuzağı": "RP-SMA (Reverse Polarity - Temassızlık yaratır!)",
+          "Kart İçi Soket": "IPEX / U.FL (MHF4) Pigtail kablosu",
+          "Takma Ömrü (IPEX)": "~30-50 sökme/takma döngüsü (Çok narin)"
+        },
+        seeAlso: ["no-antenna-tx-damage", "lora-antenna-principles", "coaxial-cable-attenuation"]
+      },
+      {
+        id: "antenna-testing-nanovna",
+        en: "Antenna Testing & NanoVNA Vector Network Analyzer",
+        tr: "Anten Testi ve NanoVNA Vektör Ağ Analizörü",
+        category: "RF & Yayılım",
+        lead: "Bir antenin rezonans frekansını, 50 Ohm empedans uyumunu ve VSWR değerini yüksek doğrulukla ölçmek için kullanılan taşınabilir Vektör Ağ Analizörü (VNA) cihazı ve test metodolojisi.",
+        details: "Meshtastic dokümantasyonu, antenlerin etiketlerine güvenilmemesini ve bir NanoVNA ile doğrulanmasını tavsiye eder. Test öncesinde cihaz, frekans aralığına uygun (örn. 800–1000 MHz) SOLT (Short, Open, Load 50Ω, Through) standartlarıyla kalibre edilir. NanoVNA ekranında S11 (Return Loss / Geri Dönüş Kaybı) grafiğinde dip noktasının hedeflenen 868 MHz veya 915 MHz frekansına denk gelmesi ve VSWR değerinin 1.5'in altında (tercihen 1.1–1.3) olması gerekir.",
+        github: "meshtastic.org/docs/hardware/antennas/testing",
+        infobox: {
+          "Cihaz": "NanoVNA (Vektör Ağ Analizörü)",
+          "Temel Ölçüm": "S11 (Return Loss dB) & VSWR Eğrisi",
+          "Grafik Tipi": "LogMag & Smith Chart (Smith Diyagramı)",
+          "Kalibrasyon Türü": "SOLT (Short, Open, Load 50Ω, Through)",
+          "İdeal Eşik": "S11 < -15 dB ve VSWR < 1.5"
+        },
+        seeAlso: ["vswr", "lora-antenna-principles", "meshtastic-antenna-reports"]
+      },
+      {
+        id: "meshtastic-antenna-reports",
+        en: "Meshtastic Antenna Reports Community Repository",
+        tr: "Meshtastic Topluluk Anten Test Raporları Deposu",
+        category: "RF & Yayılım",
+        lead: "Dünya genelindeki Meshtastic geliştiricileri ve kullanıcılarının piyasadaki hazır antenleri NanoVNA ile test ederek frekans eğrilerini, VSWR değerlerini ve gerçek performanslarını paylaştığı açık kaynak test arşivi.",
+        details: "Gzont, Linx, Taoglas, Alfa, Rokland ve Aliexpress/Amazon üzerinden temin edilen onlarca anten modelinin bağımsız laboratuvar ve saha sweep verilerini içerir. Stok antenlerin neden yetersiz olduğunu somut test grafikleriyle kanıtlar ve kullanıcılara el cihazları, mobil araçlar ve çatı tekrarlayıcıları için doğrulanmış 'topluluk favorisi' anten tavsiyeleri sunar.",
+        github: "meshtastic/antenna-reports (GitHub)",
+        infobox: {
+          "Kaynak Depo": "github.com/meshtastic/antenna-reports",
+          "İçerik": "S11 / VSWR sweep grafikleri, fotoğraflar, model listesi",
+          "Kategoriler": "Handheld (El), Mobile (Araç), Base (İstasyon)",
+          "Önemli Çıktı": "Kutudan çıkan stok antenlerin %60'tan fazlasının hatalı frekansta olduğunun tespiti"
+        },
+        seeAlso: ["antenna-testing-nanovna", "lora-antenna-principles", "vswr"]
+      },
+      {
+        id: "coaxial-cable-attenuation",
+        en: "Coaxial Cable Attenuation & Feedline Selection (RG58 vs LMR-400)",
+        tr: "Koaksiyel Kablo Zayıflaması ve Hat Seçimi (RG58 vs LMR-400)",
+        category: "RF & Yayılım",
+        lead: "Telsiz kartı ile çatıya monte edilen anten arasındaki koaksiyel iletim hattında (feedline) mesafe uzadıkça oluşan desibel (dB) cinsinden radyo sinyal kaybı.",
+        details: "868 MHz ve 915 MHz gibi UHF/SHF mikrodalga sınırındaki yüksek frekanslarda koaksiyel kablo kayıpları çok ciddidir. Standart ucuz RG-58 kablo, 868 MHz frekansında 10 metrede yaklaşık 4.5–5 dB güç kaybına yol açar; bu da telsizden çıkan 100 mW gücün üçte ikisinin kabloda ısıya dönüşmesi ve pahalı bir 5.8 dBi antenin kazancının tamamen sıfırlanması demektir. Uzun mesafeli çatı ve kule montajlarında ultra düşük kayıplı LMR-400 (10 metrede ~1.2 dB kayıp) veya LMR-240 kablolar tercih edilmeli; hat boyu mümkün olan en kısa mesafede tutulmalıdır.",
+        github: "meshtastic.org/docs/hardware/antennas/resources",
+        infobox: {
+          "RG-58 Kaybı (10m @ 868MHz)": "~4.5 - 5.0 dB (Gücün %70'i kabloda kaybolur!)",
+          "LMR-240 Kaybı (10m @ 868MHz)": "~2.5 dB (Kabul edilebilir ara kablo)",
+          "LMR-400 Kaybı (10m @ 868MHz)": "~1.2 dB (Profesyonel düşük kayıplı hat)",
+          "Altın Kural": "Kabloyu uzatmak yerine düğümü antenin hemen yanına kutulayın (PoE/Güneş)"
+        },
+        seeAlso: ["tx-power", "collinear-antenna", "lora-antenna-principles"]
+      },
+      {
+        id: "no-antenna-tx-damage",
+        en: "Open-Port PA Damage & Transmission Safety (lora.tx_enabled false)",
+        tr: "Antensiz Gönderme Hasarı ve Yayını Durdurma Güvenliği",
+        category: "RF & Yayılım",
+        lead: "Bir LoRa telsiz kartının anteni takılı olmadan yayına (TX) geçmesi durumunda radyo enerjisinin açık uçtan geri yansıyarak Güç Yükseltici (PA) katını kalıcı olarak yakması riski ve yazılımsal koruma komutu.",
+        details: "Bir telsiz yayına başladığında RF enerjisi 50 Ohm empedansa sahip bir yüke aktarılmalıdır. Anten takılı değilse empedans sonsuz olur ve VSWR sonsuza fırlar. İletilemeyen bu güç telsizin Semtech yongasındaki (SX1262/SX1268) dahili Power Amplifier (PA) transistörlerine çarparak saniyeler içinde termal arızaya yol açar. Anten değişimi veya laboratuvar testleri sırasında kartın kazara yayına geçmesini önlemek için Meshtastic CLI üzerinden 'meshtastic --set lora.tx_enabled false' komutu çalıştırılarak telsiz yayını kapatılmalıdır.",
+        github: "meshtastic/firmware: src/mesh/RadioInterface.cpp",
+        infobox: {
+          "Hasar Riski": "SX1262 / SX1268 Dahili RF PA Yanması",
+          "VSWR Durumu": "Sonsuz (Sonsuz geri yansıma)",
+          "Güvenlik Komutu": "meshtastic --set lora.tx_enabled false",
+          "Kurtarma Şansı": "Donanımsal yanma geri alınamaz (Çip değişimi gerekir)",
+          "Temel İlke": "Antensiz kesinlikle güç verme ve TX başlatma!"
+        },
+        seeAlso: ["vswr", "sx1262", "rf-connectors-sma-ipex", "lora-antenna-principles"]
+      },
+      {
+        id: "rf-propagation-tools",
+        en: "RF Propagation & Coverage Prediction Tools (TowerCoverage, Radio Mobile, HeyWhatsThat)",
+        tr: "RF Yayılım ve Kapsama Tahmin Yazılımları",
+        category: "RF & Yayılım",
+        lead: "Dağ zirvelerine veya çatılara kurulacak Meshtastic rölelerinin sinyal kapsama haritasını, Fresnel bölgesi temizliğini ve arazi engellerini dijital yükseklik verileriyle simüle eden yazılım araçları.",
+        details: "Fiziksel saha kurulumu yapmadan önce anten yüksekliği, kazancı, kablo kaybı ve coğrafi topoğrafya girilerek iki nokta arasındaki bağlantı fizibilitesini test eder. TowerCoverage.com ve Radio Mobile Online, Longley-Rice (ITM) yayılım modelini kullanarak arazi tepeleri, kırılmalar ve yaprak örtüsünün 868/915 MHz sinyaline etkisini hesaplar. HeyWhat'sThat ise 4/3 yeryüzü eğrilik modeliyle radyo ufku ve doğrudan görüş çizgisi (LoS) kesiti çıkarır.",
+        github: "meshtastic.org/docs/hardware/antennas/resources",
+        infobox: {
+          "Popüler Araçlar": "TowerCoverage, Radio Mobile Online, HeyWhat'sThat",
+          "Kullanılan Yayılım Modeli": "Longley-Rice (Irregular Terrain Model - ITM)",
+          "Girdi Parametreleri": "Anten yüksekliği, dBi kazanç, EIRP gücü, DEM koordinatları",
+          "Fayda": "Röle kurulmadan önce menzilin ve Fresnel engellerinin garantiye alınması"
+        },
+        seeAlso: ["heywhatsthat-terrain", "fresnel-zone", "rf-refraction-43-earth", "link-budget"]
+      },
+      {
+        id: "diy-ground-plane-antenna",
+        en: "DIY 1/4 Wave Ground Plane Antenna",
+        tr: "Kendin-Yap (DIY) Çeyrek Dalga Zemin Düzlemi Anteni",
+        category: "RF & Yayılım",
+        lead: "Bir SMA veya N-tipi şasi konnektörüne pirinç ya da bakır çubuklar lehimlenerek yapılan, 45 derece eğimli radyal telleriyle mükemmel 50 Ohm empedans uyumu sağlayan yüksek verimli ev yapımı anten.",
+        details: "Meshtastic resmi kaynaklarında paylaşılan anten hesaplayıcılarına göre dikey elemanın boyu çeyrek dalga boyu olarak hesaplanır (868 MHz için yaklaşık 8.2 cm, 915 MHz için 7.8 cm). Taban soketinin şasisine bağlanan 4 adet eğimli karşı ağırlık teli (radials) tam 45 derece aşağı büküldüğünde antenin besleme noktası empedansı serbest uzaydaki 36 Ohm değerinden tam 50 Ohm değerine yükselir. Bu sayede 1.1 - 1.2 gibi mükemmel bir VSWR elde edilir ve ticari antenlerden daha yüksek verimlilik sağlanır.",
+        github: "meshtastic.org/docs/hardware/antennas/resources",
+        infobox: {
+          "Anten Tipi": "1/4 Dalga Boyu Monopol + 4 Eğimli Radyal",
+          "868 MHz Dikey Eleman": "~82 mm (Pirinç/Bakır tel)",
+          "915 MHz Dikey Eleman": "~78 mm",
+          "Radyal Açısı": "45° aşağı bükülmüş (50 Ohm empedans eşleme)",
+          "Tipik VSWR": "1.05 - 1.20 (Mükemmel rezonans)"
+        },
+        seeAlso: ["ground-plane", "vswr", "antenna-testing-nanovna", "lora-antenna-principles"]
+      },
+      {
+        id: "lightning-arrestor",
+        en: "Lightning Arrestor & Gas Discharge Tube (Coaxial Surge Protector)",
+        tr: "Koaksiyel Yıldırım ve Aşırı Gerilim Koruyucusu (Surge Protector)",
+        category: "Donanım & Çevre Birimleri",
+        lead: "Çatı veya kule direklerine monte edilen harici antenlerden gelen statik elektrik yüklerini ve yakın yıldırım darbelerinin koaksiyel kabloda indüklediği yüksek voltajı güvenle toprağa deşarj eden koruma ünitesi.",
+        details: "Yüksek noktalardaki metal antenler rüzgar ve fırtınada yüksek statik yük toplar ve yakın yıldırımlardan binlerce voltluk geçici gerilim dalgalarına (surge) maruz kalır. Koaksiyel yıldırım koruyucu, iletim hattı ile şasi arasına yerleştirilmiş bir Gaz Deşarj Tüpü (GDT) içerir. Normal çalışmada 50 Ohm empedansa ve ihmal edilebilir ekleme kaybına (<0.2 dB) sahiptir; ancak hatta 90V-230V üzeri aşırı gerilim bindiğinde gaz iyonlaşarak iletken hale gelir ve zararlı enerjiyi kalın bir bakır topraklama örgüsü üzerinden doğrudan bina paratonerine/topraklamasına aktarır.",
+        github: "meshtastic.org/docs/hardware/antennas",
+        infobox: {
+          "Koruma Elemanı": "Gaz Deşarj Tüpü (Gas Discharge Tube - GDT)",
+          "Konnektör Tipi": "N-Dişi veya N-Erkek / SMA (50 Ohm)",
+          "Ekleme Kaybı": "< 0.2 dB (RF sinyalini etkilemez)",
+          "Tepki Süresi": "< 10 nanosaniye",
+          "Montaj Şartı": "En az 10-16 mm² kalın bakır hatla doğrudan harici topraklamaya bağlanmalıdır"
+        },
+        seeAlso: ["coaxial-cable-attenuation", "collinear-antenna", "rak9155-solar-repeater"]
       }
     ];
 

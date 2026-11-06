@@ -262,6 +262,36 @@ STM32 mikrodenetleyicili LoRa kartlarında (ST B-L072Z-LRWAN1 vb.) `BOOT0` pini 
 ### 🔹 STM32 Bellek Okuma Koruması (RDP Kaldırma)
 STM32 mikrodenetleyicilerinde (RAK811 vb.) flash belleğin harici programlayıcılar tarafından okunmasını/yazılmasını engelleyen güvenlik kilidi. Meshtastic yüklemeden önce STM32CubeProgrammer ile Option Bytes üzerinden RDP Level 0'a çekilerek kaldırılır (tüm belleği otomatik siler).
 
+### 🔹 LoRa Anten Temelleri ve Seçim Kriterleri (LoRa Antenna Fundamentals)
+LoRa düğümlerinin menzilini, sinyal verimliliğini ve telsiz ömrünü belirleyen ilkeler: 50 Ohm empedans uyumu, düşük VSWR (< 2.0), çalışma frekansına (868/915 MHz) tam rezonans ve kaliteli mekanik yapı. Kutudan çıkan ucuz stok antenlerin frekans sapmalarına karşı dikkatli olunmalıdır.
+
+### 🔹 Anten Işıma Deseni ve Kazanç (Radiation Pattern & dBi)
+Çok yönlü antenlerin enerjiyi küre yerine ufka doğru yassı bir çörek (donut) deseni şeklinde odaklaması. El cihazlarında geniş küresel 0-2 dBi kazanç avantaj sağlarken; baz istasyonlarında dengeli 5.8 dBi kullanılır. Aşırı yüksek kazanç (>8 dBi) tepe istasyonlarında alt vadideki düğümleri ıskalayarak kör nokta yaratabilir.
+
+### 🔹 RF Konnektör Standartları (SMA, RP-SMA, U.FL / IPEX)
+Standart SMA (erkekte pim, dişide delik) ile Wi-Fi'dan kalma RP-SMA (ters polarite) arasındaki fark. Standart gövdeye RP-SMA takıldığında merkez iletkenler temas etmez; bu da açık devreye ve telsizin anında yanmasına yol açar. Kart üstü narin IPEX/U.FL soketlerinin ömrü 30-50 takma-çıkarma döngüsüdür.
+
+### 🔹 Anten Testi ve NanoVNA Vektör Ağ Analizörü (Antenna Testing)
+Antenlerin rezonans frekansını ve VSWR değerini doğrulamak için kullanılan taşınabilir cihaz. SOLT kalibrasyonu yapılarak S11 geri dönüş kaybı dip noktasının hedeflenen frekansta (868/915 MHz) -15 dB altında ve VSWR'nin < 1.5 olması hedeflenir.
+
+### 🔹 Meshtastic Topluluk Anten Test Raporları (Antenna Reports)
+Meshtastic topluluğunun piyasadaki hazır antenleri NanoVNA ile tarayarak SWR sweep grafiklerini ve model karşılaştırmalarını paylaştığı açık kaynak test arşivi (`github.com/meshtastic/antenna-reports`).
+
+### 🔹 Koaksiyel Kablo Zayıflaması ve Hat Seçimi (RG58 vs LMR-400)
+868/915 MHz UHF frekanslarında koaksiyel iletim hattı kayıpları. Ucuz RG-58 kablo 10 metrede 4.5-5.0 dB kayıp oluşturarak gücün %70'ini kabloda eritir; uzun hatlarda düşük kayıplı LMR-240 veya LMR-400 kullanılmalıdır. En iyi çözüm, düğümü antenin hemen yanına direğe monte etmektir.
+
+### 🔹 Antensiz Gönderme Hasarı ve Yayını Kapatma Güvenliği (`lora.tx_enabled false`)
+Anten takılı olmadan telsizin yayına (TX) geçmesi durumunda sonsuz VSWR nedeniyle RF enerjisinin geri yansıyarak SX1262 dahili güç yükselticisini (PA) kalıcı olarak yakması riski. Test ve anten değişimlerinde CLI'dan `meshtastic --set lora.tx_enabled false` ile yayın durdurulmalıdır.
+
+### 🔹 RF Yayılım ve Kapsama Tahmin Yazılımları (Propagation Tools)
+Dağ zirveleri ve çatılara kurulacak rölelerin kapsama haritalarını, Fresnel bölgesi engellerini ve radyo ufkunu simüle eden Longley-Rice ve DEM tabanlı araçlar: TowerCoverage, Radio Mobile Online ve HeyWhat'sThat.
+
+### 🔹 Kendin-Yap (DIY) Çeyrek Dalga Zemin Düzlemi Anteni (1/4 Wave Ground Plane)
+Pirinç/bakır kaynak telleriyle SMA konnektörüne yapılan ev yapımı monopol anten. Dikey çeyrek dalga eleman (868 MHz için ~8.2 cm, 915 MHz için ~7.8 cm) ve 45° aşağı eğimli 4 radyal tel ile tam 50 Ohm empedans ve 1.1-1.2 VSWR sağlar.
+
+### 🔹 Koaksiyel Yıldırım ve Statik Aşırı Gerilim Koruyucusu (Lightning Arrestor)
+Dış mekan anten direklerinden gelen statik yükleri ve yıldırım endüksiyon darbelerini dahili Gaz Deşarj Tüpü (GDT) ile kalın bakır topraklama hattına deşarj eden 50 Ohm RF koruma bloğu.
+
 ### 🔹 Koliner Eşeksenli Anten (Collinear High-Gain Omni)
 Çatı yönlendiricileri ve dağ tepesi rölelerinde 360 derece eşyönlü yatay kapsama sağlamak üzere fazlı elemanların üst üste dizilmesiyle üretilen yüksek kazançlı (5.8 - 8.5 dBi) fiberglas baz istasyonu anteni.
 
