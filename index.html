@@ -2010,134 +2010,256 @@
         },
         seeAlso: ["remote-hardware", "canned-messages", "text-message-app"]
       },
-      /* 8. Meshtastic Temel Mimarisi ve GiriÅŸ KavramlarÄ± (meshtastic.org/docs/introduction) */
+
+      /* 8. Meshtastic Temel Mimarisi ve Giriş Kavramları (meshtastic.org/docs/introduction) */
       {
         id: "off-grid-communication",
         en: "Off-Grid Communication",
-        tr: "Åebekesiz ve BaÄŸÄ±msÄ±z Ä°letiÅŸim (Off-Grid)",
-        category: "AÄŸ & Protokol",
-        lead: "HÃ¼cresel baz istasyonlarÄ± (GSM/LTE/5G), internet servis saÄŸlayÄ±cÄ±larÄ±, uydu abonelikleri veya elektrik ÅŸebekesinden baÄŸÄ±msÄ±z otonom haberleÅŸme mimarisi.",
-        details: "Meshtastic'in ana felsefesi, merkezi telekomÃ¼nikasyon ÅŸebekelerinin Ã§Ã¶ktÃ¼ÄŸÃ¼ (deprem, sel, kasÄ±rga veya siber saldÄ±rÄ±) veya hiÃ§ kapsama bulunmayan (yÃ¼ksek daÄŸlar, ormanlar, kanyonlar, aÃ§Ä±k denizler) coÄŸrafyalarda kesintisiz veri aktarÄ±mÄ± saÄŸlamaktÄ±r. Sistem, yalnÄ±zca pille veya kÃ¼Ã§Ã¼k gÃ¼neÅŸ panelleriyle beslenen LoRa dÃ¼ÄŸÃ¼mleri Ã¼zerinden Ã§alÄ±ÅŸÄ±r; harici bir sunucuya veya merkezi bir omurgaya (backbone) ihtiyaÃ§ duymaz.",
+        tr: "Şebekesiz ve Bağımsız İletişim (Off-Grid)",
+        category: "Ağ & Protokol",
+        lead: "Hücresel baz istasyonları (GSM/LTE/5G), internet servis sağlayıcıları, uydu abonelikleri veya elektrik şebekesinden bağımsız otonom haberleşme mimarisi.",
+        details: "Meshtastic'in ana felsefesi, merkezi telekomünikasyon şebekelerinin çöktüğü (deprem, sel, kasırga veya siber saldırı) veya hiç kapsama bulunmayan (yüksek dağlar, ormanlar, kanyonlar, açık denizler) coğrafyalarda kesintisiz veri aktarımı sağlamaktır. Sistem, yalnızca pille veya küçük güneş panelleriyle beslenen LoRa düğümleri üzerinden çalışır; harici bir sunucuya veya merkezi bir omurgaya (backbone) ihtiyaç duymaz.",
         github: "meshtastic.org/docs/introduction",
         infobox: {
-          "AltyapÄ± Ä°htiyacÄ±": "SÄ±fÄ±r (HÃ¼cresel/Ä°nternet Yok)",
-          "Enerji KaynaÄŸÄ±": "18650/21700 Pil, GÃ¼neÅŸ Paneli",
-          "KullanÄ±m AlanÄ±": "Afet HaberleÅŸmesi, Arama-Kurtarma, Taktik Saha",
-          "DayanÄ±klÄ±lÄ±k": "SÄ±fÄ±r Tek Hata NoktasÄ± (Zero SPOF)"
+          "Altyapı İhtiyacı": "Sıfır (Hücresel/İnternet Yok)",
+          "Enerji Kaynağı": "18650/21700 Pil, Güneş Paneli",
+          "Kullanım Alanı": "Afet Haberleşmesi, Arama-Kurtarma, Taktik Saha",
+          "Dayanıklılık": "Sıfır Tek Hata Noktası (Zero SPOF)"
         },
         seeAlso: ["decentralized-network", "mesh-network", "lora", "companion-app"]
       },
       {
         id: "decentralized-network",
         en: "Decentralized Network Architecture",
-        tr: "Merkeziyetsiz ve DaÄŸÄ±tÄ±k AÄŸ Mimarisi",
-        category: "AÄŸ & Protokol",
-        lead: "HiÃ§bir merkezi sunucu, baz istasyonu denetleyicisi veya ana yÃ¶nlendirici gerektirmeyen, tÃ¼m dÃ¼ÄŸÃ¼mlerin eÅŸit yetkiyle veri aktarÄ±mÄ±na katÄ±ldÄ±ÄŸÄ± kendi kendini organize eden aÄŸ topolojisi.",
-        details: "Geleneksel hÃ¼cresel veya Wi-Fi aÄŸlarÄ±nda merkezi bir kule veya baz istasyonu Ã§Ã¶ktÃ¼ÄŸÃ¼nde tÃ¼m iletiÅŸim kesilir. Meshtastic'in merkeziyetsiz yapÄ±sÄ±nda ise tek bir hata noktasÄ± (Single Point of Failure - SPOF) bulunmaz. AÄŸdaki herhangi bir dÃ¼ÄŸÃ¼m kapandÄ±ÄŸÄ±nda veya kapsama dÄ±ÅŸÄ±na Ã§Ä±ktÄ±ÄŸÄ±nda, paketler diÄŸer komÅŸu dÃ¼ÄŸÃ¼mler Ã¼zerinden otomatik olarak alternatif rotalar bularak hedefe ulaÅŸmaya devam eder (Self-Healing).",
+        tr: "Merkeziyetsiz ve Dağıtık Ağ Mimarisi",
+        category: "Ağ & Protokol",
+        lead: "Hiçbir merkezi sunucu, baz istasyonu denetleyicisi veya ana yönlendirici gerektirmeyen, tüm düğümlerin eşit yetkiyle veri aktarımına katıldığı kendi kendini organize eden ağ topolojisi.",
+        details: "Geleneksel hücresel veya Wi-Fi ağlarında merkezi bir kule veya baz istasyonu çöktüğünde tüm iletişim kesilir. Meshtastic'in merkeziyetsiz yapısında ise tek bir hata noktası (Single Point of Failure - SPOF) bulunmaz. Ağdaki herhangi bir düğüm kapandığında veya kapsama dışına çıktığında, paketler diğer komşu düğümler üzerinden otomatik olarak alternatif rotalar bularak hedefe ulaşmaya devam eder (Self-Healing).",
         github: "meshtastic.org/docs/introduction",
         infobox: {
-          "Topoloji": "Merkeziyetsiz Ã–rgÃ¼ (Decentralized Mesh)",
-          "Tek Hata NoktasÄ± (SPOF)": "Yok",
-          "DÃ¼ÄŸÃ¼m HiyerarÅŸisi": "EÅŸit EÅŸler (Peers)",
-          "YÃ¶nlendirme": "Dinamik Kendini Ä°yileÅŸtirme (Self-Healing)"
+          "Topoloji": "Merkeziyetsiz Örgü (Decentralized Mesh)",
+          "Tek Hata Noktası (SPOF)": "Yok",
+          "Düğüm Hiyerarşisi": "Eşit Eşler (Peers)",
+          "Yönlendirme": "Dinamik Kendini İyileştirme (Self-Healing)"
         },
         seeAlso: ["mesh-network", "controlled-flood-routing", "peer-to-peer", "off-grid-communication"]
       },
       {
         id: "lpwan",
         en: "LPWAN (Low-Power Wide-Area Network)",
-        tr: "DÃ¼ÅŸÃ¼k GÃ¼Ã§lÃ¼ GeniÅŸ Alan AÄŸÄ± (LPWAN)",
-        category: "RF & YayÄ±lÄ±m",
-        lead: "DÃ¼ÅŸÃ¼k veri hÄ±zlarÄ± karÅŸÄ±lÄ±ÄŸÄ±nda kilometrelerce fiziksel kapsama alanÄ± ve yÄ±llara varan batarya Ã¶mrÃ¼ sunmak Ã¼zere optimize edilmiÅŸ kablosuz telekomÃ¼nikasyon aÄŸÄ± kategorisi.",
-        details: "Wi-Fi ve hÃ¼cresel aÄŸlar yÃ¼ksek bant geniÅŸliÄŸi (video/ses aktarÄ±mÄ±) saÄŸlamak iÃ§in yÃ¼ksek enerji harcarken ve kÄ±sa menzile sahipken; LPWAN teknolojisi (LoRa gibi) dÃ¼ÅŸÃ¼k bit hÄ±zlarÄ±nda (Ã¶r. birkaÃ§ yÃ¼z bps ila kilobit seviyesi) son derece yÃ¼ksek alÄ±cÄ± hassasiyeti (-140 dBm'e kadar) sunar. Bu sayede 100 mW'Ä±n altÄ±ndaki telsiz Ã§Ä±kÄ±ÅŸ gÃ¼cÃ¼yle onlarca kilometrelik mesafelerde metin mesajÄ± ve telemetri aktarÄ±mÄ± mÃ¼mkÃ¼n olur.",
+        tr: "Düşük Güçlü Geniş Alan Ağı (LPWAN)",
+        category: "RF & Yayılım",
+        lead: "Düşük veri hızları karşılığında kilometrelerce fiziksel kapsama alanı ve yıllara varan batarya ömrü sunmak üzere optimize edilmiş kablosuz telekomünikasyon ağı kategorisi.",
+        details: "Wi-Fi ve hücresel ağlar yüksek bant genişliği (video/ses aktarımı) sağlamak için yüksek enerji harcarken ve kısa menzile sahipken; LPWAN teknolojisi (LoRa gibi) düşük bit hızlarında (ör. birkaç yüz bps ila kilobit seviyesi) son derece yüksek alıcı hassasiyeti (-140 dBm'e kadar) sunar. Bu sayede 100 mW'ın altındaki telsiz çıkış gücüyle onlarca kilometrelik mesafelerde metin mesajı ve telemetri aktarımı mümkün olur.",
         github: "meshtastic.org/docs/introduction",
         infobox: {
-          "AÄŸ SÄ±nÄ±fÄ±": "LPWAN (Low-Power Wide-Area)",
-          "ModÃ¼lasyon": "LoRa (Chirp Spread Spectrum)",
-          "Enerji TÃ¼ketimi": "DÃ¼ÅŸÃ¼k (Miliamper / Mikroamper seviyesi)",
-          "Menzil": "5 - 100+ km (GÃ¶rÃ¼ÅŸ hattÄ±na baÄŸlÄ±)"
+          "Ağ Sınıfı": "LPWAN (Low-Power Wide-Area)",
+          "Modülasyon": "LoRa (Chirp Spread Spectrum)",
+          "Enerji Tüketimi": "Düşük (Miliamper / Mikroamper seviyesi)",
+          "Menzil": "5 - 100+ km (Görüş hattına bağlı)"
         },
         seeAlso: ["lora", "spreading-factor", "bandwidth", "sx1262"]
       },
       {
         id: "peer-to-peer",
         en: "Peer-to-Peer (P2P) Communication",
-        tr: "EÅŸler ArasÄ± Ä°letiÅŸim (P2P)",
-        category: "AÄŸ & Protokol",
-        lead: "Ä°stemci-sunucu hiyerarÅŸisi olmaksÄ±zÄ±n, iki veya daha fazla telsiz dÃ¼ÄŸÃ¼mÃ¼nÃ¼n doÄŸrudan birbirleriyle veya aracÄ± eÅŸler Ã¼zerinden veri alÄ±p vermesini saÄŸlayan haberleÅŸme modeli.",
-        details: "Meshtastic aÄŸÄ±ndaki her cihaz hem bir uÃ§ nokta (mesaj oluÅŸturan/okuyan) hem de bir aktarÄ±cÄ±dÄ±r (repeater). Bir dÃ¼ÄŸÃ¼m mesaj gÃ¶nderdiÄŸinde doÄŸrudan hedef cihaza veya hedefe ulaÅŸtÄ±racak komÅŸu eÅŸ dÃ¼ÄŸÃ¼mlere paket iletir. Kimlik doÄŸrulama ve mesajlaÅŸma, merkezi bir kullanÄ±cÄ± veri tabanÄ±na ihtiyaÃ§ duymadan kriptografik anahtarlarla (Public Key Cryptography) eÅŸler arasÄ±nda uÃ§tan uca doÄŸrulanÄ±r.",
+        tr: "Eşler Arası İletişim (P2P)",
+        category: "Ağ & Protokol",
+        lead: "İstemci-sunucu hiyerarşisi olmaksızın, iki veya daha fazla telsiz düğümünün doğrudan birbirleriyle veya aracı eşler üzerinden veri alıp vermesini sağlayan haberleşme modeli.",
+        details: "Meshtastic ağındaki her cihaz hem bir uç nokta (mesaj oluşturan/okuyan) hem de bir aktarıcıdır (repeater). Bir düğüm mesaj gönderdiğinde doğrudan hedef cihaza veya hedefe ulaştıracak komşu eş düğümlere paket iletir. Kimlik doğrulama ve mesajlaşma, merkezi bir kullanıcı veri tabanına ihtiyaç duymadan kriptografik anahtarlarla (Public Key Cryptography) eşler arasında uçtan uca doğrulanır.",
         github: "meshtastic.org/docs/introduction",
         infobox: {
-          "Model": "EÅŸler ArasÄ± (P2P / Node-to-Node)",
-          "Ä°stemci-Sunucu": "Gerektirmez",
-          "Roller": "Hem istemci hem yÃ¶nlendirici eÅŸ",
-          "DoÄŸrulama": "Curve25519 & Ed25519 anahtar Ã§iftleri"
+          "Model": "Eşler Arası (P2P / Node-to-Node)",
+          "İstemci-Sunucu": "Gerektirmez",
+          "Roller": "Hem istemci hem yönlendirici eş",
+          "Doğrulama": "Curve25519 & Ed25519 anahtar çiftleri"
         },
         seeAlso: ["decentralized-network", "pkc", "direct-message", "controlled-flood-routing"]
       },
       {
         id: "airtime-fairness",
         en: "Airtime Fairness & Spectrum Stewardship",
-        tr: "Hava SÃ¼resi Adaleti ve Spektrum YÃ¶netimi",
-        category: "AÄŸ & Protokol",
-        lead: "PaylaÅŸÄ±mlÄ± lisanssÄ±z RF frekans bandÄ±nÄ±n tek bir dÃ¼ÄŸÃ¼m veya aÅŸÄ±rÄ± konuÅŸkan cihaz tarafÄ±ndan tÄ±kanmasÄ±nÄ± Ã¶nleyen, adil hava eriÅŸimini ve regÃ¼lasyon uyumunu saÄŸlayan algoritma bÃ¼tÃ¼nÃ¼.",
-        details: "Meshtastic firmware'i, her dÃ¼ÄŸÃ¼mÃ¼n havada yayÄ±n yaptÄ±ÄŸÄ± toplam sÃ¼reyi (TX Airtime) ve yerel kanal doluluk oranÄ±nÄ± (Channel Utilization) sÃ¼rekli Ã¶lÃ§er. Token-bucket algoritmasÄ± ve dinamik gecikme (backoff) mekanizmalarÄ± kullanarak, kanal doluluÄŸu arttÄ±kÃ§a telemetri ve konum paketlerinin gÃ¶nderim sÄ±klÄ±ÄŸÄ±nÄ± otomatik olarak dÃ¼ÅŸÃ¼rÃ¼r. Bu sayede acil durum ve metin mesajlarÄ±na spektrumda her zaman Ã¶ncelikli ve adil yer aÃ§Ä±lÄ±r.",
+        tr: "Hava Süresi Adaleti ve Spektrum Yönetimi",
+        category: "Ağ & Protokol",
+        lead: "Paylaşımlı lisanssız RF frekans bandının tek bir düğüm veya aşırı konuşkan cihaz tarafından tıkanmasını önleyen, adil hava erişimini ve regülasyon uyumunu sağlayan algoritma bütünü.",
+        details: "Meshtastic firmware'i, her düğümün havada yayın yaptığı toplam süreyi (TX Airtime) ve yerel kanal doluluk oranını (Channel Utilization) sürekli ölçer. Token-bucket algoritması ve dinamik gecikme (backoff) mekanizmaları kullanarak, kanal doluluğu arttıkça telemetri ve konum paketlerinin gönderim sıklığını otomatik olarak düşürür. Bu sayede acil durum ve metin mesajlarına spektrumda her zaman öncelikli ve adil yer açılır.",
         github: "meshtastic/firmware: src/mesh/AirTime.cpp",
         infobox: {
-          "YÃ¶netim MekanizmasÄ±": "Token Bucket & CSMA/CA Backoff",
-          "Hedef": "Kanal tÄ±kanÄ±klÄ±ÄŸÄ±nÄ± Ã¶nleme & adil eriÅŸim",
-          "Ã–nceliklendirme": "Acil durum & Metin > Periyodik Telemetri",
-          "Yasal KÄ±sÄ±t": "Saatlik azami %1 Duty Cycle"
+          "Yönetim Mekanizması": "Token Bucket & CSMA/CA Backoff",
+          "Hedef": "Kanal tıkanıklığını önleme & adil erişim",
+          "Önceliklendirme": "Acil durum & Metin > Periyodik Telemetri",
+          "Yasal Kısıt": "Saatlik azami %1 Duty Cycle"
         },
         seeAlso: ["airtime", "duty-cycle", "channel-utilization", "csma-ca"]
       },
       {
         id: "companion-app",
         en: "Companion Apps & Client Interfaces",
-        tr: "EÅŸlikÃ§i Uygulamalar ve Ä°stemci ArayÃ¼zleri",
-        category: "YazÄ±lÄ±m & Protobuf",
-        lead: "Meshtastic telsiz donanÄ±mÄ±nÄ± kontrol etmek, mesaj yazÄ±p okumak, haritada dÃ¼ÄŸÃ¼mleri izlemek ve ayarlarÄ± yÃ¶netmek iÃ§in Bluetooth, Wi-Fi veya USB Ã¼zerinden baÄŸlanan resmi istemci yazÄ±lÄ±mlarÄ±.",
-        details: "Meshtastic dÃ¼ÄŸÃ¼mleri baÄŸÄ±msÄ±z olarak yÃ¶nlendirme yapabilirken, kullanÄ±cÄ± deneyimi akÄ±llÄ± cihazlara yÃ¼klenen eÅŸlikÃ§i uygulamalarla zenginleÅŸir. Android, iOS/iPadOS/macOS (Swift), Meshtastic Web (Web Bluetooth/Web Serial API destekli), Python CLI ve Linux arka plan servisi (meshtasticd) bu ekosistemin parÃ§asÄ±dÄ±r. TÃ¼m istemciler telsizle Google Protocol Buffers (Protobuf) Ã¼zerinden ikili formatta haberleÅŸir.",
+        tr: "Eşlikçi Uygulamalar ve İstemci Arayüzleri",
+        category: "Yazılım & Protobuf",
+        lead: "Meshtastic telsiz donanımını kontrol etmek, mesaj yazıp okumak, haritada düğümleri izlemek ve ayarları yönetmek için Bluetooth, Wi-Fi veya USB üzerinden bağlanan resmi istemci yazılımları.",
+        details: "Meshtastic düğümleri bağımsız olarak yönlendirme yapabilirken, kullanıcı deneyimi akıllı cihazlara yüklenen eşlikçi uygulamalarla zenginleşir. Android, iOS/iPadOS/macOS (Swift), Meshtastic Web (Web Bluetooth/Web Serial API destekli), Python CLI ve Linux arka plan servisi (meshtasticd) bu ekosistemin parçasıdır. Tüm istemciler telsizle Google Protocol Buffers (Protobuf) üzerinden ikili formatta haberleşir.",
         github: "meshtastic/Meshtastic-Android & Meshtastic-Apple & web",
         infobox: {
           "Platformlar": "Android, iOS, iPadOS, macOS, Web, Linux, Windows",
-          "BaÄŸlantÄ± Protokolleri": "Bluetooth LE, Wi-Fi (TCP), USB Serial",
-          "Ä°letiÅŸim StandardÄ±": "Google Protocol Buffers (Protobuf)",
-          "Ã‡evrimdÄ±ÅŸÄ± Harita": "Desteklenir (OSM / Maptiler)"
+          "Bağlantı Protokolleri": "Bluetooth LE, Wi-Fi (TCP), USB Serial",
+          "İletişim Standardı": "Google Protocol Buffers (Protobuf)",
+          "Çevrimdışı Harita": "Desteklenir (OSM / Maptiler)"
         },
         seeAlso: ["protobufs", "web-flasher", "home-assistant-integration", "tak"]
       },
       {
         id: "broadcast-messaging",
         en: "Broadcast Messaging (Public Channel Flooding)",
-        tr: "Genel YayÄ±n Ä°letiÅŸimi (Kanal YayÄ±nÄ±)",
-        category: "AÄŸ & Protokol",
-        lead: "AÄŸdaki tÃ¼m dÃ¼ÄŸÃ¼mlerin veya belirli bir paylaÅŸÄ±mlÄ± kanala abone olmuÅŸ tÃ¼m telsizlerin almasÄ± amacÄ±yla 0xFFFFFFFF genel yayÄ±n adresine gÃ¶nderilen ÅŸifreli veya aÃ§Ä±k telsiz paketleri.",
-        details: "Meshtastic'te genel yayÄ±n paketleri, hedef dÃ¼ÄŸÃ¼m numarasÄ± `NODENUM_BROADCAST` (0xFFFFFFFF) olarak iÅŸaretlenir. Bu paketler aÄŸdaki her yÃ¶nlendirici dÃ¼ÄŸÃ¼m tarafÄ±ndan Hop Limit sÄ±fÄ±rlanana kadar tÃ¼m kapsama alanÄ±na tekrar yayÄ±nlanÄ±r (Controlled Flood). Afet duyurularÄ±, durum gÃ¼ncellemeleri, hava durumu telemetrisi ve acil durum ikazlarÄ± bu yÃ¶ntemle tek seferde tÃ¼m topluluÄŸa ulaÅŸtÄ±rÄ±lÄ±r.",
+        tr: "Genel Yayın İletişimi (Kanal Yayını)",
+        category: "Ağ & Protokol",
+        lead: "Ağdaki tüm düğümlerin veya belirli bir paylaşımlı kanala abone olmuş tüm telsizlerin alması amacıyla 0xFFFFFFFF genel yayın adresine gönderilen şifreli veya açık telsiz paketleri.",
+        details: "Meshtastic'te genel yayın paketleri, hedef düğüm numarası `NODENUM_BROADCAST` (0xFFFFFFFF) olarak işaretlenir. Bu paketler ağdaki her yönlendirici düğüm tarafından Hop Limit sıfırlanana kadar tüm kapsama alanına tekrar yayınlanır (Controlled Flood). Afet duyuruları, durum güncellemeleri, hava durumu telemetrisi ve acil durum ikazları bu yöntemle tek seferde tüm topluluğa ulaştırılır.",
         github: "meshtastic/protobufs: mesh.proto (NODENUM_BROADCAST = 0xFFFFFFFF)",
         infobox: {
-          "Hedef DÃ¼ÄŸÃ¼m": "0xFFFFFFFF (NODENUM_BROADCAST)",
-          "YayÄ±lÄ±m YÃ¶ntemi": "Controlled Flood Routing",
-          "KullanÄ±m": "Grup sohbeti, genel duyurular, acil durum SOS",
-          "Kapsam": "TÃ¼m mesh aÄŸÄ±"
+          "Hedef Düğüm": "0xFFFFFFFF (NODENUM_BROADCAST)",
+          "Yayılım Yöntemi": "Controlled Flood Routing",
+          "Kullanım": "Grup sohbeti, genel duyurular, acil durum SOS",
+          "Kapsam": "Tüm mesh ağı"
         },
         seeAlso: ["direct-message", "controlled-flood-routing", "primary-channel", "hop-limit"]
       },
       {
         id: "open-architecture",
         en: "Open Architecture & Hardware Neutrality",
-        tr: "AÃ§Ä±k Standart ve TedarikÃ§i BaÄŸÄ±msÄ±zlÄ±ÄŸÄ±",
-        category: "YazÄ±lÄ±m & Protobuf",
-        lead: "Meshtastic'in hiÃ§bir tescilli/kapalÄ± ticari protokole veya tek bir donanÄ±m Ã¼reticisine baÄŸÄ±mlÄ± kalmamasÄ±nÄ± saÄŸlayan, GPL-3.0 lisanslÄ± aÃ§Ä±k kaynak ekosistem felsefesi.",
-        details: "Piyasadaki birÃ§ok tescilli telsiz aÄŸÄ± tek bir markanÄ±n Ã§iplerine ve patentli protokollerine hapsolmuÅŸken; Meshtastic tamamen aÃ§Ä±k kaynaklÄ±dÄ±r. Firmware GPL-3.0 lisanslÄ±dÄ±r; veri yapÄ±larÄ± aÃ§Ä±k Protobuf ÅŸemalarÄ±yla tanÄ±mlÄ±dÄ±r. Semtech SX1262/SX1276/LR1121 telsiz Ã§ipleri, Nordic nRF52840, Espressif ESP32 ve Raspberry Pi RP2040 mikrokontrolcÃ¼leri gibi onlarca farklÄ± donanÄ±m ailesi ve Heltec, LilyGO, RAKwireless gibi farklÄ± Ã¼reticiler birbiriyle kusursuz uyum iÃ§inde Ã§alÄ±ÅŸÄ±r.",
+        tr: "Açık Standart ve Tedarikçi Bağımsızlığı",
+        category: "Yazılım & Protobuf",
+        lead: "Meshtastic'in hiçbir tescilli/kapalı ticari protokole veya tek bir donanım üreticisine bağımlı kalmamasını sağlayan, GPL-3.0 lisanslı açık kaynak ekosistem felsefesi.",
+        details: "Piyasadaki birçok tescilli telsiz ağı tek bir markanın çiplerine ve patentli protokollerine hapsolmuşken; Meshtastic tamamen açık kaynaklıdır. Firmware GPL-3.0 lisanslıdır; veri yapıları açık Protobuf şemalarıyla tanımlıdır. Semtech SX1262/SX1276/LR1121 telsiz çipleri, Nordic nRF52840, Espressif ESP32 ve Raspberry Pi RP2040 mikrokontrolcüleri gibi onlarca farklı donanım ailesi ve Heltec, LilyGO, RAKwireless gibi farklı üreticiler birbiriyle kusursuz uyum içinde çalışır.",
         github: "meshtastic/firmware (GPL-3.0) & meshtastic/protobufs",
         infobox: {
-          "YazÄ±lÄ±m LisansÄ±": "GPL-3.0 / Apache 2.0 (Protobufs)",
-          "TedarikÃ§i BaÄŸÄ±msÄ±zlÄ±ÄŸÄ±": "%100 (Vendor Lock-in Yok)",
+          "Yazılım Lisansı": "GPL-3.0 / Apache 2.0 (Protobufs)",
+          "Tedarikçi Bağımsızlığı": "%100 (Vendor Lock-in Yok)",
           "Desteklenen SoC": "ESP32, nRF52840, RP2040, STM32",
           "Desteklenen RF": "SX1262, SX1268, SX1276, SX1280, LR1121"
         },
         seeAlso: ["platformio", "protobufs", "esp32-s3", "nrf52840", "sx1262"]
+      },
+
+      /* 9. Seeed Studio SenseCAP & Yeni Nesil Takip Donanımları (wiki.seeedstudio.com/x1_get_started_for_meshtastic) */
+      {
+        id: "sensecap-x1",
+        en: "SenseCAP MeshTracker X1",
+        tr: "SenseCAP MeshTracker X1 (Seeed Studio)",
+        category: "Donanım & Çipler",
+        lead: "Seeed Studio tarafından açık hava sporları, arama-kurtarma ve şebekesiz takip için geliştirilen; Semtech LR2021 LoRa telsizine, çift bant L1+L5 GNSS modülüne ve IP66 korumasına sahip kart boyutundaki bağımsız Meshtastic takip cihazı.",
+        details: "Kredi kartı boyutlarındaki (90 × 57 × 8 mm, 45 g) yapısı, ekran ve klavye barındırmayan kompakt tasarımıyla akıllı telefonlara Bluetooth LE ile bağlanarak çalışır. Nordic nRF52840 işlemcisi, dahili 1100 mAh Li-ion bataryası ve USB-C şarj portuyla 5 güne kadar kesintisiz GPS ve telemetri yayını yapabilir. Dahili barometre, buzzer ve titreşim motoruyla donatılmıştır.",
+        github: "wiki.seeedstudio.com/x1_get_started_for_meshtastic",
+        infobox: {
+          "Üretici": "Seeed Studio",
+          "İşlemci (MCU)": "Nordic nRF52840 (ARM Cortex-M4)",
+          "LoRa Çipi": "Semtech LR2021 (863-928 MHz)",
+          "GNSS": "Çift Bant L1 + L5 (GPS/Galileo/BeiDou/GLONASS)",
+          "Sensörler": "Barometre (Hava Basıncı), Sıcaklık",
+          "Pil & Şarj": "1100 mAh Li-ion, USB Type-C",
+          "Koruma Sınıfı": "IP66 Su ve Toz Dayanımı"
+        },
+        seeAlso: ["semtech-lr2021", "dual-band-gnss", "sensecap-t1000e", "nrf52840", "tracker"]
+      },
+      {
+        id: "semtech-lr2021",
+        en: "Semtech LR2021 Transceiver",
+        tr: "Semtech LR2021 LoRa Alıcı-Verici Yongası",
+        category: "Donanım & Çipler",
+        lead: "Semtech'in Sub-GHz (863-928 MHz) ve 2.4 GHz LoRa/FLRC modülasyonlarını tek yapıda birleştiren, ultra düşük güç tüketimli ve yüksek hassasiyetli yeni nesil telsiz çipi.",
+        details: "SX1262 ve LR1121 serisinin ardından geliştirilen LR2021, -141 dBm'e varan alıcı hassasiyeti ve +22 dBm azami RF çıkış gücü sunar. Entegre DC-DC regülatörü ve optimize edilmiş düşük uyku akımı sayesinde bataryalı takip ve giyilebilir Meshtastic cihazlarında pil ömrünü önemli ölçüde uzatır. Seeed Studio MeshTracker X1 gibi yeni nesil cihazların kalbinde yer alır.",
+        github: "wiki.seeedstudio.com/x1_get_started_for_meshtastic",
+        infobox: {
+          "Üretici": "Semtech",
+          "Frekans Desteği": "Sub-GHz (863-928 MHz) & 2.4 GHz",
+          "Hassasiyet": "-141 dBm'e kadar",
+          "Çıkış Gücü": "+22 dBm'e kadar",
+          "Modülasyonlar": "LoRa, (G)FSK, FLRC"
+        },
+        seeAlso: ["sx1262", "lr1121", "sensecap-x1", "lora"]
+      },
+      {
+        id: "dual-band-gnss",
+        en: "Dual-Band GNSS (L1 + L5 GPS)",
+        tr: "Çift Bant GNSS Konumlandırma (L1 + L5)",
+        category: "Donanım & Çipler",
+        lead: "Uydulardan gelen sinyalleri hem standart L1 (1575.42 MHz) hem de modern sivil L5 (1176.45 MHz) frekanslarında eşzamanlı işleyerek metre-altı hassasiyet ve yüksek sinyal direnci sağlayan uydu konumlandırma teknolojisi.",
+        details: "Tek bantlı (L1) GPS alıcıları kentsel kanyonlarda (bina yansımaları), derin kanyonlarda veya yoğun ağaç örtüsü altında çok yollu yayılım (multipath) ve iyonosferik sapmalardan dolayı onlarca metre hata üretebilir. L5 bandı çok daha yüksek çip hızına (10 kat) ve sinyal gücüne sahiptir. Çift bant teknolojisi, yansıyan sahte sinyalleri anında filtreler; böylece sarp arazide arama-kurtarma ve rota takibinde son derece kararlı ve hızlı ilk kilitlenme (TTFF) sunar.",
+        github: "wiki.seeedstudio.com/x1_get_started_for_meshtastic",
+        infobox: {
+          "Frekanslar": "L1 (1575.42 MHz) + L5 (1176.45 MHz)",
+          "Uydu Kümeleri": "GPS, Galileo (E1/E5a), BeiDou (B1I/B2a), QZSS, NavIC",
+          "Avantajları": "Multipath filtreleme, İyonosfer kompanzasyonu",
+          "Konum Doğruluğu": "Metre-altı (< 1 m) kararlılık"
+        },
+        seeAlso: ["sensecap-x1", "fixed-position", "position-precision", "tracker"]
+      },
+      {
+        id: "uf2-dfu",
+        en: "UF2 Bootloader & DFU Mode",
+        tr: "UF2 Önyükleyici ve DFU (Cihaz Yazılım Güncelleme) Modu",
+        category: "Yazılım & Protobuf",
+        lead: "nRF52840 tabanlı Meshtastic cihazlarında, cihazı bilgisayara bir USB flash bellek sürücüsü olarak tanıtan ve .uf2 firmware dosyalarını sürükle-bırak veya Web Flasher ile kolayca yüklemeyi sağlayan önyükleyici mekanizması.",
+        details: "Seeed Studio MeshTracker X1, WisBlock RAK4631 ve T-Echo gibi nRF52840 cihazlarında kullanılır. Cihaz kapalıyken butona basılı tutularak USB kablosu takıldığında veya Web Flasher üzerinden 'Enter DFU' komutu yollandığında beyaz durum LED'i sabit yanar ve bilgisayarda bir sürücü belirir. Bu mod, Bluetooth üzerinden (OTA) hatalı güncelleme sonucu cihazın kilitlenmesini (bricking) önleyen en güvenilir kurtarma ve yazılım yükleme yoludur.",
+        github: "wiki.seeedstudio.com/x1_get_started_for_meshtastic",
+        infobox: {
+          "Dosya Formatı": ".uf2 (USB Flashing Format)",
+          "Giriş Yöntemi": "Buton basılı USB takma / Web Flasher",
+          "Durum Göstergesi": "Sabit Beyaz LED",
+          "Kullanım Amacı": "Firmware yükleme ve unbrick kurtarma"
+        },
+        seeAlso: ["web-flasher", "nrf52840", "platformio", "sensecap-x1"]
+      },
+      {
+        id: "multi-click-actions",
+        en: "Multi-Click Hardware Controls",
+        tr: "Çoklu Buton Eylemleri ve Donanım Durum LED'leri",
+        category: "Donanım & Çipler",
+        lead: "Ekranı veya klavyesi bulunmayan ekransız (headless) Meshtastic takip cihazlarında, tek bir fiziksel butonun ardışık tıklanmasıyla gerçekleştirilen kontrol ve durum bildirim arayüzü.",
+        details: "SenseCAP X1 ve benzeri kart takip cihazlarında telefon bağlantısı olmadan da sahada şu işlevler yürütülür:<br>• <b>Tek Tık (Kapalıyken):</b> Cihazı açar.<br>• <b>Uzun Basış (5 saniye):</b> Cihazı güvenle kapatır.<br>• <b>Çift Tık:</b> Kanala anında düğüm kimliğini (Node ID) ve güncel GPS koordinatlarını içeren acil beacon/durum paketi basar.<br>• <b>Üç Tık:</b> GPS modülünü uykuya alarak veya uyandırarak pil tasarrufu sağlar.<br>• <b>Dört Tık:</b> Dahili sesli ikazı (buzzer) sessize alır veya açar.<br>Cihaz durumu ise hızlı yanıp sönen yeşil (normal çalışma), yavaş yanıp sönen yeşil (şarj oluyor) ve sabit beyaz (DFU modu) LED'lerle kullanıcıya raporlanır.",
+        github: "wiki.seeedstudio.com/x1_get_started_for_meshtastic",
+        infobox: {
+          "Girdi Elemanı": "Tekil Fiziksel Fonksiyon Butonu",
+          "Eylemler": "Tek, Çift, Üç, Dört Tık & Uzun Basış",
+          "Fonksiyonlar": "Acil Konum Yayını, GPS Uyku, Buzzer Mute",
+          "Durum LED'i": "Yeşil (Çalışma/Şarj), Beyaz (DFU)"
+        },
+        seeAlso: ["sensecap-x1", "canned-messages", "external-notification", "tracker"]
+      },
+      {
+        id: "sensecap-t1000e",
+        en: "SenseCAP Card Tracker T1000-E",
+        tr: "SenseCAP Card Tracker T1000-E",
+        category: "Donanım & Çipler",
+        lead: "Seeed Studio'nun geliştirdiği, nRF52840 işlemcili ve Semtech SX1262 LoRa telsizine sahip, manyetik şarjlı ve sensör zengini öncü kart tipi Meshtastic takip cihazı.",
+        details: "Kredi kartı form faktöründeki T1000-E; dahili sıcaklık sensörü, ortam ışığı sensörü, 3 eksenli ivmeölçer, buzzer ve GPS alıcısıyla donatılmıştır. Manyetik pogo-pin şarj konnektörü ve IP65 kasasıyla özellikle outdoor giyim eşyalarına, araçlara ve çantalara takılarak lojistik ve saha personel takibi için yaygın biçimde tercih edilmiştir.",
+        github: "Seeed Studio: SenseCAP T1000-E for Meshtastic",
+        infobox: {
+          "Üretici": "Seeed Studio",
+          "İşlemci (MCU)": "Nordic nRF52840",
+          "LoRa Çipi": "Semtech SX1262",
+          "Sensörler": "Sıcaklık, Işık, İvmeölçer, GNSS",
+          "Şarj Tipi": "Manyetik Pogo-Pin",
+          "Form Faktörü": "Ultra İnce Kart Tipi (IP65)"
+        },
+        seeAlso: ["sensecap-x1", "sx1262", "nrf52840", "tracker"]
+      },
+      {
+        id: "barometric-altitude",
+        en: "Barometric Altitude & Pressure Telemetry",
+        tr: "Barometrik İrtifa ve Basınç Telemetrisi",
+        category: "Entegrasyonlar",
+        lead: "Dahili hava basıncı sensörü (300–1100 hPa) kullanılarak dikey eksendeki yükseklik değişimlerinin santimetre hassasiyetinde ölçülmesi ve telemetri kanalı üzerinden ağa aktarılması.",
+        details: "GPS uyduları yatay düzlemde (enlem/boylam) başarılı olsa da, geometrik uydu dağılımından ötürü dikey eksende (irtifa) ±15-30 metreye varan hatalar yapabilir. SenseCAP X1 gibi entegre barometreli Meshtastic cihazları, atmosferik basınç değişimlerini izleyerek dağcılık, yamaç paraşütü veya bina içi kat tespiti gibi durumlarda çok daha güvenilir bağıl irtifa hesaplar. Bu veriler `TELEMETRY_APP` (Port 67) üzerinden periyodik olarak yayınlanır.",
+        github: "wiki.seeedstudio.com/x1_get_started_for_meshtastic & meshtastic/firmware",
+        infobox: {
+          "Sensör Türü": "Barometre / Atmosferik Basınç",
+          "Ölçüm Aralığı": "300 - 1100 hPa",
+          "Hassasiyet": "Santimetre seviyesinde bağıl irtifa",
+          "Port Numarası": "TELEMETRY_APP (Port 67)",
+          "Kullanım Alanı": "Dağcılık, Arama-Kurtarma, Hava Durumu"
+        },
+        seeAlso: ["sensecap-x1", "telemetry-app", "node-entity-sensors", "dual-band-gnss"]
       }
     ];
 

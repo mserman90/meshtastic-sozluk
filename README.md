@@ -119,6 +119,7 @@ Chirp Spread Spectrum (CSS) teknolojisini kullanarak radyo dalgaları üreten ve
 - **SX1268:** SX1262'nin 433/470 MHz Asya/Avrupa bantlarına optimize edilmiş versiyonu.
 - **SX1276 / SX1278:** Eski nesil, güç tüketimi daha yüksek fakat yaygın kullanılan klasik Semtech LoRa yongaları.
 - **LR1121:** Çift bantlı (Sub-GHz ve 2.4 GHz) çalışan, uydu iletişimine de uygun yeni nesil Semtech telsiz yongası.
+- **LR2021:** Semtech'in ultra düşük güçlü, Sub-GHz (863-928 MHz) ve 2.4 GHz LoRa/FLRC modülasyonlu, -141 dBm alıcı duyarlılığına sahip yeni nesil telsiz çipi (Seeed Studio MeshTracker X1'de kullanılır).
 
 ### 🔹 MCU (Microcontroller Unit - Mikrodenetleyici)
 Meshtastic yazılımını (firmware) ve FreeRTOS işletim sistemini yürüten ana işlemci.
@@ -131,6 +132,9 @@ Lityum pillerin şarjını, deşarj korumasını, voltaj regülatörlerini ve en
 
 ### 🔹 GNSS / GPS Modülü
 Düğümün enlem, boylam, rakım ve hassas uydu zaman bilgisini sağlayan modül (ör. u-blox NEO-6M, NEO-8M, MAX-M10S veya ATGM336H).
+
+### 🔹 Çift Bant GNSS Konumlandırma (Dual-Band L1 + L5 GNSS)
+Standart L1 frekansının yanı sıra modern sivil L5 frekansını eşzamanlı işleyen yeni nesil uydu konumlandırma mimarisi. Kentsel kanyonlarda (bina yansımaları), derin vadilerde ve yoğun ağaç örtüsü altında çok yollu (multipath) sinyal yansımalarını ve iyonosferik sapmaları filtreleyerek metre-altı hassasiyet ve hızlı ilk kilitlenme (TTFF) sağlar.
 
 ### 🔹 Ekran Teknolojileri
 - **OLED ($128 \times 64$):** SSD1306 veya SH1106 sürücülü, karanlıkta net görünen kompakt I2C ekranlar.
@@ -149,6 +153,8 @@ Aşırı sıcak veya dondurucu soğuk hava koşullarında telsiz frekansının k
 - **LilyGO T-Echo:** nRF52840 işlemcili, E-ink ekranlı ve GPS'li taşınabilir el cihazı.
 - **RAKwireless WisBlock (RAK4631 / RAK19007):** Modüler yapılı, güneş paneliyle aylarca çalışabilen profesyonel nRF52840 altyapı donanımı.
 - **LilyGO T-Deck:** Dahili klavyeye, trackball'a ve ekrana sahip, telefonsuz bağımsız kullanılan Meshtastic mesajlaşma cihazı.
+- **SenseCAP MeshTracker X1 (Seeed Studio):** Kredi kartı boyutunda (IP66 su geçirmez), Semtech LR2021 LoRa çipi, çift bant L1+L5 GNSS, dahili barometre, buzzer ve 1100 mAh Li-ion pille donatılmış bağımsız takip cihazı.
+- **SenseCAP Card Tracker T1000-E (Seeed Studio):** nRF52840 ve Semtech SX1262 LoRa telsizine sahip, manyetik pogo-pin şarjlı, ışık ve sıcaklık sensörlü ultra ince kart takip donanımı.
 
 ---
 
@@ -222,6 +228,9 @@ Meshtastic donanımını kontrol etmek, mesajlaşıp harita görüntülemek ve a
 
 ### 🔹 Açık Standart ve Tedarikçi Bağımsızlığı (Open Architecture & Vendor Neutrality)
 Meshtastic'in hiçbir tescilli ticari protokole veya tek bir donanım üreticisine bağımlı kalmamasını sağlayan açık kaynak ekosistem felsefesi (GPL-3.0 lisansı ve açık Protobuf şemaları). Semtech SX1262/SX1276/LR1121 telsizleri ile ESP32, nRF52840 ve RP2040 işlemcili onlarca farklı üreticinin (Heltec, LilyGO, RAKwireless) donanımları tam uyumla birlikte çalışabilir.
+
+### 🔹 UF2 Bootloader ve DFU Modu (Device Firmware Upgrade)
+nRF52840 tabanlı cihazlarda (SenseCAP X1, WisBlock RAK4631, T-Echo vb.) cihazı USB üzerinden bilgisayara harici bir flash sürücüsü gibi bağlayarak `.uf2` firmware dosyalarını sürükle-bırak yöntemiyle veya Web Flasher üzerinden yüklemeyi sağlayan önyükleyici modu. Bluetooth üzerinden (OTA) hatalı güncelleme sonucu cihazın kilitlenmesini (bricking) önler.
 
 ---
 
@@ -308,6 +317,12 @@ ESP32'nin Wi-Fi ve Bluetooth radyolarını dinleme (promiscuous) moduna alarak �
 
 ### 🔹 Detection Sensor Module (Güvenlik ve Hareket Alarmı)
 Karta bağlanan PIR hareket sensörü, manyetik kapı/pencere kontağı veya sarsıntı sensörü tetiklendiğinde otomatik olarak tanımlanan kanala telsiz alarmı basan güvenlik modülü.
+
+### 🔹 Çoklu Buton Eylemleri ve Donanım Durum LED'leri (Multi-Click Controls)
+Ekransız ve klavyesiz Meshtastic takip cihazlarında (SenseCAP MeshTracker X1 vb.) tek bir fiziksel butonla acil durum beacon'ı fırlatma (çift tık), GPS modülünü uykuya alma (üç tık), sesli ikazı kapatma (dört tık) ve güç yönetimi (uzun basış) sağlayan saha kontrol arayüzü.
+
+### 🔹 Barometrik İrtifa ve Basınç Telemetrisi (Barometric Telemetry)
+Dahili hava basıncı sensörü (300–1100 hPa) ile dikey eksendeki yükseklik değişimlerinin santimetre hassasiyetinde ölçülerek `TELEMETRY_APP` (Port 67) üzerinden ağa aktarılması. GPS'in dikey irtifa hata payını kompanse ederek dağcılık ve arama-kurtarma operasyonlarında hassas yükseklik tespiti sağlar.
 
 ---
 
