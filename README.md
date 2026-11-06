@@ -442,6 +442,18 @@ Meshtastic donanımını kontrol etmek, mesajlaşıp harita görüntülemek ve a
 - **İzole Python Ortam Kurulumu (`python-cli-pipx-installation`):** Modern Linux sistemlerinde PEP 668 paket yöneticisi kısıtlamalarını aşmak için `pipx install "meshtastic[cli]"` ile izole ve kararlı sanal çevre kurulumu.
 - **Cihaz Bakım ve Sıfırlama Komutları (`python-cli-maintenance-reset`):** `--reboot` ile yeniden başlatma, `--reset-nodedb` ile şişen düğüm hafızasını temizleme ve `--factory-reset` ile tam NVS fabrika sıfırlaması yapma.
 
+### 🛠️ Meshtastic Python CLI Kurulumu ve Sistem Yapılandırması (meshtastic.org/docs/software/python/cli/installation)
+- **Meshtastic CLI Ekstra Bağımlılıkları (`meshtastic-cli-extra-dependencies`):** Yalın kütüphaneye ek olarak terminal tabloları (`tabulate`), QR kod (`pyqrcode`) ve YAML desteği için paketin `meshtastic[cli]` extras bayrağıyla kurulması şartı.
+- **ZSH Köşeli Parantez Kaçırma Kuralı (`zsh-bracket-globbing-escape`):** macOS ve Linux ZSH kabuğunda `zsh: no matches found: meshtastic[cli]` hatasını önlemek için paket adının tırnak içine (`"meshtastic[cli]"`) alınması gerekliliği.
+- **Linux `dialout` Seri Port İzinleri (`linux-dialout-group-permissions`):** `/dev/ttyUSB0` portlarına sudo olmadan doğrudan erişebilmek için kullanıcının `sudo usermod -a -G dialout $USER` ile yetkilendirilmesi.
+- **ModemManager Seri Port Çakışması ve udev Çözümü (`linux-modemmanager-serial-conflict`):** ModemManager servisinin Meshtastic telsizine AT komutları basıp portu kilitlemesini `/etc/udev/rules.d/` içine `ENV{ID_MM_DEVICE_IGNORE}="1"` yazarak engelleme.
+- **Windows Python PATH Ortam Değişkeni (`windows-python-path-configuration`):** Windows kurulumunda 'Add Python to PATH' unutulduğunda terminalin `meshtastic` komutunu tanımaması ve `%APPDATA%\Python\Scripts` yolunun eklenmesi.
+- **`pipx ensurepath` Otomatik Profil Entegrasyonu (`pipx-ensurepath`):** `pipx` ile kurulan ikili dosyaların `~/.local/bin` yolunu kabuk profillerine (`~/.bashrc`, `~/.zshrc`) otomatik ekleyerek komutu sistem genelinde erişilebilir kılma.
+- **Python Sanal Ortam İzolasyonu (`python-venv-isolation`):** Sistem Python paketlerini bozmadan `python3 -m venv meshtastic-env` ile izole bir klasörde bağımsız CLI çalıştırma standardı.
+- **USB-UART Seri Köprü Sürücüleri (`serial-bridge-chip-drivers`):** ESP32 tabanlı kartların bilgisayar tarafından COM portu olarak tanınabilmesi için gerekli Silicon Labs CP210x ve WCH CH340/CH9102 VCP sürücüleri.
+- **Docker Konteyner ile Meshtastic CLI (`docker-meshtastic-cli`):** Ana makineye hiçbir bağımlılık kurmadan `--device=/dev/ttyUSB0` ile seri portu bağlayıp `meshtastic/meshtastic` resmi Docker imajından komut koşturma.
+- **CLI Kurulum Doğrulama ve Teşhis (`cli-installation-troubleshooting`):** Kurulum sağlığını `meshtastic --version`, yürütülebilir yolunu `which meshtastic` / `where meshtastic` ve aktif portları `meshtastic --port-list` ile test etme adımları.
+
 ### 🔹 Açık Standart ve Tedarikçi Bağımsızlığı (Open Architecture & Vendor Neutrality)
 Meshtastic'in hiçbir tescilli ticari protokole veya tek bir donanım üreticisine bağımlı kalmamasını sağlayan açık kaynak ekosistem felsefesi (GPL-3.0 lisansı ve açık Protobuf şemaları). Semtech SX1262/SX1276/LR1121 telsizleri ile ESP32, nRF52840 ve RP2040 işlemcili onlarca farklı üreticinin (Heltec, LilyGO, RAKwireless) donanımları tam uyumla birlikte çalışabilir.
 

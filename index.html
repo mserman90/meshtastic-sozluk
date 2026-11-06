@@ -4953,6 +4953,168 @@
           "Kullanım": "Performans temizliği, kilitlenme kurtarma ve cihaz teslimi"
         },
         seeAlso: ["meshtastic-python-cli", "flash-erase", "python-cli-export-config"]
+      },
+
+      /* 27. Meshtastic Python CLI Kurulumu ve Sistem Yapılandırması (meshtastic.org/docs/software/python/cli/installation) */
+      {
+        id: "meshtastic-cli-extra-dependencies",
+        en: "Meshtastic CLI Extra Dependencies ('[cli]' Extras)",
+        tr: "Meshtastic CLI Ekstra Bağımlılık Paketi ('[cli]' Extras)",
+        category: "Yazılım & Protobuf",
+        lead: "PyPI üzerindeki temel meshtastic kütüphanesine ek olarak terminal arayüzü, ASCII tablolar, QR kod üretimi ve YAML ayrıştırma yeteneklerini kazandıran isteğe bağlı bağımlılık kümesi ('[cli]').",
+        details: "`pip install meshtastic` komutu yalnızca çekirdek Python API'sini ve Protobuf sınıflarını yükler. Komut satırında zengin düğüm tabloları (`tabulate`), terminal ASCII QR kodları (`pyqrcode`), yayın/abone olayları (`pypubsub`), interaktif terminal kontrolü (`pexpect`) ve YAML konfigürasyon yedeklemesi (`pyyaml`) yapabilmek için paketin `meshtastic[cli]` şeklinde ekstra bağımlılık bayrağıyla kurulması şarttır.",
+        github: "meshtastic/python: pyproject.toml [project.optional-dependencies]",
+        infobox: {
+          "Ekstra Bayrak": "[cli]",
+          "Yüklenen Kütüphaneler": "tabulate, pyqrcode, pypubsub, pexpect, pyyaml, webcolors",
+          "Kurulum": "pipx install 'meshtastic[cli]'",
+          "İşlev": "Zengin terminal arayüzü ve YAML/QR yetenekleri"
+        },
+        seeAlso: ["meshtastic-python-cli", "python-cli-pipx-installation", "python-cli-export-config"]
+      },
+      {
+        id: "zsh-bracket-globbing-escape",
+        en: "ZSH Bracket Globbing Escape ('zsh: no matches found')",
+        tr: "ZSH Köşeli Parantez Kaçırma Uyarısı ('zsh: no matches found')",
+        category: "Yazılım & Protobuf",
+        lead: "macOS ve modern Linux dağıtımlarında varsayılan kabuk olan ZSH'nin, pip install meshtastic[cli] komutundaki köşeli parantezleri dosya arama deseni (globbing) sanarak hata vermesi ve tırnak işaretiyle çözümü.",
+        details: "ZSH kabuğunda köşeli parantezler `[...]` özel joker karakter olarak yorumlanır. Kullanıcı tırnaksız `pip3 install meshtastic[cli]` yazdığında kabuk yerel dizinde bu desene uyan bir dosya arar ve bulamayınca `zsh: no matches found: meshtastic[cli]` hatası fırlatır. Çözüm, paketi çift veya tek tırnak içine alarak (`'meshtastic[cli]'`) kabuğun dosya aramasını engellemek veya `noglob pip3 install ...` önekini kullanmaktır.",
+        github: "meshtastic.org/docs/software/python/cli/installation#prerequisites",
+        infobox: {
+          "Hata Mesajı": "zsh: no matches found: meshtastic[cli]",
+          "Etkilenen Sistemler": "macOS (Varsayılan ZSH), Arch Linux, Fedora",
+          "Çözüm": "Paket adını tırnak içine alma ('meshtastic[cli]')",
+          "Neden": "ZSH dosya arama (globbing) motoru"
+        },
+        seeAlso: ["meshtastic-python-cli", "meshtastic-cli-extra-dependencies"]
+      },
+      {
+        id: "linux-dialout-group-permissions",
+        en: "Linux Serial Port Permissions & 'dialout' Group",
+        tr: "Linux Seri Port İzinleri ve 'dialout' Kullanıcı Grubu",
+        category: "Yazılım & Protobuf",
+        lead: "Linux tabanlı işletim sistemlerinde kullanıcının /dev/ttyUSB0 veya /dev/ttyACM0 seri portlarına her seferinde root (sudo) şifresi girmeden doğrudan erişebilmesi için gerekli kullanıcı grubu yetkilendirmesi.",
+        details: "Linux çekirdeği seri port aygıt düğümlerini varsayılan olarak `root:dialout` (veya Arch/Fedora'da `root:uucp`) sahipliğiyle açar. Standart bir kullanıcı hesabı bu grupta değilse Meshtastic CLI `PermissionError: [Errno 13] Permission denied` hatası verir. `sudo usermod -a -G dialout $USER` komutuyla kullanıcı gruba eklenir; oturum kapatılıp tekrar açıldığında CLI cihaza tam yetkiyle erişir.",
+        github: "meshtastic.org/docs/software/python/cli/installation#linux",
+        infobox: {
+          "Komut": "sudo usermod -a -G dialout $USER",
+          "Hedef Grup": "dialout (Debian/Ubuntu) veya uucp (Arch/Fedora)",
+          "Çözülen Hata": "Permission denied: '/dev/ttyUSB0'",
+          "Gereksinim": "Oturumu kapatıp yeniden açmak"
+        },
+        seeAlso: ["meshtastic-python-cli", "linux-modemmanager-serial-conflict", "python-cli-connection-routes"]
+      },
+      {
+        id: "linux-modemmanager-serial-conflict",
+        en: "Linux ModemManager Serial Port Conflict & udev Rules",
+        tr: "Linux ModemManager Seri Port Kilitleme Çakışması ve udev Çözümü",
+        category: "Yazılım & Protobuf",
+        lead: "Linux masaüstü ortamlarında ModemManager arka plan servisinin Meshtastic telsizini GSM hücresel modemi sanarak porta AT komutları göndermesi, portu kilitlemesi ve CLI erişimini engellemesi sorunu.",
+        details: "Meshtastic kartları USB'ye takıldığında ModemManager seri porta hemen bağlanır ve 'AT' sorgusu göndererek hattı meşgul eder. Bu esnada Python CLI veya web arayüzü cihaza erişemez. Çözüm olarak `/etc/udev/rules.d/50-meshtastic.rules` dosyası oluşturulup içine `ATTRS{idVendor}=='10c4', ENV{ID_MM_DEVICE_IGNORE}='1'` kuralı yazılarak ModemManager'ın LoRa kartlarını tamamen yok sayması sağlanır.",
+        github: "meshtastic.org/docs/software/python/cli/installation#linux",
+        infobox: {
+          "Sorunlu Servis": "ModemManager (Linux GSM/LTE Yönetimi)",
+          "Belirti": "Portun kilitlenmesi, yanıt vermemesi veya 'Device Busy'",
+          "Çözüm Kuralı": "ENV{ID_MM_DEVICE_IGNORE}='1'",
+          "Dosya Yolu": "/etc/udev/rules.d/50-meshtastic.rules"
+        },
+        seeAlso: ["linux-dialout-group-permissions", "meshtastic-python-cli", "serial-bridge-chip-drivers"]
+      },
+      {
+        id: "windows-python-path-configuration",
+        en: "Windows Environment Variables & Python PATH Setup",
+        tr: "Windows Ortam Değişkenleri ve Python PATH Yapılandırması",
+        category: "Yazılım & Protobuf",
+        lead: "Windows üzerinde Python kurulumu sırasında 'Add Python to PATH' seçeneği unutulduğunda terminalde meshtastic veya pip komutlarının tanınmaması sorunu ve çözüm adımları.",
+        details: "Windows Python yükleyicisinde varsayılan olarak PATH ekleme kutusu kapalı gelir. Kurulumdan sonra `pip install meshtastic` çalıştırılsa bile sistem `meshtastic : 'meshtastic' is not recognized` hatası verir. Kullanıcının Windows Ortam Değişkenleri (Environment Variables) paneline giderek `C:\\Python3x\\` ve `%APPDATA%\\Python\\Python3x\\Scripts\\` dizinlerini sistem PATH yoluna manuel olarak eklemesi gerekir.",
+        github: "meshtastic.org/docs/software/python/cli/installation#windows",
+        infobox: {
+          "Hata Mesajı": "'meshtastic' is not recognized as an internal or external command",
+          "Kritik Dizin": "%APPDATA%\\Python\\Scripts\\",
+          "Çözüm": "Python yükleyicisinde 'Add Python to PATH' işaretlemek veya Ortam Değişkenlerine eklemek",
+          "İşletim Sistemi": "Windows 10 & 11"
+        },
+        seeAlso: ["meshtastic-python-cli", "python-cli-pipx-installation"]
+      },
+      {
+        id: "pipx-ensurepath",
+        en: "pipx ensurepath Shell Profile Integration",
+        tr: "pipx ensurepath ve Kullanıcı Dizinine Sembolik Bağlama",
+        category: "Yazılım & Protobuf",
+        lead: "pipx ile kurulan Meshtastic CLI yürütülebilir dosyasının işletim sistemi kabuk profillerine (~/.bashrc, ~/.zshrc) ~/.local/bin yolunu otomatik ekleyerek her terminalde anında çalışmasını sağlayan yapılandırma komutu.",
+        details: "`pipx install 'meshtastic[cli]'` komutu çalıştırıldığında CLI ikili dosyası kullanıcının `~/.local/bin/` dizinine yerleştirilir. Eğer bu dizin kabuk `PATH` değişkeninde tanımlı değilse terminal aracı bulamaz. `pipx ensurepath` komutu kullanıcının `.bashrc`, `.zshrc` veya PowerShell profilini otomatik tespit edip doğru PATH satırını ekler; yeni bir terminal açıldığında `meshtastic` komutu doğrudan çalışır.",
+        github: "meshtastic.org/docs/software/python/cli/installation",
+        infobox: {
+          "Komut": "pipx ensurepath",
+          "Hedef Dizin": "~/.local/bin (Linux/macOS) veya %USERPROFILE%\\.local\\bin (Windows)",
+          "Etkilenen Dosyalar": "~/.bashrc, ~/.zshrc, PowerShell $PROFILE",
+          "İşlev": "Manuel ortam değişkeni düzenleme ihtiyacını ortadan kaldırır"
+        },
+        seeAlso: ["python-cli-pipx-installation", "meshtastic-python-cli"]
+      },
+      {
+        id: "python-venv-isolation",
+        en: "Python Virtual Environment Isolation (python3 -m venv)",
+        tr: "Python Sanal Ortam İzolasyonu (python3 -m venv)",
+        category: "Yazılım & Protobuf",
+        lead: "Sistem genelinde pipx bulunmadığı veya CI/CD ve Docker betiklerinde Meshtastic CLI'nın işletim sistemi Python kütüphanelerinden tamamen yalıtılmış bir dizinde çalıştırılması standardı.",
+        details: "`python3 -m venv meshtastic-env` komutu ile bağımsız bir sanal çevre oluşturulur ve `source meshtastic-env/bin/activate` ile aktif edilir. Bu ortamda çalıştırılan `pip install 'meshtastic[cli]'` komutu sistem paket yöneticisini (apt, dnf, pacman) bozmaz; bağımlılıklar yalnızca proje klasörü içinde tutulur. Otomasyon sunucuları ve test betikleri için en güvenilir yalıtım yöntemidir.",
+        github: "meshtastic.org/docs/software/python/cli/installation",
+        infobox: {
+          "Ortam Oluşturma": "python3 -m venv meshtastic-env",
+          "Aktifleştirme": "source meshtastic-env/bin/activate (Windows: Scripts\\activate)",
+          "Paket Kurulumu": "pip install 'meshtastic[cli]'",
+          "Avantajı": "Sistem Python'ına sıfır müdahale, CI/CD uyumu"
+        },
+        seeAlso: ["python-cli-pipx-installation", "meshtastic-python-cli"]
+      },
+      {
+        id: "serial-bridge-chip-drivers",
+        en: "USB-UART Serial Bridge Drivers (CP210x, CH340, CH9102)",
+        tr: "USB-UART Seri Köprü Çip Sürücüleri: CP210x, CH340, CH9102",
+        category: "Donanım & Çevre Birimleri",
+        lead: "Meshtastic kartlarının bilgisayara USB ile bağlandığında sanal bir COM portu olarak tanınması için gereken Silicon Labs ve WCH üretici sürücüleri.",
+        details: "nRF52840 ve RP2040 kartları yerel USB CDC-ACM protokolüyle sürücüsüz çalışırken; Heltec V3, T-Beam ve klasik ESP32 kartları anakart üzerinde CP2102, CP2104, CH340 veya CH9102 dönüştürücü yongalar barındırır. Windows ve eski macOS sistemlerde bu yongaların Virtual COM Port (VCP) sürücüsü kurulu değilse kart Aygıt Yöneticisi'nde sarı ünlemle kalır ve CLI portu tespit edemez.",
+        github: "meshtastic.org/docs/software/python/cli/installation#serial-drivers",
+        infobox: {
+          "Popüler Çipler": "Silicon Labs CP210x, WCH CH340 / CH341, WCH CH9102",
+          "Yerel CDC-ACM (Sürücüsüz)": "nRF52840, ESP32-S3, RP2040",
+          "İndirme Kaynağı": "Silicon Labs & WCH Resmi Portalları",
+          "İşlev": "USB hattını işletim sistemine UART COM portu olarak tanıtma"
+        },
+        seeAlso: ["cp210x", "ch340-driver", "android-usb-serial-otg"]
+      },
+      {
+        id: "docker-meshtastic-cli",
+        en: "Docker Containerized Meshtastic CLI Execution",
+        tr: "Docker Konteyner ile Meshtastic CLI Çalıştırma",
+        category: "Yazılım & Protobuf",
+        lead: "Ana bilgisayara Python veya sürücü kurmadan, donanım seri portunu doğrudan konteynere aktararak Meshtastic CLI komutlarını izole Docker görüntüsünden çalıştırma yöntemi.",
+        details: "`docker run --rm -it --device=/dev/ttyUSB0 meshtastic/meshtastic --info` komutu ile resmi Docker konteyneri ayağa kaldırılır. Konteyner içinde Python, bağımlılıklar ve `meshtastic[cli]` önceden kurulu gelir. Ana işletim sisteminde bağımlılık kirliliği yaratmak istemeyen Linux sunucu yöneticileri veya Home Assistant altyapıları için tak-çalıştır bir çözüm sunar.",
+        github: "meshtastic/python: Dockerfile",
+        infobox: {
+          "İmaj": "meshtastic/meshtastic (Docker Hub)",
+          "Cihaz Bağlama": "--device=/dev/ttyUSB0 (veya /dev/ttyACM0)",
+          "Çalıştırma": "docker run --rm -it --device=<port> meshtastic/meshtastic <komut>",
+          "Fayda": "Sıfır yerel kurulum, anında taşınabilir CLI ortamı"
+        },
+        seeAlso: ["meshtastic-python-cli", "linux-dialout-group-permissions"]
+      },
+      {
+        id: "cli-installation-troubleshooting",
+        en: "Meshtastic CLI Installation Verification & Troubleshooting",
+        tr: "Meshtastic CLI Kurulum Doğrulama ve Hata Ayıklama",
+        category: "Yazılım & Protobuf",
+        lead: "Kurulumun başarısını teyit etmek, versiyonu doğrulamak ve seri port erişim problemlerini tespit etmek için yürütülen temel teşhis adımları.",
+        details: "Kurulumdan sonra `meshtastic --version` komutu ile güncel sürüm numarası doğrulanır. Eğer komut bulunamıyorsa Linux/macOS'ta `which meshtastic`, Windows'ta `where meshtastic` ile dosya konumu denetlenir. Cihaz takılıyken bağlantı kurulamıyorsa `meshtastic --port-list` veya sistem `dmesg -w` logları izlenerek hangi portun atandığı ve port kilitleyen çakışan servisler (ModemManager vb.) teşhis edilir.",
+        github: "meshtastic.org/docs/software/python/cli/installation#troubleshooting",
+        infobox: {
+          "Sürüm Testi": "meshtastic --version",
+          "Yol Doğrulama": "which meshtastic (Linux) / where meshtastic (Windows)",
+          "Port Teşhisi": "meshtastic --port-list",
+          "Sistem Günlüğü İzleme": "dmesg -w veya Windows Aygıt Yöneticisi"
+        },
+        seeAlso: ["meshtastic-python-cli", "python-cli-pipx-installation", "linux-modemmanager-serial-conflict"]
       }
     ];
 
