@@ -7199,6 +7199,166 @@
           "Faydası": "Ağ yedekliliği korunurken mükerrer bildirim ve otomasyonların önlenmesi"
         },
         seeAlso: ["public-mqtt-server-infrastructure", "serviceenvelope-protobuf-wrapper", "node-red-flow-integration"]
+      },
+      {
+        id: "eclipse-mosquitto-broker",
+        en: "Eclipse Mosquitto MQTT Message Broker",
+        tr: "Eclipse Mosquitto MQTT Mesaj Aracısı (Broker)",
+        category: "Yazılım & İstemciler",
+        lead: "Meshtastic telsiz ağlarında özel ve yerel MQTT geçitleri kurmak için dünya genelinde en çok tercih edilen, C tabanlı hafif açık kaynak mesaj sunucusu.",
+        details: "Eclipse Vakfı tarafından geliştirilen Mosquitto; MQTT v5.0, v3.1.1 ve v3.1 protokol standartlarını destekler. Minimal CPU ve bellek ayak izi sayesinde Raspberry Pi, ev sunucuları, NAS sistemleri veya sahra çadırı dizüstü bilgisayarlarında zahmetsizce 7/24 çalışır. Meshtastic düğümleri için özel bir broker kurulduğunda, genel sunucudaki sekme ve port kısıtlamalarına takılmadan tüm örgü ağı telemetrisi, taktik CoT paketleri ve şifreli metinler yerel ağ içinde tam hızla akar.",
+        github: "meshtastic.org/docs/software/integrations/mqtt/mosquitto",
+        infobox: {
+          "Geliştirici": "Eclipse Foundation",
+          "Protokol Standartları": "MQTT v5.0, v3.1.1, v3.1",
+          "Kaynak Tüketimi": "Düşük RAM (~5-10 MB) ve minimal işlemci yükü",
+          "Meshtastic Uyumu": "Özel kanal, sıfır sekme kısıtsız tam iletim"
+        },
+        seeAlso: ["mosquitto-conf-configuration", "mosquitto-listener-binding", "public-mqtt-server-infrastructure"]
+      },
+      {
+        id: "mosquitto-conf-configuration",
+        en: "Mosquitto Configuration File (mosquitto.conf)",
+        tr: "Mosquitto Yapılandırma Dosyası (mosquitto.conf)",
+        category: "Yapılandırma & Ayarlar",
+        lead: "Mosquitto servisinin dinleyeceği ağ arayüzlerini, yetkilendirme kurallarını, veri saklama (persistence) politikalarını ve TLS sertifikalarını yöneten ana yapılandırma dosyası.",
+        details: "Linux/Debian sistemlerde `/etc/mosquitto/mosquitto.conf`, macOS sistemlerde ise Homebrew dizininde (`/usr/local/etc/mosquitto/mosquitto.conf` veya `/opt/homebrew/etc/...`) yer alır. Mosquitto v2.0+ sürümlerinde güvenlik nedeniyle sunucu varsayılan olarak yalnızca yerel makineyi (127.0.0.1) dinler. Meshtastic Wi-Fi düğümlerinin bağlanabilmesi için bu dosyaya `listener 1883 0.0.0.0` ve `allow_anonymous true` yönergelerinin eklenmesi gerekir.",
+        github: "meshtastic.org/docs/software/integrations/mqtt/mosquitto",
+        infobox: {
+          "Linux Yolu": "/etc/mosquitto/mosquitto.conf",
+          "macOS Yolu": "/usr/local/etc/mosquitto/mosquitto.conf",
+          "Kritik Direktifler": "listener 1883 0.0.0.0, allow_anonymous true",
+          "Servis Yenileme": "systemctl restart mosquitto / brew services restart"
+        },
+        seeAlso: ["mosquitto-listener-binding", "mosquitto-allow-anonymous", "eclipse-mosquitto-broker"]
+      },
+      {
+        id: "mosquitto-listener-binding",
+        en: "Mosquitto Network Listener Interface Binding (listener 1883 0.0.0.0)",
+        tr: "Mosquitto Ağ Dinleyici Arayüz Eşlemesi (listener 1883 0.0.0.0)",
+        category: "Yapılandırma & Ayarlar",
+        lead: "Mosquitto sunucusunun yalnızca localhost yerine tüm yerel ağ (LAN/Wi-Fi) IP adreslerinden gelen telsiz bağlantılarını kabul etmesini sağlayan dinleyici direktifi.",
+        details: "Mosquitto 2.0 sürümünden itibaren güvenliği sıkılaştırmak için dinleyici açıkça belirtilmediğinde soket yalnızca `127.0.0.1` döngü arayüzüne kilitlenir. Bu durumda aynı Wi-Fi ağındaki ESP32 veya RAK4631 Meshtastic telsizi sunucuya bağlanamaz ve bağlantı reddedilir (`ECONNREFUSED`). Yapılandırma dosyasına `listener 1883 0.0.0.0` satırı eklendiğinde servis, cihazın tüm ağ kartlarına bağlanarak sahadaki tüm telsizlerin IP paketlerini dinlemeye başlar.",
+        github: "meshtastic.org/docs/software/integrations/mqtt/mosquitto",
+        infobox: {
+          "Direktif": "listener 1883 0.0.0.0",
+          "Port Numarası": "1883 (Standart MQTT TCP)",
+          "Ağ Maskesi": "0.0.0.0 (Tüm yerel IP arayüzleri ve Wi-Fi)",
+          "Önemi": "Harici Meshtastic cihazlarının broker'a erişebilmesi için zorunludur"
+        },
+        seeAlso: ["mosquitto-conf-configuration", "mosquitto-firewall-port-1883", "eclipse-mosquitto-broker"]
+      },
+      {
+        id: "mosquitto-allow-anonymous",
+        en: "Mosquitto Anonymous Authentication Mode (allow_anonymous)",
+        tr: "Mosquitto Anonim Kimlik Doğrulama Modu (allow_anonymous)",
+        category: "Yapılandırma & Ayarlar",
+        lead: "Özel MQTT sunucusuna bağlanacak Meshtastic cihazlarının kullanıcı adı ve şifre girmeksizin bağlantı kurup kuramayacağını belirleyen erişim direktifi.",
+        details: "Mosquitto'da `allow_anonymous true` olarak ayarlandığında, istemciler herhangi bir kimlik doğrulaması olmadan konulara abone olabilir ve mesaj basabilir. Bu mod, kapalı yerel ağlarda, acil durum laboratuvar testlerinde ve hızlı kurulumlarda büyük kolaylık sağlar. Güvenlik gerektiren sahra operasyonlarında ise `allow_anonymous false` yapılarak `password_file` direktifiyle telsiz düğümlerine özel kullanıcı adı ve şifreler atanması tavsiye edilir.",
+        github: "meshtastic.org/docs/software/integrations/mqtt/mosquitto",
+        infobox: {
+          "Ayar": "allow_anonymous true | false",
+          "Varsayılan Değer": "false (Mosquitto 2.0+ sürümlerinde)",
+          "Test Kolaylığı": "Şifresiz tak-çalıştır telsiz testleri sağlar",
+          "Üretim Önerisi": "Güvenli ağlar için mosquitto_passwd ile şifreli parola dosyası"
+        },
+        seeAlso: ["mosquitto-conf-configuration", "mosquitto-listener-binding", "public-mqtt-server-infrastructure"]
+      },
+      {
+        id: "mosquitto-sub-cli",
+        en: "Mosquitto Subscriber CLI Utility (mosquitto_sub)",
+        tr: "Mosquitto Abone Komut Satırı Aracı (mosquitto_sub)",
+        category: "Yazılım & İstemciler",
+        lead: "Belirtilen MQTT konularını terminal üzerinden canlı dinleyerek Meshtastic telsizlerinden gelen telemetri, konum ve metin paketlerini anlık inceleyen komut satırı aracı.",
+        details: "`mosquitto-clients` paketiyle gelen bu araç, ağ yöneticisinin en önemli hata ayıklama aracıdır. `mosquitto_sub -h localhost -t 'msh/#' -v` komutuyla telsizlerin basmakta olduğu tüm ham Protobuf veya JSON paketleri terminale akar. Gelen paketlerin başlıkları, kullanıcı kimlikleri ve zaman damgaları anında doğrulanarak telsizin Wi-Fi/MQTT köprüsünün sağlıklı çalışıp çalışmadığı tespit edilir.",
+        github: "meshtastic.org/docs/software/integrations/mqtt/mosquitto",
+        infobox: {
+          "Komut": "mosquitto_sub -h <host> -t <topic> [-v]",
+          "Kullanım Amacı": "Meshtastic MQTT veri akışını terminalden canlı izleme",
+          "Örnek Konular": "msh/#, msh/+/2/json/#, test/hello",
+          "Çıktı": "Gelen yükler ve detaylı konu başlıkları"
+        },
+        seeAlso: ["mosquitto-pub-cli", "local-mqtt-loopback-verification", "mqtt-json-topic-serialization"]
+      },
+      {
+        id: "mosquitto-pub-cli",
+        en: "Mosquitto Publisher CLI Utility (mosquitto_pub)",
+        tr: "Mosquitto Yayıncı Komut Satırı Aracı (mosquitto_pub)",
+        category: "Yazılım & İstemciler",
+        lead: "Terminalden MQTT sunucusuna test mesajları basarak geçit telsizine veya abone istemcilere veri gönderimini test eden komut satırı aracı.",
+        details: "`mosquitto_pub -h localhost -q 0 -t 'test/hello' -m 'yo!'` komutuyla sunucunun mesaj alıp dağıtma yeteneği sınanır. Ayrıca Meshtastic'in JSON downlink konusuna (`msh/US/2/json/mqtt/`) JSON formatında `sendtext` veya `sendposition` komutları basılarak, sahadaki telsizlerin harici bir betik tarafından komut satırından tetiklenmesi ve RF havaya mesaj basması sağlanabilir.",
+        github: "meshtastic.org/docs/software/integrations/mqtt/mosquitto",
+        infobox: {
+          "Komut": "mosquitto_pub -h <host> -t <topic> -m <mesaj> [-q 0|1|2]",
+          "Kullanım Amacı": "Mesaj enjeksiyonu ve broker dağıtım testi",
+          "Meshtastic Enjeksiyonu": "msh/REGION/2/json/mqtt/ konusuna downlink basma",
+          "QoS Desteği": "QoS 0 (en fazla bir kez), QoS 1 (en az bir kez), QoS 2"
+        },
+        seeAlso: ["mosquitto-sub-cli", "mqtt-json-downlink-injection", "local-mqtt-loopback-verification"]
+      },
+      {
+        id: "raspberry-pi-mosquitto-server",
+        en: "Raspberry Pi Dedicated Mosquitto Gateway Server",
+        tr: "Raspberry Pi Özel Mosquitto Ağ Geçidi Sunucusu",
+        category: "Donanım",
+        lead: "Raspberry Pi tek kart bilgisayarlarında Debian Bookworm üzerinde 7/24 çalışan bağımsız, düşük güç tüketimli yerel Meshtastic MQTT sunucusu kurulumu.",
+        details: "Sahra harekat merkezlerinde, dağ kulübelerinde veya ev istasyonlarında internet olmasa bile yerel bir Wi-Fi erişim noktasıyla (AP) çalışan Raspberry Pi, `sudo apt-get install mosquitto mosquitto-clients` ile tam teşekküllü bir MQTT sunucusuna dönüştürülür. `systemd` servisi (`sudo systemctl enable mosquitto`) olarak yapılandırılan servis, elektrik kesintilerinde cihaz yeniden başladığında otomatik devreye girer. Bu sayede sahadaki tüm Meshtastic Wi-Fi düğümleri Pi'nin IP'sine bağlanarak yerel harita ve telemetri sunucusunu besler.",
+        github: "meshtastic.org/docs/software/integrations/mqtt/mosquitto",
+        infobox: {
+          "İşletim Sistemi": "Raspberry Pi OS (Debian 12 Bookworm)",
+          "Paketler": "mosquitto, mosquitto-clients",
+          "Servis Yöneticisi": "systemd (systemctl start/enable mosquitto)",
+          "Kullanım": "7/24 kesintisiz sahra geçidi, yerel LAN MQTT merkezi"
+        },
+        seeAlso: ["eclipse-mosquitto-broker", "mosquitto-conf-configuration", "mpwrd-os"]
+      },
+      {
+        id: "macos-homebrew-mosquitto-service",
+        en: "macOS Homebrew Mosquitto Background Service",
+        tr: "macOS Homebrew Mosquitto Arka Plan Servisi",
+        category: "Yazılım & İstemciler",
+        lead: "Apple macOS işletim sisteminde Homebrew paket yöneticisi ile Mosquitto broker'ının kurulması ve `brew services` ile arka plan servisi olarak yönetilmesi.",
+        details: "macOS üzerinde geliştirme ve test yapan mühendisler için `brew install mosquitto` komutuyla kurulur. Servis, macOS'in `launchd` altyapısını kullanan `brew services restart mosquitto` komutuyla arka planda başlatılır ve kullanıcı oturumu açıldığında otomatik çalıştırılır. Yapılandırma dosyası `/usr/local/etc/mosquitto/mosquitto.conf` veya Apple Silicon işlemcilerde `/opt/homebrew/etc/mosquitto/mosquitto.conf` dizinindedir.",
+        github: "meshtastic.org/docs/software/integrations/mqtt/mosquitto",
+        infobox: {
+          "Paket Yöneticisi": "Homebrew (brew install mosquitto)",
+          "Servis Komutu": "brew services start/restart/stop mosquitto",
+          "Sistem Katmanı": "macOS launchd Daemon",
+          "Dizin": "/usr/local/etc/mosquitto veya /opt/homebrew/etc/mosquitto"
+        },
+        seeAlso: ["eclipse-mosquitto-broker", "mosquitto-conf-configuration", "mosquitto-firewall-port-1883"]
+      },
+      {
+        id: "mosquitto-firewall-port-1883",
+        en: "Mosquitto TCP Port 1883 Host Firewall Configuration",
+        tr: "Mosquitto TCP Port 1883 Sunucu Güvenlik Duvarı Yapılandırması",
+        category: "Yapılandırma & Ayarlar",
+        lead: "İşletim sistemi güvenlik duvarlarında (macOS Firewall, Linux UFW/iptables) 1883 numaralı gelen TCP portunun açılarak Meshtastic telsiz bağlantılarına izin verilmesi.",
+        details: "Mosquitto dinleyicisi `0.0.0.0` olarak ayarlansa dahi, işletim sisteminin yerel güvenlik duvarı gelen paketleri engelleyebilir. macOS sistemlerde 'Sistem Tercihleri > Güvenlik ve Gizlilik > Güvenlik Duvarı Seçenekleri' altından Mosquitto uygulamasına gelen bağlantılara izin verilmelidir. Linux sistemlerde ise `sudo ufw allow 1883/tcp` komutu verilerek yerel ağdaki Meshtastic geçit düğümlerinin zaman aşımına (timeout) uğramadan broker'a bağlanması sağlanır.",
+        github: "meshtastic.org/docs/software/integrations/mqtt/mosquitto",
+        infobox: {
+          "Ağ Portu": "1883 TCP (Standart MQTT)",
+          "Linux Kuralı": "sudo ufw allow 1883/tcp",
+          "macOS Kuralı": "Security & Privacy -> Firewall Options -> Allow Mosquitto",
+          "Belirti": "Kapalı olduğunda telsiz 'MQTT connection failed' hatası verir"
+        },
+        seeAlso: ["mosquitto-listener-binding", "mosquitto-conf-configuration", "eclipse-mosquitto-broker"]
+      },
+      {
+        id: "local-mqtt-loopback-verification",
+        en: "Local MQTT Loopback Verification and Diagnostic Workflow",
+        tr: "Yerel MQTT Döngüsel Doğrulama ve Teşhis İş Akışı",
+        category: "Kullanım Kılavuzları & Pratik Senaryolar",
+        lead: "Telsiz donanımını broker'a bağlamadan önce, `mosquitto_sub` ve `mosquitto_pub` araçlarıyla sunucunun mesaj alıp dağıttığını doğrulayan adım adım test yöntemi.",
+        details: "Meshtastic ağ geçidi yapılandırmalarında en sık karşılaşılan sorunları önlemek için uygulanan standart teşhis yöntemidir. Birinci konsolda `mosquitto_sub -t test/hello` başlatılır; ikinci konsolda `mosquitto_pub -h localhost -q 0 -t test/hello -m 'yo!'` fırlatılır. Mesaj abone konsolunda anında görünürse sunucu çekirdeğinin ve soket dinleyicisinin kusursuz çalıştığı kesinleşir. Bu aşamadan sonra Meshtastic cihazının `mqtt.address` ayarına sunucunun yerel LAN IP'si girilerek telsiz entegrasyonu tamamlanır.",
+        github: "meshtastic.org/docs/software/integrations/mqtt/mosquitto",
+        infobox: {
+          "Adım 1": "mosquitto_sub -t test/hello (Dinleyiciyi başlat)",
+          "Adım 2": "mosquitto_pub -h localhost -q 0 -t test/hello -m 'yo!' (Test yükü fırlat)",
+          "Beklenen Sonuç": "Yükün anında ekrana düşmesi (Zero packet loss)",
+          "Amacı": "Telsizden önce sunucu katmanındaki tüm ağ sorunlarını izole etme"
+        },
+        seeAlso: ["mosquitto-sub-cli", "mosquitto-pub-cli", "eclipse-mosquitto-broker"]
       }
     ];
 

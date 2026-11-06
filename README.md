@@ -610,6 +610,18 @@ Meshtastic donanımını kontrol etmek, mesajlaşıp harita görüntülemek ve a
 - **Düğüm Kimliği Onaltılık-Ondalık Dönüşümü (`node-id-hex-decimal-conversion`):** 32-bit telsiz kimliklerinin hex (`!7efeee00`) ile tam sayı ondalık (`2130636288`) arasındaki ikili dönüşüm standardı.
 - **Çoklu Geçitli Ağlarda MQTT Tekilleştirmesi (`multi-gateway-mqtt-deduplication`):** Aynı telsiz hücresinde birden fazla internet geçidi olduğunda kopya mesajların paket `id` değeriyle ayıklanması.
 
+### 🦟 Eclipse Mosquitto MQTT Sunucu Dağıtımı (meshtastic.org/docs/software/integrations/mqtt/mosquitto)
+- **Eclipse Mosquitto Mesaj Aracısı (`eclipse-mosquitto-broker`):** Meshtastic telsizleri için özel yerel ağ geçidi sunucusu sağlayan C tabanlı hafif, açık kaynak MQTT broker mimarisi.
+- **Mosquitto Yapılandırma Dosyası (`mosquitto-conf-configuration`):** Dinleyici soketleri, yetkilendirme ve sistem ayarlarını yöneten `/etc/mosquitto/mosquitto.conf` ana metin dosyası.
+- **Ağ Dinleyici Arayüz Eşlemesi (`mosquitto-listener-binding`):** Broker'ın yalnızca yerel makine yerine tüm Wi-Fi/LAN IP arayüzlerini dinlemesini sağlayan `listener 1883 0.0.0.0` direktifi.
+- **Anonim Kimlik Doğrulama Modu (`mosquitto-allow-anonymous`):** Sahadaki Meshtastic telsizlerinin şifresiz hızlı bağlanmasını veya parola zorunluluğunu belirleyen `allow_anonymous` parametresi.
+- **Mosquitto Abone Komut Satırı Aracı (`mosquitto-sub-cli`):** Terminalden telsiz paketlerini ve `msh/#` konularını canlı izlemeyi sağlayan `mosquitto_sub` teşhis ve dinleme aracı.
+- **Mosquitto Yayıncı Komut Satırı Aracı (`mosquitto-pub-cli`):** Sunucu testleri ve telsizlere terminalden downlink mesaj basma olanağı tanıyan `mosquitto_pub` komut satırı istemcisi.
+- **Raspberry Pi Özel Mosquitto Sunucusu (`raspberry-pi-mosquitto-server`):** Debian Bookworm üzerinde `systemd` servisi olarak çalışan 7/24 kesintisiz düşük güçlü sahra MQTT geçidi kurulumu.
+- **macOS Homebrew Mosquitto Servisi (`macos-homebrew-mosquitto-service`):** Apple macOS üzerinde Homebrew ve `brew services` ile Mosquitto'nun arka plan servisi olarak yönetimi.
+- **TCP Port 1883 Güvenlik Duvarı Yapılandırması (`mosquitto-firewall-port-1883`):** macOS Güvenlik Duvarı veya Linux `ufw` üzerinde 1883 TCP portunu açarak telsiz bağlantı engellerini kaldırma.
+- **Yerel MQTT Döngüsel Doğrulama İş Akışı (`local-mqtt-loopback-verification`):** Telsiz bağlanmadan önce `mosquitto_sub` ve `mosquitto_pub` ile sunucunun çalıştığını kanıtlayan döngüsel test yöntemi.
+
 ### 🔹 Açık Standart ve Tedarikçi Bağımsızlığı (Open Architecture & Vendor Neutrality)
 Meshtastic'in hiçbir tescilli ticari protokole veya tek bir donanım üreticisine bağımlı kalmamasını sağlayan açık kaynak ekosistem felsefesi (GPL-3.0 lisansı ve açık Protobuf şemaları). Semtech SX1262/SX1276/LR1121 telsizleri ile ESP32, nRF52840 ve RP2040 işlemcili onlarca farklı üreticinin (Heltec, LilyGO, RAKwireless) donanımları tam uyumla birlikte çalışabilir.
 
