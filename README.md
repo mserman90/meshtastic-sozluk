@@ -562,6 +562,18 @@ Meshtastic donanımını kontrol etmek, mesajlaşıp harita görüntülemek ve a
 - **Betik Tabanlı Ağ Trafiği Enjeksiyonu (`scripted-mesh-traffic-injection`):** Harici Python veya bash betikleriyle eşzamanlı olarak düğüm portlarına yoğun mesaj basarak CSMA/CA bekleme sürelerini ve kuyruk taşmalarını stres testine tabi tutma.
 - **Simülasyon Sonlandırma ve Süreç Temizliği (`interactivesim-process-cleanup`):** `Ctrl+C` veya SIGINT sinyaliyle açılan tüm alt süreçleri, Docker konteynerlerini ve TCP soketlerini temizleyerek port kilitlenmelerini önleyen kapanış mekanizması.
 
+### 🔗 Yazılım Entegrasyonları ve Harici Platformlar (meshtastic.org/docs/software/integrations)
+- **CalTopo & SARTopo Arama Kurtarma Entegrasyonu (`caltopo-sartopo-integration`):** Doğal afetlerde ve arama-kurtarma operasyonlarında sahadaki timlerin GPS konumlarını USB üzerinden CalTopo Desktop haritalarına anlık aktaran taktik entegrasyon.
+- **Seri Modül CALTOPO Modu (`serial-module-caltopo-mode`):** Cihazın seri portunu (`serial.mode CALTOPO`, 9600 baud) standart NMEA/APRS hedef konum akışına dönüştürerek üçüncü parti haritalarla tak-çalıştır bağlayan donanım modu.
+- **ATAK & WinTAK Cursor-on-Target (CoT) Köprüsü (`atak-wintak-cot-bridge`):** Askeri ve sivil taktik durum farkındalık ağlarında personelin canlı konumunu (PLI), GeoChat mesajlarını ve harita işaretçilerini internet olmadan LoRa üzerinden ileten köprü.
+- **Yerleşik TAK Sunucusu (`native-tak-server-in-app`):** Meshtastic v2.8.0+ uygulamalarında harici forwarder eklentisine gerek kalmadan yerel `127.0.0.1:8089` portunda çalışan sıfır kurulumlu mTLS TAK sunucusu.
+- **Home Assistant MQTT Entegrasyonu (`home-assistant-mqtt-integration`):** Düğümlerin pil seviyelerini, BME280 çevresel telemetrilerini ve kanal doluluklarını Home Assistant panellerine dinamik varlık (sensor/tracker) olarak aktarma mimarisi.
+- **Node-RED Akış Tabanlı IoT Entegrasyonu (`node-red-flow-integration`):** Görsel akış editörü üzerinden Meshtastic MQTT konularını dinleyip Telegram botları, acil SOS webhook'ları ve otomatik SMS alarmları tetikleyen görsel entegrasyon.
+- **Adafruit IO Bulut Gösterge Panelleri (`adafruit-io-cloud-dashboards`):** Sahadaki düğümlerin sıcaklık, nem, hava kalitesi ve batarya durumlarını MQTT ile Adafruit IO bulut panolarına aktararak uzaktan gerçek zamanlı izleme çözümü.
+- **MQTT JSON ve Protobuf Veri Biçimi Karşılaştırması (`mqtt-json-vs-protobuf-export`):** Düşük bant genişlikli ikili Protobuf (`msh/2/c/...`) ile Home Assistant uyumlu açık metin JSON (`msh/2/json/...`) arasındaki mimari seçim ve nRF52 bellek kısıtı.
+- **APRS Seri Konum ve İşaretçi Veri Akışı (`aprs-serial-waypoint-stream`):** Telsizin diğer düğümlerden duyduğu koordinatları denizcilik/havacılık NMEA 0183 (`$GPWPL`) ve APRS formatında seri porta basarak Garmin GPS ve marin çizicilerde gösterme protokolü.
+- **Taktik Konum Bilgisi (PLI) & GeoChat Mesajlaşması (`emergency-geochat-and-pli`):** GSM şebekelerinin çöktüğü kriz anlarında arama timlerinin canlı GPS takibini ve şifreli harita içi taktik mesajlaşmasını sağlayan CoT veri standardı.
+
 ### 🔹 Açık Standart ve Tedarikçi Bağımsızlığı (Open Architecture & Vendor Neutrality)
 Meshtastic'in hiçbir tescilli ticari protokole veya tek bir donanım üreticisine bağımlı kalmamasını sağlayan açık kaynak ekosistem felsefesi (GPL-3.0 lisansı ve açık Protobuf şemaları). Semtech SX1262/SX1276/LR1121 telsizleri ile ESP32, nRF52840 ve RP2040 işlemcili onlarca farklı üreticinin (Heltec, LilyGO, RAKwireless) donanımları tam uyumla birlikte çalışabilir.
 

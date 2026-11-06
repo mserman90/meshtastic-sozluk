@@ -6559,6 +6559,166 @@
           "Güvenlik": "İşletim sistemi kaynaklarının eksiksiz serbest bırakılması"
         },
         seeAlso: ["interactivesim-py", "dockerized-mesh-simulation", "per-node-tcp-port-allocation"]
+      },
+      {
+        id: "caltopo-sartopo-integration",
+        en: "CalTopo & SARTopo Search and Rescue Integration",
+        tr: "CalTopo & SARTopo Arama Kurtarma Harita Entegrasyonu",
+        category: "Yazılım & İstemciler",
+        lead: "Arama-kurtarma (SAR) ekipleri tarafından kullanılan CalTopo ve SARTopo haritalama yazılımlarının Meshtastic düğümlerinden gelen GPS konumlarını canlı izlemesini sağlayan taktik entegrasyon.",
+        details: "İnternet veya hücresel şebekenin bulunmadığı vahşi doğa ve dağlık afet bölgelerinde görev yapan arama kurtarma timleri için geliştirilmiştir. Telsiz cihazı USB seri port üzerinden bilgisayara bağlanır; Meshtastic cihazındaki `serial` modülü NMEA/APRS standartlarında konum paketleri basar. CalTopo Desktop uygulaması 'Shared Locations' katmanında tüm sahadaki tim üyelerini, arama köpeklerini ve baz istasyonlarını gerçek zamanlı topografik harita üzerinde gösterir.",
+        github: "meshtastic.org/docs/software/integrations/caltopo",
+        infobox: {
+          "Uygulamalar": "CalTopo Desktop / SARTopo Offline",
+          "Kullanıcı Profili": "Arama-Kurtarma (SAR) timleri, afet koordinasyon merkezleri, AKUT/AFAD",
+          "Haberleşme": "USB Seri Port (Baud: 9600)",
+          "Veri Formatı": "NMEA / APRS konum cümleleri"
+        },
+        seeAlso: ["serial-module-caltopo-mode", "aprs-serial-waypoint-stream", "position-app"]
+      },
+      {
+        id: "serial-module-caltopo-mode",
+        en: "Serial Module CALTOPO Mode Configuration",
+        tr: "Seri Modül CALTOPO Modu Yapılandırması",
+        category: "Yazılım & İstemciler",
+        lead: "Meshtastic donanımının seri portunu (UART/USB) CalTopo Desktop yazılımının anlayacağı APRS uyumlu NMEA akışına dönüştüren cihaz ayar modu.",
+        details: "`meshtastic --set serial.enabled true --set serial.mode CALTOPO --set serial.baud BAUD_9600` komutuyla etkinleştirilir. Normal Protobuf ikili seri akışını devre dışı bırakıp yerine `$GPRMC` ve standart APRS telsiz konum dizgileri basar. Bilgisayar tarafında CalTopo Desktop üzerinde 'Add -> APRS/Serial' seçilerek ilgili COM portu seçildiğinde, telsizin havadan duyduğu tüm dost düğümler anında haritada birer işaretçi (waypoint) olarak belirir.",
+        github: "meshtastic.org/docs/software/integrations/caltopo",
+        infobox: {
+          "Ayar Parametreleri": "serial.enabled: true, serial.mode: CALTOPO, serial.baud: BAUD_9600",
+          "Protokol Çıkışı": "Düz metin NMEA 0183 / APRS Telsiz Formatı",
+          "Donanım Desteği": "Tüm USB/UART özellikli Meshtastic cihazları (ESP32, nRF52, RP2040)",
+          "İşlev": "Protobuf yerine harici haritalarla tak-çalıştır seri uyumluluk"
+        },
+        seeAlso: ["caltopo-sartopo-integration", "python-cli-device-settings", "aprs-serial-waypoint-stream"]
+      },
+      {
+        id: "atak-wintak-cot-bridge",
+        en: "ATAK & WinTAK Cursor-on-Target (CoT) Mesh Bridge",
+        tr: "ATAK & WinTAK Cursor-on-Target (CoT) Taktik Ağ Köprüsü",
+        category: "Yazılım & İstemciler",
+        lead: "Askeri ve sivil acil durum taktik durum farkındalık sistemleri olan ATAK ve WinTAK uygulamalarının Meshtastic örgü ağı üzerinden koordinat, hedef ve sohbet paylaşmasını sağlayan veri köprüsü.",
+        details: "Cursor on Target (CoT) XML veri paketlerini Meshtastic'in düşük bant genişlikli LoRa paket formatına sıkıştırarak iletir. Dost birlik konum bilgisi (PLI - Position Location Information), GeoChat telsiz mesajlaşması, acil durum 9-Line tahliye talepleri ve taktik harita çizimleri (çember, çizgi, rota) internete bağımlı kalmadan kilometrelerce ötedeki takım üyelerine anında aktarılır.",
+        github: "meshtastic.org/docs/software/integrations/atak",
+        infobox: {
+          "Uyumlu Sistemler": "ATAK (Android), WinTAK (Windows), iTAK (iOS), CivTAK",
+          "Protokol": "Cursor on Target (CoT) XML / Protobuf sıkıştırması",
+          "Taşınan Veriler": "PLI (Konum), GeoChat (Mesaj), Harita işaretçileri, Acil durum çağrıları",
+          "Kullanım": "Taktik operasyonlar, sınır devriyeleri, afet arama-kurtarma"
+        },
+        seeAlso: ["native-tak-server-in-app", "emergency-geochat-and-pli", "atak"]
+      },
+      {
+        id: "native-tak-server-in-app",
+        en: "Native Embedded TAK Server in Meshtastic Apps",
+        tr: "Meshtastic Uygulamalarında Yerleşik TAK Sunucusu",
+        category: "Yazılım & İstemciler",
+        lead: "Meshtastic mobil ve masaüstü uygulamalarına entegre edilen, harici bir eklenti veya sunucu gerektirmeden yerel `127.0.0.1:8089` portunda çalışan mTLS TAK sunucusu.",
+        details: "Eski sürümlerde ATAK ile telsiz arasında ayrı bir 'Meshtastic ATAK Forwarder Plugin' kurulması ve karmaşık Android AIDL servisleri bağlanması gerekiyordu. Meshtastic v2.8.0+ ile birlikte doğrudan telefon içinde hafif bir TAK sunucusu devreye alınmıştır. ATAK uygulamasının 'Network Connections' ayarlarından `127.0.0.1:8089` (SSL/TCP) sunucusu seçildiğinde, telsiz ile ATAK saniyeler içinde sıfır konfigürasyonla çift yönlü veri akışına başlar.",
+        github: "meshtastic.org/docs/software/integrations/atak",
+        infobox: {
+          "Sunucu Adresi": "127.0.0.1 (Localhost) Port: 8089",
+          "Protokol": "TCP Stream with TLS / mTLS Güvenliği",
+          "Gereksinim": "Harici eklenti gerekmez (Zero-plugin architecture)",
+          "Sürüm": "Meshtastic 2.8.0 ve üzeri mobil/masaüstü istemciler"
+        },
+        seeAlso: ["atak-wintak-cot-bridge", "android-atak-cot-integration", "cot"]
+      },
+      {
+        id: "home-assistant-mqtt-integration",
+        en: "Home Assistant MQTT Mesh Integration",
+        tr: "Home Assistant MQTT Akıllı Ev & Düğüm Entegrasyonu",
+        category: "Yazılım & İstemciler",
+        lead: "Meshtastic düğümlerinin batarya seviyeleri, GPS konumları, telemetri sensörleri ve kanal kullanım oranlarının Home Assistant panellerine dinamik varlıklar (entities) olarak aktarılması.",
+        details: "Wi-Fi veya Ethernet özellikli bir Meshtastic düğümü, yerel ağdaki Home Assistant Mosquitto MQTT brokerına bağlanır. Düğümün duyduğu tüm örgü ağ telemetrisi (BME280 sıcaklık, nem, basınç, voltaj) ve 'Device Tracker' konumları Home Assistant panosunda otomatik sensörlere dönüşür. Kullanıcılar çatıdaki rölenin bataryası %20'nin altına düştüğünde telefonuna bildirim gönderme veya mesh üzerinden gelen acil durum mesajıyla siren çalma gibi otomasyonlar kurabilir.",
+        github: "meshtastic.org/docs/software/integrations/mqtt#home-assistant",
+        infobox: {
+          "Platform": "Home Assistant (Core / OS / Supervised)",
+          "Bağlantı": "MQTT Broker (Mosquitto) & MQTT Discovery",
+          "Oluşturulan Varlıklar": "Sensörler (Pil, SNR, Sıcaklık), Device Tracker (GPS), Switch/Notify",
+          "Kısıt": "JSON formatı nRF52'de bellek yetersizliği nedeniyle çalışmaz; ESP32/Linux önerilir"
+        },
+        seeAlso: ["mqtt-json-vs-protobuf-export", "node-red-flow-integration", "mqtt"]
+      },
+      {
+        id: "node-red-flow-integration",
+        en: "Node-RED Flow-Based Visual IoT Integration",
+        tr: "Node-RED Akış Tabanlı Görsel IoT Entegrasyonu",
+        category: "Yazılım & İstemciler",
+        lead: "Node-RED görsel programlama arayüzü ile Meshtastic MQTT konularını dinleyip gelişmiş mantıksal kurallar, SMS/Telegram botları ve otomatik alarmlar tetikleme mimarisi.",
+        details: "Node-RED içinde bir `mqtt in` düğümüyle Meshtastic konuları (`msh/2/c/...` veya `msh/2/json/...`) dinlenir. Gelen JSON yükleri görsel akış düğümleriyle ayrıştırılarak hava kalitesi tehlikeli seviyeye çıktığında Telegram grubuna mesaj atılabilir, bir afet bölgesinden acil SOS konumu düştüğünde itfaiye sunucusuna webhook fırlatılabilir veya harici API'lerden alınan hava durumu metin olarak telsiz ağına anons edilebilir.",
+        github: "meshtastic.org/docs/software/integrations/mqtt#node-red",
+        infobox: {
+          "Arayüz": "Node-RED Flow Editor (Web Tabanlı)",
+          "Girdi Konuları": "msh/2/json/# (JSON) veya msh/2/c/# (Protobuf ikili akış)",
+          "Çıkış Entegrasyonları": "Telegram, SMS Gateway, REST API, Webhook, Discord",
+          "Avantaj": "Kod yazmadan dakikalar içinde karmaşık acil durum otomasyonu kurma"
+        },
+        seeAlso: ["home-assistant-mqtt-integration", "adafruit-io-cloud-dashboards", "mqtt"]
+      },
+      {
+        id: "adafruit-io-cloud-dashboards",
+        en: "Adafruit IO Cloud Telemetry & Dashboards",
+        tr: "Adafruit IO Bulut Telemetri & Gösterge Panelleri",
+        category: "Yazılım & İstemciler",
+        lead: "Meshtastic düğümlerinin çevresel sensör verilerini ve pil durumlarını Adafruit IO bulut platformuna MQTT üzerinden aktararak internet üzerinden erişilebilir grafik panoları oluşturma çözümü.",
+        details: "Evinde veya sahrada internete bağlı bir ağ geçidi (gateway) düğümü olan kullanıcılar; Adafruit IO kullanıcı adı ve AIO Key bilgilerini girerek sıcaklık, nem, hava basıncı ve batarya voltajını bulut beslemelerine (`feeds`) yönlendirir. Adafruit IO'nun mobil uyumlu widget'ları sayesinde sahadaki sensör düğümlerinin durumları dünyanın her yerinden anlık grafiklerle izlenebilir.",
+        github: "meshtastic.org/docs/software/integrations/mqtt#adafruit-io",
+        infobox: {
+          "Bulut Sağlayıcı": "Adafruit IO (io.adafruit.com)",
+          "Protokol": "MQTT over SSL / TLS (Port 8883)",
+          "Veri Tipleri": "BME280/680 telemetrisi, pil yüzdesi, hava kalitesi, kanal doluluğu",
+          "Kullanım": "Uzaktan çevre izleme, tarımsal sensör takibi ve hava durumu istasyonları"
+        },
+        seeAlso: ["home-assistant-mqtt-integration", "node-red-flow-integration", "telemetry-app"]
+      },
+      {
+        id: "mqtt-json-vs-protobuf-export",
+        en: "MQTT JSON vs Protobuf Payload Architecture",
+        tr: "MQTT JSON ve Protobuf Veri Biçimi Karşılaştırması",
+        category: "Ağ & Protokol",
+        lead: "Meshtastic MQTT köprüsünde kullanılan hafif ikili Protobuf formatı ile harici IoT sistemlerinin kolayca okuduğu açık metin JSON formatı arasındaki mimari seçim.",
+        details: "Meshtastic varsayılan olarak telsiz bant genişliğini korumak için Google Protobuf ikili formatını kullanır (`msh/2/c/...`). Ancak Home Assistant ve Node-RED gibi sistemler için `mqtt.json_enabled: true` açılarak insan tarafından okunabilir JSON akışı (`msh/2/json/...`) üretilebilir. Kritik donanım farkı: JSON serileştirme yüksek RAM tükettiği için nRF52 tabanlı yongalarda (T-Echo, RAK4631) desteklenmez; yalnızca ESP32 ve Linux tabanlı SBC düğümlerinde çalıştırılabilir.",
+        github: "meshtastic.org/docs/software/integrations/mqtt",
+        infobox: {
+          "Protobuf Boyutu": "Çok küçük (Birkaç bayt, telsiz ve hücresel veri dostu)",
+          "JSON Boyutu": "Büyük (Açık metin anahtar-değer çiftleri, kolay entegrasyon)",
+          "Donanım Desteği (JSON)": "ESP32 & Linux (Destekler), nRF52 (Yetersiz RAM / Desteklemez)",
+          "Konu Ayrımı": "msh/2/c/... (Protobuf) vs msh/2/json/... (JSON)"
+        },
+        seeAlso: ["home-assistant-mqtt-integration", "buf-protobuf-ts-generator", "mqtt"]
+      },
+      {
+        id: "aprs-serial-waypoint-stream",
+        en: "APRS Serial Waypoint Data Stream",
+        tr: "APRS Seri Konum ve İşaretçi Veri Akışı",
+        category: "Radyo Frekans & Anten",
+        lead: "Meshtastic telsizinin seri port üzerinden NMEA 0183 uyumlu `$GPWPL` ve APRS hedef konum dizgileri üreterek harici GPS cihazları ve deniz/hava haritalarıyla haberleşmesini sağlayan akış.",
+        details: "Telsiz ağındaki diğer düğümler periyodik konum paketi gönderdiğinde, baz istasyonu konum paketini çözerek seri porta standart denizcilik/havacılık NMEA işaretçi cümlesi (örneğin `$GPWPL,4101.23,N,02858.45,E,NODE1*hh`) olarak yazar. Bu standart akış; Garmin el GPS'leri, denizcilik harita çizicileri (chartplotters) ve amatör telsiz APRS TNC terminalleri tarafından anında haritada canlı nokta olarak çizilir.",
+        github: "meshtastic.org/docs/software/integrations/caltopo",
+        infobox: {
+          "Protokol Standardı": "NMEA 0183 ($GPWPL / $GPRMC) ve APRS TNC Cümleleri",
+          "Donanım Uyumu": "Garmin GPS, marin chartplotter, amatör telsiz TNC, CalTopo Desktop",
+          "İletim Yolu": "RS232 / UART / USB Seri Port",
+          "Fayda": "Özel yazılımlara gerek kalmadan evrensel harita aygıtlarında konum izleme"
+        },
+        seeAlso: ["serial-module-caltopo-mode", "caltopo-sartopo-integration", "position-app"]
+      },
+      {
+        id: "emergency-geochat-and-pli",
+        en: "Tactical Position Location Information (PLI) & GeoChat",
+        tr: "Taktik Konum Bilgisi (PLI) & GeoChat Mesajlaşması",
+        category: "Ağ & Protokol",
+        lead: "ATAK/WinTAK taktik durum farkındalık ağlarında her personelin canlı konumunu (PLI) ve harita üzeri şifreli coğrafi mesajlarını (GeoChat) Meshtastic üzerinden taşıyan acil durum protokolü.",
+        details: "Deprem, sel veya operasyonel tatbikatlarda telefon şebekeleri çöktüğünde personelin nerede olduğunu ve nereye ilerlediğini bilmek hayati önem taşır. Meshtastic CoT köprüsü; personelin GPS koordinatlarını ve baktığı yönü (Heading) belirli aralıklarla sıkıştırılmış PLI paketi olarak LoRa üzerinden fırlatır. Ekipler birbirlerine harita üzerinde dokunarak doğrudan 'GeoChat' mesajı gönderebilir; mesajlar telsizden telsize sekerek kriz merkezindeki haritada anlık güncellenir.",
+        github: "meshtastic.org/docs/software/integrations/atak",
+        infobox: {
+          "Bileşenler": "PLI (Position Location Information) & GeoChat (CoT Messaging)",
+          "Kullanım Alanı": "Acil durum arama timleri, dağ kurtarma, taktik birlikler",
+          "Gereksinim": "Sıfır internet, sıfır GSM şebekesi (Tamamen yerel telsiz ağı)",
+          "Güvenlik": "256-bit AES şifreli kanal ile dinlemeye karşı tam koruma"
+        },
+        seeAlso: ["atak-wintak-cot-bridge", "native-tak-server-in-app", "cot"]
       }
     ];
 
