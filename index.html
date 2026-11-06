@@ -3,9 +3,64 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Meshtastic Vikipedi — Özgür Yazılım ve Donanım Terimleri Sözlüğü</title>
-  <meta name="description" content="Meshtastic açık kaynaklı şebekesiz (off-grid) LoRa örgüsel telsiz ağı için kapsamlı Türkçe-İngilizce teknik ansiklopedi ve terimler sözlüğü.">
+  <title>Meshtastic Vikipedi — Özgür LoRa Yazılım ve Donanım Terimleri Sözlüğü (Türkçe-İngilizce)</title>
+  <meta name="description" content="Meshtastic açık kaynaklı şebekesiz (off-grid) LoRa örgüsel telsiz ağı için kapsamlı Türkçe-İngilizce ansiklopedik yazılım ve donanım terimleri sözlüğü. SX1262, ESP32, nRF52840, Protobuf ve ağ protokolleri rehberi.">
+  <meta name="keywords" content="meshtastic, meshtastic türkiye, lora, lora terimleri, sx1262, nrf52840, esp32 meshtastic, off-grid iletişim, mesh network, telsiz haberleşme, protobuf, t-beam, heltec v3, afet haberleşmesi, kesintisiz iletişim, sözlük, wikipedia, telsiz sözlüğü">
+  <meta name="author" content="Meshtastic Türkiye Topluluğu">
+  <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
+  <link rel="canonical" href="https://mserman90.github.io/meshtastic-sozluk/">
+
+  <!-- Google Search Console Doğrulama Meta Etiketi -->
+  <!-- Google Search Console'dan aldığınız doğrulama kodunu content alanına ekleyebilirsiniz -->
+  <meta name="google-site-verification" content="MESHTASTIC_SOZLUK_GSC_VERIFICATION">
+
+  <!-- Open Graph / Facebook / Discord / WhatsApp -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://mserman90.github.io/meshtastic-sozluk/">
+  <meta property="og:site_name" content="Meshtastic Vikipedi">
+  <meta property="og:title" content="Meshtastic Vikipedi — Türkçe-İngilizce Terimler Sözlüğü">
+  <meta property="og:description" content="Meshtastic açık kaynaklı şebekesiz (off-grid) LoRa örgüsel telsiz ağı için kapsamlı ansiklopedik teknik sözlük.">
+  <meta property="og:image" content="https://mserman90.github.io/meshtastic-sozluk/og-image.svg">
+  <meta property="og:image:alt" content="Meshtastic Türkçe Sözlük ve Ansiklopedi">
+  <meta property="og:locale" content="tr_TR">
+  <meta property="og:locale:alternate" content="en_US">
+
+  <!-- Twitter Cards -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Meshtastic Vikipedi — Türkçe-İngilizce Terimler Sözlüğü">
+  <meta name="twitter:description" content="Açık kaynaklı şebekesiz LoRa örgüsel telsiz ağı yazılım ve donanım terimleri ansiklopedisi.">
+  <meta name="twitter:image" content="https://mserman90.github.io/meshtastic-sozluk/og-image.svg">
+
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='45' fill='%232a4b8d'/><path d='M30 50 L50 30 L70 50 L50 70 Z' fill='none' stroke='white' stroke-width='6'/><circle cx='50' cy='30' r='8' fill='%2367c23a'/><circle cx='30' cy='50' r='8' fill='%2367c23a'/><circle cx='70' cy='50' r='8' fill='%2367c23a'/><circle cx='50' cy='70' r='8' fill='%2367c23a'/></svg>">
+
+  <!-- Schema.org Yapılandırılmış Veri (JSON-LD) -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "WebSite",
+        "@id": "https://mserman90.github.io/meshtastic-sozluk/#website",
+        "url": "https://mserman90.github.io/meshtastic-sozluk/",
+        "name": "Meshtastic Vikipedi — Türkçe-İngilizce Terimler Sözlüğü",
+        "description": "Meshtastic açık kaynaklı şebekesiz (off-grid) LoRa örgüsel telsiz ağı için kapsamlı Türkçe-İngilizce teknik ansiklopedi ve terimler sözlüğü.",
+        "inLanguage": "tr",
+        "potentialAction": {
+          "@type": "SearchAction",
+          "target": "https://mserman90.github.io/meshtastic-sozluk/?q={search_term_string}",
+          "query-input": "required name=search_term_string"
+        }
+      },
+      {
+        "@type": "DefinedTermSet",
+        "@id": "https://mserman90.github.io/meshtastic-sozluk/#terms",
+        "name": "Meshtastic Yazılım ve Donanım Terimleri Sözlüğü",
+        "description": "LoRa, CSS, SX1262, nRF52840, Flood Routing, Protobufs gibi Meshtastic ekosistem terimlerinin Türkçe ve İngilizce karşılıkları.",
+        "inLanguage": ["tr", "en"]
+      }
+    ]
+  }
+  </script>
   <style>
     :root {
       --wiki-bg: #ffffff;
@@ -1533,6 +1588,16 @@
       totalTermCount.textContent = DICTIONARY_DATA.length;
       setupCategories();
       setupAlphabetNav();
+
+      // URL arama parametresi kontrolü (?q=...)
+      const urlParams = new URLSearchParams(window.location.search);
+      const queryParam = urlParams.get("q");
+      if (queryParam) {
+        currentSearchTerm = queryParam.trim().toLowerCase();
+        searchInput.value = queryParam;
+        searchClear.style.display = "block";
+      }
+
       renderEntries();
 
       // URL hash kontrolü (örn: #sx1262)

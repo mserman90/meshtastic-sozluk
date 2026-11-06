@@ -221,6 +221,16 @@ Bir Meshtastic cihazının, kilometrelerce ötedeki diğer bir cihazın GPIO pin
 
 ---
 
+## 🔍 SEO ve Arama Motoru Optimizasyonu (Google Settings)
+Bu sözlük Google, Yandex ve Bing gibi arama motorlarında indekslenecek şekilde tam uyumlu yapılandırılmıştır:
+- **Site Haritası:** [sitemap.xml](https://mserman90.github.io/meshtastic-sozluk/sitemap.xml)
+- **Tarama Kuralları:** [robots.txt](https://mserman90.github.io/meshtastic-sozluk/robots.txt)
+- **Sosyal Medya & Önizleme:** Open Graph & Twitter Cards (`og-image.svg`)
+- **Yapılandırılmış Veri:** Schema.org (`WebSite`, `SearchAction`, `DefinedTermSet`)
+- **Google Search Console Doğrulaması:** `index.html` içerisindeki `<meta name="google-site-verification" ...>` etiketi ile tek adımda mülk doğrulaması yapılabilir.
+
+---
+
 ## 🤝 Katkıda Bulunma
 Sözlüğe yeni terimler, çip modelleri veya Türkçe açıklamalar eklemek için bir Pull Request açabilir veya Issue oluşturabilirsiniz.
 
