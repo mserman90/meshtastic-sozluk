@@ -514,6 +514,18 @@ Meshtastic donanımını kontrol etmek, mesajlaşıp harita görüntülemek ve a
 - **MiniLoader Başlatma Mimarisi (`rockchip-miniloader-execution`):** İşlemcinin dahili SRAM'ine gönderilerek harici DDR RAM kontrolcüsünü ve yüksek hızlı USB 2.0 arayüzünü devreye sokan ilk aşama önyükleyici ikilisi (`MiniLoaderAll.bin`).
 - **Rockchip Sürücü Asistanı ve Bağlantı Teşhisi (`rockchip-driverassistant-troubleshooting`):** Windows'ta Maskrom modunu tanımak için `rockusb.sys` sürücüsü kurulumu; veri hattı olmayan 2 telli şarj kabloları ve USB 3.0 port kararsızlıklarına karşı sorun giderme adımları.
 
+### 🗺️ Meshtastic Saha Planlayıcısı & RF Kapsama Simülasyonu (site.meshtastic.org)
+- **Meshtastic Saha Planlayıcısı (`meshtastic-site-planner`):** Gerçek coğrafi yükselti verileriyle LoRa düğümlerinin kapsama alanını, sinyal yayılımını ve bağlantı kalitesini sunucuya ihtiyaç duymadan tarayıcıda simüle eden resmi açık kaynaklı RF planlama platformu (`site.meshtastic.org`).
+- **SPLAT! & ITWOM WebAssembly Motoru (`splat-itwom-wasm-engine`):** Tarihi C tabanlı SPLAT! ve Longley-Rice düzensiz arazi yayılım algoritmasını Web Workers ve Wasm ile doğrudan istemci bilgisayarında çalıştıran paralel hesaplama motoru.
+- **NASA SRTM Dinamik Yükselti Akışı (`srtm-elevation-tiles-streaming`):** AWS Open Data üzerinden 30 metrelik küresel SRTM topoğrafya kiremitlerini anlık indirip tarayıcı önbelleğinde saklayan dinamik yükselti katmanı.
+- **Fresnel Bölgesi Açıklığı & Kırınım (`fresnel-zone-clearance`):** İki düğüm arasındaki 1. Fresnel elipsoidinin en az %60'ının karasal engellerden arındırılmış olmasını doğrulayan ve faz iptali sönümlenmesini önleyen geometrik analiz.
+- **Alıcı Duyarlılık Eşiği Modellemesi (`receiver-sensitivity-threshold`):** LongFast (-130 dBm) ve LongSlow (-137 dBm) modem profillerine göre hesaplanan RSSI değerinin kapsama sınırını belirleyen dinamik hassasiyet eşiği.
+- **Anten Yerden Yüksekliği Modellemesi (`antenna-height-above-ground`):** Anten direk yüksekliğinin (AGL - Above Ground Level) yerel binaları aşma, Fresnel açıklığını temizleme ve radyo ufkunu geometrik olarak genişletme etkisinin modellenmesi.
+- **Renk Kodlu RSSI Isı Haritası (`rssi-heatmap-visualization`):** Simüle edilen sinyal güçlerini güçlü bağlantı (>-110 dBm), orta kalite (-110 ila -125 dBm) ve sınır kapsama (-125 ila -130 dBm) bölgelerine göre renklendiren harita katmanı.
+- **Çoklu Düğüm Kapsama Katmanlama (`multi-node-mesh-coverage-stacking`):** Birden fazla röle ve verici sahasını birleştirerek şehir genelindeki kolektif örgü ağ kapsamasını, yedekliliği ve kör noktaları (dead zones) analiz etme yöntemi.
+- **Noktadan Noktaya Yükselti Kesit Grafiği (`link-profile-elevation-graph`):** Verici ve alıcı arasındaki karasal yükseltiyi, Dünya küreselliğini ve optik görüş hattını (LOS) 2 boyutlu kesit olarak çizerek engel sırtlarını gösteren grafik.
+- **EIRP & Yasal Güç Sınırı Modellemesi (`eirp-effective-radiated-power`):** Simülasyonda TX gücü, anten dBi kazancı ve kablo kaybını birleştirerek Türkiye/AB (868 MHz / 25 mW) veya ABD (915 MHz / 1W) yasal sınırlarına uygun gerçekçi menzil hesaplama.
+
 ### 🔹 Açık Standart ve Tedarikçi Bağımsızlığı (Open Architecture & Vendor Neutrality)
 Meshtastic'in hiçbir tescilli ticari protokole veya tek bir donanım üreticisine bağımlı kalmamasını sağlayan açık kaynak ekosistem felsefesi (GPL-3.0 lisansı ve açık Protobuf şemaları). Semtech SX1262/SX1276/LR1121 telsizleri ile ESP32, nRF52840 ve RP2040 işlemcili onlarca farklı üreticinin (Heltec, LilyGO, RAKwireless) donanımları tam uyumla birlikte çalışabilir.
 

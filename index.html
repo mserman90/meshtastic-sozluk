@@ -5918,6 +5918,166 @@
           "Teşhis Adımı": "Aygıt Yöneticisi altında 'Rockusb Device' kontrolü"
         },
         seeAlso: ["flasher-rockchip-flash-tool", "maskrom-mode-hardware-trigger", "serial-bridge-chip-drivers"]
+      },
+      {
+        id: "meshtastic-site-planner",
+        en: "Meshtastic Site Planner (site.meshtastic.org)",
+        tr: "Meshtastic Saha Planlayıcısı (site.meshtastic.org)",
+        category: "Yazılım & İstemciler",
+        lead: "Gerçek coğrafi yükselti verilerini kullanarak LoRa düğümlerinin kapsama alanını, sinyal yayılımını ve bağlantı kalitesini tarayıcıda simüle eden resmi açık kaynaklı RF planlama platformu.",
+        details: "Doğrudan `site.meshtastic.org` adresinden çalışan bu araç; kullanıcıların tepe, çatı veya kulelere kurmayı planladığı rölelerin koordinatlarını, anten yüksekliklerini ve LoRa çıkış güçlerini girerek renk kodlu kapsama ısı haritaları üretmesini sağlar. Hiçbir sunucuya veri göndermeden tamamen istemci tarafında (Wasm) hesaplama yapar; kör noktaları tespit etmeye ve örgü ağ genişleme stratejisini optimize etmeye yarar.",
+        github: "github.com/meshtastic/meshtastic-site-planner",
+        infobox: {
+          "Canlı Erişim": "site.meshtastic.org",
+          "Mimari": "WebAssembly (Wasm) + Web Workers (Tamamen İstemci Taraflı)",
+          "Hesaplama Modeli": "SPLAT! / ITWOM (Longley-Rice Irregular Terrain Model)",
+          "Temel Çıktı": "Renk kodlu RSSI kapsama ısı haritası ve arazi kesit profili"
+        },
+        seeAlso: ["splat-itwom-wasm-engine", "rf-propagation-tools", "rssi-heatmap-visualization"]
+      },
+      {
+        id: "splat-itwom-wasm-engine",
+        en: "SPLAT! & ITWOM WebAssembly Engine",
+        tr: "SPLAT! & ITWOM WebAssembly Hesaplama Motoru",
+        category: "Yazılım & İstemciler",
+        lead: "Telsiz yayılımı ve arazi kayıplarını hesaplayan C tabanlı tarihi SPLAT!/ITWOM algoritmasının WebAssembly teknolojisiyle modern web tarayıcılarına taşınmış yüksek başarımlı motoru.",
+        details: "John A. Magliacane (KD2BD) tarafından geliştirilen açık kaynaklı SPLAT! yazılımı ve Longley-Rice düzensiz arazi modeli (ITWOM), Emscripten ile WebAssembly ikililerine derlenmiştir. Tarayıcının ana arayüz iş parçacığını dondurmamak için Web Workers havuzuna dağıtılır. Dağ, vadi, atmosferik kırılma ve troposferik saçılma faktörlerini paralel çekirdeklerde saniyeler içinde hesaplayarak ham RF kayıp matrisini çıkarır.",
+        github: "github.com/meshtastic/meshtastic-site-planner",
+        infobox: {
+          "Temel Algoritma": "Longley-Rice ITM / ITWOM (Irregular Terrain with Obstacle Model)",
+          "Teknoloji": "C/C++ -> WebAssembly (Wasm) + Web Workers API",
+          "Hesaplama Yeri": "Kullanıcının yerel bilgisayarı / tarayıcısı (Sıfır Sunucu Maliyeti)",
+          "Faktörler": "Karasal engeller, Dünya eğriliği, atmosferik kırılma, kırınım (diffraction)"
+        },
+        seeAlso: ["meshtastic-site-planner", "srtm-elevation-tiles-streaming", "fresnel-zone-clearance"]
+      },
+      {
+        id: "srtm-elevation-tiles-streaming",
+        en: "NASA SRTM Dynamic Elevation Tiles Streaming",
+        tr: "NASA SRTM Dinamik Yükselti Verisi Akış Mimarisi",
+        category: "Yazılım & İstemciler",
+        lead: "Kullanıcının gigabaytlarca ham harita dosyası indirmesine gerek kalmadan, simüle edilen bölgenin arazi topoğrafyasını AWS Open Data üzerinden anlık olarak akıtan veri katmanı.",
+        details: "NASA'nın Shuttle Radar Topography Mission (SRTM) projesinden elde edilen 30 metrelik (1 ark-saniye) küresel yükseklik verileri, AWS üzerinde barındırılan harita kiremitlerine (tiles) bölünmüştür. Site Planner haritada seçilen koordinat ve simülasyon menziline (`Maximum Range`) göre yalnızca gerekli kiremitleri HTTP üzerinden indirir ve tarayıcının IndexedDB hafızasında önbelleğe alır. Böylece anında milimetrik arazi simülasyonu başlatılabilir.",
+        github: "meshtastic.org/docs/software/site-planner/#getting-started",
+        infobox: {
+          "Veri Kaynağı": "NASA SRTM (Shuttle Radar Topography Mission) via AWS Open Data",
+          "Çözünürlük": "1 Arc-Second (~30 metre karasal çözünürlük)",
+          "Önbellekleme": "Tarayıcı CacheStorage & IndexedDB",
+          "Avantaj": "Manuel HGT/DEM dosyası indirme ve yükleme zorunluluğunun kalkması"
+        },
+        seeAlso: ["meshtastic-site-planner", "splat-itwom-wasm-engine", "link-profile-elevation-graph"]
+      },
+      {
+        id: "fresnel-zone-clearance",
+        en: "Fresnel Zone Clearance & Obstacle Diffraction",
+        tr: "Fresnel Bölgesi Açıklığı & Karasal Kırınım Hesabı",
+        category: "Radyo Frekans & Anten",
+        lead: "İki LoRa telsiz düğümü arasındaki elipsoit şeklindeki elektromanyetik enerji hacminin (1. Fresnel Bölgesi) arazi tepeleri veya binalar tarafından kesintiye uğramama oranı.",
+        details: "Telsiz haberleşmesinde yalnızca doğrudan görüş hattı (LOS) yetmez; verici ile alıcı arasındaki ilk Fresnel elipsoidinin en az %60'ının karasal engellerden arındırılmış olması gerekir. Tepe, ağaç veya yapıların bu bölgeye girmesi sinyal fazını bozarak (yıkıcı girişim) zayıflamaya (Fresnel kaybı) yol açar. Site Planner, bağlantı analizinde arazi profilinin bu bölgeyi ihlal edip etmediğini yeşil/kırmızı uyarılarla kullanıcıya gösterir.",
+        github: "meshtastic.org/docs/software/site-planner/",
+        infobox: {
+          "Kritik Sınır": "1. Fresnel Bölgesi en az %60 temiz olmalıdır (60% Clearance)",
+          "Etki": "Engeller sinyalde faz iptaline ve çok yollu (multipath) sönümlenmeye yol açar",
+          "Formül": "r = 8.656 * sqrt(d / (4 * f)) metre cinsinden yarıçap",
+          "Kullanım": "Kuleler ve röleler arası nokta-nokta (PTP) omurga hattı doğrulama"
+        },
+        seeAlso: ["meshtastic-site-planner", "link-profile-elevation-graph", "antenna-height-above-ground"]
+      },
+      {
+        id: "receiver-sensitivity-threshold",
+        en: "Receiver Sensitivity Threshold Modeling",
+        tr: "Alıcı Duyarlılık Eşiği Modellemesi (-130 dBm ~ -137 dBm)",
+        category: "Radyo Frekans & Anten",
+        lead: "Meshtastic modem profillerinin (LongFast, MediumFast vb.) zayıf sinyalleri demodüle edebilme sınırını belirleyen ve kapsama haritasının sınır çizgilerini çizen eşik değeri.",
+        details: "Varsayılan `LongFast` kanal modunda Semtech SX1262 telsizinin gürültü tabanı ve demodülasyon duyarlılığı yaklaşık `-130 dBm` seviyesindedir. `LongSlow` veya `VeryLongSlow` profillerinde bu sınır `-137 dBm`'e kadar inebilir. Site Planner simülasyonunda alıcı duyarlılığı girildiğinde, hesaplanan RSSI değerinin bu eşiğin altına düştüğü alanlar kapsama dışı (beyaz/boş) olarak bırakılır ve düğümün gerçek iletişim sınırları netleşir.",
+        github: "meshtastic.org/docs/software/site-planner/#receiver-parameters",
+        infobox: {
+          "Varsayılan Eşik (LongFast)": "-130 dBm",
+          "Genişletilmiş Eşik (LongSlow)": "-137 dBm",
+          "Doğrudan Etkileyen": "Spreading Factor (SF), Bant Genişliği (BW) ve Kodlama Oranı (CR)",
+          "İşlev": "Kapsama haritasının uç noktalarını ve sınır konturlarını belirleme"
+        },
+        seeAlso: ["meshtastic-site-planner", "spreading-factor", "rssi-heatmap-visualization"]
+      },
+      {
+        id: "antenna-height-above-ground",
+        en: "Antenna Height Above Ground (AGL Modeling)",
+        tr: "Anten Yerden Yüksekliği Modellemesi (AGL / Direk Boyu)",
+        category: "Radyo Frekans & Anten",
+        lead: "Antenin kurulduğu zemin seviyesinden itibaren direk, bina veya kule yüksekliğinin (AGL - Above Ground Level) sinyal menzili ve görüş hattı üzerindeki dönüştürücü etkisi.",
+        details: "LoRa frekanslarında (868 MHz / 915 MHz) sinyal menzilini belirleyen en kritik parametre çıkış gücünden ziyade anten yüksekliğidir. Site Planner üzerinde anten boyu 2 metreden (el cihazı) 15 metreye (çatı direği) çıkarıldığında; yerel binaların gölgelemesi aşılır, 1. Fresnel bölgesi temizlenir ve kapsama alanı geometrik olarak genişler. Simülatör, direk boyunun menzile kazandırdığı avantajı anlık olarak haritada görselleştirir.",
+        github: "meshtastic.org/docs/software/site-planner/#site--transmitter-parameters",
+        infobox: {
+          "Kısaltma": "AGL (Above Ground Level - Yerden Yükseklik)",
+          "Birim": "Metre (m)",
+          "RF Etkisi": "Karasal gölgelemeyi aşma ve radyo ufkunu (Radio Horizon) genişletme",
+          "Kullanım": "Çatı direği, kule veya dağ zirvesi kurulum optimizasyonu"
+        },
+        seeAlso: ["meshtastic-site-planner", "fresnel-zone-clearance", "lora-antenna-principles"]
+      },
+      {
+        id: "rssi-heatmap-visualization",
+        en: "Color-Coded RSSI Heatmap Visualization",
+        tr: "Renk Kodlu RSSI Isı Haritası Görselleştirmesi",
+        category: "Yazılım & İstemciler",
+        lead: "Site Planner tarafından simüle edilen radyo sinyal güçlerinin alıcı konumlarında beklenen desibel değerlerine (dBm) göre renklendirilmiş dinamik harita katmanı.",
+        details: "Hesaplanan yayılım matrisini sezgisel bir renk skalasıyla sunar: Yeşil ve mavi tonları (>-110 dBm) yüksek güçlü ve güvenilir sinyal alanlarını; sarı ve turuncu tonları (-110 dBm ila -125 dBm) orta kalite sınır bölgesini; koyu kırmızı tonları (-125 dBm ila -130 dBm) ise marjinal/paket kaybı yaşanabilecek sınır kapsama bölgelerini simgeler. Kullanıcı opacity ve renk paleti ayarlarıyla sokak haritası üzerinde zayıf noktaları hızla analiz eder.",
+        github: "meshtastic.org/docs/software/site-planner/#understanding-the-coverage-results",
+        infobox: {
+          "Güçlü Bağlantı": "> -110 dBm (Yeşil / Mavi)",
+          "Orta Bağlantı": "-110 dBm ile -125 dBm (Sarı / Turuncu)",
+          "Sınır Kapsama": "-125 dBm ile -130 dBm (Kırmızı)",
+          "Görsel Katman": "Leaflet / MapLibre tabanlı şeffaf raster katman"
+        },
+        seeAlso: ["meshtastic-site-planner", "receiver-sensitivity-threshold", "rssi"]
+      },
+      {
+        id: "multi-node-mesh-coverage-stacking",
+        en: "Multi-Node Mesh Coverage Stacking",
+        tr: "Çoklu Düğüm Kapsama Katmanlama & Örgü Ağ Analizi",
+        category: "Ağ & Protokol",
+        lead: "Birden fazla verici sahasını ve röle noktasını aynı çalışma alanına ekleyerek şehir genelindeki kolektif örgü ağ kapsamasını ve yedeklilik seviyesini modelleme tekniği.",
+        details: "Tek bir düğüm simülasyonu yerine, Site Planner içinde birden fazla 'Site' profili (örneğin Merkez Röle, Kuzey Kule, Güney Çatı) tanımlanabilir. Harita motoru her bir düğümün ısı haritasını katmanlayarak birleştirir (composite coverage). Böylece hangi mahallelerin çift düğüm kapsamasında olduğu, hangi vadilerde kör nokta (dead zone) kaldığı ve yeni bir tekrarlayıcının (repeater) nereye konuşlandırılması gerektiği stratejik olarak belirlenir.",
+        github: "meshtastic.org/docs/software/site-planner/",
+        infobox: {
+          "Analiz Türü": "Kolektif Örgü Kapsama ve Kör Nokta Tespiti",
+          "Yöntem": "Çoklu verici haritalarının mantıksal birleşimi (Union / Max RSSI)",
+          "Amaç": "Şehir veya bölge çapında optimum röle konumlandırma",
+          "Kullanıcılar": "Topluluk ağ yöneticileri, AFAD/AKUT telsiz timleri, kriz merkezleri"
+        },
+        seeAlso: ["meshtastic-site-planner", "rssi-heatmap-visualization", "repeater"]
+      },
+      {
+        id: "link-profile-elevation-graph",
+        en: "Point-to-Point Link Profile & Elevation Cross-Section",
+        tr: "Noktadan Noktaya Bağlantı Profili & Yükselti Kesit Grafiği",
+        category: "Yazılım & İstemciler",
+        lead: "İki koordinat arasında bir doğru çizerek yeryüzü kabuğunu, dağ silsilelerini, anten görüş hattını ve Dünya küreselliğini 2 boyutlu kesit olarak çizen analiz aracı.",
+        details: "Site Planner'da 'Link' moduna geçildiğinde; verici ve alıcı arasına çekilen hattın altındaki yükseklik verileri taranır. X ekseninde kilometre, Y ekseninde denizden yükseklik (rakım) gösterilen dinamik bir grafik çizilir. Optik görüş çizgisi (Line of Sight - LOS) ve 1. Fresnel bölgesi elipsi grafik üzerinde gösterilir; böylece sinyali hangi tepenin veya sırtın bloke ettiği (ve antenin kaç metre yükseltilmesi gerektiği) milimetrik olarak anlaşılır.",
+        github: "meshtastic.org/docs/software/site-planner/",
+        infobox: {
+          "Arayüz": "2 Boyutlu Yükselti Kesit Grafiği (Elevation Profile)",
+          "Görselleştirilen Unsurlar": "Zemin topoğrafyası, Dünya küreselliği eğrisi, LOS hattı, Fresnel elipsi",
+          "Kullanım": "Röleler arası omurga (backbone) linklerinin fiziksel fizibilitesi",
+          "Çözüm Önerisi": "Grafik üzerinden direkt engel yüksekliği ölçümü"
+        },
+        seeAlso: ["fresnel-zone-clearance", "srtm-elevation-tiles-streaming", "meshtastic-site-planner"]
+      },
+      {
+        id: "eirp-effective-radiated-power",
+        en: "EIRP & Regional Legal Power Modeling in Site Planner",
+        tr: "EIRP (Eşdeğer İzotropik Işıma Gücü) & Yasal Limit Modellemesi",
+        category: "Radyo Frekans & Anten",
+        lead: "Site Planner'da verici gücü (dBm), anten kazancı (dBi) ve kablo kaybının (dB) birleştirilerek yerel yasal sınırlara uygun gerçek ışıma gücünün hesaplanması.",
+        details: "Simülasyonun doğruluğu yasal EIRP hesaplamasına dayanır: `EIRP (dBm) = TX Gücü (dBm) - Kablo Kaybı (dB) + Anten Kazancı (dBi)`. Türkiye ve Avrupa'da 868 MHz bandı için azami yasal güç 25 mW (+14 dBm) veya 500 mW (+27 dBm) ile sınırlıyken, ABD'de 915 MHz bandında 1W (+30 dBm) çıkış serbesttir. Kullanıcı bu parametreleri gerçeğe uygun girdiğinde simülatör hayali menziller yerine sahadaki gerçek performansı yansıtır.",
+        github: "meshtastic.org/docs/software/site-planner/#site--transmitter-parameters",
+        infobox: {
+          "Formül": "EIRP = TX Power (dBm) - Cable Loss (dB) + Antenna Gain (dBi)",
+          "Yasal Limitler": "TR/AB 868: +14 dBm (25 mW) / +27 dBm; ABD 915: +30 dBm (1W)",
+          "Simülasyon Rolü": "Gerçekçi sinyal menzili ve yasal regülasyon uyumluluğu",
+          "Kritik Bileşenler": "Verici çıkışı, koaksiyel kablo tipi, anten dBi değeri"
+        },
+        seeAlso: ["meshtastic-site-planner", "radiation-pattern-gain", "coaxial-cable-attenuation"]
       }
     ];
 
