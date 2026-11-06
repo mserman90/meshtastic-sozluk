@@ -430,6 +430,18 @@ Meshtastic donanımını kontrol etmek, mesajlaşıp harita görüntülemek ve a
 - **MeshClient Orkestratörü ve Preact Signals (`meshclient-orchestrator`):** Taşıma katmanlarını soyutlayan, Protobuf paketlerini çözen ve `@preact/signals-core` ile ince taneli reaktif durum bildirimleri yayan ana orkestratör.
 - **SDK Alan Odaklı Tasarım Dilimleri (`ddd-feature-slices`):** SDK'nın `device`, `chat`, `nodes`, `channels`, `config`, `telemetry`, `traceroute` ve `files` olmak üzere bağımsız DDD mantıksal dilimlerine ayrılması.
 
+### 🐍 Meshtastic Python Komut Satırı Arayüzü (CLI) (meshtastic.org/docs/software/python/cli)
+- **Meshtastic Python CLI (`meshtastic-python-cli`):** Telsizleri terminal üzerinden yönetmek, paket akışını dinlemek ve ayarları otomatize etmek için kullanılan resmi `meshtastic` Python komut satırı aracı.
+- **YAML Yapılandırma Dışa/İçe Aktarımı (`python-cli-export-config`):** `--export-config > backup.yaml` ile tam cihaz yedeği alma ve `--configure backup.yaml` ile onlarca karta saniyeler içinde toplu provizyon uygulama.
+- **CLI ile Kanal Yönetimi (`python-cli-channel-management`):** `--ch-add`, `--ch-del`, `--ch-set` ve `--ch-index` parametreleriyle 8 kanala kadar bağımsız kanal adı, yetkileri ve 256-bit AES anahtarlarını yapılandırma.
+- **Düğüm Ayarları ve Parametre Yapılandırması (`python-cli-device-settings`):** `--set-owner` ile telsiz çağrı adı verme ve `--set <modül>.<özellik> <değer>` hiyerarşik sözdizimi ile doğrudan Protobuf NVS parametrelerini değiştirme.
+- **Terminal ASCII QR Kodu (`python-cli-terminal-qr`):** `--qr` ve `--qr-all` komutlarıyla terminal ekranında taranabilir siyah-beyaz ASCII QR blokları ve kanal bağlantıları oluşturma.
+- **Linux IP Ağ Tünelleme Protokolü (`python-cli-ip-tunnel`):** Linux çekirdeğinin TUN sanal ağ sürücüsüyle (`--tunnel --subnet 10.10.0.0/24`) LoRa telsiz ağı üzerinden iki bilgisayar arasında standart IP/SSH/Ping haberleşmesi kurma.
+- **Uzaktan Donanım GPIO Kontrolü (`python-cli-gpio-control`):** `--gpio-wrb` ve `--gpio-rd` komutlarıyla kilometrelerce uzaktaki dağ rölesinin GPIO pinlerini tetikleme ve sensör durumlarını telsiz üzerinden okuma.
+- **CLI Taşıma Bağlantı Yolları (`python-cli-connection-routes`):** Seri port (`--port`), yerel ağ TCP soketi (`--host`) ve kablosuz Bluetooth BLE (`--ble` / `--ble-scan`) ile telsize bağlanma esnekliği.
+- **İzole Python Ortam Kurulumu (`python-cli-pipx-installation`):** Modern Linux sistemlerinde PEP 668 paket yöneticisi kısıtlamalarını aşmak için `pipx install "meshtastic[cli]"` ile izole ve kararlı sanal çevre kurulumu.
+- **Cihaz Bakım ve Sıfırlama Komutları (`python-cli-maintenance-reset`):** `--reboot` ile yeniden başlatma, `--reset-nodedb` ile şişen düğüm hafızasını temizleme ve `--factory-reset` ile tam NVS fabrika sıfırlaması yapma.
+
 ### 🔹 Açık Standart ve Tedarikçi Bağımsızlığı (Open Architecture & Vendor Neutrality)
 Meshtastic'in hiçbir tescilli ticari protokole veya tek bir donanım üreticisine bağımlı kalmamasını sağlayan açık kaynak ekosistem felsefesi (GPL-3.0 lisansı ve açık Protobuf şemaları). Semtech SX1262/SX1276/LR1121 telsizleri ile ESP32, nRF52840 ve RP2040 işlemcili onlarca farklı üreticinin (Heltec, LilyGO, RAKwireless) donanımları tam uyumla birlikte çalışabilir.
 

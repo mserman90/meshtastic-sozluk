@@ -4791,6 +4791,168 @@
           "Fayda": "Kod ayrışması, modüler test edilebilirlik, ağaç sallama (tree-shaking) desteği"
         },
         seeAlso: ["meshclient-orchestrator", "meshtastic-typescript-sdk", "protobufs"]
+      },
+
+      /* 26. Meshtastic Python Komut Satırı Arayüzü (CLI) (meshtastic.org/docs/software/python/cli) */
+      {
+        id: "meshtastic-python-cli",
+        en: "Meshtastic Python Command Line Interface (CLI)",
+        tr: "Meshtastic Python Komut Satırı Arayüzü (CLI)",
+        category: "Yazılım & Protobuf",
+        lead: "Meshtastic düğümlerini terminal üzerinden yapılandırmak, canlı radyo paketlerini izlemek, metin mesajları göndermek ve toplu cihaz provizyonu yapmak için kullanılan resmi Python tabanlı komut satırı aracı.",
+        details: "`meshtastic` komutuyla çağrılır. Cihazla USB Seri port, TCP/IP soketi veya Bluetooth Low Energy (BLE) üzerinden doğrudan haberleşir. Geliştiriciler, kule teknisyenleri ve sistem yöneticileri için grafik arayüze (GUI) ihtiyaç duymadan tüm protobuf parametrelerini (`--info`, `--nodes`, `--sendtext`) yönetme olanağı sunar. Linux, macOS ve Windows sistemlerinde tam uyumlu çalışır.",
+        github: "meshtastic/python: meshtastic/__main__.py",
+        infobox: {
+          "Komut": "meshtastic",
+          "Dil": "Python 3.9+",
+          "Paket": "meshtastic[cli] (PyPI)",
+          "Temel Arayüzler": "Seri Port, TCP/IP, Bluetooth BLE",
+          "Lisans": "GPL-3.0 Açık Kaynak"
+        },
+        seeAlso: ["companion-app", "python-cli-export-config", "python-cli-device-settings", "python-cli-connection-routes"]
+      },
+      {
+        id: "python-cli-export-config",
+        en: "YAML Configuration Export & Bulk Provisioning (--export-config / --configure)",
+        tr: "YAML Yapılandırma Dışa/İçe Aktarımı (--export-config ve --configure)",
+        category: "Yazılım & Protobuf",
+        lead: "Bir Meshtastic düğümünün tüm radyo frekansı, kanal şifreleri, kullanıcı kimliği ve modül ayarlarını tek bir insan tarafından okunabilir YAML dosyasına yedekleme ve yeni kartlara topluca geri yükleme mekanizması.",
+        details: "`meshtastic --export-config > config.yaml` komutu, cihazın kalıcı NVS belleğindeki tüm Protobuf ayarlarını eksiksiz bir YAML dosyasına döker. `meshtastic --configure config.yaml` komutu ise bu dosyayı okuyarak yeni kurulacak onlarca telsizi birkaç saniye içinde aynı ağ yapılandırmasıyla otomatik olarak provizyonlar. Saha teknisyenleri için kule kurulumlarında ve filo yönetiminde standart yapılandırma şablonu oluşturmayı sağlar.",
+        github: "meshtastic.org/docs/software/python/cli/usage#export-configuration",
+        infobox: {
+          "Dışa Aktarma": "meshtastic --export-config > backup.yaml",
+          "İçe Aktarma": "meshtastic --configure backup.yaml",
+          "Dosya Formatı": "YAML (İnsan Okunabilir)",
+          "Kullanım Alanı": "Filo provizyonu, cihaz klonlama ve felaket kurtarma"
+        },
+        seeAlso: ["meshtastic-python-cli", "python-cli-device-settings", "admin-channel"]
+      },
+      {
+        id: "python-cli-channel-management",
+        en: "CLI Channel Management (--ch-add, --ch-set, --ch-del)",
+        tr: "CLI ile Kanal Yönetimi (--ch-add, --ch-set, --ch-del)",
+        category: "Ağ & Protokol",
+        lead: "Python CLI üzerinden cihazdaki 8 adede kadar bağımsız telsiz kanalını ekleme, silme, PSK şifreleme anahtarlarını belirleme ve modem parametrelerini yapılandırma komut seti.",
+        details: "`--ch-add <ad>` komutuyla yeni bir ikincil kanal yuvası açılır; `--ch-del --ch-index <idx>` ile istenen kanal silinir. `--ch-set <alan> <değer> --ch-index <idx>` komutuyla kanal adı, uplink/downlink izinleri ve şifreleme anahtarları atanır. Örneğin `meshtastic --ch-set psk random --ch-index 0` komutuyla birincil kanala anında kriptografik rastgele bir 256-bit AES anahtarı atanırken; `psk default` ile standart ortak anahtara dönülebilir.",
+        github: "meshtastic.org/docs/software/python/cli/usage#channels",
+        infobox: {
+          "Temel Parametreler": "--ch-add, --ch-del, --ch-set, --ch-index",
+          "PSK Seçenekleri": "default, none, random, base64:<anahtar>",
+          "Kanal Kapasitesi": "0 (Primary) + 7 (Secondary) = 8 Kanal"
+        },
+        seeAlso: ["psk", "primary-channel", "secondary-channel", "meshtastic-python-cli"]
+      },
+      {
+        id: "python-cli-device-settings",
+        en: "Node Settings & Parameter Configuration (--set & --set-owner)",
+        tr: "Düğüm Ayarları ve Parametre Yapılandırması (--set ve --set-owner)",
+        category: "Yazılım & Protobuf",
+        lead: "Telsizin çağrı adını (owner name), çalışma rolünü (ROUTER, CLIENT vb.), bölgesel RF frekansını ve modül tercihlerini komut satırından kalıcı olarak değiştiren çekirdek yapılandırma komutları.",
+        details: "`meshtastic --set-owner 'İstasyon Kadıköy' --set-owner-short 'KDKY'` komutuyla cihazın ağda görünen uzun ve kısa kimliği belirlenir. `--set <ayar.dalı.özellik> <değer>` hiyerarşik sözdizimi ile doğrudan Protobuf konfigürasyon ağacına yazılır; örneğin `--set device.role ROUTER`, `--set lora.region EU_868`, `--set lora.tx_enabled false` veya `--set power.wait_bluetooth_secs 28800` komutlarıyla telsizin tüm davranışları hassas biçimde kalibre edilir.",
+        github: "meshtastic.org/docs/software/python/cli/usage#settings",
+        infobox: {
+          "İsim Atama": "--set-owner <UzunAd>, --set-owner-short <4Harf>",
+          "Parametre Sözdizimi": "--set <modül>.<özellik> <değer>",
+          "Kritik Örnekler": "device.role, lora.region, lora.tx_enabled",
+          "Etki": "NVS belleğe kalıcı olarak yazılır ve cihazı yeniden başlatır"
+        },
+        seeAlso: ["meshtastic-python-cli", "channel-presets", "router", "no-antenna-tx-damage"]
+      },
+      {
+        id: "python-cli-terminal-qr",
+        en: "Terminal ASCII QR Code Generation (--qr & --qr-all)",
+        tr: "Terminal ASCII QR Kodu ve Kanal Paylaşımı (--qr ve --qr-all)",
+        category: "Yazılım & Protobuf",
+        lead: "Python CLI'nın terminal konsolunda ASCII metin karakterleriyle doğrudan taranabilir optik QR kodları çizerek kanal şifrelerini ve frekans ayarlarını akıllı telefonlara anında aktarmayı sağlayan komut.",
+        details: "`meshtastic --qr` komutu, cihazın birincil kanalına ait paylaşım bağlantısını (`meshtastic.org/e/#...`) terminal ekranında siyah-beyaz ASCII blok karakterleri halinde render eder. `meshtastic --qr-all` ise tüm aktif kanalların birleşik konfigürasyonunu tek bir QR kodunda birleştirir. Kullanıcı telefonunun kamerasıyla bu terminal ekranını taradığında, hiçbir şey yazmadan telsiz kanal grubuna anında dahil olur.",
+        github: "meshtastic.org/docs/software/python/cli/usage#generate-a-qr-code",
+        infobox: {
+          "Komutlar": "meshtastic --qr (Primary) & meshtastic --qr-all (Tüm Kanallar)",
+          "Çıktı Türü": "Terminal ASCII QR Kodu & Paylaşım URL'si",
+          "Veri Formatı": "Base64 kodlanmış Protobuf ChannelSet",
+          "Fayda": "SSH veya sunucu terminalinden akıllı telefona sıfır hatayla kanal aktarımı"
+        },
+        seeAlso: ["channel-qr-url", "meshtastic-python-cli", "psk"]
+      },
+      {
+        id: "python-cli-ip-tunnel",
+        en: "Linux IP Tunneling Interface (--tunnel & --subnet)",
+        tr: "Linux IP Ağ Tünelleme Protokolü (--tunnel ve --subnet)",
+        category: "Entegrasyonlar",
+        lead: "Linux çekirdeğinin TUN sanal ağ sürücüsünü kullanarak standart TCP/IP ve UDP internet paketlerini dar bantlı Meshtastic LoRa telsiz ağı üzerinden iki bilgisayar arasında ileten deneysel tünel arabirimi.",
+        details: "`meshtastic --tunnel --subnet 10.10.0.0/24` komutu çalıştırıldığında işletim sisteminde sanal bir `tun0` ağ arabirimi oluşturulur. İki uzak Linux bilgisayarı bu IP alt ağı üzerinden LoRa ile birbirine ping atabilir, SSH oturumu açabilir veya hafif HTTP istekleri gönderebilir. LoRa'nın dar bant genişliği (birkaç yüz bps) nedeniyle yüksek gecikmeli ve düşük verimli olmakla birlikte, felaket durumlarında IP tabanlı cihazların telsiz üzerinden acil haberleşmesini mümkün kılar.",
+        github: "meshtastic/python: meshtastic/tunnel.py",
+        infobox: {
+          "Komut": "meshtastic --tunnel --subnet <IP/MASK>",
+          "Arayüz Tipi": "Linux Çekirdeği TUN Device (tun+)",
+          "Desteklenen Protokoller": "IPv4 / IPv6, Ping, SSH (Düşük hız)",
+          "Sınırlama": "Yalnızca Linux; düşük bant genişliği ve yüksek paket kaybı toleransı gerektirir"
+        },
+        seeAlso: ["meshtastic-python-cli", "tcp-ip", "lpwan"]
+      },
+      {
+        id: "python-cli-gpio-control",
+        en: "Remote Hardware GPIO Control (--gpio-rd & --gpio-wrb)",
+        tr: "Uzaktan Donanım GPIO Kontrolü (--gpio-rd ve --gpio-wrb)",
+        category: "Entegrasyonlar",
+        lead: "Python CLI kullanarak bağlı yerel cihazın veya telsiz ağı üzerindeki kilometrelerce uzaktaki uzak bir düğümün GPIO pinlerini uzaktan okuma ve lojik durumunu değiştirme komutları.",
+        details: "`--dest <hedef_düğüm>` parametresiyle birlikte kullanıldığında RemoteHardwareModule üzerinden çalışır. `--gpio-wrb <pin> <1|0>` komutu ile uzak dağ rölesine bağlı bir röle, aydınlatma, siren veya jeneratör kontağı tetiklenebilir. `--gpio-rd <maske>` komutu ise sensör veya şamandıra anahtarlarının açık/kapalı durumunu sorgular; otomasyon ve uzaktan tesis yönetimi için telsiz tabanlı SCADA altyapısı sunar.",
+        github: "meshtastic.org/docs/software/python/cli/usage#gpio",
+        infobox: {
+          "Yazma Komutu": "meshtastic --gpio-wrb <pin> <1|0> --dest <node_id>",
+          "Okuma Komutu": "meshtastic --gpio-rd <maske> --dest <node_id>",
+          "İzleme Komutu": "meshtastic --gpio-watch <mask>",
+          "Kullanım": "Taktik röle tetikleme, siren çalıştırma, uzaktan anahtar izleme"
+        },
+        seeAlso: ["remote-hardware", "meshtastic-python-cli", "admin-channel"]
+      },
+      {
+        id: "python-cli-connection-routes",
+        en: "CLI Transport Connection Routes (Serial, TCP/IP, BLE)",
+        tr: "CLI Bağlantı Yöntemleri: Seri Port, TCP/IP ve BLE",
+        category: "Yazılım & Protobuf",
+        lead: "Python CLI'nın telsiz cihazına bağlanırken kullandığı üç temel taşıma rotası: --port (USB/Seri), --host (Ağ TCP Soketi) ve --ble (Bluetooth Low Energy).",
+        details: "CLI çalıştırıldığında hiçbir parametre verilmezse işletim sistemindeki ilk USB seri portunu (`/dev/ttyUSB0` veya `COMx`) otomatik olarak bulur. Birden fazla telsiz bağlıysa `--port COM5` ile hedef belirtilir. Ağdaki bir ESP32 rölesine erişmek için `--host 192.168.1.150` kullanılır. Bluetooth üzerinden bağlanmak içinse `--ble-scan` ile yakındaki cihazlar listelenip `--ble 'Meshtastic_xxxx'` ile kablosuz terminal oturumu açılır.",
+        github: "meshtastic.org/docs/software/python/cli/usage#connecting-to-a-device",
+        infobox: {
+          "Otomatik Algılama": "Parametresiz çalıştığında ilk USB seri portuna bağlanır",
+          "Seri Port": "--port <PORT> (örn: /dev/ttyACM0 veya COM3)",
+          "Ağ TCP": "--host <IP_ADRESİ> (Port 4403)",
+          "Bluetooth BLE": "--ble <ADI_VEYA_MAC> ve --ble-scan"
+        },
+        seeAlso: ["meshtastic-python-cli", "transport-node-tcp", "web-serial-transport"]
+      },
+      {
+        id: "python-cli-pipx-installation",
+        en: "pipx Isolated Virtual Environment Installation (PEP 668)",
+        tr: "İzole Python Ortam Kurulumu (pipx install 'meshtastic[cli]')",
+        category: "Yazılım & Protobuf",
+        lead: "Modern Linux dağıtımlarında (Debian 12+, Ubuntu 23+, Fedora) sistem Python paket yöneticisi çakışmalarını (PEP 668) önlemek için Meshtastic CLI'nın bağımsız sanal ortamda kurulmasını sağlayan önerilen yöntem.",
+        details: "Modern Linux sistemleri küresel `pip install` komutlarını `externally-managed-environment` hatasıyla kısıtlar. Bu nedenle Meshtastic resmi dokümantasyonu, CLI aracının `pipx install 'meshtastic[cli]'` komutuyla izole bir sanal çevreye kurulmasını ve yürütülebilir ikili dosyasının `~/.local/bin/` altına sembolik bağlanmasını tavsiye eder. Bu yöntem paket bağımlılıklarının bozulmasını engeller ve `pipx upgrade meshtastic` ile sorunsuz güncelleme sunar.",
+        github: "meshtastic.org/docs/software/python/cli/installation",
+        infobox: {
+          "Standart Kurulum": "pipx install 'meshtastic[cli]'",
+          "Güncelleme": "pipx upgrade meshtastic",
+          "PEP Standardı": "PEP 668 (Externally Managed Environments)",
+          "Avantaj": "Sistem paketleriyle çakışmayan, her zaman çalışan izole CLI ortamı"
+        },
+        seeAlso: ["meshtastic-python-cli", "platformio"]
+      },
+      {
+        id: "python-cli-maintenance-reset",
+        en: "Device Maintenance & Reset Commands (--factory-reset, --reset-nodedb, --reboot)",
+        tr: "Cihaz Bakım ve Sıfırlama Komutları (--factory-reset, --reset-nodedb, --reboot)",
+        category: "Yazılım & Protobuf",
+        lead: "Cihazın flash belleğinde biriken düğüm veri tabanını temizlemek, cihazı yeniden başlatmak veya tüm ayarları fabrika çıkışına döndürmek için CLI üzerinden yürütülen bakım komutları.",
+        details: "`meshtastic --reboot` komutu telsizi yeniden başlatır. `meshtastic --reset-nodedb` komutu, aylar boyunca ağdan toplanan ve hafızayı şişiren komşu düğüm listesini ve konum önbelleğini silerek RAM'i rahatlatır. `meshtastic --factory-reset` ise cihazın kalıcı NVS belleğindeki tüm kanal anahtarlarını, özel ayarları ve yapılandırmaları sıfırlayarak kartı fabrika ayarlarına döndürür; cihaz devirlerinde veya yapılandırma kilitlenmelerinde hayati kurtarma aracıdır.",
+        github: "meshtastic.org/docs/software/python/cli/usage#device-management",
+        infobox: {
+          "Yeniden Başlatma": "meshtastic --reboot",
+          "Düğüm Hafızası Temizliği": "meshtastic --reset-nodedb (NodeDB Reset)",
+          "Fabrika Sıfırlaması": "meshtastic --factory-reset (NVS Wipe)",
+          "Kullanım": "Performans temizliği, kilitlenme kurtarma ve cihaz teslimi"
+        },
+        seeAlso: ["meshtastic-python-cli", "flash-erase", "python-cli-export-config"]
       }
     ];
 
