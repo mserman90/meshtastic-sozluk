@@ -6078,6 +6078,166 @@
           "Kritik Bileşenler": "Verici çıkışı, koaksiyel kablo tipi, anten dBi değeri"
         },
         seeAlso: ["meshtastic-site-planner", "radiation-pattern-gain", "coaxial-cable-attenuation"]
+      },
+      {
+        id: "meshtasticator",
+        en: "Meshtasticator Network Simulator Suite",
+        tr: "Meshtasticator Ağ Simülatörü Paketi",
+        category: "Yazılım & İstemciler",
+        lead: "Fiziksel donanıma ihtiyaç duymadan onlarca veya yüzlerce Meshtastic düğümünün telsiz haberleşmesini, paket yönlendirmesini ve protokol ölçeklenebilirliğini test eden resmi simülasyon paketi.",
+        details: "Meshtastic geliştirici ekibi tarafından sürdürülen bu açık kaynaklı araç seti (`github.com/meshtastic/Meshtasticator`), iki ana bileşenden oluşur: 1) Ayrık Olay Simülatörü (`loraMesh.py`); 2) Canlı yazılım çalıştıran Etkileşimli Simülatör (`interactiveSim.py`). Kullanıcıların karmaşık şehir veya dağ topolojilerini sanal olarak inşa etmesine, LoRa çarpışmalarını incelemesine ve yönlendirme algoritmalarını stres testine tabi tutmasına olanak tanır.",
+        github: "github.com/meshtastic/Meshtasticator",
+        infobox: {
+          "Geliştirici": "Meshtastic Open Source Team",
+          "Simülasyon Türleri": "Ayrık Olay (Discrete-Event) & Etkileşimli Firmware (Interactive)",
+          "Altyapı": "Python 3, SimPy, Docker, Portduino Linux Firmware",
+          "Kullanım Amacı": "Ölçeklenebilirlik testleri, çarpışma analizi, protokol optimizasyonu"
+        },
+        seeAlso: ["interactivesim-py", "simpy-discrete-event-engine", "lora-pathloss-models-meshtasticator"]
+      },
+      {
+        id: "interactivesim-py",
+        en: "interactiveSim.py (Multi-Node Live Firmware Emulator)",
+        tr: "interactiveSim.py (Çoklu Düğüm Canlı Yazılım Öykünücüsü)",
+        category: "Yazılım & İstemciler",
+        lead: "Gerçek Meshtastic C++ cihaz yazılımını (Linux native firmware) bilgisayarda bağımsız süreçler veya Docker konteynerleri halinde eşzamanlı çalıştıran etkileşimli simülasyon aracı.",
+        details: "`python3 interactiveSim.py <düğüm_sayısı>` komutuyla başlatılır. Her bir sanal düğüm için bağımsız bir terminal penceresi ve `4403`, `4404` gibi artan yerel TCP soketleri açar. Telsiz katmanını sanallaştırarak, düğümlerin koordinatlarına ve seçilen yol kaybı (pathloss) modeline göre paketleri bir diğerine iletir veya zayıflatarak düşürür. Kullanıcı Meshtastic Web veya Python CLI ile bu sanal düğümlere bağlanıp gerçek telsiz gibi mesajlaşabilir.",
+        github: "meshtastic.org/docs/software/meshtasticator/#interactive-simulator",
+        infobox: {
+          "Dosya": "interactiveSim.py",
+          "Çalıştırma Modu": "Yerel Linux ikilisi veya Docker konteyneri (-d)",
+          "Ağ Bağlantısı": "TCP Soketleri (localhost:4403+)",
+          "Özellik": "Canlı Protobuf ve gerçek firmware mantığını koşturma"
+        },
+        seeAlso: ["meshtasticator", "tcp-port-proxy-virtual-radio", "dockerized-mesh-simulation"]
+      },
+      {
+        id: "simpy-discrete-event-engine",
+        en: "SimPy Discrete-Event Simulation Engine (loraMesh.py)",
+        tr: "SimPy Ayrık Olay Simülasyon Motoru (loraMesh.py)",
+        category: "Yazılım & İstemciler",
+        lead: "Zaman adımlı (process-based) Python SimPy kütüphanesini kullanarak yüzlerce düğümün eşzamanlı paket iletimini ve hava süresi (airtime) çakışmalarını matematiksel olarak modelleyen simülasyon çekirdeği.",
+        details: "`loraMesh.py` betiği üzerinden çalışır. Firmware çalıştırmak yerine radyo fizik katmanını ve yönlendirme protokolünü soyut olarak simüle eder. SimPy'ın `BroadcastPipe` yapısıyla paket iletiminin başlama ve bitme anlarını mikrosaniyelik ayrık olaylar olarak kuyruğa alır. Çok geniş çaplı afet senaryolarında, yüzlerce düğümlük ağlarda paket teslim oranlarını (PDR) saniyeler içinde simüle edip grafikler üretir.",
+        github: "meshtastic.org/docs/software/meshtasticator/",
+        infobox: {
+          "Kütüphane": "SimPy (Process-based discrete-event simulation framework)",
+          "Bileşen": "loraMesh.py & lib/phy.py",
+          "Haberleşme Borusu": "SimPy BroadcastPipe",
+          "Avantaj": "Hafif mimari; yüzlerce düğümün saatlerce süren trafiğini saniyelerde tamamlama"
+        },
+        seeAlso: ["meshtasticator", "packet-delivery-ratio-pdr", "lora-collision-capture-effect"]
+      },
+      {
+        id: "lora-pathloss-models-meshtasticator",
+        en: "LoRa Empirical Path Loss Models in Meshtasticator",
+        tr: "Meshtasticator Ampirik Yol Kaybı Modelleri (Log-Distance & Okumura-Hata)",
+        category: "Radyo Frekans & Anten",
+        lead: "Meshtasticator simülasyonlarında sinyalin mesafeye, bina yoğunluğuna ve arazi tipine göre zayıflamasını hesaplayan 7 farklı matematiksel yayılım modeli.",
+        details: "Simülatörde `-m <model_id>` parametresiyle seçilir: `0` Log-Distance modeli; `1` Küçük/orta şehirler için Okumura-Hata; `2` Metropol alanlar için Okumura-Hata; `3` Banliyö (suburban) ortamı; `4` Kırsal (rural) açık alan modeli; `5` 3GPP banliyö makro hücre; `6` 3GPP metropol makro hücre. Düğümler arası mesafe ve frekans formüle edilerek alıcıya ulaşan RSSI değeri hesaplanır; menzil dışı paketler otomatik olarak düşürülür.",
+        github: "github.com/meshtastic/Meshtasticator/blob/master/lib/phy.py",
+        infobox: {
+          "Modeller": "Log-distance (0), Okumura-Hata (1-4), 3GPP Macro-cell (5-6)",
+          "Parametre": "interactiveSim.py -m <0-6>",
+          "Hesaplanan Değer": "Path Loss (dB) ve Alıcı RSSI (dBm)",
+          "Etki": "Farklı coğrafi senaryolarda gerçekçi RF menzil sınırları"
+        },
+        seeAlso: ["meshtasticator", "lora-collision-capture-effect", "receiver-sensitivity-threshold"]
+      },
+      {
+        id: "lora-collision-capture-effect",
+        en: "LoRa Packet Collision & Capture Effect Emulation",
+        tr: "LoRa Paket Çarpışması & Yakalama Etkisi (Capture Effect)",
+        category: "Ağ & Protokol",
+        lead: "Havada aynı anda ve aynı frekansta iletilen iki LoRa paketinin birbirini bozması (çarpışma) ve güçlü sinyalin zayıf olanı bastırarak başarıyla çözülmesi (yakalama etkisi) dinamiği.",
+        details: "Meshtasticator hem SimPy hem de firmware katmanında LoRa capture effect'i simüle eder. İki paket aynı yayılma faktöründe (SF) örtüştüğünde, eğer birinci paketin sinyal gücü ikinci paketten en az 6 dB (veya tanımlı eşik) daha yüksekse alıcı güçlü paketi sağlam bir şekilde çözerken zayıf paket gürültüye gömülür. Güç farkı yetersizse her iki paket de bozulur (CRC hatası). Bu model, yüksek yoğunluklu ağlarda kanal doluluğunu ve CSMA/CA başarımını analiz etmeyi sağlar.",
+        github: "meshtastic.org/docs/software/meshtasticator/",
+        infobox: {
+          "Fiziksel Olay": "LoRa Capture Effect & Co-channel Interference",
+          "Koşul": "Delta RSSI >= 6 dB (Güçlü sinyalin kurtarılması)",
+          "Çarpışma Durumu": "Yetersiz güç farkında iki pakette de CRC/Bad Packet hatası",
+          "Firmware Bayrağı": "USERPREFS_SIMRADIO_EMULATE_COLLISIONS: true"
+        },
+        seeAlso: ["meshtasticator", "userprefs-simradio-emulate-collisions", "csma-ca"]
+      },
+      {
+        id: "dockerized-mesh-simulation",
+        en: "Dockerized Mesh Simulation Environment",
+        tr: "Docker Konteyner Tabanlı Örgü Ağ Simülasyonu",
+        category: "Yazılım & İstemciler",
+        lead: "Bilgisayara PlatformIO veya yerel C++ derleme araçları kurmaya gerek kalmadan, resmi Docker imajları üzerinden izole sanal Meshtastic düğümleri başlatma yöntemi.",
+        details: "`python3 interactiveSim.py <sayı> -d` komutu çalıştırıldığında, Docker SDK for Python üzerinden Docker Hub'daki güncel `meshtastic/firmware` Linux native imajı indirilir. Her sanal düğüm kendi bağımsız dosya sistemi ve ağ portuyla izole bir konteyner içinde ayağa kalkar. Ana makinenin işletim sisteminden bağımsız olarak (Windows, Linux, macOS) saniyeler içinde 10-20 düğümlük devasa bir test ağı kurulabilir.",
+        github: "meshtastic.org/docs/software/meshtasticator/#docker-support",
+        infobox: {
+          "Komut Parametresi": "-d (Docker Mode)",
+          "Gereksinim": "Docker Daemon / Docker Desktop & pip3 install docker",
+          "Avantaj": "Sıfır yerel bağımlılık ve izole sandbox ortamı",
+          "İmaj Kaynağı": "Docker Hub (meshtastic/firmware native target)"
+        },
+        seeAlso: ["interactivesim-py", "tcp-port-proxy-virtual-radio", "docker-meshtastic-cli"]
+      },
+      {
+        id: "tcp-port-proxy-virtual-radio",
+        en: "TCP Port Proxy Virtual Radio Architecture",
+        tr: "TCP Port Telsiz Köprüsü & Sanal Radyo Mimarisi",
+        category: "Yazılım & İstemciler",
+        lead: "Fiziksel telsiz çiplerinin (SX1262 vb.) yerini alan; her düğümün yerel bir TCP portu üzerinden haberleştiği ve Python aracısının RF yayılımını yönettiği köprü mimarisi.",
+        details: "Portduino katmanıyla derlenen yerel Meshtastic yazılımları, SPI telsiz sürücüsü yerine yerel bir TCP istemcisi kullanır. `interactiveSim.py` bir sanal telsiz baz istasyonu gibi davranır; düğüm 1 (`localhost:4403`) bir paket yayınladığında aracı bu paketi yakalar, düğümlerin coğrafi mesafelerini ve yol kaybını hesaplar, menzil içindeki düğüm 2 (`localhost:4404`) ve düğüm 3'ün TCP soketlerine paketi enjekte eder.",
+        github: "meshtastic.org/docs/software/meshtasticator/",
+        infobox: {
+          "Telsiz Öykünümü": "Sanal SPI/RF katmanı -> Yerel TCP Portları",
+          "Port Başlangıcı": "4403 (Her düğüm için +1 artar)",
+          "Yönlendirme Kararı": "Python aracı matrisi (Mesafe + Yol Kaybı Kontrolü)",
+          "Bağlantı Uyumu": "Standart Meshtastic Web ve Python CLI araçlarıyla %100 uyumlu"
+        },
+        seeAlso: ["interactivesim-py", "meshtasticd-linux-daemon", "transport-node-tcp"]
+      },
+      {
+        id: "userprefs-simradio-emulate-collisions",
+        en: "USERPREFS_SIMRADIO_EMULATE_COLLISIONS Firmware Flag",
+        tr: "Sanal Radyo Çarpışma Öykünümü Yazılım Bayrağı",
+        category: "Yazılım & İstemciler",
+        lead: "Meshtastic firmware yapılandırmasında sanal telsiz katmanının paket çakışmalarını ve bozuk paket hatalarını simüle etmesini sağlayan geliştirici parametresi.",
+        details: "Meshtastic kaynak kodundaki `userPrefs.jsonc` dosyasına `\"USERPREFS_SIMRADIO_EMULATE_COLLISIONS\": \"true\"` satırı eklendiğinde ve simülatör `-c` parametresiyle çalıştırıldığında; sanal radyo katmanı hava süresi örtüşen paketlerde rastgele veya matematiksel bit hataları üretir. Alıcı düğümler bu paketleri 'Bad Packet / CRC Error' olarak işaretleyip atar; böylece aşırı yoğun ağlarda yönlendirme algoritmalarının direnci test edilir.",
+        github: "github.com/meshtastic/Meshtasticator",
+        infobox: {
+          "Ayar Dosyası": "firmware/userPrefs.jsonc",
+          "Parametre": "USERPREFS_SIMRADIO_EMULATE_COLLISIONS: true",
+          "Komut Bayrağı": "interactiveSim.py -c",
+          "Sonuç": "Bozuk paket (CRC error) istatistiklerinin toplanması"
+        },
+        seeAlso: ["lora-collision-capture-effect", "interactivesim-py", "packet-delivery-ratio-pdr"]
+      },
+      {
+        id: "packet-delivery-ratio-pdr",
+        en: "Packet Delivery Ratio (PDR Metric Analysis)",
+        tr: "Paket Teslim Oranı Analizi (PDR Metriği)",
+        category: "Ağ & Protokol",
+        lead: "Bir örgü ağda kaynaktan gönderilen paketlerin kaç tanesinin hedefe veya ara rölelere başarıyla ulaştığını ölçen temel ağ güvenilirlik ve kalite metriği.",
+        details: "Meshtasticator simülasyonları sonrasında üretilen en kritik çıktıdır: `PDR = (Başarıyla Alınan Paketler / Gönderilen Toplam Paketler) * 100`. Ağdaki düğüm sayısı arttıkça, hop limit yükseldikçe veya kanal kullanım oranı (% airtime) tırmandıkça çarpışmalar nedeniyle PDR düşer. Bu analiz, bir bölgede Managed Flood mu yoksa Next-Hop yönlendirmenin mi daha başarılı olacağını sayısal olarak kanıtlar.",
+        github: "meshtastic.org/docs/software/meshtasticator/",
+        infobox: {
+          "Metrik Formülü": "PDR (%) = (Teslim Edilen / Gönderilen) * 100",
+          "İdeal Değer": "%95 ve üzeri (Kritik haberleşme için)",
+          "Düşüş Nedenleri": "Aşırı sekme (Hop limit), paket çarpışmaları, gizli düğüm (hidden node) problemi",
+          "Kullanım": "Ağ yoğunluğu planlaması ve optimum modem preset seçimi"
+        },
+        seeAlso: ["meshtasticator", "simpy-discrete-event-engine", "airtime"]
+      },
+      {
+        id: "meshtasticator-oracle-topology-view",
+        en: "Meshtasticator Oracle Global Topology View",
+        tr: "Meshtasticator Kapsamlı Topoloji & Kâhin Görünümü (Oracle View)",
+        category: "Yazılım & İstemciler",
+        lead: "Simülasyon çalışırken tüm sanal düğümlerin konumlarını, RF bağlantı çizgilerini ve anlık paket iletim rotalarını tek bir merkezden izlemeyi sağlayan küresel gözlemci ekranı.",
+        details: "Sıradan bir düğüm yalnızca kendi duyduğu komşuları bilirken; 'Oracle View' tüm ağın üstten tam haritasına ve paket akış tablosuna sahiptir. Simülasyon esnasında hangi düğümün paketi havalandırdığı, hangi ara rölelerin paketi tekrarladığı, paketin kaçıncı sekmede söndüğü ve hangi düğümlerin kapsama dışı kaldığı canlı renkli terminal dökümleri veya grafiksel arayüzle izlenir.",
+        github: "meshtastic.org/docs/software/meshtasticator/",
+        infobox: {
+          "Arayüz": "Merkezi Konsol / Grafiksel Topoloji Haritası",
+          "Gözlem Alanı": "Tüm sanal düğümler, aktif RF linkleri, anlık paket kuyrukları",
+          "Avantaj": "Hata ayıklamayı (debugging) ve yönlendirme döngülerini (routing loops) saniyeler içinde yakalama",
+          "Kullanıcı": "Çekirdek firmware geliştiricileri ve ağ mimarları"
+        },
+        seeAlso: ["meshtasticator", "interactivesim-py", "web-traceroute-visualizer"]
       }
     ];
 

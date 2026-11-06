@@ -526,6 +526,18 @@ Meshtastic donanımını kontrol etmek, mesajlaşıp harita görüntülemek ve a
 - **Noktadan Noktaya Yükselti Kesit Grafiği (`link-profile-elevation-graph`):** Verici ve alıcı arasındaki karasal yükseltiyi, Dünya küreselliğini ve optik görüş hattını (LOS) 2 boyutlu kesit olarak çizerek engel sırtlarını gösteren grafik.
 - **EIRP & Yasal Güç Sınırı Modellemesi (`eirp-effective-radiated-power`):** Simülasyonda TX gücü, anten dBi kazancı ve kablo kaybını birleştirerek Türkiye/AB (868 MHz / 25 mW) veya ABD (915 MHz / 1W) yasal sınırlarına uygun gerçekçi menzil hesaplama.
 
+### 🧪 Meshtasticator Ağ Simülasyonu & Firmware Öykünümü (meshtastic.org/docs/software/meshtasticator)
+- **Meshtasticator Ağ Simülatörü Paketi (`meshtasticator`):** Fiziksel donanıma ihtiyaç duymadan onlarca düğümün LoRa telsiz haberleşmesini, paket yönlendirmesini ve protokol ölçeklenebilirliğini test eden resmi açık kaynaklı simülatör suite'i (`github.com/meshtastic/Meshtasticator`).
+- **interactiveSim.py Canlı Firmware Öykünücüsü (`interactivesim-py`):** Gerçek Meshtastic C++ Linux yerel firmware ikililerini veya Docker konteynerlerini eşzamanlı çalıştırarak artan yerel TCP soketleri (4403, 4404...) üzerinden sanal telsiz ağı kuran etkileşimli araç.
+- **SimPy Ayrık Olay Simülasyon Çekirdeği (`simpy-discrete-event-engine`):** Süreç tabanlı Python SimPy motoru ve `BroadcastPipe` ile firmware çalıştırmadan yüzlerce düğümlük büyük afet ağlarını mikrosaniyeler mertebesinde matematiksel olarak simüle eden `loraMesh.py` çekirdeği.
+- **Meshtasticator Ampirik Yol Kaybı Modelleri (`lora-pathloss-models-meshtasticator`):** Simülatörde mesafeye ve çevre tipine göre RF zayıflamasını hesaplayan 7 ampirik model: Log-Distance (0), Okumura-Hata (1-4: küçük şehir, metropol, banliyö, kırsal) ve 3GPP Makro Hücre (5-6).
+- **LoRa Paket Çarpışması ve Yakalama Etkisi (`lora-collision-capture-effect`):** Aynı anda iletilen paketlerin havada çakışması ve sinyal gücü farkı >= 6 dB olduğunda güçlü olanın sağlam demodüle edilmesi (Capture Effect) dinamiği.
+- **Docker Tabanlı Örgü Ağ Simülasyonu (`dockerized-mesh-simulation`):** Yerel derleme ortamına gerek kalmadan `python3 interactiveSim.py -d` komutuyla resmi `meshtastic/firmware` Docker imajından izole sanal düğüm konteynerleri ayağa kaldırma.
+- **TCP Port Telsiz Köprüsü & Sanal Radyo (`tcp-port-proxy-virtual-radio`):** Donanımsal telsiz çipi yerine her sanal düğümün bağımsız bir TCP soketine bağlanıp merkezi Python aracısının coğrafi mesafeye göre paketleri yönlendirdiği sanal telsiz mimarisi.
+- **Sanal Radyo Çarpışma Öykünümü Bayrağı (`userprefs-simradio-emulate-collisions`):** `userPrefs.jsonc` içinde `USERPREFS_SIMRADIO_EMULATE_COLLISIONS: true` yapılarak hava süresi örtüşmelerinde kasıtlı CRC/bozuk paket hataları üretilmesini sağlayan firmware bayrağı.
+- **Paket Teslim Oranı Analizi (`packet-delivery-ratio-pdr`):** Simülasyon sonucunda kaynaktan çıkan paketlerin hedefe ulaşma yüzdesini ölçen (`PDR = Alınan/Gönderilen * 100`), aşırı sekme ve kanal doluluğu kaynaklı kayıpları tespit eden ana metrik.
+- **Meshtasticator Kâhin Topoloji Görünümü (`meshtasticator-oracle-topology-view`):** Tüm ağın üstten tam haritasını, anlık aktif RF bağlantılarını, paket sekme rotalarını ve kuyruklarını tek ekranda izleyip yönlendirme döngülerini yakalayan küresel izleme arayüzü.
+
 ### 🔹 Açık Standart ve Tedarikçi Bağımsızlığı (Open Architecture & Vendor Neutrality)
 Meshtastic'in hiçbir tescilli ticari protokole veya tek bir donanım üreticisine bağımlı kalmamasını sağlayan açık kaynak ekosistem felsefesi (GPL-3.0 lisansı ve açık Protobuf şemaları). Semtech SX1262/SX1276/LR1121 telsizleri ile ESP32, nRF52840 ve RP2040 işlemcili onlarca farklı üreticinin (Heltec, LilyGO, RAKwireless) donanımları tam uyumla birlikte çalışabilir.
 
