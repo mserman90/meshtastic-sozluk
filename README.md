@@ -418,6 +418,18 @@ Meshtastic donanımını kontrol etmek, mesajlaşıp harita görüntülemek ve a
 - **İnteraktif Traceroute Görselleştiricisi (`web-traceroute-visualizer`):** Rota keşif paketlerinin sekmelerini (hops), ara rölelerin SNR değerlerini ve rota gecikmelerini şema üzerinde görselleştiren ağ analiz aracı.
 - **Telemetri ve Çevre Grafikleri Paneli (`web-telemetry-dashboard`):** Batarya voltajı, sıcaklık, nem, barometrik basınç ve kanal doluluk oranını gerçek zamanlı zaman serisi grafiklerine döken gösterge tablosu.
 
+### 📦 Meshtastic Web Monorepo ve TypeScript SDK Mimarisi (github.com/meshtastic/web)
+- **Meshtastic Web PNPM Monorepo Mimarisi (`meshtastic-web-monorepo`):** `pnpm workspaces`, Oxlint ve Turborepo ile yönetilen; `apps/web` arayüzü, çoklu taşıma paketleri ve TypeScript SDK'sını tek çatı altında toplayan monorepo mimarisi.
+- **`@meshtastic/sdk-react` ve MeshProvider (`sdk-react-meshprovider`):** React bileşen hiyerarşisine telsiz durumunu enjekte eden `<MeshProvider>` ve `useMeshClient()`, `useNodes()`, `useChannels()` özel kancaları (hooks).
+- **Buf ile TypeScript Protobuf Kod Üretimi (`buf-protobuf-ts-generator`):** `buf generate` CLI aracıyla `meshtastic/protobufs` şemalarından esm/cjs uyumlu, tip güvenli ikili kodlayıcı/çözücü kütüphanesi derleme.
+- **`@meshtastic/ui` Tasarım Sistemi (`packages-ui-radix-tailwind`):** Radix UI WAI-ARIA erişilebilir ilkel bileşenleri ve Tailwind CSS ile geliştirilmiş ortak tema ve görsel bileşen kütüphanesi.
+- **Node.js TCP Taşıma Katmanı (`transport-node-tcp`):** Sunucu tarafı Node.js, Raspberry Pi ve Docker botlarının telsize ağ üzerinden TCP soketiyle (Port 4403) bağlanmasını sağlayan sürücü.
+- **Node.js Donanımsal Seri Port Sürücüsü (`transport-node-serial`):** `node-serialport` yerel C++ eklentisiyle Linux/macOS/Windows sunucularda USB-UART portundan (`/dev/ttyUSB0`) doğrudan paket alışverişi.
+- **Deno Çalışma Zamanı Sürücüsü (`transport-deno-runtime`):** Modern Deno çalışma zamanında `Deno.connect()` yerel TCP soket API'siyle sıfır harici paket bağımlılığıyla çalışan hafif taşıma katmanı.
+- **Bellek İçi Sahte Telsiz ve CI Test Sürücüsü (`transport-mock-testing`):** Fiziksel donanım olmadan Vitest/Playwright birim testleri ve CI/CD hatlarında sahte telsiz simüle eden mock sürücüsü.
+- **MeshClient Orkestratörü ve Preact Signals (`meshclient-orchestrator`):** Taşıma katmanlarını soyutlayan, Protobuf paketlerini çözen ve `@preact/signals-core` ile ince taneli reaktif durum bildirimleri yayan ana orkestratör.
+- **SDK Alan Odaklı Tasarım Dilimleri (`ddd-feature-slices`):** SDK'nın `device`, `chat`, `nodes`, `channels`, `config`, `telemetry`, `traceroute` ve `files` olmak üzere bağımsız DDD mantıksal dilimlerine ayrılması.
+
 ### 🔹 Açık Standart ve Tedarikçi Bağımsızlığı (Open Architecture & Vendor Neutrality)
 Meshtastic'in hiçbir tescilli ticari protokole veya tek bir donanım üreticisine bağımlı kalmamasını sağlayan açık kaynak ekosistem felsefesi (GPL-3.0 lisansı ve açık Protobuf şemaları). Semtech SX1262/SX1276/LR1121 telsizleri ile ESP32, nRF52840 ve RP2040 işlemcili onlarca farklı üreticinin (Heltec, LilyGO, RAKwireless) donanımları tam uyumla birlikte çalışabilir.
 

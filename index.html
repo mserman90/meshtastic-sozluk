@@ -4629,6 +4629,168 @@
           "Grafik Türü": "Gerçek zamanlı interaktif zaman serisi çizelgeleri"
         },
         seeAlso: ["telemetry", "bme280-sensor", "meshtastic-web-client"]
+      },
+
+      /* 25. Meshtastic Web Deposu ve TypeScript Monorepo Mimarisi (github.com/meshtastic/web) */
+      {
+        id: "meshtastic-web-monorepo",
+        en: "Meshtastic Web PNPM Monorepo Architecture",
+        tr: "Meshtastic Web PNPM Monorepo Mimarisi",
+        category: "Yazılım & Protobuf",
+        lead: "meshtastic/web deposunun; resmi web uygulamasını (apps/web), TypeScript SDK'sını, React bağlayıcılarını ve çoklu çalışma zamanı taşıma sürücülerini tek çatı altında modüler olarak yöneten PNPM Workspace yapısı.",
+        details: "`pnpm workspaces` ve modern Rust tabanlı linter/formatter araçları (`oxlint`, `oxfmt`) ile yapılandırılmıştır. Bağımsız paketlerin birbirine doğrudan sembolik bağlarla bağlanmasını, çalışma alanı genelinde recursive derleme (`pnpm -r build`) yapılmasını ve paket bağımlılıklarının sıfır disk tekrarıyla paylaşılmasını sağlar. Web istemcisi, sunucu tarafı botlar, test araçları ve Deno/Node betikleri aynı monorepo içerisinden eşzamanlı geliştirilir.",
+        github: "meshtastic/web: pnpm-workspace.yaml & package.json",
+        infobox: {
+          "Paket Yöneticisi": "pnpm workspaces (pnpm-lock.yaml)",
+          "Araçlar": "oxlint, oxfmt, TypeScript, buf",
+          "Paket Düzeni": "apps/* (Uygulamalar) ve packages/* (Kütüphaneler)",
+          "Lisans": "GPL-3.0 Açık Kaynak"
+        },
+        seeAlso: ["meshtastic-web-client", "meshtastic-typescript-sdk", "sdk-react-meshprovider"]
+      },
+      {
+        id: "sdk-react-meshprovider",
+        en: "@meshtastic/sdk-react & MeshProvider Context",
+        tr: "@meshtastic/sdk-react ve MeshProvider Kancaları",
+        category: "Yazılım & Protobuf",
+        lead: "React tabanlı kullanıcı arayüzlerinin Meshtastic telsiz durumuna, canlı düğüm listesine ve mesaj akışlarına reaktif olarak abone olmasını sağlayan bağlayıcı kütüphane ve React Kancaları (Hooks).",
+        details: "`packages/sdk-react` paketi, çekirdek TypeScript SDK'sını React bileşen hiyerarşisine enjekte eden `<MeshProvider>` bağlamını (context) sunar. Geliştiriciler `useMeshClient()`, `useNodes()`, `useChannels()`, `useMessages()` ve `useConnectionState()` kancalarıyla telsizden gelen Protobuf bildirimlerini anında UI durumuna dönüştürür; gereksiz render'ları önleyen reaktif abonelik döngüleri kurar.",
+        github: "meshtastic/web: packages/sdk-react",
+        infobox: {
+          "Paket": "@meshtastic/sdk-react",
+          "Temel Bileşen": "<MeshProvider>",
+          "Özel Kancalar": "useMeshClient(), useNodes(), useChannels(), useMessages()",
+          "Çerçeve": "React 18+ / Preact"
+        },
+        seeAlso: ["meshtastic-web-client", "meshtastic-typescript-sdk", "meshclient-orchestrator"]
+      },
+      {
+        id: "buf-protobuf-ts-generator",
+        en: "Buf Protobuf TypeScript Code Generation",
+        tr: "Buf ile TypeScript Protobuf Kod Üretimi",
+        category: "Yazılım & Protobuf",
+        lead: "Meshtastic çekirdek protokol tanımlarından (.proto dosyaları) modern, tip güvenli ve kompakt TypeScript sınıfları ile kodlayıcı/çözücüleri otomatik üreten Buf derleme boru hattı.",
+        details: "`packages/protobufs` paketi içinde `buf generate` komutuyla çalışır. `meshtastic/protobufs` deposundaki şemaları alarak esm/cjs uyumlu, ham ikili (binary) Protobuf dizgilerini JavaScript nesnelerine ve tersine serileştiren fonksiyonları üretir. Google protoc yerine Buf kullanarak derleme süresini hızlandırır, şema doğrulaması (linting) ve geriye dönük uyumluluk (breaking change detection) denetimleri uygular.",
+        github: "meshtastic/web: packages/protobufs (buf.gen.yaml)",
+        infobox: {
+          "Araç": "Buf CLI (buf generate)",
+          "Çıktı": "@meshtastic/protobufs",
+          "Format": "TypeScript ESM / CJS",
+          "İşlev": ".proto -> Tip Güvenli TS İkili Kodlayıcı/Çözücü"
+        },
+        seeAlso: ["protobufs", "meshtastic-typescript-sdk", "platformio"]
+      },
+      {
+        id: "packages-ui-radix-tailwind",
+        en: "@meshtastic/ui Radix UI & Tailwind CSS Design System",
+        tr: "@meshtastic/ui Radix UI ve Tailwind CSS Tasarım Sistemi",
+        category: "Yazılım & Protobuf",
+        lead: "Meshtastic web arayüzlerinde erişilebilir (a11y), tutarlı ve modern bileşenler sunan; Radix UI ilkel bileşenleri ve Tailwind CSS ile inşa edilmiş paylaşımlı tasarım sistemi.",
+        details: "`packages/ui` paketi altında toplanmıştır. Düğüm kartları, sinyal kalitesi rozetleri, modal pencereler, akordiyon menüler, traceroute düğüm simgeleri ve kanal ayar formları gibi tüm görsel öğeleri kapsar. Radix UI primitives sayesinde klavye navigasyonu ve ekran okuyucu erişilebilirliği garanti altına alınırken, Tailwind CSS ile karanlık/aydınlık tema geçişleri tam uyumlu çalışır.",
+        github: "meshtastic/web: packages/ui",
+        infobox: {
+          "Paket": "@meshtastic/ui",
+          "Temel": "Radix UI Primitives (WAI-ARIA Uyumlu)",
+          "Stil": "Tailwind CSS",
+          "Temalar": "Dark / Light Mode desteği",
+          "Amaç": "Web istemcisi ve yan araçlar için ortak görsel dil"
+        },
+        seeAlso: ["meshtastic-web-client", "sdk-react-meshprovider"]
+      },
+      {
+        id: "transport-node-tcp",
+        en: "@meshtastic/transport-node Server TCP Transport",
+        tr: "@meshtastic/transport-node Node.js TCP Taşıma Katmanı",
+        category: "Yazılım & Protobuf",
+        lead: "Sunucu tarafı Node.js ortamlarında (Raspberry Pi, Linux sunucu, Docker konteyneri) çalışan yazılımların IP ağı üzerinden Meshtastic düğümlerine TCP soketiyle bağlanmasını sağlayan taşıma sürücüsü.",
+        details: "`packages/transport-node` paketi tarafından sağlanır. Tarayıcıya bağımlı olmadan Node.js'in yerel `net.Socket` API'sini kullanarak telsizin TCP portuna (varsayılan 4403) bağlanır. 7/24 çalışan arka plan botları, Telegram/Discord köprüleri, sunucu telemetri kaydedicileri ve ev otomasyonu betikleri için kararlı, yeniden bağlanabilen (auto-reconnect) bir TCP akış katmanı sunar.",
+        github: "meshtastic/web: packages/transport-node",
+        infobox: {
+          "Paket": "@meshtastic/transport-node",
+          "Çalışma Zamanı": "Node.js (Server-side / Headless)",
+          "Protokol": "Raw TCP Socket (Port 4403)",
+          "Kullanım": "7/24 Sunucu botları, Telegram köprüleri, Docker servisleri"
+        },
+        seeAlso: ["transport-node-serial", "transport-deno-runtime", "meshtastic-typescript-sdk"]
+      },
+      {
+        id: "transport-node-serial",
+        en: "@meshtastic/transport-node-serial Server Hardware Serial Driver",
+        tr: "@meshtastic/transport-node-serial Sunucu Seri Port Sürücüsü",
+        category: "Yazılım & Protobuf",
+        lead: "Node.js tabanlı sunucu ve mikrobilgisayarların (Raspberry Pi, Orange Pi) USB veya GPIO UART portundan bağlı Meshtastic telsizleriyle doğrudan seri haberleşmesini sağlayan donanım sürücüsü.",
+        details: "`packages/transport-node-serial` paketi, `serialport` yerel C++ eklentisini sararak çalışır. Linux `/dev/ttyUSB0` veya `/dev/ttyACM0` portlarını 115200 baud hızında açar; Protobuf bayt dizilerini paket sınır belirleyicileriyle (packet framing) çözer. Tarayıcısız bağımsız kule sunucularında veya otomotiv telemetri kutularında donanımsal seri hat üzerinden güvenilir paket alışverişi sağlar.",
+        github: "meshtastic/web: packages/transport-node-serial",
+        infobox: {
+          "Paket": "@meshtastic/transport-node-serial",
+          "Altyapı": "node-serialport & Node.js Native Addons",
+          "Donanım": "USB-UART Köprüleri (CP210x, CH340, CDC-ACM)",
+          "Platform": "Linux, macOS, Windows (Sunucu/CLI)"
+        },
+        seeAlso: ["transport-node-tcp", "web-serial-transport", "cp210x"]
+      },
+      {
+        id: "transport-deno-runtime",
+        en: "@meshtastic/transport-deno Deno Runtime TCP Transport",
+        tr: "@meshtastic/transport-deno Deno Çalışma Zamanı Sürücüsü",
+        category: "Yazılım & Protobuf",
+        lead: "Modern, güvenli ve yerel TypeScript destekli Deno çalışma zamanında Meshtastic telsizleriyle TCP üzerinden haberleşmeyi sağlayan hafif taşıma katmanı.",
+        details: "`packages/transport-deno` paketi, Deno'nun yerel `Deno.connect()` TCP soket API'sini kullanır. Ek bir npm kurulumu veya derleme adımına gerek kalmadan, doğrudan tek bir `.ts` dosyası çalıştırılarak ağdaki bir Meshtastic telsizinden veri okunmasını, bot yazılmasını ve uç (edge) sunucularda minimal bellek tüketimiyle mikro servisler geliştirilmesini sağlar.",
+        github: "meshtastic/web: packages/transport-deno",
+        infobox: {
+          "Paket": "@meshtastic/transport-deno",
+          "Çalışma Zamanı": "Deno (Native TypeScript & V8)",
+          "Protokol": "Deno.connect() TCP Socket",
+          "Avantajı": "Paket yöneticisiz çalıştırma, modern Web Standardı API'leri, düşük bellek"
+        },
+        seeAlso: ["transport-node-tcp", "meshtastic-typescript-sdk"]
+      },
+      {
+        id: "transport-mock-testing",
+        en: "@meshtastic/transport-mock Virtual Radio Testing Driver",
+        tr: "@meshtastic/transport-mock Sahte Telsiz ve CI Test Sürücüsü",
+        category: "Yazılım & Protobuf",
+        lead: "Fiziksel bir telsiz donanımı olmadan yazılım testi yapmak, CI/CD hatlarında birim testlerini koşturmak ve arayüz geliştirmek için kullanılan bellek içi simüle telsiz sürücüsü.",
+        details: "`packages/transport-mock` paketi, sanal bir Meshtastic telsizinin davranışlarını simüle eder. Önceden tanımlanmış sahte düğüm listeleri, kanal konfigürasyonları, rastgele telemetri paketleri ve yapay traceroute yanıtları üretir. Web istemcisi ve SDK geliştiricileri fiziksel donanım takmadan arayüz hatalarını ayıklayabilir; GitHub Actions üzerinde otomatik uçtan uca (E2E) testler çalıştırabilir.",
+        github: "meshtastic/web: packages/transport-mock",
+        infobox: {
+          "Paket": "@meshtastic/transport-mock",
+          "Türü": "In-Memory Virtual Radio Transport",
+          "Kullanım Alanı": "Vitest / Playwright testleri, CI/CD boru hatları, UI prototipleme",
+          "Simülasyon": "Sahte düğümler, telemetri akışı, traceroute yanıtları"
+        },
+        seeAlso: ["meshtastic-web-monorepo", "meshtastic-typescript-sdk"]
+      },
+      {
+        id: "meshclient-orchestrator",
+        en: "MeshClient Orchestrator & Preact Signals Reactivity",
+        tr: "MeshClient Orkestratörü ve Preact Signals Reaktif Durumu",
+        category: "Yazılım & Protobuf",
+        lead: "Meshtastic TypeScript SDK'sının merkezinde yer alan; bağlantı durumunu, paket kuyruklarını ve gelen/giden telsiz trafiğini reaktif @preact/signals-core mimarisiyle koordine eden ana sınıf.",
+        details: "`MeshClient` sınıfı, seçilen herhangi bir taşıma sürücüsünü (Web Serial, BLE, TCP vb.) kabul eder ve soyutlar. Gelen ham Protobuf baytlarını `FromRadio` paketlerine dönüştürür; paket türüne göre uygun etki alanı dilimine (`nodes`, `chat`, `telemetry` vb.) yönlendirir. Preact Signals kullanımı sayesinde durum değişiklikleri doğrudan ilgili UI bileşenlerine iletilir; React veya Vanilla JS uygulamalarında yüksek performanslı, sıfır gecikmeli veri akışı sağlanır.",
+        github: "meshtastic/web: packages/sdk/src/client.ts",
+        infobox: {
+          "Sınıf Adı": "MeshClient",
+          "Reaktif Motor": "@preact/signals-core",
+          "Görev": "Taşıma katmanı soyutlaması, Protobuf çözme, paket yönlendirme",
+          "Durum Yönetimi": "Sinyal tabanlı ince taneli reaktif bildirimler (fine-grained reactivity)"
+        },
+        seeAlso: ["meshtastic-typescript-sdk", "ddd-feature-slices", "sdk-react-meshprovider"]
+      },
+      {
+        id: "ddd-feature-slices",
+        en: "Meshtastic SDK Domain-Driven Design (DDD) Slices",
+        tr: "Meshtastic SDK Alan Odaklı Tasarım Dilimleri (Domain Slices)",
+        category: "Yazılım & Protobuf",
+        lead: "@meshtastic/sdk kütüphanesinin telsiz fonksiyonlarını mantıksal ve bağımsız işlev dilimlerine (slices) ayıran Alan Odaklı Tasarım (Domain-Driven Design - DDD) mimarisi.",
+        details: "SDK tek bir devasa sınıf yerine bağımsız özellik modüllerine bölünmüştür: 1) `device`: Telsiz donanım kimliği, bellenim sürümü, yeniden başlatma. 2) `chat`: Genel ve özel kanallarda metin mesajlaşması, onay (ACK) takibi. 3) `nodes`: Ağdaki komşu düğümlerin veri tabanı, son görülme ve konumları. 4) `channels`: 8 kanal yuvası, PSK şifreleme anahtarları ve modem ayarları. 5) `config`: Telsiz rolü, Lora ayarları, Bluetooth ve ekran tercihleri. 6) `telemetry`: Çevresel sensör ve batarya metrikleri. 7) `traceroute`: Rota keşif istekleri ve sekme analizi. 8) `files`: Cihaz içi dosya ve zil sesi aktarımları.",
+        github: "meshtastic/web: packages/sdk/src/features",
+        infobox: {
+          "Mimari": "Domain-Driven Design (DDD) Feature Slices",
+          "Temel Dilimler": "device, chat, nodes, channels, config, telemetry, traceroute, files",
+          "Fayda": "Kod ayrışması, modüler test edilebilirlik, ağaç sallama (tree-shaking) desteği"
+        },
+        seeAlso: ["meshclient-orchestrator", "meshtastic-typescript-sdk", "protobufs"]
       }
     ];
 
