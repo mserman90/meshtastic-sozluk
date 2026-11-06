@@ -2659,6 +2659,168 @@
           "Çıkış Gücü": "Lisanssız ISM gücü (Yasal sınırlarda)"
         },
         seeAlso: ["fresnel-zone", "range-test", "lora", "long-slow"]
+      },
+
+      /* 13. Donanım Antenleri, STM32 RDP, RF Kırılması ve İlk Yapılandırma (meshtastic.org/docs/hardware/antennas & configuration) */
+      {
+        id: "rdp-readout-protection",
+        en: "STM32 Readout Protection (RDP)",
+        tr: "STM32 Bellek Okuma Koruması (RDP Kaldırma)",
+        category: "Donanım & Çipler",
+        lead: "STM32 mikrodenetleyicilerinde flash belleğin harici programlayıcılar (SWD/JTAG) tarafından okunmasını veya üzerine yazılmasını engelleyen, Meshtastic yüklemeden önce Level 0'a çekilmesi gereken donanım güvenlik kilidi.",
+        details: "Fabrikadan çıkan bazı STM32 tabanlı modüller (RAK811, ST B-L072Z-LRWAN1 veya ticari takip cihazları) RDP Level 1 ile korunur. Bu durumda ST-Link veya OpenOCD ile doğrudan firmware yazılamaz ('Target is protected' hatası alınır). STM32CubeProgrammer veya OpenOCD CLI aracılığıyla Option Bytes menüsünden RDP seviyesi Level 0'a indirilir; bu işlem çipin flash belleğini otomatik olarak tamamen silerek (mass erase) korumayı kaldırır ve Meshtastic firmware'inin SWD üzerinden yüklenmesine izin verir.",
+        github: "meshtastic.org/docs/getting-started/flashing-firmware/stm32/removing-readout-protection",
+        infobox: {
+          "Platform": "STM32 Option Bytes",
+          "Korumalar": "Level 0 (Açık), Level 1 (Korunuyor), Level 2 (Kalıcı Kilit)",
+          "Kaldırma Aracı": "STM32CubeProgrammer / OpenOCD",
+          "İşlem Sonucu": "Tüm flash belleği silerek (Mass Erase) korumayı açar"
+        },
+        seeAlso: ["stm32-bootloader-uart", "swd-swdio", "flash-erase"]
+      },
+      {
+        id: "region-unset",
+        en: "Region Configuration & UNSET Safety State",
+        tr: "Bölge Frekans Ayarı ve UNSET Güvenlik Durumu",
+        category: "Ağ & Protokol",
+        lead: "Yeni kurulan veya sıfırlanan bir Meshtastic cihazının, yasal telsiz frekans ihlallerini önlemek amacıyla kullanıcı tarafından açıkça bir ülke/bölge seçilene kadar vericisini (TX) kapalı tuttuğu güvenlik durumu.",
+        details: "Meshtastic firmware'i fabrikadan veya sıfırlamadan sonra `UNSET` durumunda başlar. Bu modda telsiz yalnızca dinleme yapar; kesinlikle havaya paket basmaz. Kullanıcı Bluetooth veya Web arayüzünden Türkiye için `EU_868`, ABD için `US_915` gibi yasal bandı seçtiğinde cihaz frekans planını, yasal çıkış gücü sınırını ve görev döngüsü limitlerini yükleyerek normal yayına başlar.",
+        github: "meshtastic.org/docs/getting-started/initial-config & docs/configuration/region-by-country",
+        infobox: {
+          "Durum": "Region UNSET (Varsayılan Açılış)",
+          "Verici (TX)": "Tamamen Kapalı (Güvenlik Koruması)",
+          "Yapılandırma": "Mobil Uygulama / Web Client / CLI",
+          "Türkiye Bölgesi": "EU_868 (868.0 - 868.6 MHz)"
+        },
+        seeAlso: ["duty-cycle", "tx-power", "primary-channel", "yasal-uyarilar"]
+      },
+      {
+        id: "channel-qr-sharing",
+        en: "Channel QR Code & URL Sharing",
+        tr: "Kanal QR Kodu ve URL ile Hızlı Paylaşım",
+        category: "Ağ & Protokol",
+        lead: "Bir Meshtastic kanalının adını, AES şifreleme anahtarını, frekans yuvasını ve modem ayarlarını tek bir optik QR koduna veya web bağlantısına (`meshtastic.org/e/#...`) paketleyerek diğer kullanıcılarla anında paylaşma mekanizması.",
+        details: "Kullanıcılar karmaşık 256-bit şifreleme anahtarlarını veya kanal numaralarını elle girmek yerine; uygulama içinden 'Share Channel' butonuna basarak bir QR kod üretir. Yeni katılan bir kullanıcı akıllı telefonunun kamerasıyla bu kodu taradığında veya linke tıkladığında, tüm kanal parametreleri telsiz cihazına anında aktarılır ve doğrudan güvenli mesh grubuna dahil olunur.",
+        github: "meshtastic.org/docs/getting-started/joining-your-local-mesh",
+        infobox: {
+          "Protokol Formatı": "Protobuf URL-safe Base64 (`/e/#...`)",
+          "İçerik": "Kanal Adı, PSK Anahtarı, Slot, Modem Ayarları",
+          "Paylaşım": "Mobil Kamera ile QR Tarama / Web Bağlantısı",
+          "Güvenlik": "Özel kanal anahtarları QR ile taşınır"
+        },
+        seeAlso: ["psk", "primary-channel", "secondary-channel", "companion-app"]
+      },
+      {
+        id: "tx-power",
+        en: "Transmit Power (TX Power & EIRP)",
+        tr: "TX Çıkış Gücü ve Efektif Işıma Gücü (EIRP)",
+        category: "RF & Yayılım",
+        lead: "Telsiz alıcı-verici yongasının anten çıkışına sağladığı radyo frekansı gücünün miliwatt (mW) veya desibel-miliwatt (dBm) cinsinden ifadesi ve yasal ışıma limitleri.",
+        details: "Meshtastic'te SX1262 yongaları yazılımsal olarak 0 ile +22 dBm arasında çıkış gücü üretebilir (+14 dBm $\\approx$ 25 mW, +20 dBm $\\approx$ 100 mW, +22 dBm $\\approx$ 160 mW). Türkiye ve Avrupa BTK/ETSI mevzuatına göre lisanssız 868 MHz bandında azami yasal güç 25 mW (+14 dBm EIRP) ile sınırlandırılmıştır. Yüksek kazançlı anten kullanıldığında anten kazancı hesaba katılarak telsiz çıkış gücü ayarlanmalıdır.",
+        github: "meshtastic.org/docs/configuration/radio",
+        infobox: {
+          "Birim": "dBm / mW",
+          "Yasal Limit (EU/TR)": "+14 dBm (25 mW EIRP)",
+          "SX1262 Azami": "+22 dBm (160 mW)",
+          "Formül": "P(dBm) = 10 * log10(P_mW)"
+        },
+        seeAlso: ["duty-cycle", "sx1262", "yasal-uyarilar", "vswr"]
+      },
+      {
+        id: "rf-refraction-43-earth",
+        en: "Atmospheric Refraction & 4/3 Effective Earth Radius",
+        tr: "Atmosferik Kırılma ve 4/3 Efektif Dünya Yarıçapı",
+        category: "RF & Yayılım",
+        lead: "Atmosferdeki sıcaklık, basınç ve nem değişimlerinin radyo dalgalarını hafifçe aşağıya (yerküreye doğru) bükmesi ve radyo ufkunun geometrik optik ufuktan yaklaşık %15-33 daha geniş olmasını açıklayan standart RF modeli.",
+        details: "Işık dalgaları gibi radyo dalgaları da standart atmosferik koşullarda bükülür. HeyWhatsThat, Radio Mobile ve profesyonel RF simülasyon araçları, Dünya'nın gerçek yarıçapını ($R_0 \\approx 6371\\text{ km}$) 4/3 çarpanıyla ($k = 1.33$) büyüterek 'efektif radyo ufku' eğriliğini hesaplar. Bu fenomen, iki yüksek dağdaki Meshtastic yönlendiricisinin geometrik görüş çizgisinin bittiği ufuk noktasının ötesinde dahi birbirini duyabilmesini sağlar.",
+        github: "www.heywhatsthat.com/techfaq.html#refraction & meshtastic.org/docs/hardware/antennas",
+        infobox: {
+          "Kırılma Katsayısı (k-Faktörü)": "Standart K = 4/3 (~1.33)",
+          "Etki": "Radyo dalgalarını yeryüzüne doğru bükme",
+          "Radyo Ufku": "Geometrik ufuktan ~%15 daha uzundur",
+          "Simülasyon": "HeyWhatsThat / Radio Mobile DEM"
+        },
+        seeAlso: ["fresnel-zone", "heywhatsthat-terrain", "meshtastic-range-records"]
+      },
+      {
+        id: "heywhatsthat-terrain",
+        en: "HeyWhatsThat Terrain & Horizon Profiling",
+        tr: "HeyWhatsThat ve Sayısal Yükseklik Profili (DEM)",
+        category: "RF & Yayılım",
+        lead: "Sayısal Yükseklik Modelleri (DEM) ve atmosferik kırılma algoritmaları kullanarak, dağ tepelerine veya binalara kurulacak Meshtastic rölelerinin gerçek radyo kapsama haritalarını ve görüş çizgilerini (LoS) modelleyen popüler açık kaynaklı topoğrafya aracı.",
+        details: "Kullanıcılar `heywhatsthat.com` üzerinden tepeye kurmayı planladıkları antenin koordinatlarını ve direk yüksekliğini girerek 360 derecelik ufuk profilini ve diğer komşu tepe istasyonlarıyla olan arazi kesitini çıkarır. Arazi engelleri ve Fresnel elipsi kesiti önceden simüle edilerek, fiziksel kuruluma gitmeden önce bağlantının çalışıp çalışmayacağı garantiye alınır.",
+        github: "www.heywhatsthat.com & meshtastic.org/docs/hardware/antennas",
+        infobox: {
+          "Web Aracı": "heywhatsthat.com",
+          "Veri Tabanı": "SRTM Sayısal Yükseklik Modeli (DEM)",
+          "Hesaplanan": "Radyo Ufku, İki Nokta Arası Arazi Profili",
+          "Kullanım Amacı": "Dağ rölesi ve çatı yönlendiricisi planlama"
+        },
+        seeAlso: ["rf-refraction-43-earth", "fresnel-zone", "range-test", "meshmap"]
+      },
+      {
+        id: "antenna-polarization",
+        en: "Antenna Polarization (Vertical vs Horizontal)",
+        tr: "Anten Polarizasyonu ve Dikey Eksen Uyumu",
+        category: "RF & Yayılım",
+        lead: "Antenden yayılan radyo elektromanyetik dalgasının elektrik alan vektörünün yönü; Meshtastic ağlarında tüm düğümlerin antenlerini kesinlikle dikey (vertical) konumlandırma zorunluluğu kuralı.",
+        details: "Telsiz ağındaki bir cihaz antenini dikey, karşıdaki cihaz ise yatay tutarsa 'Çapraz Polarizasyon Kaybı' (Cross-Polarization Attenuation) meydana gelir. Bu kayıp sinyal gücünü 20 ila 30 dB (yaklaşık 100 ila 1000 kat güç kaybı) düşürür ve menzili tamamen yok eder. Bu nedenle el cihazlarında, sırt çantası takipçilerinde ve çatı antenlerinde anten daima gökyüzüne dik bakacak şekilde monte edilmelidir.",
+        github: "meshtastic.org/docs/hardware/antennas",
+        infobox: {
+          "Standart": "Dikey Polarizasyon (Vertical)",
+          "Çapraz Polarizasyon Kaybı": "20 - 30 dB zayıflama (Aşırı sinyal kaybı)",
+          "Tavsiye": "Antenler daima dik (vertical) durmalıdır",
+          "Hata": "Yatay montaj menzili yok eder"
+        },
+        seeAlso: ["vswr", "rssi", "collinear-antenna", "yagi-antenna"]
+      },
+      {
+        id: "collinear-antenna",
+        en: "Collinear Omnidirectional Antenna (High Gain)",
+        tr: "Koliner Eşeksenli Anten (Yüksek Kazançlı Omni)",
+        category: "Donanım & Çipler",
+        lead: "Telsiz kuleleri, çatı yönlendiricileri ve dağ zirvesi rölelerinde 360 derece yatay kapsama sağlamak üzere dikeyde fazlı elemanların üst üste dizilmesiyle üretilen yüksek kazançlı (5.8 dBi / 8 dBi) fiberglas baz istasyonu anteni.",
+        details: "Standart küçük lastik ördek (rubber duck) antenler 2 dBi civarında kazanç sağlarken ve enerjiyi küre şeklinde yayarken; koliner antenler dikey ışıma açısını daraltarak enerjiyi yatay düzlemde yassı bir çörek (doughnut) gibi tüm ufka odaklar. Aşırı yüksek kazanç (ör. 10-12 dBi) dağ tepelerindeki yönlendiricilerde alt vadideki yakın kullanıcıları 'ışıma deseninin altında bırakıp' kör nokta yaratabilir; bu nedenle 5.8 dBi çoğu coğrafya için altın orandır.",
+        github: "meshtastic.org/docs/hardware/antennas",
+        infobox: {
+          "Anten Tipi": "Koliner (Collinear Phased Array)",
+          "Kapsama": "360 Derece Eşyönlü (Omnidirectional)",
+          "Tipik Kazanç": "5.8 dBi - 8.5 dBi",
+          "Kullanım Alanı": "Çatı ve dağ yönlendiricileri (Router/Repeater)"
+        },
+        seeAlso: ["antenna-polarization", "yagi-antenna", "ground-plane", "vswr"]
+      },
+      {
+        id: "yagi-antenna",
+        en: "Yagi-Uda Directional Antenna",
+        tr: "Yagi-Uda Yönlü Anten (Noktadan Noktaya Omurga)",
+        category: "Donanım & Çipler",
+        lead: "Radyo dalgalarını 360 dereceye dağıtmak yerine tek bir dar açıya odaklayarak iki uzak dağ zirvesi veya şehirler arası sabit omurga (backbone) bağlantısı kurmak için kullanılan yüksek kazançlı (10–16 dBi) yönlü anten.",
+        details: "Bir sürücü eleman (dipol), arkasında bir yansıtıcı (reflector) ve önünde bir dizi yönlendirici (director) metal çubuktan oluşur. Enerjiyi tek bir yöne yoğunlaştırdığı için diğer yönlerden gelen elektromanyetik parazitleri de bloke eder. İki uzak şehir veya vadi arasındaki mesafeyi tek sıçramada aşmak isteyen Meshtastic altyapı kurucuları tarafından noktadan noktaya (Point-to-Point) omurga linklerinde tercih edilir.",
+        github: "meshtastic.org/docs/hardware/antennas",
+        infobox: {
+          "Anten Türü": "Yagi-Uda Yönlü (Directional Beam)",
+          "Kazanç": "10 - 16 dBi",
+          "Işıma Açısı": "Dar Açılı Odak (30 - 60 derece)",
+          "Kullanım": "Noktadan noktaya uzun mesafe omurga köprüleri"
+        },
+        seeAlso: ["collinear-antenna", "antenna-polarization", "fresnel-zone", "vswr"]
+      },
+      {
+        id: "ground-plane",
+        en: "Ground Plane & Radial Wires",
+        tr: "Yansıtıcı Zemin Düzlemi (Ground Plane ve Radyaller)",
+        category: "Donanım & Çipler",
+        lead: "Monopol (çeyrek dalga) antenlerin 50 ohm karakteristik empedans uyumuna ulaşması ve sağlıklı ışıma yapabilmesi için anten tabanının altına yerleştirilen metal plaka veya 3-4 adet eğimli çeyrek dalga radyal tel.",
+        details: "Yarım dalga dipol antenler iki koldan oluşurken; araç üstü veya kutu üstü monopol antenler ikinci kol olarak altlarındaki metal yüzeyi (araba tavanı veya metal kasa) kullanır. Plastik su geçirmez kutularda zemin düzlemi yoksa antenin empedansı bozulur, VSWR 2.5-3.0 seviyesine fırlar ve enerjinin çoğu telsize geri yansır. 45 derece açıyla takılan 4 adet radyal tel (Ground Plane Kit), empedansı tam 50 ohm'a oturtarak VSWR'yi 1.1-1.2 seviyesine düşürür.",
+        github: "meshtastic.org/docs/hardware/antennas",
+        infobox: {
+          "Gereksinim": "Monopol (Çeyrek Dalga) Antenler",
+          "Yapı": "Metal Taban veya 45° Eğimli 3-4 Radyal Tel",
+          "İşlevi": "50 Ohm empedans eşleme & VSWR düşürme",
+          "Kritik Risk": "Topraklamasız monopol anten VSWR'yi yükseltir"
+        },
+        seeAlso: ["vswr", "collinear-antenna", "antenna-polarization", "tx-power"]
       }
     ];
 

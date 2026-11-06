@@ -124,6 +124,12 @@ Paket başlığında bulunan ve hedef düğümden kesin bir açık alındı onay
 ### 🔹 Channel Hash (Kanal Sağlama Özeti)
 Paket başlığında yer alan 1 baytlık hafif hash değeri. Düğümler havadan yakaladıkları bir paketi işlemciyi yorup şifresini çözmeye çalışmadan önce bu özete bakarak abonesi olmadıkları kanalların paketlerini anında işlemden düşürür.
 
+### 🔹 Bölge Frekans Ayarı ve UNSET Güvenlik Durumu (Region UNSET)
+Yeni kurulan veya fabrika ayarlarına sıfırlanan cihazların, yasal olmayan bir telsiz frekansında yayın yapmasını engellemek için kullanıcı açıkça bir ülke/bölge seçene kadar vericisini (TX) kapalı tuttuğu güvenlik durumu. Türkiye için yasal mod `EU_868` seçilmelidir.
+
+### 🔹 Kanal QR Kodu ve URL ile Hızlı Paylaşım (Channel Sharing)
+Kanal adını, AES şifreleme anahtarını ve modem profilini tek bir optik QR koduna veya web bağlantısına (`meshtastic.org/e/#...`) paketleyerek diğer kullanıcıların kamera taramasıyla saniyeler içinde kanala katılmasını sağlayan pratik paylaşım yöntemi.
+
 ---
 
 ## 2. Donanım, Çipler ve Bileşenler (Hardware & Components)
@@ -182,6 +188,18 @@ Bilgisayar ile cihaz arasında seri haberleşme (UART) ve firmware yükleme sağ
 
 ### 🔹 STM32 Dahili ROM Bootloader
 STM32 mikrodenetleyicili LoRa kartlarında (ST B-L072Z-LRWAN1 vb.) `BOOT0` pini HIGH durumdayken dahili ROM bootloader üzerinden doğrudan UART portuyla (`stm32flash`) firmware yükleme yöntemi.
+
+### 🔹 STM32 Bellek Okuma Koruması (RDP Kaldırma)
+STM32 mikrodenetleyicilerinde (RAK811 vb.) flash belleğin harici programlayıcılar tarafından okunmasını/yazılmasını engelleyen güvenlik kilidi. Meshtastic yüklemeden önce STM32CubeProgrammer ile Option Bytes üzerinden RDP Level 0'a çekilerek kaldırılır (tüm belleği otomatik siler).
+
+### 🔹 Koliner Eşeksenli Anten (Collinear High-Gain Omni)
+Çatı yönlendiricileri ve dağ tepesi rölelerinde 360 derece eşyönlü yatay kapsama sağlamak üzere fazlı elemanların üst üste dizilmesiyle üretilen yüksek kazançlı (5.8 - 8.5 dBi) fiberglas baz istasyonu anteni.
+
+### 🔹 Yagi-Uda Yönlü Anten (Noktadan Noktaya Omurga)
+Radyo dalgalarını dar bir açıya odaklayarak iki uzak dağ zirvesi veya şehirler arası sabit omurga (backbone) linki kurmak için kullanılan yüksek kazançlı (10–16 dBi) yönlü anten.
+
+### 🔹 Yansıtıcı Zemin Düzlemi (Ground Plane ve Radyal Teller)
+Monopol (çeyrek dalga) antenlerin 50 ohm karakteristik empedans uyumuna ulaşması ve VSWR değerini 1.1-1.2 seviyesine düşürmesi için anten tabanının altına yerleştirilen metal plaka veya 45° eğimli 3-4 adet radyal tel.
 
 ---
 
@@ -320,6 +338,18 @@ Bir LoRa cıvıltı (chirp) sembolünün havada iletilmesi için geçen süre ($
 
 ### 🔹 Meshtastic Dünya Menzil Rekorları ve HAB Uçuşları
 Standart yasal lisanssız ISM güç sınırlarında (+14 dBm / +22 dBm) elde edilmiş resmi rekorlar: Yer-yer (Ground-to-Ground) optik görüş rekoru 254+ km; stratosferik hava balonlarına (HAB) bağlanan düğümler ile yer istasyonları arasında 1000+ km doğrulanmış paket teslimatı.
+
+### 🔹 TX Çıkış Gücü ve Efektif Işıma Gücü (TX Power & EIRP)
+Telsiz alıcı-verici yongasının antene sağladığı RF gücü (dBm veya mW). Türkiye ve Avrupa BTK/ETSI mevzuatına göre lisanssız 868 MHz bandında azami yasal güç 25 mW (+14 dBm EIRP) ile sınırlandırılmıştır.
+
+### 🔹 Atmosferik Kırılma ve 4/3 Efektif Dünya Yarıçapı (4/3 Earth Radius)
+Atmosferdeki sıcaklık ve basınç değişimlerinin radyo dalgalarını yeryüzüne doğru bükmesi sonucu efektif radyo ufkunun geometrik optik ufuktan yaklaşık %15 daha uzun olmasını açıklayan standart RF modeli ($k = 1.33$).
+
+### 🔹 HeyWhatsThat ve Sayısal Yükseklik Profili (DEM Arazi Analizi)
+Sayısal Yükseklik Modelleri (DEM) ve atmosferik kırılma algoritmaları kullanarak, dağ tepelerine kurulacak Meshtastic rölelerinin gerçek radyo kapsama haritalarını ve iki nokta arasındaki Fresnel açıklığını simüle eden web aracı.
+
+### 🔹 Anten Polarizasyonu ve Dikey Eksen Uyumu (Polarization)
+Radyo dalgasının elektrik alan yönü. Meshtastic ağında tüm antenler dikey (vertical) konumlandırılmalıdır; biri dikey diğeri yatay olduğunda 20 ila 30 dB (100 ila 1000 kat) sinyal kaybı (çapraz polarizasyon kaybı) yaşanır.
 
 ---
 
