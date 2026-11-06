@@ -742,6 +742,18 @@ Meshtastic donanımını kontrol etmek, mesajlaşıp harita görüntülemek ve a
 - **Docker Host Ağ İletişim Modu (`docker-network-host-mode`):** `--network host` ile NAT gecikmelerini sıfırlama ve yerel ağda mDNS/UDP paketlerini yayma.
 - **Docker Günlük Sürücüsü ve Telsiz Denetimi (`docker-log-driver-inspection`):** `docker logs -f` ile telsiz başlatma, SNR değerleri ve paket trafiğini canlı izleme.
 
+### ⚙️ meshtasticd Çalıştırma Seçenekleri ve Uzaktan Yönetim (meshtastic.org/docs/meshtasticd/usage)
+- **meshtasticd Komut Satırı Çalıştırma Parametreleri (`meshtasticd-cli-arguments`):** `-c` (ayar), `-d` (VFS dizini), `-e` (sıfırlama) ve `-s` (simülasyon) çalıştırma bayrakları.
+- **meshtasticd Yapılandırma Dosyası Öncelik Sıralaması (`meshtasticd-config-precedence-hierarchy`):** CLI bayrağı > çalışma dizini > `/etc/meshtasticd/config.yaml` öncelik kuralı.
+- **Portduino Sanal Dosya Sistemi (VFS) Mimarisi (`portduino-virtual-filesystem-vfs`):** Flash bellek LittleFS dosya sistemini Linux `/var/lib/meshtasticd` dizininde emüle etme.
+- **meshtasticd Sanal Bellek Sıfırlama (`meshtasticd-vfs-erase-factory-reset`):** `-e / --erase` bayrağı ile tüm kimlik ve kanal anahtarlarını silip fabrika ayarlarına dönme.
+- **Meshtastic Python CLI ile Uzaktan TCP Yönetimi (`meshtastic-python-cli-tcp-host`):** `--host <ip>` parametresiyle ağ üzerinden Linux telsiz düğümünü uzaktan yönetme.
+- **meshtasticd config.d Derinlemesine Birleştirme (`meshtasticd-config-d-deep-merge`):** Ana dosya ile `config.d/*.yaml` parçalarını özyinelemeli birleştirme mimarisi.
+- **meshtasticd journalctl Canlı Log Akışı (`meshtasticd-journalctl-stream-logging`):** Gelen her telsiz paketinin SNR, RSSI ve Portnum yükünü konsoldan canlı izleme.
+- **meshtasticd Web Arayüzü Eşleşmesi ve Canlı Kontrol (`meshtasticd-client-webui-pairing`):** Tarayıcıdan WebSockets ile telsiz yönetimi ve kanal yapılandırması.
+- **meshtasticd Düğüm Kimliği ve Şifreleme Kalıcılığı (`meshtasticd-node-identity-persistence`):** Yeniden başlatmalarda Node ID, Ed25519 ve TLS anahtarlarını koruma ilkesi.
+- **meshtasticd TCP Üzerinden Uzaktan Kanal Yapılandırması (`meshtasticd-tcp-channel-provisioning`):** Port 4403 üzerinden telsiz kulesine uzaktan şifreli kanal ve PSK anahtarı ekleme.
+
 ### 🔹 Açık Standart ve Tedarikçi Bağımsızlığı (Open Architecture & Vendor Neutrality)
 Meshtastic'in hiçbir tescilli ticari protokole veya tek bir donanım üreticisine bağımlı kalmamasını sağlayan açık kaynak ekosistem felsefesi (GPL-3.0 lisansı ve açık Protobuf şemaları). Semtech SX1262/SX1276/LR1121 telsizleri ile ESP32, nRF52840 ve RP2040 işlemcili onlarca farklı üreticinin (Heltec, LilyGO, RAKwireless) donanımları tam uyumla birlikte çalışabilir.
 

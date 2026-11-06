@@ -8959,6 +8959,166 @@
           "Günlük Döndürme": "--log-opt max-size=10m --log-opt max-file=3"
         },
         seeAlso: ["meshtasticd-post-install-hardware-check", "docker-interactive-troubleshooting-shell", "meshtasticd-systemd-service-management"]
+      },
+      {
+        id: "meshtasticd-cli-arguments",
+        en: "meshtasticd Command-Line Execution Arguments & Flags",
+        tr: "meshtasticd Komut Satırı Çalıştırma Parametreleri",
+        category: "Yazılım & İstemciler",
+        lead: "`meshtasticd` ikilisini komut satırından veya konteyner içinde çalıştırırken yapılandırma dosyasını, sanal depolama dizinini ve simülasyon kipini belirleyen bayraklar bütünü.",
+        details: "Servis doğrudan çağrıldığında çeşitli bayrakları kabul eder: `-c <dosya>` (özel config.yaml dosya yolu), `-d <dizin>` (sanal dosya sistemi VFS dizini, varsayılan `/var/lib/meshtasticd`), `-e` (açılış öncesi sanal belleği silip fabrika ayarlarına dönme), `-s` (fiziksel telsiz olmadan sanal simülasyon kipi) ve `-h` (yardım menüsü). Bu argümanlar `meshtasticd.service` içinde `ExecStart` satırına eklenerek veya test komutlarında kullanılarak servisin davranışı esnekçe ayarlanır.",
+        github: "meshtastic.org/docs/meshtasticd/usage",
+        infobox: {
+          "Temel Bayraklar": "-c (Config), -d (VFS Dir), -e (Erase), -s (Simulate), -h (Help)",
+          "Örnek Kullanım": "meshtasticd -c /home/pi/test-config.yaml -d /tmp/meshtastic-vfs",
+          "Kullanım Alanı": "Geliştirme testleri, geçici düğüm oluşturma, hata giderme",
+          "Varsayılan Servis Komutu": "/usr/bin/meshtasticd -d /var/lib/meshtasticd"
+        },
+        seeAlso: ["meshtasticd-native-daemon", "meshtasticd-config-precedence-hierarchy", "meshtasticd-vfs-erase-factory-reset"]
+      },
+      {
+        id: "meshtasticd-config-precedence-hierarchy",
+        en: "meshtasticd Configuration File Loading Precedence",
+        tr: "meshtasticd Yapılandırma Dosyası Öncelik Sıralaması",
+        category: "Yazılım & İstemciler",
+        lead: "`meshtasticd` başlatıldığında birden fazla `config.yaml` dosyası bulunması halinde hangi dosyanın geçerli sayılacağını belirleyen katı hiyerarşi kuralı.",
+        details: "Sistemde ayar çakışmalarını önlemek için şu öncelik sırası uygulanır: (1) En yüksek öncelik: Komut satırında `-c` veya `--config` bayrağıyla açıkça belirtilen dosya yolu; (2) İkinci öncelik: `meshtasticd` komutunun çalıştırıldığı geçerli çalışma dizinindeki (`./config.yaml`) dosya; (3) Varsayılan taban öncelik: Sistem genelindeki standart `/etc/meshtasticd/config.yaml` dosyası. Bu sıralama, sistem yöneticisinin ana sistem ayarını bozmadan geçici test profilleri çalıştırmasına olanak tanır.",
+        github: "meshtastic.org/docs/meshtasticd/usage",
+        infobox: {
+          "1. Öncelik": "Komut Satırı Bayrağı (-c /path/to/custom-config.yaml)",
+          "2. Öncelik": "Geçerli Çalışma Dizini (./config.yaml)",
+          "3. Öncelik": "Sistem Varsayılanı (/etc/meshtasticd/config.yaml)",
+          "Özellik": "Boşluk ve girintiye (indentation) duyarlı YAML biçimi"
+        },
+        seeAlso: ["meshtasticd-config-yaml", "meshtasticd-cli-arguments", "meshtasticd-config-d-deep-merge"]
+      },
+      {
+        id: "portduino-virtual-filesystem-vfs",
+        en: "Portduino Virtual Filesystem (VFS) Architecture",
+        tr: "Portduino Sanal Dosya Sistemi (VFS) Mimarisi",
+        category: "Yazılım & İstemciler",
+        lead: "Mikrodenetleyicilerde SPI Flash üzerinde çalışan LittleFS dosya sistemini Linux dosya sisteminde bir dizin (`/var/lib/meshtasticd`) olarak emüle eden depolama katmanı.",
+        details: "Standart Meshtastic donanımları radyo tercihlerini, kanal anahtarlarını (`channels.proto`) ve ağ cihaz listesini (`nodedb.proto`) dahili flash bellekteki LittleFS bölümünde ikili Protobuf dosyaları olarak saklar. Portduino, bu flash API çağrılarını host işletim sisteminde yerel bir Linux klasörüne eşler. Böylece Linux'ta çalışan `meshtasticd`, mikrodenetleyiciyle birebir aynı ikili dosya yapısını korur; yedekleme için sadece `/var/lib/meshtasticd` dizininin kopyalanması yeterlidir.",
+        github: "meshtastic.org/docs/meshtasticd/usage",
+        infobox: {
+          "Varsayılan Dizin": "/var/lib/meshtasticd",
+          "Emüle Edilen Biçim": "LittleFS / SPIFFS Flash Dosya Sistemi",
+          "Saklanan Dosyalar": "prefs.proto (Ayarlar), channels.proto (Kanallar), nodedb (Düğümler)",
+          "Değiştirme Bayrağı": "-d /yol/dizin (Alternatif depolama alanı atama)"
+        },
+        seeAlso: ["portduino-abstraction-framework", "meshtasticd-vfs-erase-factory-reset", "meshtasticd-node-identity-persistence"]
+      },
+      {
+        id: "meshtasticd-vfs-erase-factory-reset",
+        en: "meshtasticd VFS Storage Wipe & Factory Reset (-e / --erase)",
+        tr: "meshtasticd Sanal Bellek Sıfırlama ve Fabrika Ayarlarına Dönüş",
+        category: "Yazılım & İstemciler",
+        lead: "`meshtasticd` servisinin açılışında kayıtlı tüm telsiz kimliğini, kanal anahtarlarını ve komşu düğüm geçmişini temizleyen fabrika ayarlarına sıfırlama bayrağı.",
+        details: "Telsiz yanlış yapılandırıldığında veya yeni bir test senaryosuna temiz başlamak istendiğinde `meshtasticd -e` komutu verilir. Bu bayrak, VFS dizini altındaki tüm ikili durum dosyalarını (`/var/lib/meshtasticd/*`) siler ve süreci sıfırdan başlatır. Süreç açılışta rastgele yeni bir 32-bit Node ID ve varsayılan LongFast kanalını üretir. Fiziksel donanımlardaki 'Factory Reset' veya 'NVS Erase' işleminin Linux POSIX ortamındaki tam karşılığıdır.",
+        github: "meshtastic.org/docs/meshtasticd/usage",
+        infobox: {
+          "Çalıştırma Bayrağı": "-e veya --erase",
+          "Temizlenen Veriler": "Node ID, Özel AES Kanal Anahtarları, Komşu Düğüm Listesi (NodeDB)",
+          "Fiziksel Karşılığı": "ESP32 esptool erase_flash / NVS Flash Erase",
+          "Uyarı": "Düğümün telsiz kimliğini değiştirir; geri dönüşümsüzdür"
+        },
+        seeAlso: ["portduino-virtual-filesystem-vfs", "meshtasticd-cli-arguments", "esptool-flashing-tool"]
+      },
+      {
+        id: "meshtastic-python-cli-tcp-host",
+        en: "Meshtastic Python CLI Remote TCP Host Management (--host)",
+        tr: "Meshtastic Python CLI ile Uzaktan TCP Ana Makine Yönetimi",
+        category: "Yazılım & İstemciler",
+        lead: "Meshtastic Python komut satırı aracının yerel USB portu yerine ağ üzerinden `meshtasticd` sunucusuna TCP Port 4403 ile bağlanarak çalışmasını sağlayan `--host` parametresi.",
+        details: "Sistem yöneticileri kuleye veya sunucu odasına gitmeden, kendi dizüstü bilgisayarlarından `meshtastic --host 192.168.1.50 --info` komutunu vererek uzaktaki Linux düğümünün durumunu sorgulayabilir. `--host` parametresi TCP soketini başlatır; Protobuf paketlerini ağ üzerinden takas eder. Örneğin `meshtastic --host 192.168.1.50 --set-owner 'Bursa-Uludag-Röle' --set lora.tx_power 22` komutuyla telsiz gücü ve çağrı işareti saniyeler içinde uzaktan değiştirilebilir.",
+        github: "meshtastic.org/docs/meshtasticd/usage",
+        infobox: {
+          "CLI Parametresi": "--host <IP_veya_AlanAdı> (ör. --host localhost veya --host 10.0.0.1)",
+          "İletişim Portu": "TCP 4403 (Meshtastic Standart API Portu)",
+          "Örnek Komut": "meshtastic --host localhost --sendtext 'Acil Durum Tatbikatı'",
+          "Avantajı": "SSH ile Linux'a girmeden doğrudan uzaktan tam yönetim yetkisi"
+        },
+        seeAlso: ["meshtasticd-tcp-api-port-4403", "meshtasticd-tcp-channel-provisioning", "paho-mqtt-python-client"]
+      },
+      {
+        id: "meshtasticd-config-d-deep-merge",
+        en: "meshtasticd config.d Deep YAML Tree Merge Architecture",
+        tr: "meshtasticd config.d Yapılandırma Parçalarını Derinlemesine Birleştirme",
+        category: "Yazılım & İstemciler",
+        lead: "`meshtasticd` açılışında ana `config.yaml` dosyası ile `/etc/meshtasticd/config.d/` altındaki tüm ek YAML dosyalarını tek bir mantıksal ayar ağacında birleştiren mimari.",
+        details: "Sistem yöneticisi ana dosyaya dokunmadan `/etc/meshtasticd/config.d/lora.yaml` ve `/etc/meshtasticd/config.d/display.yaml` gibi bağımsız dosyalar oluşturabilir. `meshtasticd` başlatıldığında bu dosyaları alfabetik sırayla tarar ve derinlemesine birleştirme (deep merge) algoritmasıyla ana ağaca ekler. Eğer aynı anahtar birden fazla dosyada tanımlanmışsa son okunan dosyadaki değer geçerli olur. Modüler kule kurulumlarında donanım parçalarını tek tıkla değiştirmeyi sağlar.",
+        github: "meshtastic.org/docs/meshtasticd/usage",
+        infobox: {
+          "Birleştirme Dizini": "/etc/meshtasticd/config.d/*.yaml",
+          "Algoritma": "Derinlemesine Sözlük/Ağaç Birleştirme (Recursive Deep Dict Merge)",
+          "Çakışma Kuralı": "Son okunan YAML dosyasındaki değer ana dosyadakini ezer (override)",
+          "Kullanım": "Farklı radyo şapkalarını ve ekranları bağımsız dosyalarda yönetme"
+        },
+        seeAlso: ["meshtasticd-config-d-modular-directory", "meshtasticd-config-yaml", "meshtasticd-config-precedence-hierarchy"]
+      },
+      {
+        id: "meshtasticd-journalctl-stream-logging",
+        en: "meshtasticd Real-Time journalctl Stream Diagnostic Logging",
+        tr: "meshtasticd journalctl Canlı Log Akışı ve Teşhis İzleme",
+        category: "Yazılım & İstemciler",
+        lead: "Linux systemd günlük mekanizması üzerinden `meshtasticd` sürecinin telsiz paketlerini, sinyal metriklerini ve donanım kesmelerini canlı olarak ekrana basan teşhis komutu.",
+        details: "`sudo journalctl -u meshtasticd -f -o cat` komutu çalıştırıldığında sistem logları zaman damgası ve servis etiketiyle anlık akar. Telsizden geçen her LoRa paketinin gönderici kimliği (`from: !7efeee00`), alıcı kimliği (`to: 0xffffffff`), SNR (ör. `+6.25 dB`), RSSI (ör. `-85 dBm`) ve Portnum türü anında görüntülenir. Hata durumunda SPI zaman aşımı (`SX1262 timeout`) veya geçersiz Protobuf uyarıları filtrelenerek kriz anında arızanın kaynağı saniyeler içinde bulunur.",
+        github: "meshtastic.org/docs/meshtasticd/usage",
+        infobox: {
+          "İzleme Komutu": "sudo journalctl -u meshtasticd -f -o cat",
+          "Son Hataları Görme": "sudo journalctl -u meshtasticd -n 100 --no-pager",
+          "İzlenen Olaylar": "Paket alma/iletme, SNR/RSSI, SPI kesmesi, WebUI oturumları",
+          "Faydası": "Harici ekran takmadan telsizin anlık radyo trafiğini konsoldan izleme"
+        },
+        seeAlso: ["meshtasticd-post-install-hardware-check", "docker-log-driver-inspection", "meshtasticd-systemd-service-management"]
+      },
+      {
+        id: "meshtasticd-client-webui-pairing",
+        en: "meshtasticd Browser WebUI Pairing & Real-Time Control",
+        tr: "meshtasticd Web Arayüzü Eşleşmesi ve Canlı Kontrol",
+        category: "Yazılım & İstemciler",
+        lead: "Yerel ağdaki herhangi bir cihazdan (PC, tablet, akıllı telefon) web tarayıcısı açılarak `meshtasticd` düğümüne bağlanılmasını ve telsizin canlı yönetilmesini sağlayan WebSockets arayüzü.",
+        details: "Kullanıcı tarayıcısına `http://<sunucu_ip_adresi>/` yazar. `meshtasticd` dahili HTTP sunucusu üzerinden resmi web istemcisini yükler; arka planda `ws://<sunucu_ip_adresi>/ws` veya TCP soketi üzerinden telsiz çekirdeğiyle çift yönlü bağlantı kurar. Kullanıcı ekranda kanalları görür, şifreli mesaj gönderir, düğüm haritasını görüntüler ve telsiz frekans ayarlarını Bluetooth veya USB kablosu takmadan doğrudan web arayüzünden günceller.",
+        github: "meshtastic.org/docs/meshtasticd/usage",
+        infobox: {
+          "Erişim URL": "http://<ip-adresi>/ veya https://<ip-adresi>/",
+          "İletişim Protokolü": "WebSockets (ws:// / wss://) ve HTTP REST",
+          "Gereksinim": "Yalnızca modern bir web tarayıcısı (Chrome, Firefox, Safari)",
+          "Özellik": "Sıfır ek yazılım kurulumuyla sahra telsizini ortak kullanıma açma"
+        },
+        seeAlso: ["meshtasticd-native-webserver", "docker-port-forwarding-tcp-web", "meshtastic-python-cli-tcp-host"]
+      },
+      {
+        id: "meshtasticd-node-identity-persistence",
+        en: "meshtasticd Node Identity & Cryptographic Key Persistence",
+        tr: "meshtasticd Düğüm Kimliği ve Şifreleme Anahtarı Kalıcılığı",
+        category: "Güvenlik & Kripto",
+        lead: "`meshtasticd` servisinin yeniden başlatılması veya sistem güncellemeleri sırasında telsiz kimliğinin (Node ID), MAC adresinin ve kriptografik TLS/AES anahtarlarının korunması mimarisi.",
+        details: "İlk çalıştırmada `meshtasticd`, `/var/lib/meshtasticd/` altında düğümün benzersiz açık/özel anahtar çiftini (Ed25519) ve donanım kimliğini üretir. Bu dosyalar kalıcı diskte saklandığı sürece, servis kapatılıp açılsa veya Ubuntu/Debian sistemi güncellense dahi düğümün telsiz çağrı adı ve ağdaki benzersiz numarası değişmez. Eğer bu dizin silinirse düğüm ağdaki diğer cihazlara tamamen yeni bir telsiz gibi görünür ve eski şifreli özel mesajları çözemez.",
+        github: "meshtastic.org/docs/meshtasticd/usage",
+        infobox: {
+          "Kimlik Dosyaları": "/var/lib/meshtasticd/prefs.proto ve SSL/Ed25519 sertifikaları",
+          "Kriptografik Anahtarlar": "Düğüm Özel Anahtarı (Private Key), Kanal AES Anahtarları",
+          "Kalıcılık İlkesi": "Disk formatlanmadığı veya -e girilmediği sürece kimlik sabit kalır",
+          "Yedekleme Önerisi": "Sahra kulelerinde /var/lib/meshtasticd dizini düzenli yedeklenmelidir"
+        },
+        seeAlso: ["portduino-virtual-filesystem-vfs", "docker-volume-config-mount", "meshtasticd-vfs-erase-factory-reset"]
+      },
+      {
+        id: "meshtasticd-tcp-channel-provisioning",
+        en: "meshtasticd Remote TCP Channel Provisioning & Security Management",
+        tr: "meshtasticd TCP Üzerinden Uzaktan Kanal ve Güvenlik Yapılandırması",
+        category: "Ağ & Protokol",
+        lead: "Ağ üzerinden TCP Port 4403 soketi kullanılarak `meshtasticd` düğümüne yeni şifreli kanallar ekleme, AES anahtarları tanımlama ve rol değiştirme işlemi.",
+        details: "Sahadaki bir kule veya üs istasyonuna fiziksel olarak tırmanmaya gerek kalmadan tüm kanal ayarları uzaktan yapılır. Python CLI kullanılarak `meshtastic --host 192.168.1.50 --ch-add 'Kurtarma' --ch-set psk 'base64:...' --ch-index 1` komutu fırlatılır. `meshtasticd` paketi doğrular, şifreleme anahtarını VFS içindeki `channels.proto` dosyasına işler ve anında yeni kanalı LoRa üzerinden dinlemeye başlar. Telsiz operatörleri afet operasyonu sırasında anında yeni ortak taktik kanallara dahil edilebilir.",
+        github: "meshtastic.org/docs/meshtasticd/usage",
+        infobox: {
+          "Yapılandırma Protokolü": "TCP Port 4403 (Protobuf Channel Administration)",
+          "Yönetim Komutu": "meshtastic --host <ip> --ch-add <ad> --ch-set psk <anahtar>",
+          "Kapasite": "Azami 8 Bağımsız Şifreli Kanal (0-7 Kanal İndeksi)",
+          "Kullanım": "Operasyon anında telsiz kulesine uzaktan yeni şifreli acil hat ekleme"
+        },
+        seeAlso: ["meshtastic-python-cli-tcp-host", "meshtasticd-tcp-api-port-4403", "ha-multi-channel-mqtt-subscription"]
       }
     ];
 
