@@ -2391,6 +2391,274 @@
           "Kullanım": "CSMA/CA Slot Zamanlaması ve Çekişme"
         },
         seeAlso: ["spreading-factor", "bandwidth", "csma-ca", "snr-contention-window"]
+      },
+
+      /* 11. Seri Sürücüler, Donanım Köprüleri ve Flashing (meshtastic.org/docs/getting-started) */
+      {
+        id: "cp210x",
+        en: "CP210x USB-to-UART Bridge (Silicon Labs)",
+        tr: "CP210x USB-Seri Dönüştürücü Sürücüsü (Silicon Labs)",
+        category: "Donanım & Çipler",
+        lead: "Heltec V2/V3, LilyGO T-Beam ve birçok klasik ESP32 geliştirme kartında USB portu üzerinden bilgisayarla seri haberleşme (UART) ve firmware yükleme sağlayan Silicon Labs köprü entegresi ve sürücüsü.",
+        details: "CP2102 ve CP2104 yongaları, bilgisayarda sanal bir COM portu (Windows) veya `/dev/ttyUSB*` (Linux) aygıtı oluşturur. Cihaz bilgisayara bağlandığında aygıt yöneticisinde sarı ünlem işareti çıkarsa resmi Silicon Labs CP210x VCP (Virtual COM Port) sürücüsünün kurulması gerekir. DTR ve RTS pinleri ESP32'yi otomatik olarak ROM bootloader moduna sokarak yazılım yüklenmesini sağlar.",
+        github: "meshtastic.org/docs/getting-started/serial-drivers/esp32",
+        infobox: {
+          "Üretici": "Silicon Labs",
+          "Modeller": "CP2102, CP2104, CP2108",
+          "Kullanılan Kartlar": "Heltec V2, T-Beam, T-Echo, WisBlock Base",
+          "İşlevi": "USB-UART Köprüsü & Otomatik Reset (DTR/RTS)",
+          "Sürücü Tipi": "VCP (Virtual COM Port)"
+        },
+        seeAlso: ["ch340-ch9102", "cdc-acm", "esptool", "web-flasher"]
+      },
+      {
+        id: "ch340-ch9102",
+        en: "CH340 & CH9102 USB-to-UART Bridge (WCH)",
+        tr: "CH340 ve CH9102 USB-Seri Dönüştürücüleri (WCH)",
+        category: "Donanım & Çipler",
+        lead: "Jiangsu Qinheng (WCH) tarafından üretilen, LilyGO T-Beam v1.2, T-Echo ve birçok uygun maliyetli Meshtastic kartında yaygın olarak kullanılan USB-UART arayüz entegreleri ailesi.",
+        details: "Küresel çip tedarik krizinde CP2104 yerine birçok üretici yüksek hızlı CH9102F veya klasik CH340C/CH340G yongalarına geçmiştir. CH9102, 4 Mbps'ye varan yüksek baud hızlarını destekler. Windows 11 ve modern Linux çekirdeklerinde yerel sürücü desteği bulunsa da, eski Windows sürümlerinde WCH CH341SER sürücüsünün yüklenmesi gereklidir.",
+        github: "meshtastic.org/docs/getting-started/serial-drivers/esp32",
+        infobox: {
+          "Üretici": "WCH (Jiangsu Qinheng)",
+          "Modeller": "CH340G, CH340C, CH9102F",
+          "Kullanım Alanı": "LilyGO T-Beam v1.2, ESP32 klonları",
+          "Azami Hız": "4 Mbps'e kadar (CH9102)",
+          "Sürücü": "CH341SER.EXE"
+        },
+        seeAlso: ["cp210x", "cdc-acm", "web-flasher"]
+      },
+      {
+        id: "cdc-acm",
+        en: "Native USB CDC ACM (Virtual Serial)",
+        tr: "Dahili USB CDC ACM (Doğrudan Sanal Seri Port)",
+        category: "Donanım & Çipler",
+        lead: "Nordic nRF52840, Espressif ESP32-S3 ve Raspberry Pi RP2040 mikrokontrolcülerinde harici bir köprü çipi (CP2102/CH340) gerektirmeden doğrudan işlemcinin kendi USB donanımı üzerinden sanal seri port açmasını sağlayan standart USB sınıfı.",
+        details: "Communications Device Class (CDC) Abstract Control Model (ACM), işletim sistemlerinin harici üçüncü parti sürücü yüklemeye gerek kalmadan tak-çalıştır seri port oluşturmasını sağlar. Cihaz DFU veya UF2 moduna geçtiğinde aynı USB hattı anında harici bellek (MSC - Mass Storage Class) sürücüsüne dönüşebilir. Bu mimari kart boyutunu, maliyetini ve güç tüketimini ciddi oranda düşürür.",
+        github: "meshtastic.org/docs/getting-started/serial-drivers/nrf52",
+        infobox: {
+          "Standart": "USB CDC-ACM (USB-IF Class 02h)",
+          "Harici Çip İhtiyacı": "Yok (Doğrudan SoC dahili USB)",
+          "Destekleyen Çipler": "nRF52840, ESP32-S3, RP2040",
+          "Sürücü Durumu": "Windows 10/11 ve Linux'ta Tak-Çalıştır"
+        },
+        seeAlso: ["cp210x", "nrf52840", "esp32-s3", "uf2-dfu"]
+      },
+      {
+        id: "esptool",
+        en: "esptool.py (Espressif ROM Bootloader Utility)",
+        tr: "esptool.py — Espressif ROM Önyükleyici Aracı",
+        category: "Yazılım & Protobuf",
+        lead: "Espressif Systems tarafından geliştirilen, ESP32 ve ESP8266 yongalarının kalıcı ROM önyükleyicisiyle haberleşerek flash belleği silen, firmware yükleyen ve donanım kimliğini sorgulayan açık kaynaklı resmi Python aracı.",
+        details: "Web Flasher'ın çalışmadığı durumlarda veya komut satırından otomatik kurulum yapılırken kullanılır. `esptool.py --port COMx erase_flash` komutuyla bozulmuş NVS yapılandırması tamamen sıfırlanabilir; ardından `write_flash` komutuyla önyükleyici (bootloader), bölüm tablosu (partitions.bin) ve Meshtastic firmware ikilisi (`firmware-*.bin`) cihaza yüklenir.",
+        github: "espressif/esptool & meshtastic.org/docs/getting-started/flashing-firmware/esp32/cli-script",
+        infobox: {
+          "Geliştirici": "Espressif Systems",
+          "Yazılım Dili": "Python",
+          "Komutlar": "erase_flash, write_flash, flash_id, chip_id",
+          "Kullanım Amacı": "Firmware yükleme, NVS sıfırlama, kurtarma"
+        },
+        seeAlso: ["web-flasher", "esp32-s3", "platformio", "flash-erase"]
+      },
+      {
+        id: "swd-swdio",
+        en: "SWD / SWDIO (Serial Wire Debug Interface)",
+        tr: "SWD / SWDIO (Seri Kablo Hata Ayıklama ve Kurtarma)",
+        category: "Donanım & Çipler",
+        lead: "ARM Cortex-M işlemcilerde (nRF52840, STM32) önyükleyici (bootloader) tamamen çöktüğünde veya silindiğinde, harici bir donanım programlayıcı ile çipe doğrudan bağlanarak yazılım yüklemeyi sağlayan 2 pinli fiziksel donanım arayüzü.",
+        details: "Yalnızca SWDIO (veri), SWCLK (saat) ve GND pinlerini kullanır. J-Link, ST-Link, Black Magic Probe veya Raspberry Pi Pico (Picoprobe) donanımları ile kart üzerindeki minik test noktalarına lehim yapılarak önyükleyicisi silinmiş 'tuğla' (brick) olmuş cihazlar sıfırdan hayata döndürülebilir.",
+        github: "meshtastic.org/docs/getting-started/flashing-firmware/nrf52/swdio",
+        infobox: {
+          "Protokol": "ARM Serial Wire Debug (SWD)",
+          "Pinler": "SWDIO, SWCLK, VCC (3.3V), GND",
+          "Uyumlu Programlayıcılar": "J-Link, ST-Link, Picoprobe, CMSIS-DAP",
+          "Kullanım": "Bare-metal önyükleyici yükleme ve unbrick"
+        },
+        seeAlso: ["nrf52840", "uf2-dfu", "rak4631-rui3-conversion", "flash-erase"]
+      },
+      {
+        id: "rak4631-rui3-conversion",
+        en: "RAK4631-R RUI3 to Meshtastic Bootloader Conversion",
+        tr: "RAK4631-R RUI3'ten Meshtastic Önyükleyicisine Dönüştürme",
+        category: "Yazılım & Protobuf",
+        lead: "Fabrikadan RAKwireless'ın tescilli LoRaWAN RUI3 (RAK Unified Interface) yazılımıyla gelen RAK4631-R modüllerinin, açık kaynaklı Adafruit nRF52 önyükleyicisine dönüştürülerek Meshtastic uyumlu hale getirilmesi süreci.",
+        details: "Kullanıcılar yanlışlıkla 'RAK4631' yerine 'RAK4631-R' satın aldıklarında cihaz standart Meshtastic UF2 firmware'ini kabul etmez. RAK'ın `bootloader-convert.zip` aracı veya nrfutil kullanılarak çipin AT komut modundan Adafruit DFU bootloader moduna dönüştürülmesi gerekir. Dönüşümün ardından cihaz bilgisayarda `RAK4631` flash diski olarak belirir ve standart Meshtastic firmware'i yüklenebilir hale gelir.",
+        github: "meshtastic.org/docs/getting-started/flashing-firmware/nrf52/convert-rak4631r",
+        infobox: {
+          "Orijinal Yazılım": "RAK RUI3 (AT Komut / LoRaWAN)",
+          "Hedef Yazılım": "Adafruit nRF52 Bootloader",
+          "Hedef Donanım": "RAK4631 / WisBlock Core",
+          "Araçlar": "nrfutil, RAK DFU Tool, UF2"
+        },
+        seeAlso: ["wisblock", "nrf52840", "uf2-dfu", "swd-swdio"]
+      },
+      {
+        id: "flash-erase",
+        en: "Flash Erase & Factory NVS Wipe",
+        tr: "Flash Bellek Silme ve Fabrika NVS Sıfırlaması",
+        category: "Yazılım & Protobuf",
+        lead: "Firmware güncellemeleri veya sürüm geçişleri sırasında eski NVS (Non-Volatile Storage) yapılandırma verileri bozulduğunda ve cihaz yeniden başlatma döngüsüne (bootloop) girdiğinde uygulanan tam bellek sıfırlama işlemi.",
+        details: "ESP32 için `esptool.py erase_flash` veya Web Flasher üzerinden 'Erase and Install' seçeneği kullanılır. nRF52840 cihazlarında ise özel bir `nrf52-erase.uf2` dosyası cihaza kopyalanarak dahili flash sektörleri sıfırlanır. Bu işlem radyo kalibrasyonu dışındaki tüm özel kanal anahtarlarını, NodeDB kayıtlarını ve kullanıcı ayarlarını fabrika varsayılanına döndürür.",
+        github: "meshtastic.org/docs/getting-started/flashing-firmware/nrf52/nrf52-erase",
+        infobox: {
+          "İşlem Türü": "Tam Sektör Silme (Flash Erase)",
+          "ESP32 Aracı": "esptool.py erase_flash / Web Flasher",
+          "nRF52 Aracı": "nrf52-erase.uf2",
+          "Çözdüğü Sorun": "Bootloop, bellek kirliliği, NVS bozulması"
+        },
+        seeAlso: ["esptool", "uf2-dfu", "nodedb", "web-flasher"]
+      },
+      {
+        id: "stm32-bootloader-uart",
+        en: "STM32 Bootloader & UART Flashing",
+        tr: "STM32 Dahili ROM Bootloader ve UART Yazılım Yükleme",
+        category: "Donanım & Çipler",
+        lead: "STM32 mikrodenetleyicili LoRa kartlarında (ör. ST B-L072Z-LRWAN1, RAK811), harici ST-Link olmadan BOOT0 pini 3.3V'a çekilerek dahili ROM bootloader üzerinden seri portla (UART) firmware yüklenmesi yöntemi.",
+        details: "STM32 yongalarında fabrikadan kalıcı bir sistem belleği (System Memory) bootloader'ı bulunur. `BOOT0` pini HIGH durumdayken cihaz resetlendiğinde yerleşik UART arayüzü aktifleşir. `stm32flash` veya STM32CubeProgrammer yazılımı kullanılarak TX/RX pinleri üzerinden Meshtastic firmware ikilisi doğrudan dahili flash belleğe yazılabilir.",
+        github: "meshtastic.org/docs/getting-started/flashing-firmware/stm32/flashing-over-uart",
+        infobox: {
+          "Mimari": "STM32 (ARM Cortex-M0+/M4)",
+          "Aktivasyon": "BOOT0 = High (3.3V) & Reset",
+          "Yazılım Araçları": "stm32flash, STM32CubeProgrammer",
+          "Arayüz": "UART (TX / RX / GND)"
+        },
+        seeAlso: ["swd-swdio", "esptool", "cp210x"]
+      },
+
+      /* 12. Kriptografik Ayrıntılar, Kısıtlar ve Radyo Profilleri (meshtastic.org/docs/overview/encryption & radio-settings) */
+      {
+        id: "aes-ctr",
+        en: "AES-CTR Stream Encryption & Nonce Architecture",
+        tr: "AES-CTR Şifreleme Modu ve Nonce Mimarisi",
+        category: "Güvenlik & Kripto",
+        lead: "Meshtastic'in telsiz paketlerinin yükünü (payload) şifrelemek için kullandığı, blok şifreleyiciyi sayaç (Counter) ile akış şifreleyicisine dönüştüren ve dolgu (padding) gerektirmeyen simetrik kriptografik mod.",
+        details: "AES-128 veya AES-256 CTR (Counter) modu kullanılır. CTR modunda şifreli metin açık metinle tam olarak aynı bayt uzunluğuna sahiptir; fazladan padding baytı eklenmediği için çok kıymetli LoRa hava süresinden tasarruf edilir. Her paketin 128-bit Nonce değeri, 64-bit Packet ID ve 64-bit Gönderen Düğüm Kimliği (Sender NodeNum) birleştirilerek oluşturulur; bu yapı aynı anahtarla aynı şifreleme akışının asla tekrarlanmamasını (keystream reuse engeli) sağlar.",
+        github: "meshtastic.org/docs/overview/encryption",
+        infobox: {
+          "Şifreleme Standardı": "AES-128-CTR / AES-256-CTR",
+          "Dolgu (Padding) İhtiyacı": "Sıfır (Tam metin boyutu)",
+          "Nonce Yapısı": "Packet ID (64-bit) + Node Num (64-bit)",
+          "Güvenlik": "Keystream tekilliği & Yeniden oynatma direnci"
+        },
+        seeAlso: ["psk", "default-key", "header-visibility-limitations", "zero-knowledge-routing"]
+      },
+      {
+        id: "header-visibility-limitations",
+        en: "Header Visibility & Cryptographic Limitations",
+        tr: "Paket Başlığı Görünürlüğü ve Kriptografik Kısıtlar",
+        category: "Güvenlik & Kripto",
+        lead: "Meshtastic'te ağ yönlendirmesinin şifre anahtarı olmayan ara düğümler tarafından da yapılabilmesi için paket başlığındaki bazı meta verilerin havada açık (şifresiz) iletilmesi zorunluluğu ve güvenlik sınırları.",
+        details: "Meshtastic'te mesaj yükü (payload) AES-256 ile güçlü biçimde şifrelenirken; yönlendirici rölelerin paketi kimin gönderdiğini (`from`), kime gittiğini (`to`), paket kimliğini (`id`), kanal özetini (`channel_hash`) ve atlama sayısını (`hop_limit`) bilmesi gerekir. Bu sebeple başlık meta verileri havadan dinleyen herkes tarafından görülebilir. Trafik analizi yapan bir dinleyici mesaj içeriğini çözemez ancak kimin kiminle hangi sıklıkta konuştuğunu tespit edebilir.",
+        github: "meshtastic.org/docs/about/overview/encryption/limitations",
+        infobox: {
+          "Şifrelenen Alan": "Yalnızca Veri Yükü (Encrypted Payload)",
+          "Açık Kalan Başlıklar": "Sender ID, Destination ID, Packet ID, Channel Hash",
+          "Neden Açık?": "Rölelerin şifreyi çözmeden yönlendirme yapabilmesi",
+          "Risk": "Meta veri ve trafik analizi (Traffic Analysis)"
+        },
+        seeAlso: ["aes-ctr", "channel-hash", "zero-knowledge-routing", "node-id"]
+      },
+      {
+        id: "zero-knowledge-routing",
+        en: "Zero-Knowledge Relaying (Blind Packet Forwarding)",
+        tr: "Sıfır Bilgili Düğüm İletimi (Kör Paket Aktarımı)",
+        category: "Güvenlik & Kripto",
+        lead: "Ağdaki yönlendirici veya istemci röle düğümlerinin, ilettikleri paketin şifresini çözmeden, anahtarına sahip olmadan ve içeriğini bilmeden güvenle bir sonraki düğüme aktarabilmesi mimarisi.",
+        details: "Özel veya ticari bir grupta kullanılan AES-256 anahtarı yalnızca mesajı yazan ve hedefleyen cihazlarda bulunur. Yolda paketi dağdaki bir kule üzerinden veya komşu binadaki bir cihazdan geçiren ara röleler, paketin sadece başlığındaki `hop_limit` ve `channel_hash` bilgilerini okur; paketin içine asla erişemez. Bu sayede güvenilmeyen yabancı düğümler dahi ağın menzilini güvenle genişletir.",
+        github: "meshtastic.org/docs/overview/encryption",
+        infobox: {
+          "Güvenlik Modeli": "Sıfır Bilgi (Zero-Knowledge)",
+          "Ara Röle İhtiyacı": "Anahtar GEREKTİRMEZ",
+          "Veri Gizliliği": "%100 Uçtan Uca Koruma",
+          "Yönlendirme Verisi": "Sadece başlık meta verileri"
+        },
+        seeAlso: ["aes-ctr", "header-visibility-limitations", "psk", "managed-flooding"]
+      },
+      {
+        id: "long-fast",
+        en: "LongFast Modem Preset (Default)",
+        tr: "LongFast — Standart Varsayılan Modem Ön Ayarı",
+        category: "RF & Yayılım",
+        lead: "Meshtastic'in küresel olarak en yaygın kullanılan, menzil ile veri aktarım hızı arasında dengeli bir uzlaşma sunan varsayılan radyo modülasyon profili.",
+        details: "Parametreleri: Yayılma Faktörü $SF=11$, Bant Genişliği $BW=250\\text{ kHz}$, Kodlama Oranı $CR=4/5$. Yaklaşık 1.07 kbps ham veri aktarım hızı sunar. Varsayılan kanal yuvasında tüm dünyadaki açık Meshtastic toplulukları bu profilde buluşur. Kısa bir metin mesajı havada yaklaşık birkaç yüz milisaniye sürer.",
+        github: "meshtastic.org/docs/overview/radio-settings",
+        infobox: {
+          "Modem Profili": "LongFast (Varsayılan)",
+          "Spreading Factor": "SF11",
+          "Bant Genişliği": "250 kHz",
+          "Coding Rate": "4/5",
+          "Hız": "~1.07 kbps",
+          "Kullanım": "Küresel ortak açık kanallar"
+        },
+        seeAlso: ["modem-preset", "long-slow", "short-fast", "spreading-factor"]
+      },
+      {
+        id: "long-slow",
+        en: "LongSlow & LongModerate Modem Presets",
+        tr: "LongSlow ve LongModerate — Maksimum Menzil Ön Ayarları",
+        category: "RF & Yayılım",
+        lead: "Aşırı uzak mesafelerde, derin vadilerde veya engelli arazilerde azami alıcı hassasiyeti (-148 dBm) elde etmek üzere tasarlanmış en dayanıklı radyo profilleri.",
+        details: "LongSlow parametreleri: $SF=12$, $BW=125\\text{ kHz}$, $CR=4/8$. Ham iletim hızı yaklaşık 0.18 kbps'ye kadar düşer. Paket hava süresi uzundur (bir mesaj 2-3 saniye sürebilir); bu nedenle yoğun şehir ağlarında kanal kilitlenmesine yol açabileceğinden tavsiye edilmez. Ancak yüksek dağ istasyonları veya kırsal acil durum hatlarında teorik sınırları zorlar.",
+        github: "meshtastic.org/docs/overview/radio-settings",
+        infobox: {
+          "Modem Profili": "LongSlow / LongModerate",
+          "Spreading Factor": "SF12 / SF11",
+          "Bant Genişliği": "125 kHz",
+          "Coding Rate": "4/8 (Maksimum FEC)",
+          "Hız": "~0.18 kbps",
+          "Avantaj": "Azami RF duyarlılığı ve menzil"
+        },
+        seeAlso: ["long-fast", "modem-preset", "spreading-factor", "duty-cycle"]
+      },
+      {
+        id: "short-fast",
+        en: "ShortFast & ShortSlow Modem Presets",
+        tr: "ShortFast — Yüksek Hızlı Yerel Etkinlik Ön Ayarı",
+        category: "RF & Yayılım",
+        lead: "Festivaller, spor etkinlikleri veya yoğun kamp alanları gibi dar bir coğrafyada yüzlerce cihazın bulunduğu ve hava süresini minimuma indirmenin kritik olduğu durumlar için yüksek hızlı radyo profili.",
+        details: "ShortFast parametreleri: $SF=7$, $BW=250\\text{ kHz}$, $CR=4/5$. Ham veri iletim hızı 10.9 kbps'ye kadar çıkar. Paketlerin havada kalış süresi son derece kısadır (birkaç milisaniye). Menzil daha kısadır ancak kanal doluluk oranı (chUtil) ve çarpışma riski çok düşüktür; yoğun yerel mesajlaşma gruplarında idealdir.",
+        github: "meshtastic.org/docs/overview/radio-settings",
+        infobox: {
+          "Modem Profili": "ShortFast",
+          "Spreading Factor": "SF7",
+          "Bant Genişliği": "250 kHz",
+          "Coding Rate": "4/5",
+          "Hız": "~10.94 kbps",
+          "Kullanım": "Etkinlikler, dar alanlar, yoğun ağlar"
+        },
+        seeAlso: ["long-fast", "modem-preset", "airtime", "symbol-duration"]
+      },
+      {
+        id: "fresnel-zone",
+        en: "Fresnel Zone & Line-of-Sight (LoS)",
+        tr: "Fresnel Bölgesi ve Radyo Görüş Hattı (LoS)",
+        category: "RF & Yayılım",
+        lead: "İki telsiz düğümü arasındaki doğrusal görüş hattını (Line-of-Sight) çevreleyen, radyo dalgalarının yapıcı fazda buluşması için en az %60'ının engelsiz (ağaçsız, binalardan ve tepelerden arındırılmış) olması gereken eliptik elektromanyetik hacim.",
+        details: "Gözle karşı tarafı görmek (optik LoS) radyo sinyalinin başarıyla iletileceği anlamına gelmez. 868 MHz veya 915 MHz frekansında, aradaki Fresnel elipsinin alt veya üst kısmına bir tepe, bina veya yoğun orman örtüsü girdiğinde kırınım (diffraction) kayıpları ve faz iptalleri yaşanır. Menzil rekoru kırmak isteyen dağ istasyonlarının antenleri daima Fresnel elipsini tamamen açıkta bırakacak yüksek direklere kurulmalıdır.",
+        github: "meshtastic.org/docs/overview/range-tests",
+        infobox: {
+          "Kavram": "Fresnel Bölgesi (Fresnel Zone)",
+          "Kritik Kural": "1. Fresnel Bölgesinin %60'ı engelsiz olmalıdır",
+          "Etki Edenler": "Mesafe, Frekans (MHz), Arazi yükseltisi",
+          "Sonuç": "Optik görüş yetmez, RF açıklığı şarttır"
+        },
+        seeAlso: ["lora", "meshtastic-range-records", "snr", "vswr"]
+      },
+      {
+        id: "meshtastic-range-records",
+        en: "Meshtastic World Range Records & HAB Flights",
+        tr: "Meshtastic Dünya Menzil Rekorları ve HAB (Balon) Uçuşları",
+        category: "RF & Yayılım",
+        lead: "Standart yasal lisanssız ISM güç sınırları dahilinde (+14 dBm / +22 dBm), dağ zirveleri arasında ve stratosferik meteoroloji balonlarıyla (High-Altitude Balloon - HAB) kaydedilmiş resmi dünya menzil başarıları.",
+        details: "Meshtastic topluluğu tarafından onaylanan yer-yer (Ground-to-Ground) optik görüş menzil rekoru 254 kilometreye (Portekiz/İspanya ve ABD zirveleri) ulaşmıştır. Stratoferik hava balonlarına bağlanan minik güneş enerjili düğümler ile yer istasyonları arasında ise 1000 kilometrenin (ör. 1042 km) üzerinde doğrudan LoRa paket teslimatı belgelenmiştir. Bu rekorlar LoRa'nın düşük güçte ve doğru anten/Fresnel koşullarında ne kadar olağanüstü mesafelere ulaşabildiğini kanıtlamaktadır.",
+        github: "meshtastic.org/docs/overview/range-tests",
+        infobox: {
+          "Yer-Yer Rekoru": "254+ km (Dağ Zirveleri Arası LoS)",
+          "HAB / Balon Rekoru": "1000+ km (Stratosferik İletim)",
+          "Kullanılan Donanım": "Standart SX1262 / WisBlock / T-Beam",
+          "Çıkış Gücü": "Lisanssız ISM gücü (Yasal sınırlarda)"
+        },
+        seeAlso: ["fresnel-zone", "range-test", "lora", "long-slow"]
       }
     ];
 

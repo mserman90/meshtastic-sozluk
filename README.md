@@ -171,6 +171,18 @@ Aşırı sıcak veya dondurucu soğuk hava koşullarında telsiz frekansının k
 - **SenseCAP MeshTracker X1 (Seeed Studio):** Kredi kartı boyutunda (IP66 su geçirmez), Semtech LR2021 LoRa çipi, çift bant L1+L5 GNSS, dahili barometre, buzzer ve 1100 mAh Li-ion pille donatılmış bağımsız takip cihazı.
 - **SenseCAP Card Tracker T1000-E (Seeed Studio):** nRF52840 ve Semtech SX1262 LoRa telsizine sahip, manyetik pogo-pin şarjlı, ışık ve sıcaklık sensörlü ultra ince kart takip donanımı.
 
+### 🔹 USB-Seri Dönüştürücüler ve Sürücüler (Serial Drivers)
+Bilgisayar ile cihaz arasında seri haberleşme (UART) ve firmware yükleme sağlayan köprü entegreleri:
+- **Silicon Labs CP210x (CP2102 / CP2104):** Heltec, TTGO T-Beam ve klasik ESP32 kartlarında en yaygın kullanılan köprü entegresi.
+- **WCH CH340 & CH9102:** LilyGO T-Beam v1.2 ve birçok modern kartta kullanılan yüksek hızlı (4 Mbps) USB-UART dönüştürücüler.
+- **Dahili USB CDC ACM:** nRF52840, ESP32-S3 ve RP2040 işlemcilerinde harici köprü çipi olmadan doğrudan SoC üzerinden tak-çalıştır sanal seri port sağlayan yerel USB sınıfı.
+
+### 🔹 SWD / SWDIO ve Donanım Programlama
+Önyükleyicisi silinmiş veya çökmüş (bricked) nRF52840 ve STM32 cihazlarını J-Link, ST-Link veya Picoprobe ile 2 pin üzerinden (SWDIO/SWCLK) bare-metal programlayıp hayata döndüren donanım arayüzü.
+
+### 🔹 STM32 Dahili ROM Bootloader
+STM32 mikrodenetleyicili LoRa kartlarında (ST B-L072Z-LRWAN1 vb.) `BOOT0` pini HIGH durumdayken dahili ROM bootloader üzerinden doğrudan UART portuyla (`stm32flash`) firmware yükleme yöntemi.
+
 ---
 
 ## 3. Cihaz Rolleri ve Çalışma Modları (Device Roles)
@@ -208,6 +220,15 @@ Doğrudan mesajlarda (DM) kullanılan asimetrik şifreleme mimarisi (Curve25519 
 
 ### 🔹 Admin Key & Remote Admin
 Bir düğümün ayarlarını telsiz üzerinden uzaktan değiştirmek için gereken yetkilendirme anahtarı ve yönetim kanalı.
+
+### 🔹 AES-CTR Şifreleme Modu ve Nonce Mimarisi
+Meshtastic'in telsiz paketlerinin yükünü (payload) şifrelemek için kullandığı simetrik mod (AES-128/256-CTR). Dolgu baytı (padding) gerektirmez; açık metinle aynı uzunlukta şifreli metin üreterek hava süresinden tasarruf sağlar. 128-bit Nonce değeri, Packet ID ve Gönderen Düğüm Kimliği birleştirilerek tekil hale getirilir.
+
+### 🔹 Paket Başlığı Görünürlüğü ve Kriptografik Kısıtlar (Traffic Analysis)
+Yönlendirici rölelerin şifreyi çözmeden paket aktarabilmesi için `From`, `To`, `Packet ID`, `Channel Hash` ve `Hop Limit` meta verileri havada şifresiz dolaşır. Mesaj içeriği çözülemez ancak dinleyiciler kimin konuştuğuna dair trafik analizi yapabilir.
+
+### 🔹 Sıfır Bilgili Düğüm İletimi (Zero-Knowledge Relaying)
+Ara rölelerin ilettikleri paketlerin şifre anahtarına sahip olmadan ve içeriğini bilmeden paketi güvenle sonraki hedefe aktarması prensibi. Yabancı düğümler bile özel mesajların içeriğini görmeden menzili genişletir.
 
 ---
 
@@ -249,6 +270,15 @@ Meshtastic'in hiçbir tescilli ticari protokole veya tek bir donanım üreticisi
 ### 🔹 UF2 Bootloader ve DFU Modu (Device Firmware Upgrade)
 nRF52840 tabanlı cihazlarda (SenseCAP X1, WisBlock RAK4631, T-Echo vb.) cihazı USB üzerinden bilgisayara harici bir flash sürücüsü gibi bağlayarak `.uf2` firmware dosyalarını sürükle-bırak yöntemiyle veya Web Flasher üzerinden yüklemeyi sağlayan önyükleyici modu. Bluetooth üzerinden (OTA) hatalı güncelleme sonucu cihazın kilitlenmesini (bricking) önler.
 
+### 🔹 esptool.py (Espressif ROM Önyükleyici Aracı)
+ESP32 ve ESP8266 yongalarının kalıcı ROM önyükleyicisiyle haberleşerek komut satırından flash bellek silen (`erase_flash`), firmware yükleyen (`write_flash`) ve donanım kimliği sorgulayan resmi Python aracı.
+
+### 🔹 RAK4631-R RUI3'ten Meshtastic Önyükleyicisine Dönüştürme
+Fabrikadan LoRaWAN RUI3 yazılımıyla gelen RAK4631-R modüllerinin, açık kaynaklı Adafruit nRF52 önyükleyicisine dönüştürülerek Meshtastic uyumlu hale getirilmesi işlemi.
+
+### 🔹 Flash Bellek Silme ve Fabrika NVS Sıfırlaması (Flash Erase)
+Bozulan NVS kayıtları veya yeniden başlama döngüsüne (bootloop) giren cihazları kurtarmak için ESP32'de `esptool.py erase_flash`, nRF52'de ise `nrf52-erase.uf2` ile yapılan tam bellek temizliği.
+
 ---
 
 ## 6. Radyo Frekansı (RF) ve Yayılım (RF & Propagation)
@@ -279,6 +309,17 @@ Antenin empedans uyumunu ve vericiden çıkan gücün ne kadarının geri yansı
 
 ### 🔹 LoRa Sembol Süresi ve Yuva Zamanlaması ($T_{sym}$ Slot Time)
 Bir LoRa cıvıltı (chirp) sembolünün havada iletilmesi için geçen süre ($T_{sym} = 2^{SF} / BW$). Meshtastic'in tüm CSMA/CA çekişme yuvaları (contention slot times) ve dinamik geri sayım süreleri bu sembol süresi baz alınarak hesaplanır. Paket çarpışmaları matematiksel olarak en aza indirgenir.
+
+### 🔹 Modem Ön Ayarları (Modem Presets)
+- **LongFast (Varsayılan):** $SF=11, BW=250\text{ kHz}, CR=4/5$ (~1.07 kbps). Küresel açık kanalların standart dengeli profili.
+- **LongSlow / LongModerate:** $SF=12, BW=125\text{ kHz}, CR=4/8$ (~0.18 kbps). Aşırı uzak mesafe ve derin vadi haberleşmesinde maksimum duyarlılık (-148 dBm).
+- **ShortFast:** $SF=7, BW=250\text{ kHz}, CR=4/5$ (~10.9 kbps). Festival, kamp ve etkinlik gibi dar alanlarda hava süresini minimuma indiren yüksek hızlı profil.
+
+### 🔹 Fresnel Bölgesi ve Radyo Görüş Hattı (Fresnel Zone & LoS)
+İki telsiz düğümü arasındaki doğrusal görüş hattını çevreleyen eliptik elektromanyetik hacim. Optik görüş yetmez; radyo dalgalarının faz iptaline uğramaması için 1. Fresnel bölgesinin en az %60'ının binalardan, tepelerden ve yoğun ağaç örtüsünden arındırılmış olması gerekir.
+
+### 🔹 Meshtastic Dünya Menzil Rekorları ve HAB Uçuşları
+Standart yasal lisanssız ISM güç sınırlarında (+14 dBm / +22 dBm) elde edilmiş resmi rekorlar: Yer-yer (Ground-to-Ground) optik görüş rekoru 254+ km; stratosferik hava balonlarına (HAB) bağlanan düğümler ile yer istasyonları arasında 1000+ km doğrulanmış paket teslimatı.
 
 ---
 
