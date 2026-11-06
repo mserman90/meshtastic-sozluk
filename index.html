@@ -5598,6 +5598,166 @@
           "Ağ Kurulumu": "Ethernet veya Bluetooth BLE (nymea)"
         },
         seeAlso: ["mpwrd-os", "nymea-ble-provisioning", "meshtasticd-linux-daemon"]
+      },
+      {
+        id: "flasher-mpwrd-tools",
+        en: "Meshtastic Flasher mPWRD-OS Tools",
+        tr: "Meshtastic Flasher mPWRD-OS Araçları",
+        category: "Yazılım & İstemciler",
+        lead: "Web tarayıcısı tabanlı resmi Meshtastic Flasher arayüzüne entegre edilen, mPWRD-OS yüklü tek kartlı bilgisayarları BLE ve USB üzerinden yönetmeye yarayan özel araçlar sekmesi.",
+        details: "Chromium tabanlı modern tarayıcılarda (Chrome, Edge) Web Bluetooth ve Web Serial API altyapısını kullanır. 'mPWRD-OS Tools' sekmesi altında kullanıcı; 'BLE' seçeneğiyle yakındaki Raspberry Pi kartlarını keşfedebilir, ortamdaki kablosuz ağları taratabilir (`Scan for Networks`), Wi-Fi parolasını karta gönderebilir ve doğrudan ilk kurulum provizyonunu tamamlayabilir. Monitör, klavye veya harici SD kart yapılandırma dosyalarına olan ihtiyacı tamamen ortadan kaldırır.",
+        github: "meshtastic.org/docs/software/mpwrd-os/provisioning#bluetooth-ble",
+        infobox: {
+          "Arayüz": "Meshtastic Web Flasher -> mPWRD-OS Tools",
+          "Bağlantı Türleri": "Web Bluetooth (BLE) & Web Serial",
+          "Tarayıcı Uyumluluğu": "Google Chrome, Microsoft Edge, Brave, Opera",
+          "Temel İşlev": "Kablosuz Wi-Fi taraması ve tek tıkla ağ provizyonu"
+        },
+        seeAlso: ["nymea-ble-provisioning", "web-bluetooth-provisioning-flow", "mpwrd-os"]
+      },
+      {
+        id: "armbian-web-config-wizard",
+        en: "Armbian Web Config Wizard (5-Step Setup)",
+        tr: "Armbian Web Yapılandırma Sihirbazı (5 Adımlı Kurulum)",
+        category: "Yazılım & İstemciler",
+        lead: "Ekranı veya Ethernet portu bulunmayan kablosuz SBC'lerde (Luckfox Lyra Ultra/Zero W) ilk açılışta çalışan ve 5 adımda tam sistem kurulumu sağlayan tarayıcı tabanlı yapılandırma sihirbazı.",
+        details: "`armbian-web-config` arka plan servisi tarafından `http://10.42.0.1:8080` adresinde sunulur. Beş kritik aşamadan oluşur: 1) **Root:** Varsayılan parolayı (`1234`) geçersiz kılan güçlü yönetici parolası belirleme; 2) **User:** Günlük işlemler ve SSH için standart kullanıcı oluşturma; 3) **Locale:** Bölgesel dil, klavye düzeni ve zaman dilimi seçimi; 4) **Network:** Kalıcı ev/ofis Wi-Fi ağı seçimi ve kimlik bilgisi girişi; 5) **Advanced:** Sistem optimizasyonu ve servislerin devreye alınması. Tamamlandığında cihaz ev ağına bağlanır ve geçici kurulum AP'si otomatik kapanır.",
+        github: "meshtastic.org/docs/software/mpwrd-os/provisioning#web",
+        infobox: {
+          "Servis": "armbian-web-config",
+          "Erişim Adresi": "http://10.42.0.1:8080",
+          "Adımlar": "Root Parolası, Kullanıcı Hesabı, Yerel/Zaman Ayarları, Wi-Fi, Gelişmiş",
+          "Uygulandığı Donanımlar": "Luckfox Lyra Ultra W, Lyra Zero W"
+        },
+        seeAlso: ["armbian-web-setup-hotspot", "temporary-setup-hotspot", "mpwrd-first-boot-credentials"]
+      },
+      {
+        id: "web-bluetooth-provisioning-flow",
+        en: "Web Bluetooth Provisioning Flow",
+        tr: "Web Bluetooth ile Kablosuz Düğüm Kurulumu",
+        category: "Yazılım & İstemciler",
+        lead: "Raspberry Pi gibi BLE destekli mPWRD-OS düğümlerine, mobil uygulama veya tarayıcı üzerinden GATT servisleri aracılığıyla Wi-Fi kimlik bilgilerinin kablosuz olarak enjekte edilmesi iş akışı.",
+        details: "mPWRD-OS ilk açılışında `nymea-networkmanager` servisi üzerinden özel bir Bluetooth LE GATT UUID servisi yayınlar. Kullanıcı tarayıcıdan 'Connect to Device' diyerek kartı eşleştirir. Tarayıcı, karta çevredeki 2.4 GHz Wi-Fi SSID'lerini tarama komutu gönderir. Gelen liste arasından ağ seçilip parola girildiğinde, WPA2/WPA3 kimlik bilgileri şifrelenmiş Bluetooth paketiyle karta iletilir. Kart Wi-Fi IP adresi aldığında bağlantı durumu anlık olarak tarayıcıda teyit edilir.",
+        github: "meshtastic.org/docs/software/mpwrd-os/provisioning#bluetooth-ble",
+        infobox: {
+          "İletişim Katmanı": "Bluetooth Low Energy (GATT Server)",
+          "Süreç": "Keşif -> GATT Bağlantısı -> Wi-Fi Tarama -> Kimlik Enjeksiyonu -> DHCP IP Teyidi",
+          "Hata Toleransı": "Geçersiz şifrede BLE yayını kesilmez, yeniden denenebilir",
+          "Kullanım": "Raspberry Pi 4, Pi 5, Zero 2 W başsız kurulumları"
+        },
+        seeAlso: ["flasher-mpwrd-tools", "nymea-ble-provisioning", "web-bluetooth-transport"]
+      },
+      {
+        id: "temporary-setup-hotspot",
+        en: "Temporary Setup Hotspot (armbiansetup AP)",
+        tr: "Geçici Kurulum Erişim Noktası (armbiansetup AP)",
+        category: "Ağ & Protokol",
+        lead: "mPWRD-OS kurulu kartlarda ilk açılışta veya bilinen bir Wi-Fi ağı bulunamadığında sistemin otomatik olarak yaydığı acil durum yapılandırma kablosuz ağı.",
+        details: "Hostapd ve dnsmasq altyapısını kullanarak `armbiansetup` SSID yayını yapar. Varsayılan WPA2 şifresi `armbian1234` olarak tanımlıdır. Bağlanan istemcilere `10.42.0.x` alt ağından otomatik IP dağıtır ve yönlendirici IP'si olan `10.42.0.1` üzerinden yerel web sunucusunu (`armbian-web-config`) çalıştırır. Kart hedef Wi-Fi ağına başarıyla bağlandığında bu AP modu otomatik kapatılır; böylece radyo frekans kirliliği ve güvenlik açığı engellenir.",
+        github: "meshtastic.org/docs/software/mpwrd-os/provisioning#web",
+        infobox: {
+          "Varsayılan SSID": "armbiansetup",
+          "Varsayılan Parola": "armbian1234",
+          "Alt Ağ": "10.42.0.0/24 (Ağ Geçidi: 10.42.0.1)",
+          "Kapanma Koşulu": "Wi-Fi bağlantısı kurulduğunda otomatik sonlanır"
+        },
+        seeAlso: ["armbian-web-config-wizard", "armbian-web-setup-hotspot", "mpwrd-network-fallback-recovery"]
+      },
+      {
+        id: "mpwrd-first-boot-credentials",
+        en: "mPWRD-OS First-Boot Authentication & Password Policy",
+        tr: "mPWRD-OS İlk Açılış Kimlik Doğrulaması & Parola Politikası",
+        category: "Yazılım & İstemciler",
+        lead: "Armbian tabanlı mPWRD-OS dağıtımında ilk sistem başlatmasında uygulanan fabrika varsayılan kimlik bilgileri ve zorunlu parola değiştirme güvenlik politikası.",
+        details: "Konsol (seri port) veya Ethernet üzerinden ilk kez bağlanan sistemlerde fabrika kullanıcısı `root`, varsayılan parolası ise `1234`'tür. Sistem güvenliği gereği, bu varsayılan parola ile giriş yapıldığı anda Linux PAM katmanı kullanıcıyı hemen yeni ve karmaşık bir root parolası belirlemeye zorlar. Web sihirbazı (`armbian-web-config`) kullanılan kartlarda ise ilk adımda yeni root parolası arayüzden girildiği için varsayılan `1234` parolası doğrudan devre dışı bırakılır.",
+        github: "meshtastic.org/docs/software/mpwrd-os/provisioning",
+        infobox: {
+          "Varsayılan Kullanıcı": "root",
+          "Fabrika Parolası": "1234 (İlk girişte zorunlu değişim)",
+          "Web Sihirbazı Durumu": "Sihirbaz tamamlanınca fabrika parolası tamamen geçersiz kılınır",
+          "Güvenlik": "İnternete veya açık ağlara varsayılan parolayla maruz kalmayı önler"
+        },
+        seeAlso: ["mpwrd-user-account-security", "armbian-web-config-wizard", "mpwrd-os"]
+      },
+      {
+        id: "mpwrd-user-account-security",
+        en: "mPWRD-OS Standard User Account & Sudo Security Layer",
+        tr: "mPWRD-OS Standart Kullanıcı Hesabı & Sudo Güvenlik Katmanı",
+        category: "Yazılım & İstemciler",
+        lead: "Düğümün günlük operasyonlarında root hesabının doğrudan kullanılmasını engelleyerek sistem servislerini ve LoRa yapılandırmasını koruyan standart kullanıcı ve sudo yetkilendirme modeli.",
+        details: "İlk kurulum sihirbazında veya terminaldeki ilk açılış betiğinde kullanıcıdan standart bir hesap (örneğin `meshuser` veya kişisel isim) oluşturması istenir. Bu kullanıcı otomatik olarak `sudo`, `dialout`, `gpio` ve `spi` gruplarına eklenir. Böylece hem `meshtasticd` loglarını incelemek ve `mpwrd-menu` çalıştırmak için gerekli yetkiler sağlanır, hem de uzaktan SSH saldırılarına karşı root girişinin (`PermitRootLogin no`) kapatılmasına olanak tanınır.",
+        github: "meshtastic.org/docs/software/mpwrd-os/provisioning#web",
+        infobox: {
+          "Kullanıcı Türü": "Standart Sistem Kullanıcısı (Non-root)",
+          "Dahil Edilen Gruplar": "sudo, dialout, spi, gpio, tty",
+          "Avantaj": "Root yetkisi sınırlandırması ve güvenli SSH erişimi",
+          "Kullanım": "Günlük yönetim, mpwrd-menu ve contact TUI çalıştırma"
+        },
+        seeAlso: ["mpwrd-first-boot-credentials", "sbc-headless-ssh-management", "mpwrd-menu-utility"]
+      },
+      {
+        id: "mpwrd-locale-timezone-sync",
+        en: "mPWRD-OS Regional Locale, Timezone & NTP Synchronization",
+        tr: "mPWRD-OS Bölgesel Ayarlar, Zaman Dilimi & NTP Eşitlemesi",
+        category: "Yazılım & İstemciler",
+        lead: "GPS donanımı bulunmayan başsız SBC düğümlerinde paket zaman damgalarının, günlük kayıtlarının ve telemetri verilerinin milisaniyelik hassasiyetle tutulmasını sağlayan saat eşitleme yapılandırması.",
+        details: "Armbian kurulum sihirbazının 'Locale' adımında seçilen zaman dilimi (`timedatectl set-timezone Europe/Istanbul`) ve sistem dili (UTF-8 yereli) ayarlanır. mPWRD-OS arka planda `systemd-timesyncd` veya `chrony` NTP servisini etkinleştirerek, cihaz Wi-Fi veya Ethernet ile internete bağlandığı anda küresel atomik saat sunucularıyla sistem saatini eşitler. Böylece Meshtastic paketlerindeki iletim zamanları ve NodeDB zaman aşımları kusursuz işler.",
+        github: "meshtastic.org/docs/software/mpwrd-os/provisioning#web",
+        infobox: {
+          "Zaman Senkronizasyonu": "NTP (Network Time Protocol / systemd-timesyncd)",
+          "Yerel Dil Desteği": "en_US.UTF-8, tr_TR.UTF-8",
+          "Kritik Önemi": "GPS olmayan düğümlerde doğru paket damgası ve log kaydı",
+          "Yapılandırma Aracı": "armbian-web-config (Adım 3: Locale)"
+        },
+        seeAlso: ["python-cli-rtc-time-sync", "armbian-web-config-wizard", "pcf8563-rtc"]
+      },
+      {
+        id: "sbc-headless-ssh-management",
+        en: "Headless SBC Remote SSH Key-Based Management",
+        tr: "Başsız Düğüm Güvenli Kabuk Erişimi (SSH Anahtarlı Giriş)",
+        category: "Yazılım & İstemciler",
+        lead: "Monitörsüz ve klavyesiz çalışan mPWRD-OS kule ve çatı düğümlerine yerel ağ veya VPN üzerinden güvenli, şifresiz ve kriptografik anahtarlarla uzaktan terminal bağlantısı kurma standardı.",
+        details: "Kurulum tamamlanıp düğüm yerel ağdan bir IP (örneğin `192.168.1.150` veya `mpwrd-node.local`) aldığında `ssh <kullanici>@<ip>` komutuyla erişilir. Güvenliği en üst düzeye çıkarmak için kullanıcı `ssh-copy-id` ile açık anahtarını (Ed25519 veya RSA-4096) karta kopyalar ve `/etc/ssh/sshd_config` dosyasında `PasswordAuthentication no` ayarlanır. Bu sayede parola deneme (brute-force) saldırıları tamamen engellenirken otomasyon betikleri düğüme kesintisiz bağlanabilir.",
+        github: "meshtastic.org/docs/software/mpwrd-os/provisioning",
+        infobox: {
+          "Protokol": "SSH v2 (OpenSSH Server, Port 22)",
+          "Kriptografi": "Ed25519 veya RSA-4096 Genel/Özel Anahtar Çifti",
+          "Erişim Şekli": "Terminal, PuTTY, OpenSSH, VS Code Remote SSH",
+          "Özellik": "Parolasız güvenli giriş ve mDNS (hostname.local) desteği"
+        },
+        seeAlso: ["mpwrd-user-account-security", "contact-tui-client", "mpwrd-menu-utility"]
+      },
+      {
+        id: "mpwrd-network-fallback-recovery",
+        en: "mPWRD-OS Network Fallback & Disaster Recovery Mode",
+        tr: "mPWRD-OS Ağ Bağlantısı Kurtarma & Geri Çekilme Modu",
+        category: "Ağ & Protokol",
+        lead: "Kayıtlı Wi-Fi ağı şifresi değiştiğinde, modem kapandığında veya kablosuz bağlantı koptuğunda kartın kilitlenmesini önlemek için otomatik devreye giren yedek yapılandırma modu.",
+        details: "Bir düğüm taşındığında veya çatıdaki ana Wi-Fi erişim noktası arızalandığında, mPWRD-OS belirli bir süre ağa bağlanmayı dener. Başarısız olursa kart kilitlenip çevrimdışı kalmak yerine otomatik olarak tekrar `armbiansetup` acil durum erişim noktasını (AP) veya BLE provizyon yayınını başlatır. Yönetici akıllı telefonuyla telsizin yanına giderek yeni Wi-Fi parolasını girebilir veya doğrudan telsizden durum teşhisi yapabilir.",
+        github: "meshtastic.org/docs/software/mpwrd-os/provisioning",
+        infobox: {
+          "Tetikleyici": "Wi-Fi bağlantı kaybı veya ağ kimlik hatası",
+          "Eylem": "Otomatik armbiansetup AP veya BLE modunu yeniden açma",
+          "Avantaj": "Cihazı yerinden sökmeden ve SD kartı çıkarmadan kurtarma",
+          "Kullanım Alanı": "Zor erişilen kule, çatı ve güneş enerjili röle istasyonları"
+        },
+        seeAlso: ["temporary-setup-hotspot", "armbian-web-setup-hotspot", "nymea-ble-provisioning"]
+      },
+      {
+        id: "sbc-static-ip-dhcp-assignment",
+        en: "SBC Static IP Configuration & DHCP Reservation",
+        tr: "SBC Sabit IP Yapılandırması & DHCP Rezervasyonu",
+        category: "Ağ & Protokol",
+        lead: "mPWRD-OS üzerinde çalışan meshtasticd arka plan servisinin ve TCP API soketinin kesintisiz erişilebilir olması için düğüme kalıcı yerel IP adresi atama mimarisi.",
+        details: "Dinamik DHCP kullanan düğümler modem her yeniden başladığında farklı bir IP alabilir; bu durum SSH bağlantılarını, yerel MQTT köprülerini ve otomasyon betiklerini aksatır. Çözüm olarak iki yöntem uygulanır: 1) Ev/şirket yönlendiricisinde kartın MAC adresine sabit IP atanması (DHCP Reservation); 2) mPWRD-OS içerisinde `nmcli` veya `armbian-web-config` üzerinden karta manuel statik IP, ağ geçidi ve DNS tanımlanması. Böylece `localhost:4403` soketi yerel ağda daima öngörülebilir bir adreste kalır.",
+        github: "meshtastic.org/docs/software/mpwrd-os/provisioning",
+        infobox: {
+          "Yöntemler": "Router DHCP Rezervasyonu (MAC tabanlı) veya nmcli Statik IP",
+          "Gereksinim": "Kalıcı TCP API (Port 4403) ve SSH (Port 22) erişimi",
+          "Önem": "MQTT ağ geçidi ve ev otomasyonu (Home Assistant) entegrasyonu",
+          "Araçlar": "NetworkManager, nmcli, nmtui, armbian-web-config"
+        },
+        seeAlso: ["meshtasticd-linux-daemon", "sbc-headless-ssh-management", "transport-node-tcp"]
       }
     ];
 

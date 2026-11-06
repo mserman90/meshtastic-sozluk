@@ -490,6 +490,18 @@ Meshtastic donanımını kontrol etmek, mesajlaşıp harita görüntülemek ve a
 - **Waveshare Pico-LoRa-SX1262 Şapkası (`waveshare-pico-lora-hat`):** Luckfox Lyra Plus kartının Pico pin rozetine doğrudan takılan ve mPWRD-OS içinde hazır pin konfigürasyonuyla gelen tak-çalıştır SX1262 LoRa eklenti kartı.
 - **BCM2711 ARM64 mPWRD-OS Desteği (`bcm2711-armbian-mpwrd`):** Raspberry Pi 4, 5, Zero 2 W ve CM4/CM5 modellerinde flaş silme gerektirmeden doğrudan SD karta yazılarak Bluetooth BLE (nymea) ile kurulan resmi 64-bit Armbian destek katmanı.
 
+### 🌐 mPWRD-OS İlk Ağ Kurulumu ve Provizyon Yöntemleri (meshtastic.org/docs/software/mpwrd-os/provisioning)
+- **Meshtastic Flasher mPWRD-OS Araçları (`flasher-mpwrd-tools`):** Web Bluetooth ve Web Serial ile çalışan; yakındaki Raspberry Pi SBC kartlarını keşfedip kablosuz ağ taraması ve tek tıkla Wi-Fi şifresi enjeksiyonu sağlayan resmi Flasher sekmesi.
+- **Armbian Web Yapılandırma Sihirbazı (`armbian-web-config-wizard`):** Luckfox Lyra Ultra/Zero W kartlarında `http://10.42.0.1:8080` adresinde çalışan; Root parolası, Kullanıcı hesabı, Bölgesel dil/zaman, Wi-Fi ağı ve gelişmiş optimizasyonları içeren 5 adımlı kurulum arayüzü.
+- **Web Bluetooth ile Kablosuz Kurulum (`web-bluetooth-provisioning-flow`):** `nymea-networkmanager` GATT servisleri üzerinden telefon veya bilgisayar tarayıcısından Wi-Fi SSID ve WPA2/WPA3 parolasını kablosuz iletip anlık IP teyidi alma iş akışı.
+- **Geçici Kurulum Erişim Noktası (`temporary-setup-hotspot`):** Wi-Fi bağlantısı olmayan kartların ilk açılışta yaydığı, `armbian1234` şifreli ve `10.42.0.1` yerel yapılandırma ağı sunan, ağa bağlanınca otomatik kapanan `armbiansetup` acil durum AP'si.
+- **İlk Açılış Kimlik Doğrulama Politikası (`mpwrd-first-boot-credentials`):** Fabrika çıkışı gelen `root / 1234` varsayılan parolasının ilk konsol/SSH oturumunda Linux PAM katmanı veya web sihirbazı aracılığıyla zorunlu olarak değiştirilmesi kuralı.
+- **Standart Kullanıcı ve Sudo Güvenlik Katmanı (`mpwrd-user-account-security`):** Root ile doğrudan çalışmayı önlemek amacıyla `sudo`, `dialout`, `spi` ve `gpio` gruplarına dahil edilen standart sistem kullanıcısı ve SSH güvenlik mimarisi.
+- **Bölgesel Dil, Zaman Dilimi & NTP Eşitlemesi (`mpwrd-locale-timezone-sync`):** GPS modülü bulunmayan kule ve çatı düğümlerinde sistem loglarının ve Meshtastic iletim zaman damgalarının doğruluğu için internet üzerinden `systemd-timesyncd` ile atomik saat eşitlemesi.
+- **Başsız Düğüm Güvenli Kabuk Erişimi (`sbc-headless-ssh-management`):** Monitörsüz çalışan kule düğümlerine uzaktan güvenli erişim için Ed25519 açık/özel anahtarlı SSH kimlik doğrulaması ve parola deneme ataklarına karşı sistem sertleştirme.
+- **Ağ Bağlantısı Kurtarma ve Geri Çekilme Modu (`mpwrd-network-fallback-recovery`):** Wi-Fi şifresi değiştiğinde veya bağlantı koptuğunda kartın kilitlenmesini önleyerek otomatik olarak `armbiansetup` AP veya BLE provizyon moduna dönmesini sağlayan acil kurtarma mekanizması.
+- **SBC Sabit IP & DHCP Rezervasyonu (`sbc-static-ip-dhcp-assignment`):** `meshtasticd` TCP servisinin (port 4403) ve SSH konsolunun (port 22) yerel ağda daima öngörülebilir bir adreste kalmasını sağlayan router MAC rezervasyonu veya `nmcli` statik IP yapılandırması.
+
 ### 🔹 Açık Standart ve Tedarikçi Bağımsızlığı (Open Architecture & Vendor Neutrality)
 Meshtastic'in hiçbir tescilli ticari protokole veya tek bir donanım üreticisine bağımlı kalmamasını sağlayan açık kaynak ekosistem felsefesi (GPL-3.0 lisansı ve açık Protobuf şemaları). Semtech SX1262/SX1276/LR1121 telsizleri ile ESP32, nRF52840 ve RP2040 işlemcili onlarca farklı üreticinin (Heltec, LilyGO, RAKwireless) donanımları tam uyumla birlikte çalışabilir.
 
