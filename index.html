@@ -8799,6 +8799,166 @@
           "Doğrulama Aracı": "meshtastic --host localhost --info"
         },
         seeAlso: ["linux-kernel-spi-i2c-prerequisites", "meshtasticd-systemd-service-management", "meshtasticd-config-yaml"]
+      },
+      {
+        id: "docker-hub-meshtasticd-image",
+        en: "Docker Hub & GHCR Official meshtasticd Container Images",
+        tr: "Docker Hub ve GHCR Resmi meshtasticd Konteyner İmajları",
+        category: "Yazılım & İstemciler",
+        lead: "Meshtastic projesinin Docker Hub (`meshtastic/meshtasticd`) ve GitHub Container Registry (GHCR) üzerinden sunduğu resmi konteyner imaj ailesi.",
+        details: "Geliştiriciler ve sistem yöneticileri `docker pull meshtastic/meshtasticd:latest` komutuyla en güncel kararlı sürümü indirebilir. İmajlar farklı ihtiyaçlara yönelik etiketlerle yayınlanır: `:beta` (test edilmiş sürümler), `:daily-debian` (Debian tabanlı, kapsamlı sürücü desteği) ve `:daily-alpine` (ultra hafif musl tabanlı imaj). Çoklu mimari (multi-arch) desteği sayesinde x86_64, ARM64 (Raspberry Pi 4/5) ve ARMv7 kartlarda otomatik olarak doğru ikiliyi çalıştırır.",
+        github: "meshtastic.org/docs/meshtasticd/installation/docker",
+        infobox: {
+          "Kayıt Defterleri (Registry)": "Docker Hub (meshtastic/meshtasticd), GHCR (ghcr.io/meshtastic/meshtasticd)",
+          "Etiketler (Tags)": ":latest, :beta, :daily-debian, :daily-alpine",
+          "Mimariler": "linux/amd64, linux/arm64, linux/arm/v7",
+          "Komut": "docker pull meshtastic/meshtasticd:latest"
+        },
+        seeAlso: ["meshtasticd-docker-container-passthrough", "docker-daily-alpine-lightweight-tag", "meshtasticd-native-daemon"]
+      },
+      {
+        id: "docker-usb-bus-passthrough",
+        en: "Docker USB Bus Hardware Passthrough (--device)",
+        tr: "Docker USB Veriyolu Donanım Geçişi (--device)",
+        category: "Donanım & Anten",
+        lead: "Ana bilgisayara (host) bağlı USB-to-SPI köprülerini (MeshStick) veya seri telsiz modüllerini Docker konteynerine doğrudan eşleyen donanım erişim bayrağı.",
+        details: "Konteynerler varsayılan olarak ana bilgisayarın donanımlarına erişemez. Kullanıcı `lsusb` ile cihazın veri yolunu (ör. Bus 001 Device 006) belirledikten sonra `docker run` komutuna `--device=/dev/bus/usb/001/006` veya seri port ise `--device=/dev/ttyUSB0` ekler. Bu sayede konteyner içinde çalışan Portduino sürücüsü, USB üzerinden LoRa telsiz çipini (SX1262) yerel bir cihaz gibi doğrudan yönetebilir.",
+        github: "meshtastic.org/docs/meshtasticd/installation/docker",
+        infobox: {
+          "Docker Bayrağı": "--device=/dev/bus/usb/<bus>/<dev> veya --device=/dev/ttyUSB0",
+          "Aygıt Tespiti": "lsusb veya dmesg | grep tty",
+          "Hedef Donanımlar": "MeshStick, CP2130 USB-SPI adaptörü, USB seri LoRa kartları",
+          "Güvenlik Avantajı": "Tam --privileged yetkisi vermeden sadece ilgili USB donanımını izole bağlama"
+        },
+        seeAlso: ["usb-to-spi-meshstick-interface", "meshtasticd-docker-container-passthrough", "linux-spidev-lora-interface"]
+      },
+      {
+        id: "docker-volume-config-mount",
+        en: "Docker Volume Configuration & Persistent Storage Mount",
+        tr: "Docker Birim (Volume) Yapılandırması ve Kalıcı Depolama Bağlantısı",
+        category: "Yazılım & İstemciler",
+        lead: "`config.yaml` dosyasını ve telsiz kimlik verilerini konteyner çöktüğünde veya güncellendiğinde kaybolmayacak şekilde host dosya sistemine bağlayan depolama mekanizması.",
+        details: "Docker konteynerleri doğası gereği geçicidir (ephemeral). `meshtasticd` ayarlarının ve otomatik oluşturulan düğüm anahtarlarının korunması için host üzerindeki yapılandırma dosyası `-v ./config.yaml:/etc/meshtasticd/config.yaml:ro` bayrağı ile salt-okunur olarak bağlanır. Ayrıca telsiz veritabanı ve kimlik sertifikaları için `-v /var/lib/meshtasticd:/var/lib/meshtasticd` kalıcı birimi tanımlanır; böylece imaj güncellense dahi düğümün LoRa kimliği ve şifreleme anahtarları asla sıfırlanmaz.",
+        github: "meshtastic.org/docs/meshtasticd/installation/docker",
+        infobox: {
+          "Birim Eşleme": "-v ./config.yaml:/etc/meshtasticd/config.yaml:ro",
+          "Kalıcı Veri Dizini": "/var/lib/meshtasticd (Node DB & Identity Keys)",
+          "Erişim Kipi": "Salt-okunur (:ro) veya Yazılabilir kalıcı birim (Named Volume)",
+          "Önlediği Sorun": "Konteyner yeniden başlatıldığında yeni Node ID oluşması ve telsiz ayarlarının silinmesi"
+        },
+        seeAlso: ["meshtasticd-config-yaml", "docker-compose-meshtasticd-stack", "meshtasticd-docker-container-passthrough"]
+      },
+      {
+        id: "docker-compose-meshtasticd-stack",
+        en: "Docker Compose meshtasticd Gateway Multi-Service Stack",
+        tr: "Docker Compose meshtasticd Ağ Geçidi Çoklu Servis İstifi",
+        category: "Yazılım & İstemciler",
+        lead: "`meshtasticd`, yerel Eclipse Mosquitto broker'ı ve Node-RED gibi yan servisleri tek bir `docker-compose.yml` dosyasıyla orkestre eden taktik istasyon mimarisi.",
+        details: "Karmaşık sahra ağ geçitlerinde komut satırından uzun parametreler yazmak yerine bildirimsel Compose dosyası kullanılır. `docker-compose.yml` içinde `meshtasticd` servisi tanımlanır; donanım cihazları (`devices:`), portlar (`ports: 4403:4403, 8080:80`) ve hacimler (`volumes:`) belirtilir. Aynı ağda çalışan `mosquitto` servisine bağlanması için iç köprü ağı kurulur. `docker compose up -d` komutuyla kule veya ev sunucusunda eksiksiz bir LoRa/MQTT IoT merkezi saniyeler içinde ayağa kaldırılır.",
+        github: "meshtastic.org/docs/meshtasticd/installation/docker",
+        infobox: {
+          "Araç": "Docker Compose (docker compose up -d / down)",
+          "Bileşen Servisler": "meshtasticd (Telsiz Çekirdeği), mosquitto (MQTT), node-red / grafana",
+          "Ağ Modeli": "İç Docker Bridge Ağı (dns çözümü ile 'broker' adıyla haberleşme)",
+          "Yönetim": "Tek dosya ile yedekleme, versiyon yükseltme ve kule konuşlandırma"
+        },
+        seeAlso: ["eclipse-mosquitto-broker", "nodered-meshtastic-integration-architecture", "docker-volume-config-mount"]
+      },
+      {
+        id: "docker-restart-policy-unless-stopped",
+        en: "Docker Restart Policy Lifecycle Management (--restart unless-stopped)",
+        tr: "Docker Yeniden Başlatma Politikası ve Yaşam Döngüsü Yönetimi",
+        category: "Yazılım & İstemciler",
+        lead: "Elektrik kesintisi, sunucu yeniden başlaması veya telsiz sürücüsü çökmesi sonrasında `meshtasticd` konteynerinin kullanıcı müdahalesi olmadan otomatik dirilmesini sağlayan Docker politikası.",
+        details: "`--restart unless-stopped` bayrağı ile başlatılan bir konteyner, Docker servisiyle birlikte sistem açılışında otomatik başlar. Eğer telsiz SPI kesmesinde geçici bir hata oluşur ve süreç sonlanırsa, Docker arka plan servisi konteyneri derhal yeniden başlatır. Ancak kullanıcı `docker stop meshtasticd` diyerek kasıtlı olarak durdurursa, sistem açılışında yeniden başlamayarak bakım çalışmalarına imkan tanır. 7/24 çalışan kule röleleri için kritik bir stabilite parametresidir.",
+        github: "meshtastic.org/docs/meshtasticd/installation/docker",
+        infobox: {
+          "Parametre": "--restart unless-stopped (veya restart: unless-stopped)",
+          "Alternatifler": "no, on-failure[:max-retries], always",
+          "Kullanım Amacı": "Gözetimsiz dağ röleleri ve sunucularda kesintisiz 7/24 çalışma",
+          "Davranış": "Sistem yeniden başladığında veya süreç çöktüğünde otomatik diriltme"
+        },
+        seeAlso: ["meshtasticd-systemd-service-management", "paho-exponential-reconnect-backoff", "docker-compose-meshtasticd-stack"]
+      },
+      {
+        id: "docker-interactive-troubleshooting-shell",
+        en: "Docker Interactive Troubleshooting & Container Shell Inspection",
+        tr: "Docker İnteraktif Hata Ayıklama ve Konteyner İçi Teşhis",
+        category: "Yazılım & İstemciler",
+        lead: "Konteyner açılışında yaşanan donanım veya yapılandırma sorunlarını gidermek için konteyner içine interaktif kabukla (bash/sh) bağlanma yöntemi.",
+        details: "Servis açılışta hemen kapanıyorsa `docker run -it -p 4403:4403 ... bash` komutuyla doğrudan komut satırına düşülür. Çalışan bir konteynerde ise `docker exec -it meshtasticd bash` (veya Alpine için `sh`) komutu kullanılır. Konteyner içinde `/dev/` aygıt düğümlerinin varlığı, `/etc/meshtasticd/config.yaml` içeriği ve ağ portlarının dinlenip dinlenmediği (`netstat -tuln`) incelenerek yapılandırma hataları hızla tespit edilir.",
+        github: "meshtastic.org/docs/meshtasticd/installation/docker",
+        infobox: {
+          "Giriş Komutu": "docker exec -it meshtasticd bash (veya sh)",
+          "Açılışta Giriş": "docker run -it ... meshtastic/meshtasticd:latest bash",
+          "Teşhis Adımları": "ls -l /dev/bus/usb, cat /etc/meshtasticd/config.yaml, meshtasticd --help",
+          "Kullanım Alanı": "SPI/USB izin sorunlarını ve YAML sözdizimi hatalarını canlı çözme"
+        },
+        seeAlso: ["meshtasticd-post-install-hardware-check", "docker-log-driver-inspection", "docker-usb-bus-passthrough"]
+      },
+      {
+        id: "docker-port-forwarding-tcp-web",
+        en: "Docker Multi-Port Forwarding Architecture (TCP 4403 & HTTP 80)",
+        tr: "Docker Çoklu Port Yönlendirme Mimarisi (TCP 4403 ve HTTP 80)",
+        category: "Ağ & Protokol",
+        lead: "Konteyner içinde izole çalışan `meshtasticd` servisinin TCP API (4403) ve WebUI (80) portlarını ana bilgisayarın yerel ağına (LAN) açan port yönlendirme kuralları.",
+        details: "`docker run -p 4403:4403 -p 8080:80 ...` bayrakları ana bilgisayarın 4403 ve 8080 portlarını konteynerin iç soketlerine bağlar. Port 4403 üzerinden Python CLI (`meshtastic --host 192.168.1.100 --info`) ve Android mobil istemcileri telsizi kontrol eder. Port 8080 üzerinden ise web tarayıcısından `http://192.168.1.100:8080` adresine girilerek resmi Meshtastic WebUI arayüzüne tam erişim sağlanır.",
+        github: "meshtastic.org/docs/meshtasticd/installation/docker",
+        infobox: {
+          "Yönlendirme Bayrakları": "-p 4403:4403 (İstemci API) ve -p 8080:80 (Web İstemcisi)",
+          "Protokol Türü": "TCP / WebSockets",
+          "İstemci Uyumluluğu": "Meshtastic Python CLI, Android Wi-Fi App, WebUI Tarayıcı",
+          "Güvenlik Tavsiyesi": "İnternete doğrudan açılmamalı, yerel LAN veya VPN arkasında tutulmalı"
+        },
+        seeAlso: ["meshtasticd-tcp-api-port-4403", "meshtasticd-native-webserver", "docker-network-host-mode"]
+      },
+      {
+        id: "docker-daily-alpine-lightweight-tag",
+        en: "meshtasticd Alpine-Based Minimal Docker Tag (:daily-alpine)",
+        tr: "meshtasticd Alpine Tabanlı Minimal Konteyner İmajı (:daily-alpine)",
+        category: "Yazılım & İstemciler",
+        lead: "Musl libc ve hafif Alpine Linux tabanı üzerinde derlenerek disk kullanımını ve bellek ayak izini minimuma indiren optimize `meshtasticd` Docker imajı.",
+        details: "Standart Debian tabanlı imajlar yüzlerce megabayt yer kaplarken, `:daily-alpine` etiketi sadece temel kütüphaneleri barındırarak ~40-60 MB civarında son derece kompakt bir imaj boyutu sunar. Sınırlı flash belleğe sahip gömülü sistemler, NAS cihazları (Synology, QNAP) ve SD kartlı Raspberry Pi'lar için idealdir. Bellek tüketimini düşürür ve konteyner açılış süresini saniyelerin altına indirir.",
+        github: "meshtastic.org/docs/meshtasticd/installation/docker",
+        infobox: {
+          "İmaj Etiketi": "meshtastic/meshtasticd:daily-alpine",
+          "Temel Dağıtım": "Alpine Linux (musl libc tabanlı)",
+          "İmaj Boyutu": "~40-60 MB (Debian imajının 1/4'ü)",
+          "Hedef Cihazlar": "Gömülü kartlar, NAS sunucuları, sınırlı depolamaya sahip sahra bilgisayarları"
+        },
+        seeAlso: ["docker-hub-meshtasticd-image", "meshtasticd-openwrt-router-deployment", "meshtasticd-native-daemon"]
+      },
+      {
+        id: "docker-network-host-mode",
+        en: "Docker Host Networking Mode (--network host)",
+        tr: "Docker Host Ağ İletişim Modu (--network host)",
+        category: "Ağ & Protokol",
+        lead: "Konteyner ile ana bilgisayar arasındaki sanal ağ köprüsünü ve NAT katmanını kaldırarak `meshtasticd`'nin doğrudan ana makinenin IP adresini ve ağ arayüzlerini kullanmasını sağlayan mod.",
+        details: "`--network host` bayrağı kullanıldığında Docker hiçbir port yönlendirmesi (`-p`) yapmaz; `meshtasticd` doğrudan host'un ağ soketine bağlanır. Bu yaklaşım iki büyük avantaj sağlar: (1) NAT yönlendirme gecikmelerini sıfırlar; (2) Yerel ağdaki mDNS (Bonjour/Avahi) ve UDP telsiz keşif paketlerinin konteyner sınırlarına takılmadan evin veya karargahın tüm yerel ağına yayınlanmasını (broadcast) mümkün kılar. Android istemcileri böylece telsizi yerel ağda anında otomatik bulur.",
+        github: "meshtastic.org/docs/meshtasticd/installation/docker",
+        infobox: {
+          "Docker Bayrağı": "--network host (veya network_mode: host)",
+          "Ağ Katmanı": "Sıfır NAT, doğrudan fiziksel eth0/wlan0 soket bağlantısı",
+          "Temel Avantajı": "mDNS / UDP yayın paketlerinin yerel ağda kesintisiz yayılması",
+          "Kısıtlama": "Yalnızca Linux host'larda yerel çalışır (Docker for Mac/Windows VM sınırlaması)"
+        },
+        seeAlso: ["docker-port-forwarding-tcp-web", "meshtasticd-tcp-api-port-4403", "meshtasticd-native-daemon"]
+      },
+      {
+        id: "docker-log-driver-inspection",
+        en: "Docker Daemon Log Driver & Radio Health Inspection",
+        tr: "Docker Günlük Sürücüsü ve Telsiz Sağlık Denetimi",
+        category: "Yazılım & İstemciler",
+        lead: "Konteyner içinde çalışan `meshtasticd` sürecinin telsiz başlatma durumunu, paket akışını ve donanım kesmelerini host üzerinden `docker logs` komutuyla gerçek zamanlı izleme tekniği.",
+        details: "Konteyner arka planda (`-d`) çalışırken `docker logs -f --tail 50 meshtasticd` komutu verilerek konsol çıktısı canlı akar. Loglarda `RadioLib SX1262 initialized`, paket alma (`Rx packet from !...`), SNR/RSSI değerleri ve WebUI istemci bağlantıları taranır. Docker günlük sürücüsü (json-file veya journald) ile entegre çalışır; log boyutu sınırlandırılarak (`max-size: 10m`) SD kartın veya diskin gereksiz dolması engellenir.",
+        github: "meshtastic.org/docs/meshtasticd/installation/docker",
+        infobox: {
+          "İzleme Komutu": "docker logs -f --tail 100 meshtasticd",
+          "Kritik Log Satırları": "SX1262 initialized, Connected to MQTT, Webserver running",
+          "Hata Tespiti": "ERR_CHIP_NOT_FOUND, Device or resource busy, Permission denied",
+          "Günlük Döndürme": "--log-opt max-size=10m --log-opt max-file=3"
+        },
+        seeAlso: ["meshtasticd-post-install-hardware-check", "docker-interactive-troubleshooting-shell", "meshtasticd-systemd-service-management"]
       }
     ];
 

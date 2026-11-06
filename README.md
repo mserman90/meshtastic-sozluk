@@ -730,6 +730,18 @@ Meshtastic donanımını kontrol etmek, mesajlaşıp harita görüntülemek ve a
 - **meshtasticd NixOS Bildirime Dayalı Modülü ve Flatpak (`meshtasticd-nixos-declarative-module`):** Tek satır Nix konfigürasyonu veya Flathub masaüstü sandbox dağıtımı.
 - **meshtasticd Kurulum Sonrası Donanım Doğrulama (`meshtasticd-post-install-hardware-check`):** RadioLib entegre algılama, SPI kesme testi ve `journalctl` log teşhis adımları.
 
+### 🐳 meshtasticd Docker Konteyner Mimarisi ve Donanım Geçişi (meshtastic.org/docs/meshtasticd/installation/docker)
+- **Docker Hub ve GHCR Resmi meshtasticd İmajları (`docker-hub-meshtasticd-image`):** Çoklu mimari (`:latest`, `:beta`, `:daily-alpine`) resmi konteyner sürümleri.
+- **Docker USB Veriyolu Donanım Geçişi (`docker-usb-bus-passthrough`):** `--device=/dev/bus/usb/...` ile USB-SPI modüllerine konteynerden tam yetkisiz erişim.
+- **Docker Birim Yapılandırması ve Kalıcı Depolama (`docker-volume-config-mount`):** `config.yaml` ve düğüm kimlik sertifikalarını host dosya sistemine bağlama.
+- **Docker Compose Ağ Geçidi Çoklu Servis İstifi (`docker-compose-meshtasticd-stack`):** meshtasticd, Mosquitto ve Node-RED servislerini tek bildirimsel dosyayla orkestre etme.
+- **Docker Yeniden Başlatma Politikası (`docker-restart-policy-unless-stopped`):** Sistem açılışında veya çökme anında konteyneri otomatik diriltme kuralı.
+- **Docker İnteraktif Hata Ayıklama Kabuğu (`docker-interactive-troubleshooting-shell`):** `docker exec -it` ile çalışan konteyner içinde donanım ve ağ tespiti yapma.
+- **Docker Çoklu Port Yönlendirme Mimarisi (`docker-port-forwarding-tcp-web`):** TCP 4403 API ve HTTP 80 WebUI portlarını ana bilgisayar yerel ağına açma.
+- **meshtasticd Alpine Tabanlı Minimal İmaj (`docker-daily-alpine-lightweight-tag`):** Sınırlı flash belleğe sahip cihazlar için ~40 MB ultra hafif konteyner imajı.
+- **Docker Host Ağ İletişim Modu (`docker-network-host-mode`):** `--network host` ile NAT gecikmelerini sıfırlama ve yerel ağda mDNS/UDP paketlerini yayma.
+- **Docker Günlük Sürücüsü ve Telsiz Denetimi (`docker-log-driver-inspection`):** `docker logs -f` ile telsiz başlatma, SNR değerleri ve paket trafiğini canlı izleme.
+
 ### 🔹 Açık Standart ve Tedarikçi Bağımsızlığı (Open Architecture & Vendor Neutrality)
 Meshtastic'in hiçbir tescilli ticari protokole veya tek bir donanım üreticisine bağımlı kalmamasını sağlayan açık kaynak ekosistem felsefesi (GPL-3.0 lisansı ve açık Protobuf şemaları). Semtech SX1262/SX1276/LR1121 telsizleri ile ESP32, nRF52840 ve RP2040 işlemcili onlarca farklı üreticinin (Heltec, LilyGO, RAKwireless) donanımları tam uyumla birlikte çalışabilir.
 
