@@ -199,8 +199,15 @@ Aşırı sıcak veya dondurucu soğuk hava koşullarında telsiz frekansının k
   - **WisMesh Repeater & Repeater Mini:** Entegre güneş paneli, IP67 Unify kutu, 3200 mAh batarya ve fiberglas koliner antenle donatılmış bağımsız dış ortam dağ/çatı aktarıcı istasyonları.
   - **WisMesh Gateway (Ethernet & Wi-Fi):** RAK13800 Ethernet + RAK19018 PoE veya RAK11200 ESP32 Wi-Fi üzerinden çalışan IP67 endüstriyel dış mekan LoRa-MQTT ağ geçidi istasyonu.
   - **ST LIS2DH 3-Eksenli İvmeölçer:** WisMesh Tag ve Pod'da harekete duyarlı akıllı uyku (smart sleep) ve otomatik konum tetikleme sağlayan MEMS hareket sensörü.
-- **SenseCAP MeshTracker X1 (Seeed Studio):** Kredi kartı boyutunda (IP66 su geçirmez), Semtech LR2021 LoRa çipi, çift bant L1+L5 GNSS, dahili barometre, buzzer ve 1100 mAh Li-ion pille donatılmış bağımsız takip cihazı.
-- **SenseCAP Card Tracker T1000-E (Seeed Studio):** nRF52840 ve Semtech SX1262 LoRa telsizine sahip, manyetik pogo-pin şarjlı, ışık ve sıcaklık sensörlü ultra ince kart takip donanımı.
+- **Seeed Studio Donanım Ekosistemi:**
+  - **SenseCAP Indicator:** 3.95" / 4.0" 480x480 RGB kapasitif dokunmatik ekran, ESP32-S3 + RP2040 çift MCU mimarisi, Semtech SX1262 telsizi ve Grove portlarıyla donatılmış masaüstü/araç içi kontrol paneli.
+  - **SenseCAP MeshTracker X1:** Kredi kartı boyutunda (IP66 su geçirmez), Semtech LR2021 LoRa çipi, çift bant L1+L5 GNSS, dahili barometre, buzzer ve 1100 mAh Li-ion pille donatılmış bağımsız takip cihazı.
+  - **SenseCAP Card Tracker T1000-E:** nRF52840 ve Semtech SX1262 LoRa telsizine sahip, manyetik pogo-pin şarjlı, ışık ve sıcaklık sensörlü ultra ince kart takip donanımı.
+  - **Wio Tracker L1 & L1 Lite:** USB Type-C, harici güneş paneli ve 3.7V Li-ion batarya üçlü güç girişli; çoklu-GNSS, 1.3" OLED veya 2.13" E-Ink ekranlı esnek takip ve telemetri düğümü.
+  - **Seeed XIAO & Wio-SX1262 Kiti:** Başparmak tırnağı boyutundaki (XIAO ESP32-S3 / XIAO nRF52840) mikro kontrolcüleri Wio-SX1262 LoRa eklentisiyle birleştiren modüler DIY geliştirme kiti.
+  - **Wio-WM1110 Modülü:** Nordic nRF52840 MCU ile Semtech LR1110 (LoRa + GNSS + Wi-Fi Sniffer) hibrit konumlandırma ve IoT geliştirme kartı.
+  - **Wio-E5 (STM32WLE5JC):** ARM Cortex-M4 işlemci ile SX126x telsizini tek silikon çipte birleştiren monolitik LoRaWAN ve Meshtastic SoC modülü.
+  - **Grove Modüler Bağlantı Sistemi:** 4-pinli standart polarize konnektörle çevre sensörlerinin (BME680, SHT40 vb.) lehimleme gerektirmeden tak-çalıştır bağlanmasını sağlayan ekosistem.
 
 ### 🔹 USB-Seri Dönüştürücüler ve Sürücüler (Serial Drivers)
 Bilgisayar ile cihaz arasında seri haberleşme (UART) ve firmware yükleme sağlayan köprü entegreleri:

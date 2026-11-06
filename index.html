@@ -3306,6 +3306,104 @@
           "Kullanıldığı Cihazlar": "T-Beam Supreme, T-Deck Plus, Modern ESP32-S3 Kartlar"
         },
         seeAlso: ["pmic", "t-beam-supreme", "telemetry"]
+      },
+
+      /* 16. Seeed Studio Donanım Ekosistemi (meshtastic.org/docs/hardware/devices/seeed-studio) */
+      {
+        id: "sensecap-indicator",
+        en: "Seeed SenseCAP Indicator",
+        tr: "Seeed SenseCAP Indicator (Dokunmatik Masaüstü Terminali)",
+        category: "Donanım & Çipler",
+        lead: "3.95 inç / 4.0 inç büyüklüğünde 480x480 piksel RGB kapasitif dokunmatik ekrana, ESP32-S3 ve RP2040 çift mikrodenetleyici mimarisine, Semtech SX1262 telsizine ve dahili Grove portlarına sahip masaüstü/araç içi Meshtastic akıllı kontrol paneli.",
+        details: "ESP32-S3 Wi-Fi, Bluetooth ve üst düzey Meshtastic ağ mantığını yönetirken, yardımcı Raspberry Pi RP2040 çipi sensör okumalarını ve I/O görevlerini kesintisiz yürütür. Masaüstünde sabit baz istasyonu, acil durum komuta merkezi ekranı veya araç konsolunda canlı mesh izleme aracı olarak görev yapar.",
+        github: "meshtastic.org/docs/hardware/devices/seeed-studio",
+        infobox: {
+          "Çift İşlemci": "ESP32-S3 (Sistem/Kablosuz) + RP2040 (Sensör/IO)",
+          "Ekran": "3.95\" / 4.0\" RGB Kapasitif Dokunmatik (480x480)",
+          "LoRa Telsizi": "Semtech SX1262",
+          "Genişleme": "Çift Type-C Portu + Grove I2C/UART Arayüzleri"
+        },
+        seeAlso: ["sensecap-x1", "t-deck-plus", "grove-connector-system"]
+      },
+      {
+        id: "wio-tracker-l1",
+        en: "Seeed Wio Tracker L1 / L1 Lite",
+        tr: "Seeed Wio Tracker L1 (Üçlü Güç Girişli Saha Takip Düğümü)",
+        category: "Donanım & Çipler",
+        lead: "USB Type-C, harici güneş paneli ve dahili Li-ion batarya olmak üzere 3 farklı güç girişine sahip; çoklu takımyıldız GNSS (GPS, BeiDou, GLONASS, QZSS) ve Semtech SX1262 LoRa telsizi barındıran esnek takip ve telemetri düğümü.",
+        details: "1.3 inç OLED ekranlı, 2.13 inç E-Ink ekranlı veya ekransız (L1 Lite) varyantları mevcuttur. Dahili Grove portları sayesinde harici çevre sensörleri takılarak otonom bir hava kalitesi/telemetri istasyonu olarak doğaya veya araçlara yerleştirilebilir.",
+        github: "meshtastic.org/docs/hardware/devices/seeed-studio",
+        infobox: {
+          "Güç Girişleri": "USB Type-C + Güneş Paneli (Solar) + 3.7V Li-ion Pil",
+          "Konumlandırma": "Çoklu-GNSS (GPS, BeiDou, GLONASS, QZSS)",
+          "Ekran Opsiyonları": "1.3\" OLED / 2.13\" E-Ink / Ekransız (Lite)",
+          "LoRa & MCU": "Semtech SX1262 + Dahili İşlemci Mimarisi"
+        },
+        seeAlso: ["sensecap-x1", "sensecap-t1000e", "wismesh-tag", "grove-connector-system"]
+      },
+      {
+        id: "seeed-xiao-lora-kit",
+        en: "Seeed Studio XIAO & Wio-SX1262 Kit",
+        tr: "Seeed XIAO & Wio-SX1262 Minyatür Geliştirici Kiti",
+        category: "Donanım & Çipler",
+        lead: "Başparmak tırnağı boyutundaki (21x17.5 mm) Seeed XIAO ESP32-S3 veya XIAO nRF52840 mikrodenetleyici kartını Wio-SX1262 LoRa eklentisiyle birleştiren ultra kompakt, modüler ve bütçe dostu kendin-yap (DIY) Meshtastic geliştirme kiti.",
+        details: "Geliştiricilerin giyilebilir cihazlar, gizli takip düğümleri veya özel 3D baskı kılıflı cep telsizleri yapabilmesi için tasarlanmıştır. Meshtastic Web Flasher üzerinden doğrudan 'Seeed XIAO S3' veya 'Seeed XIAO nRF52' firmware hedefleriyle saniyeler içinde programlanır.",
+        github: "meshtastic.org/docs/hardware/devices/seeed-studio",
+        infobox: {
+          "Form Faktörü": "Seeed XIAO Mikro Mimari (21 x 17.5 mm)",
+          "Desteklenen İşlemciler": "XIAO ESP32-S3 / XIAO nRF52840",
+          "LoRa Eklentisi": "Wio-SX1262 Genişleme Kartı",
+          "Kullanım Amacı": "Minyatür el yapımı düğümler ve giyilebilir projeler"
+        },
+        seeAlso: ["esp32-s3", "nrf52840", "web-flasher", "wisblock"]
+      },
+      {
+        id: "wio-wm1110",
+        en: "Seeed Wio-WM1110 Module & Dev Kit",
+        tr: "Seeed Wio-WM1110 Konumlandırma ve LoRa Modülü",
+        category: "Donanım & Çipler",
+        lead: "Nordic Semiconductor nRF52840 MCU ile Semtech LR1110 LoRa & Wi-Fi Sniffer/GNSS tarayıcısını tek bir hibrit mimaride birleştiren, ultra düşük güç tüketimli gelişmiş IoT ve takip kartı.",
+        details: "Açık alanda GNSS uydularını, kapalı alanda ise çevredeki Wi-Fi erişim noktası MAC adreslerini (Wi-Fi sniffing) tarayarak hibrit konum tespiti yapabilir. Meshtastic ekosisteminde son derece düşük uyku akımı ve güçlü Bluetooth LE bağlantısıyla çalışır.",
+        github: "meshtastic.org/docs/hardware/devices/seeed-studio",
+        infobox: {
+          "Ana İşlemci": "Nordic nRF52840 (ARM Cortex-M4F @ 64 MHz)",
+          "Telsiz ve Tarayıcı": "Semtech LR1110 (LoRa + GNSS + Wi-Fi Sniffing)",
+          "Kablosuz Standartları": "Sub-GHz LoRa & Bluetooth LE 5.0",
+          "Kullanım": "İç ve dış mekan hibrit konum takibi"
+        },
+        seeAlso: ["nrf52840", "semtech-lr2021", "tracker"]
+      },
+      {
+        id: "wio-e5-module",
+        en: "Seeed Wio-E5 (STM32WLE5JC Wireless Module)",
+        tr: "Seeed Wio-E5 (STM32WLE5JC Entegre LoRa Modülü)",
+        category: "Donanım & Çipler",
+        lead: "STMicroelectronics'in ARM Cortex-M4 işlemci çekirdeği ile Semtech SX126x LoRa telsizini tek bir silikon yongada birleştiren STM32WLE5JC mikroçipi üzerine kurulu kompakt kablosuz modül.",
+        details: "Ayrı bir harici mikrodenetleyici ihtiyacını ortadan kaldırarak hem fiziksel boyutu hem de enerji tüketimini minimize eder. Meshtastic ekosisteminde düşük maliyetli sabit röleler ve saha sensör telemetri düğümleri geliştirmek için kullanılır.",
+        github: "meshtastic.org/docs/hardware/devices/seeed-studio",
+        infobox: {
+          "Monolitik SoC": "STMicroelectronics STM32WLE5JC",
+          "Çekirdek": "32-bit ARM Cortex-M4 @ 48 MHz",
+          "Yerleşik Telsiz": "Semtech SX126x Tabanlı Sub-GHz Radyo",
+          "Form Faktörü": "Wio-E5 Mini Dev Board & SMD Modül"
+        },
+        seeAlso: ["stm32-bootloader-uart", "sx1262", "rdp-readout-protection"]
+      },
+      {
+        id: "grove-connector-system",
+        en: "Seeed Grove Modular Interface",
+        tr: "Seeed Grove Modüler Sensör Bağlantı Sistemi",
+        category: "Donanım & Çipler",
+        lead: "Seeed Studio tarafından geliştirilen, 4 pinli kilitli soket mimarisiyle sensör ve çevre birimlerini lehimleme gerektirmeden I2C, UART veya analog/dijital hatlar üzerinden Meshtastic donanımlarına bağlayan standart modüler sistem.",
+        details: "SenseCAP Indicator, Wio Tracker L1 ve XIAO genişleme kartlarında yer alır. BME680 (hava kalitesi/gaz), SHT40 (sıcaklık/nem), GPS, manyetometre ve röle modüllerinin doğrudan takılıp Meshtastic telemetri paketleri üretmesini sağlar.",
+        github: "meshtastic.org/docs/hardware/devices/seeed-studio",
+        infobox: {
+          "Standart": "4-Pin Kilitli Polarize Konnektör (GND, VCC, SCL/TX, SDA/RX)",
+          "Desteklenen Protokoller": "I2C, UART, Analog, Dijital GPIO",
+          "Kullanıldığı Cihazlar": "SenseCAP Indicator, Wio Tracker L1, XIAO Kits",
+          "Avantaj": "Sıfır lehimleme ile anında tak-çalıştır telemetri"
+        },
+        seeAlso: ["sensecap-indicator", "wio-tracker-l1", "telemetry", "sensor"]
       }
     ];
 
