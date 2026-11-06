@@ -24,8 +24,9 @@ Bu sözlüğün Wikipedia tarzı arama motoruna, A-Z fihristine, bilgi kutuları
 5. [Yazılım Mimarisi, Firmware ve Protobufs](#5-yazılım-mimarisi-firmware-ve-protobufs-software--firmware)
 6. [Radyo Frekansı (RF) ve Yayılım](#6-radyo-frekansı-rf-ve-yayılım-rf--propagation)
 7. [Entegrasyonlar ve Harici Modüller](#7-entegrasyonlar-ve-harici-modüller-integrations--modules)
-8. [SEO ve Arama Motoru Optimizasyonu](#-seo-ve-arama-motoru-optimizasyonu-google-settings)
-9. [Yasal Uyarılar ve Sorumsuzluk Beyanı](#️-yasal-uyarılar-ve-sorumsuzluk-beyanı-legal-disclaimers)
+8. [Topluluklar ve Bölgesel Ağlar (Türkiye ve Dünya)](#8--meshtastic-toplulukları-ve-ağları-türkiye-ve-dünya)
+9. [SEO ve Arama Motoru Optimizasyonu](#-seo-ve-arama-motoru-optimizasyonu-google-settings)
+10. [Yasal Uyarılar ve Sorumsuzluk Beyanı](#️-yasal-uyarılar-ve-sorumsuzluk-beyanı-legal-disclaimers)
 
 ---
 
@@ -221,6 +222,33 @@ Savunma sanayi ve acil durum müdahale ekiplerinin konum, dost/düşman unsurlar
 
 ### 🔹 Remote Hardware Module
 Bir Meshtastic cihazının, kilometrelerce ötedeki diğer bir cihazın GPIO pinine bağlı bir röleyi açıp kapatmasını veya bir anahtarın durumunu telsiz üzerinden okumasını sağlayan firmware modülü.
+
+---
+
+## 8. 👥 Meshtastic Toplulukları ve Ağları (Türkiye ve Dünya)
+
+### 🇹🇷 Meshtastic Türkiye Topluluğu ve Şehir Ağları
+Türkiye genelinde deprem ve afet acil durum hazırlığı, amatör telsizcilik (TRAC vb.), AKUT/AFAD gönüllüleri ve açık kaynak meraklılarını buluşturan bağımsız örgüsel telsiz inisiyatifi:
+- **İstanbul Mesh Ağı:** Çamlıca, Aydos Ormanı, Beylikdüzü ve Boğaz sırtlarındaki güneş enerjili sabit yönlendiriciler (Router) ile kıtalararası köprüleme.
+- **Ankara Mesh Ağı:** Çankaya, Dikmen, ODTÜ ve Keçiören sabit istasyonları ile başkent genelinde haberleşme omurgası.
+- **İzmir & Ege Mesh Ağı:** Yamanlar ve Nif Dağı röleleri ile körfez hattında kesintisiz acil durum ağı.
+- **Diğer Şehirler:** Bursa, Antalya, Kocaeli, Trabzon ve Eskişehir yerel çalışma grupları.
+- **Türkiye Standart Ayarları:**
+  - **Bölge (Region):** `EU_868` (868.0 - 868.6 MHz yasal ISM bandı)
+  - **Modem Profili:** `LongFast` (varsayılan)
+  - **Birincil Kanal Anahtarı:** Varsayılan açık anahtar (`AQ==`)
+
+### 🌐 Dünyadaki Meshtastic Toplulukları
+- **Austin Mesh (Teksas, ABD):** Dünyanın en organize ve popüler şehir ağı; yüzlerce güneş enerjili tepe ve su kulesi yönlendiricisiyle tüm metropolitan alanı kapsar.
+- **UK Mesh (Birleşik Krallık):** 868 MHz bandında Londra ve İngiltere genelini kapsayan geniş çatı röleleri ağı.
+- **DL-Mesh / Freifunk (Almanya):** Almanya'nın köklü kablosuz özgür halk ağı Freifunk ile Meshtastic LoRa entegrasyonu.
+- **Bay Mesh & NYC Mesh (ABD):** San Francisco Silikon Vadisi ve New York metropolünde teknoloji çalışanlarınca kurulan yüksek katlı gökdelen röleleri.
+- **ANZ Mesh (Avustralya & Yeni Zelanda):** Kırsal arazi ve orman yangını erken tespiti için 915 MHz bandında kıta çapında geniş kapsama.
+- **Resmi Topluluk Platformları:** [Meshtastic Discord](https://discord.gg/meshtastic) (50k+ üye), [Discourse Forum](https://meshtastic.discourse.group), Reddit (`r/meshtastic`).
+
+### 🗺️ Canlı Ağ Haritaları ve İzleyiciler
+- **[MeshMap (meshmap.net)](https://meshmap.net):** Dünya genelindeki ve Türkiye'deki aktif Meshtastic düğümlerinin, sinyal kalitelerinin (SNR) ve batarya seviyelerinin canlı görüntülendiği harita.
+- **MeshObserver / LiMe:** Düğümlerin RF komşuluklarını (Neighbor Info) çizelgeleyen topoloji analiz aracı.
 
 ---
 

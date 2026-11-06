@@ -632,6 +632,9 @@
         <div class="sidebar-title">Gezinti</div>
         <ul class="sidebar-links">
           <li><a href="#" class="active" onclick="resetFilters(); return false;">📖 Tüm Maddeler <span class="count-badge" id="totalTermCount">0</span></a></li>
+          <li><a href="#meshtastic-turkiye" onclick="jumpToTerm('meshtastic-turkiye'); return false;">🇹🇷 Türkiye Topluluğu</a></li>
+          <li><a href="#meshtastic-global" onclick="jumpToTerm('meshtastic-global'); return false;">🌐 Dünya Toplulukları</a></li>
+          <li><a href="#meshmap" onclick="jumpToTerm('meshmap'); return false;">🗺️ Canlı Ağ Haritaları</a></li>
           <li><a href="#yasal-uyarilar" onclick="jumpToTerm('yasal-uyarilar'); return false;">⚖️ Yasal Uyarılar &amp; Beyan</a></li>
           <li><a href="https://github.com/meshtastic" target="_blank">🌐 Meshtastic Resmi GitHub ↗</a></li>
           <li><a href="https://meshtastic.org/docs/" target="_blank">📚 Resmi Dokümantasyon ↗</a></li>
@@ -740,6 +743,58 @@
           "Lisans": "GPL-3.0 (AS IS / Garantisiz)"
         },
         seeAlso: ["duty-cycle", "vswr", "psk", "lora"]
+      },
+
+      /* Topluluk ve Bölgesel Ağlar */
+      {
+        id: "meshtastic-turkiye",
+        en: "Meshtastic Turkey Community & Networks",
+        tr: "Meshtastic Türkiye Topluluğu ve Şehir Ağları",
+        category: "Topluluk & Ağlar",
+        lead: "Türkiye genelinde deprem ve afet acil durum haberleşmesi, amatör telsizcilik (TRAC vb.), açık kaynak donanım meraklıları ve off-grid iletişim kurucularını buluşturan ulusal örgüsel ağ inisiyatifi.",
+        details: "Meshtastic Türkiye Topluluğu, özellikle 6 Şubat depremleri sonrasında GSM altyapısının çökmesine karşı dayanıklı, halka açık ve bağımsız bir haberleşme omurgası kurmak amacıyla hızla büyümüştür.<br><br><b>Şehir Ağları ve Röle Projeleri:</b><br>• <b>İstanbul Mesh Ağı:</b> Çamlıca Tepesi, Aydos Ormanı, Beylikdüzü ve Boğaz hattındaki yüksek binalara yerleştirilen güneş enerjili sabit yönlendiricilerle (Router) Avrupa ve Anadolu yakası birbirine bağlanmaktadır.<br>• <b>Ankara Mesh Ağı:</b> Çankaya, Dikmen, ODTÜ ve Keçiören bölgelerindeki sabit istasyonlarla başkent çapında geniş bir kapsama alanı oluşturulmuştur.<br>• <b>İzmir & Ege Mesh Ağı:</b> Yamanlar Dağı, Nif Dağı ve Bornova tepelerindeki rölelerle körfez çevresinde kesintisiz acil durum ağı hedeflenmektedir.<br>• <b>Diğer Şehirler:</b> Bursa (Uludağ etekleri), Antalya, Kocaeli, Trabzon ve Eskişehir'de aktif yerel gruplar kurulmuştur.<br><br><b>Türkiye Standart Ayarları:</b><br>• <b>Bölge (Region):</b> <code>EU_868</code> (868.0 - 868.6 MHz)<br>• <b>Varsayılan Modem Profili:</b> <code>LongFast</code><br>• <b>Birincil Kanal:</b> Varsayılan anahtarlı LongFast (`AQ==`)<br>• <b>Topluluk Kanalları:</b> Afet koordinasyonu ve yerel sohbet için ikincil özel PSK grupları.",
+        github: "Topluluk: Telegram: t.me/meshtastic_tr",
+        infobox: {
+          "Bölge Standardı": "EU_868 (868.0 - 868.6 MHz)",
+          "Varsayılan Profil": "LongFast",
+          "Şehir Projeleri": "İstanbul, Ankara, İzmir, Bursa, Antalya",
+          "Odak Alanı": "Afet Acil İletişim, AKUT/AFAD Gönüllüleri",
+          "İletişim": "Telegram, Discord, GitHub"
+        },
+        seeAlso: ["mesh-network", "router", "meshmap", "duty-cycle", "yasal-uyarilar"]
+      },
+      {
+        id: "meshtastic-global",
+        en: "Global Meshtastic Communities",
+        tr: "Dünyadaki Meshtastic Toplulukları ve Ağları",
+        category: "Topluluk & Ağlar",
+        lead: "Dünya genelinde 100.000'den fazla aktif düğüm, yüzlerce şehir ölçekli bağımsız mesh projesi ve binlerce gönüllünün oluşturduğu küresel açık kaynak ekosistemi.",
+        details: "Meshtastic, dünya çapında hem sivil acil durum hazırlığı (prepper) hem de merkeziyetsiz bağımsız internet alternatifi arayışlarının en popüler aracı haline gelmiştir.<br><br><b>Öne Çıkan Dünya Şehir Ağları:</b><br>• <b>Austin Mesh (Teksas, ABD):</b> Dünyanın en organize ve geniş şehir ağı kabul edilir. Teksas Tepeleri ve yüksek su kulelerine monte edilmiş yüzlerce güneş enerjili RAK WisBlock yönlendiricisiyle tüm metropolitan alanda telefonsuz kesintisiz kapsama sağlar.<br>• <b>Bay Mesh & NYC Mesh (ABD):</b> San Francisco / Silikon Vadisi ve New York metropolünde teknoloji çalışanları tarafından yönetilen, yüksek katlı gökdelenler üzerine kurulu röle zinciri.<br>• <b>UK Mesh (Birleşik Krallık):</b> 868 MHz bandında çalışan, Londra merkezli geniş tepe ve çatı röleleri ağı.<br>• <b>Freifunk & DL-Mesh (Almanya):</b> Almanya'nın köklü kablosuz halk ağı Freifunk topluluğu ile Meshtastic köprüleri.<br>• <b>ANZ Mesh (Avustralya & Yeni Zelanda):</b> 915 MHz bandında geniş kırsal araziler ve orman yangını erken uyarı takipleri için kurulan devasa menzilli ağlar.<br><br><b>Küresel İletişim Merkezleri:</b><br>Resmi Meshtastic Discord sunucusu 50.000+ üyeyle 7/24 donanım, firmware ve topoloji desteği sunmaktadır. Discourse forumu ve Reddit (<code>r/meshtastic</code>) diğer ana tartışma merkezleridir.",
+        github: "meshtastic.discourse.group / discord.gg/meshtastic",
+        infobox: {
+          "Küresel Düğüm Sayısı": "100.000+ Aktif Node",
+          "En Büyük Ağ": "Austin Mesh (Austin, TX)",
+          "Avrupa Merkezleri": "Birleşik Krallık (UK Mesh), Almanya, Fransa",
+          "Resmi Forum": "meshtastic.discourse.group",
+          "Resmi Topluluk": "Discord (50k+ üye), Reddit r/meshtastic"
+        },
+        seeAlso: ["meshtastic-turkiye", "meshmap", "mqtt", "router"]
+      },
+      {
+        id: "meshmap",
+        en: "MeshMap & Live Network Monitors",
+        tr: "Mesh Haritaları ve Canlı Ağ İzleyicileri",
+        category: "Topluluk & Ağlar",
+        lead: "Türkiye ve dünyadaki aktif Meshtastic düğümlerinin, coğrafi konumlarının, telsiz bağlantı rotalarının ve kapsama alanlarının internet üzerinden canlı görüntülendiği harita platformları.",
+        details: "Meshtastic cihazları Wi-Fi veya hücresel ağa bağlı bir MQTT ağ geçidi üzerinden internete paket aktardığında, bu paketler harita sunucuları tarafından işlenir.<br><br><b>Önemli Harita Platformları:</b><br>• <b>MeshMap (meshmap.net):</b> Dünya genelindeki düğümleri, yönlendiricileri, sinyal kalitelerini ve son duyulma zamanlarını interaktif Leaflet haritasında gösteren en popüler araçtır. Türkiye'deki düğümler de bu haritada aktif olarak izlenebilmektedir.<br>• <b>MeshObserver / LiMe (Live Mesh):</b> Düğümlerin RF komşuluk ilişkilerini (Neighbor Info) çizerek hangi cihazın hangi tepe rölesi üzerinden iletişim kurduğunu gösteren topoloji haritalama aracı.<br>• <b>APRS.fi Entegrasyonu:</b> Amatör telsizciler için Meshtastic GPS konumlarını APRS-IS ağına köprüleyen ve <code>aprs.fi</code> haritasında gösteren eklentiler.<br><br><b>Gizlilik Notu:</b> Ev içi düğümlerde kesin ev koordinatları yerine rastgele konum sapması (Location Precision) kullanılması güvenlik uzmanlarınca tavsiye edilir.",
+        github: "meshtastic/protobufs: mesh.proto (Position, MapReport)",
+        infobox: {
+          "En Popüler Harita": "MeshMap.net",
+          "Protokol": "MQTT + MAP_REPORT_APP (Port 73)",
+          "İzlenen Bilgiler": "Konum, İrtifa, SNR, Pil, Donanım Çipi",
+          "Topoloji Analizi": "Neighbor Info modülü"
+        },
+        seeAlso: ["mqtt", "position-app", "meshtastic-turkiye", "meshtastic-global"]
       },
 
       /* 1. Ağ Mimarisi ve Protokol */
