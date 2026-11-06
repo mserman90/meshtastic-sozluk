@@ -638,6 +638,7 @@
           <li><a href="#meshtastic-global" onclick="jumpToTerm('meshtastic-global'); return false;">🌐 Dünya Toplulukları</a></li>
           <li><a href="#meshmap" onclick="jumpToTerm('meshmap'); return false;">🗺️ Canlı Ağ Haritaları</a></li>
           <li><a href="#yasal-uyarilar" onclick="jumpToTerm('yasal-uyarilar'); return false;">⚖️ Yasal Uyarılar &amp; Beyan</a></li>
+          <li><a href="#tesekkurler" onclick="jumpToTerm('tesekkurler'); return false;">🙏 Teşekkür ve Katkılar</a></li>
           <li><a href="https://github.com/meshtastic" target="_blank">🌐 Meshtastic Resmi GitHub ↗</a></li>
           <li><a href="https://meshtastic.org/docs/" target="_blank">📚 Resmi Dokümantasyon ↗</a></li>
         </ul>
@@ -715,7 +716,9 @@
         </p>
         <p style="margin-top: 8px; font-size: 0.8rem;">
           <a href="#yasal-uyarilar" class="wikilink" onclick="jumpToTerm('yasal-uyarilar'); return false;">⚖️ Sorumsuzluk Beyanı ve Yasal Uyarılar</a> • 
-          <a href="https://github.com/mserman90/meshtastic-sozluk/blob/main/DISCLAIMER.md" target="_blank" class="wikilink">DISCLAIMER.md Belgesi ↗</a> • 
+          <a href="#tesekkurler" class="wikilink" onclick="jumpToTerm('tesekkurler'); return false;">🙏 Teşekkür ve Katkılar</a> • 
+          <a href="https://github.com/mserman90/meshtastic-sozluk/blob/main/DISCLAIMER.md" target="_blank" class="wikilink">DISCLAIMER.md ↗</a> • 
+          <a href="https://github.com/mserman90/meshtastic-sozluk/blob/main/CREDITS.md" target="_blank" class="wikilink">CREDITS.md ↗</a> • 
           <a href="https://github.com/mserman90/meshtastic-sozluk/blob/main/LICENSE" target="_blank" class="wikilink">GPL-3.0 Lisansı ↗</a>
         </p>
       </div>
@@ -832,6 +835,24 @@
           "Topoloji Analizi": "Neighbor Info modülü"
         },
         seeAlso: ["mqtt", "position-app", "meshtastic-turkiye", "meshtastic-global"]
+      },
+      {
+        id: "tesekkurler",
+        en: "Acknowledgments & Credits",
+        tr: "Teşekkür ve Katkıda Bulunanlar",
+        category: "Topluluk & Ağlar",
+        lead: "Meshtastic ekosistemini inşa eden, Türkiye'de ve dünyada bağımsız iletişim altyapıları kuran, açık kaynak kütüphaneler geliştiren kişi, kurum ve topluluklara şükran bildirimi.",
+        details: "<b>Özel Teşekkürlerimizle:</b><br><br>• <b>Meshtastic Çekirdek Ekibi:</b> Projenin kurucusu Kevin Hester (geeksville) başta olmak üzere tüm firmware, protobuf ve mobil uygulama geliştiricilerine.<br>• <b>TA Mesh (tamesh.org) &amp; Purgatoria Topluluğu:</b> Türkiye'de Meshtastic altyapısını kuran, yerli MQTT broker'ını (<code>mqtt.tamesh.org</code>), canlı haritaları ve 433/868 MHz çapraz köprülerini geliştiren öncü inisiyatife.<br>• <b>Türkiye Afet Haberleşmesi Gönüllüleri &amp; TRAC:</b> 6 Şubat depremleri sonrasında sivil telsiz afet haberleşmesine emek veren tüm arama-kurtarma gönüllüleri, AKUT/AFAD paydaşları ve radyo amatörlerine.<br>• <b>Austin Mesh (austinmesh.org):</b> Şehir çapında açık kaynak güneş enerjili kule rölesi mimarisini dünyaya kazandıran Austin Mesh topluluğuna.<br>• <b>Liam Cottle (MeshMap.net):</b> Küresel canlı düğüm ve MQTT izleme haritasını geliştirdiği için.<br>• <b>Jan Gromes (RadioLib):</b> SX1262 ve LoRa telsiz entegrelerinin açık kaynak sürücü kütüphanesini geliştirdiği için.<br>• <b>Semtech, Espressif, Nordic, RAKwireless, Heltec &amp; LilyGO:</b> LoRa telsiz entegreleri ve geliştirici donanımlarını sağladıkları için.<br>• <b>Wikimedia Vakfı:</b> Özgür bilgi ideali ve MediaWiki tasarım kültürü için.",
+        github: "CREDITS.md (https://github.com/mserman90/meshtastic-sozluk/blob/main/CREDITS.md)",
+        infobox: {
+          "Kurucu Lider": "Kevin Hester (geeksville)",
+          "Türkiye İnisiyatifi": "TA Mesh (tamesh.org / Purgatoria)",
+          "Global Model": "Austin Mesh (austinmesh.org)",
+          "Sürücü Katmanı": "RadioLib (Jan Gromes)",
+          "Harita": "MeshMap.net (Liam Cottle)",
+          "Belge": "CREDITS.md"
+        },
+        seeAlso: ["tamesh-org", "meshtastic-turkiye", "austin-mesh", "meshmap", "lora"]
       },
 
       /* 1. Ağ Mimarisi ve Protokol */

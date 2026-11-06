@@ -6,6 +6,7 @@
 [![GitHub Repo](https://img.shields.io/badge/GitHub-Meshtastic%20Resmi-24292e?style=for-the-badge&logo=github)](https://github.com/meshtastic)
 [![Lisans](https://img.shields.io/badge/Lisans-GPL--3.0-green?style=for-the-badge)](LICENSE)
 [![Yasal Uyarılar](https://img.shields.io/badge/Yasal%20Uyar%C4%B1lar-Sorumsuzluk%20Beyan%C4%B1-orange?style=for-the-badge)](DISCLAIMER.md)
+[![Teşekkürler](https://img.shields.io/badge/Te%C5%9Fekk%C3%BCrler-Katk%C4%B1da%20Bulunanlar-purple?style=for-the-badge)](CREDITS.md)
 
 ---
 
@@ -27,6 +28,7 @@ Bu sözlüğün Wikipedia tarzı arama motoruna, A-Z fihristine, bilgi kutuları
 8. [Topluluklar ve Bölgesel Ağlar (Türkiye ve Dünya)](#8--meshtastic-toplulukları-ve-ağları-türkiye-ve-dünya)
 9. [SEO ve Arama Motoru Optimizasyonu](#-seo-ve-arama-motoru-optimizasyonu-google-settings)
 10. [Yasal Uyarılar ve Sorumsuzluk Beyanı](#️-yasal-uyarılar-ve-sorumsuzluk-beyanı-legal-disclaimers)
+11. [Teşekkür ve Katkıda Bulunanlar](#-teşekkür-ve-katkıda-bulunanlar-acknowledgments--credits)
 
 ---
 
@@ -280,6 +282,21 @@ Bu proje, web sitesi ve sözlük içeriği yalnızca **eğitim, teknik araştır
 5. **Marka:** Meshtastic®, Meshtastic LLC'nin tescilli markasıdır. Bu site bağımsız bir açık kaynak topluluk çalışmasıdır.
 
 Detaylı yasal bildirimler için [DISCLAIMER.md](DISCLAIMER.md) dosyasını inceleyiniz.
+
+---
+
+## 🙏 Teşekkür ve Katkıda Bulunanlar (Acknowledgments & Credits)
+Bu açık kaynak sözlüğün ortaya çıkmasında ve teknik içeriğinin zenginleştirilmesinde emeği geçen kişi, topluluk ve kurumlara teşekkür ederiz:
+- **Kevin Hester (geeksville) & Meshtastic Çekirdek Ekibi:** Projenin kurucu vizyonu, protokol tasarımı ve [meshtastic](https://github.com/meshtastic) depolarındaki açık kaynak mimari için.
+- **[Purgatoria](https://purgatoria.net) & [TA Mesh (tamesh.org)](https://tamesh.org) Ekibi:** Türkiye'de Meshtastic altyapısını kuran, yerli MQTT sunucusu (`mqtt.tamesh.org`), canlı haritalar ve 433/868 MHz çapraz köprülerini geliştiren öncü çalışmaları için ([GitHub: Purgatoria/tamesh.org](https://github.com/Purgatoria/tamesh.org)).
+- **Türkiye Afet Haberleşmesi Gönüllüleri & TRAC:** 6 Şubat ve sonrasında sivil telsiz afet haberleşmesine emek veren tüm arama-kurtarma gönüllüleri, AKUT/AFAD paydaşları ve radyo amatörleri için.
+- **[Austin Mesh (austinmesh.org)](https://austinmesh.org):** Açık kaynak şehir ağı ve güneş enerjili kule rölesi kılavuzlarıyla dünyaya referans oldukları için ([GitHub: austin-mesh](https://github.com/austin-mesh)).
+- **Liam Cottle:** [MeshMap (meshmap.net)](https://meshmap.net) canlı küresel izleme haritasını geliştirdiği için.
+- **Jan Gromes (RadioLib):** Semtech SX1262 ve LoRa telsiz entegrelerinin açık kaynak sürücü kütüphanesini geliştirdiği için.
+- **Semtech, Espressif, Nordic, RAKwireless, Heltec & LilyGO:** LoRa yongaları, modülleri ve açık geliştirici donanımlarını erişilebilir kıldıkları için.
+- **Wikimedia Vakfı & Wikipedia Topluluğu:** Bilgiyi özgürleştirme misyonu ve ilham verici MediaWiki tasarımı için.
+
+Ayrıntılı teşekkür listesi ve referanslar için [CREDITS.md](CREDITS.md) belgesini inceleyebilirsiniz.
 
 ---
 
