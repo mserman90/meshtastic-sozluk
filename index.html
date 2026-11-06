@@ -6238,6 +6238,166 @@
           "Kullanıcı": "Çekirdek firmware geliştiricileri ve ağ mimarları"
         },
         seeAlso: ["meshtasticator", "interactivesim-py", "web-traceroute-visualizer"]
+      },
+      {
+        id: "loramesh-py-script",
+        en: "loraMesh.py Discrete-Event Simulator Script",
+        tr: "loraMesh.py Ayrık Olay Simülatörü Betiği",
+        category: "Yazılım & İstemciler",
+        lead: "Meshtasticator paketinde ayrık olay simülasyonunu başlatan, düğüm sayılarını alan ve LoRa paket akışlarını yöneten ana yürütülebilir Python betiği.",
+        details: "`python3 loraMesh.py <düğüm_sayısı>` şeklinde komut satırından çalıştırılır. Argümansız çağrıldığında etkileşimli bir GUI açarak kullanıcının düğümleri fareyle harita üzerine tek tek yerleştirmesini sağlar. Her düğüm için anten boyu, telsiz rolü ve sekme limiti (hop limit) tanımlanabilir. Simülasyon bittiğinde tüm olay dizilimini, paket çarpışmalarını ve başarı istatistiklerini ekrana basar.",
+        github: "meshtastic.org/docs/software/meshtasticator/discrete-event-sim/",
+        infobox: {
+          "Dosya": "loraMesh.py",
+          "Çalıştırma Biçimleri": "Rastgele (loraMesh.py 20), Etkileşimli (loraMesh.py), Dosyadan (--from-file)",
+          "Motor": "Python 3 & SimPy Discrete-Event Library",
+          "Temel Çıktı": "Karasal topoloji grafiği, hava süresi çizelgesi ve iletim istatistikleri"
+        },
+        seeAlso: ["meshtasticator", "batchsim-py-sweeps", "nodeconfig-yaml-persisted-topology"]
+      },
+      {
+        id: "batchsim-py-sweeps",
+        en: "batchSim.py Automated Parameter Sweeps",
+        tr: "batchSim.py Otomatik Parametre Taraması & Toplu Simülasyon",
+        category: "Yazılım & İstemciler",
+        lead: "Ağ yoğunluğu, hop limit veya paket üretim periyodu gibi değişkenleri otomatik olarak artırarak yüzlerce ardışık simülasyon koşturan ve raporlayan toplu test betiği.",
+        details: "`python3 batchSim.py` komutuyla yürütülür. Örneğin düğüm sayısını 5'ten 100'e kadar 5'er adımda artırarak her senaryoyu 10 kez tekrarlar. Her iterasyonda elde edilen paket teslim oranı (PDR), ortalama gecikme ve çarpışma sayılarını yapılandırılmış veri olarak `/out/report/` dizini altına CSV formatında kaydeder. Bilimsel makaleler ve protokol optimizasyonları için vazgeçilmez bir istatistik motorudur.",
+        github: "meshtastic.org/docs/software/meshtasticator/discrete-event-sim/#running-batch-simulations",
+        infobox: {
+          "Betiğin Adı": "batchSim.py",
+          "İşlev": "Monte Carlo tipi çoklu denemeler ve parametre süpürme (parameter sweep)",
+          "Rapor Dizinleri": "/out/report/ (CSV ve metrik kayıtları)",
+          "Analiz Aracı": "plotExample.py ile otomatik grafik üretimi"
+        },
+        seeAlso: ["loramesh-py-script", "plotexample-py-visualization", "out-report-metric-logging"]
+      },
+      {
+        id: "nodeconfig-yaml-persisted-topology",
+        en: "nodeConfig.yaml Persisted Topology Configuration",
+        tr: "nodeConfig.yaml Kalıcı Topoloji Yapılandırması",
+        category: "Yazılım & İstemciler",
+        lead: "Simülatörde üretilen veya elle yerleştirilen düğümlerin koordinatlarını, yüksekliklerini ve telsiz rollerini saklayarak tekrarlanabilir testler sağlayan YAML yapılandırma dosyası.",
+        details: "`loraMesh.py` çalıştığında oluşturulan topoloji otomatik olarak `out/nodeConfig.yaml` dosyasına yazılır. Kullanıcı bu dosyayı metin düzenleyicide açarak düğümlerin X/Y koordinatlarını, `Router` bayrağını, `HopLimit` değerini veya anten kazancını elle modifiye edebilir. Ardından `python3 loraMesh.py --from-file` komutu verilerek aynı coğrafi yerleşim üzerinde farklı modem preset'lerinin performansı kıyaslanabilir.",
+        github: "meshtastic.org/docs/software/meshtasticator/discrete-event-sim/",
+        infobox: {
+          "Konum": "out/nodeConfig.yaml",
+          "Kullanım Komutu": "python3 loraMesh.py --from-file",
+          "İçerik": "Düğüm kimlikleri, koordinatlar, anten boyu, dBi kazancı, roller, hop limitleri",
+          "Avantaj": "Deneylerin birebir aynı topolojik şartlarda tekrarlanabilmesi (reproducibility)"
+        },
+        seeAlso: ["loramesh-py-script", "simulated-router-role", "hop-limit-scaling-analysis"]
+      },
+      {
+        id: "plotexample-py-visualization",
+        en: "plotExample.py Simulation Analytics Visualizer",
+        tr: "plotExample.py Simülasyon Analiz & Grafikleştirici Aracı",
+        category: "Yazılım & İstemciler",
+        lead: "batchSim.py tarafından üretilen rapor verilerini okuyarak paket teslim oranları, ağ gecikmesi ve kanal tıkanıklığını gösteren yayın kalitesinde Matplotlib grafikleri üreten analiz betiği.",
+        details: "Simülasyon çıktılarını görselleştirmek için geliştirilmiştir. `/out/report/` klasöründeki yüzlerce test sonucunu birleştirerek; X ekseninde düğüm sayısı, Y ekseninde PDR yüzdesi olan çizgisel grafikler veya kutu grafikleri (box plots) üretir. Protokol araştırmacılarının farklı algoritmaların (örneğin Managed Flood vs Trickle timer) sınırlarını net bir şekilde görmesini sağlar.",
+        github: "meshtastic.org/docs/software/meshtasticator/discrete-event-sim/#visualizing-results",
+        infobox: {
+          "Betiğin Adı": "plotExample.py",
+          "Kütüphane": "Python Matplotlib / NumPy",
+          "Girdi": "out/report/ dizini altındaki simülasyon logları",
+          "Çıktı": "PDF/PNG formatında yüksek çözünürlüklü performans grafikleri"
+        },
+        seeAlso: ["batchsim-py-sweeps", "packet-delivery-ratio-pdr", "out-report-metric-logging"]
+      },
+      {
+        id: "simulated-router-role",
+        en: "Simulated Router Role Configuration",
+        tr: "Simülasyonda Yönlendirici (Router) Rolü Yapılandırması",
+        category: "Ağ & Protokol",
+        lead: "Ayrık olay simülatöründe belirli düğümlere yüksek öncelikli yönlendirici (Router/Repeater) rolü atanarak paket yayılımına ve ağ yüküne olan etkisinin modellenmesi.",
+        details: "`nodeConfig.yaml` içinde veya GUI üzerinde bir düğüm `Router` olarak işaretlendiğinde, bu düğüm paketleri tekrarlarken daha agresif zamanlama kullanır ve istemci düğümlere göre öncelik kazanır. Simülatör, ağdaki router sayısının az olmasının kapsama kopukluklarına (network partition), aşırı fazla olmasının ise paket çakışmalarına (broadcast storm) yol açtığını sayısal olarak doğrulamak için kullanılır.",
+        github: "meshtastic.org/docs/software/meshtasticator/discrete-event-sim/",
+        infobox: {
+          "Rol Tanımı": "isRouter: true / false",
+          "Ağ Etkisi": "Paket tekrarlama önceliği ve menzil genişletme",
+          "Analiz Konusu": "Optimum Router / Client oranı tespiti",
+          "Uygulama": "Şehir geneli LoRa altyapı planlaması"
+        },
+        seeAlso: ["nodeconfig-yaml-persisted-topology", "repeater", "router-client"]
+      },
+      {
+        id: "hop-limit-scaling-analysis",
+        en: "Hop Limit Scaling & Congestion Analysis",
+        tr: "Sekme Limiti (Hop Limit) Ölçekleme & Tıkanıklık Analizi",
+        category: "Ağ & Protokol",
+        lead: "Simülatörde hop limit değerinin (1'den 7'ye) adım adım artırılmasının ağ tıkanıklığı, hava süresi tüketimi ve paket teslim oranı üzerindeki sınır etkilerinin incelenmesi.",
+        details: "Meshtastic'te varsayılan hop limit 3'tür. Simülasyonlarda bu değer 5 veya 7'ye çıkarıldığında, her bir paketin ağda yarattığı kopyaların geometrik olarak çoğaldığı ve belirli bir düğüm yoğunluğundan sonra kanalı tamamen kilitleyerek PDR'ı düşürdüğü gözlemlenir. Simülatör, bir ağ için en ideal sekme sınırının bilimsel olarak saptanmasına imkan tanır.",
+        github: "meshtastic.org/docs/software/meshtasticator/discrete-event-sim/",
+        infobox: {
+          "Değişken": "HopLimit (1 ile 7 arası)",
+          "Gözlemlenen Olay": "Karasal yayın fırtınası (Broadcast storm) ve kanal doygunluğu",
+          "Optimum Değer": "Çoğu kentsel ağ için 3 sekme (Hop limit: 3)",
+          "Test Yöntemi": "batchSim.py üzerinden hop limit süpürmesi"
+        },
+        seeAlso: ["hop-limit", "hop-start", "batchsim-py-sweeps"]
+      },
+      {
+        id: "random-topology-generation",
+        en: "Algorithmic Random Topology Generation (MINDIST Constraint)",
+        tr: "Algoritmik Rastgele Topoloji Üretimi (MINDIST Kısıtı)",
+        category: "Yazılım & İstemciler",
+        lead: "`loraMesh.py` tarafından düğümlerin harita alanına gerçekçi bir biçimde, birbirinin üstüne binmeyecek şekilde asgari mesafe kuralıyla dağıtılması algoritması.",
+        details: "Belirtilen alan boyutları (örneğin 20x20 km) içinde düğümler rastgele koordinatlara yerleştirilirken `MINDIST` (asgari mesafe) kontrolü yapılır. İki düğümün birbirine fiziksel olarak imkansız derecede yakın düşmesi engellenir. Ayrıca kopuk bir ada (isolated cluster) oluşmaması için her düğümün en az bir komşusunun kapsama menzili içinde kalması garanti altına alınarak geçerli bir örgü ağ grafı inşa edilir.",
+        github: "meshtastic.org/docs/software/meshtasticator/discrete-event-sim/#running-a-simulation",
+        infobox: {
+          "Kısıt Kriteri": "MINDIST (Minimum Distance in meters)",
+          "Bağlantısallık Garantisi": "Her düğüm için en az 1 aktif RF komşu (Connected graph)",
+          "Çalıştırma": "python3 loraMesh.py 30",
+          "Kullanım": "Sıfırdan tarafsız ağ topolojisi üretme ve stres testi"
+        },
+        seeAlso: ["loramesh-py-script", "nodeconfig-yaml-persisted-topology", "meshtasticator"]
+      },
+      {
+        id: "headless-ci-simulation-mode",
+        en: "Headless CI/CD Simulation Mode (--no-gui)",
+        tr: "Başsız Sürekli Entegrasyon Simülasyon Modu (--no-gui)",
+        category: "Yazılım & İstemciler",
+        lead: "Meshtasticator'ın grafiksel arayüz (GUI) pencerelerini devre dışı bırakarak GitHub Actions veya Linux sunucularda otomatik regresyon ve performans testleri koşturmasını sağlayan mod.",
+        details: "`python3 loraMesh.py 10 --no-gui --simtime-seconds 60 --period-seconds 5` sözdizimiyle kullanılır. Grafik kütüphanelerini yüklemeden doğrudan terminalde arka planda koşar. Firmware veya yönlendirme protokolüne yeni bir özellik eklendiğinde, CI/CD hatlarında otomatik tetiklenerek protokolün regresyona uğrayıp uğramadığını kontrol eden 'smoke test' mekanizması sunar.",
+        github: "github.com/meshtastic/Meshtasticator/blob/master/loraMesh.py",
+        infobox: {
+          "Kritik Bayraklar": "--no-gui, --simtime-seconds, --period-seconds",
+          "Ortam": "Headless Linux sunucular, Docker konteynerleri, GitHub Actions CI",
+          "Avantaj": "Ekran kartı ve pencere yöneticisi olmadan süper hızlı test tamamlama",
+          "Kullanım": "Geliştirici regresyon testleri ve otomatik doğrulama"
+        },
+        seeAlso: ["loramesh-py-script", "dockerized-mesh-simulation", "batchsim-py-sweeps"]
+      },
+      {
+        id: "packet-timeline-scheduling",
+        en: "Microsecond-Accurate Packet Timeline Scheduling",
+        tr: "Milisaniye Hassasiyetli Paket Zaman Çizelgelemesi",
+        category: "Yazılım & İstemciler",
+        lead: "Ayrık olay motorunda her paketin telsiz çipindeki ön ek (preamble), başlık ve yük iletim sürelerinin havada kalış pencerelerini milisaniye düzeyinde hesaplayıp çizen zamanlama sistemi.",
+        details: "Bir düğüm TX durumuna geçtiğinde SimPy zamanlayıcısında `start_tx` ve `end_tx` olayları planlanır. Paket süresi formülü ($T_{packet} = T_{preamble} + T_{payload}$) kullanılarak LoRa yayılma faktörü ve bant genişliğine göre havanın ne kadar süre meşgul tutulduğu hesaplanır. Simülasyon bitiminde Matplotlib tabanlı bir 'Timeline Plot' çizilerek hangi paketlerin zaman ekseninde örtüştüğü ve hangi anlarda çarpışma yaşandığı renkli bloklarla gösterilir.",
+        github: "meshtastic.org/docs/software/meshtasticator/discrete-event-sim/",
+        infobox: {
+          "Hesaplama": "Airtime (ToA - Time on Air) denklemleri",
+          "Olay Tipleri": "start_tx, end_tx, channel_busy, packet_received, packet_dropped",
+          "Görselleştirme": "Timeline Gantt şeması (Zaman ekseninde paket çakışmaları)",
+          "Önemi": "Kanal doluluğu ve CSMA/CA bekleme sürelerinin doğrulanması"
+        },
+        seeAlso: ["simpy-discrete-event-engine", "lora-collision-capture-effect", "airtime"]
+      },
+      {
+        id: "out-report-metric-logging",
+        en: "Structured Simulation Metric Logging (/out/report/)",
+        tr: "Yapılandırılmış Simülasyon Metrik Kayıt Sistemi (/out/report/)",
+        category: "Yazılım & İstemciler",
+        lead: "Meshtasticator simülasyonlarının her bir adımında oluşan paket istatistiklerini, kayıpları ve enerji tüketimi tahminlerini CSV formatında kalıcı olarak saklayan raporlama altyapısı.",
+        details: "Simülasyon tamamlandığında `/out/report/` dizini altında her test oturumuna özel zaman damgalı CSV dosyaları oluşturulur. Bu dosyalarda; düğüm bazında gönderilen/alınan paket adetleri, sekme sayıları (hop distribution), yaşanan çarpışmalar, kanal meşguliyet yüzdesi (% airtime) ve ortalama uçtan uca gecikme (latency) gibi ayrıntılı parametreler yer alır. Veri bilimciler ve araştırmacılar Pandas veya R ile bu verileri doğrudan işleyebilir.",
+        github: "meshtastic.org/docs/software/meshtasticator/discrete-event-sim/",
+        infobox: {
+          "Kayıt Yolu": "/out/report/*.csv",
+          "Kayıt Parametreleri": "Sent, Received, Collided, Dropped, Hops, Latency, Airtime",
+          "Veri Biçimi": "RFC 4180 uyumlu virgülle ayrılmış CSV",
+          "Kullanım": "Büyük veri analizi, akademik araştırmalar ve grafik çıkarma"
+        },
+        seeAlso: ["batchsim-py-sweeps", "plotexample-py-visualization", "packet-delivery-ratio-pdr"]
       }
     ];
 

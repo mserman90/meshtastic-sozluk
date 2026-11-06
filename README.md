@@ -538,6 +538,18 @@ Meshtastic donanımını kontrol etmek, mesajlaşıp harita görüntülemek ve a
 - **Paket Teslim Oranı Analizi (`packet-delivery-ratio-pdr`):** Simülasyon sonucunda kaynaktan çıkan paketlerin hedefe ulaşma yüzdesini ölçen (`PDR = Alınan/Gönderilen * 100`), aşırı sekme ve kanal doluluğu kaynaklı kayıpları tespit eden ana metrik.
 - **Meshtasticator Kâhin Topoloji Görünümü (`meshtasticator-oracle-topology-view`):** Tüm ağın üstten tam haritasını, anlık aktif RF bağlantılarını, paket sekme rotalarını ve kuyruklarını tek ekranda izleyip yönlendirme döngülerini yakalayan küresel izleme arayüzü.
 
+### ⏱️ Meshtasticator Ayrık Olay Simülatörü ve loraMesh (meshtastic.org/docs/software/meshtasticator/discrete-event-sim)
+- **loraMesh.py Ayrık Olay Betiği (`loramesh-py-script`):** Simülasyonu başlatan, rastgele yerleşim (`python3 loraMesh.py 20`) veya etkileşimli GUI üzerinden düğüm konumları ve hop limitlerini alan ana Python betiği.
+- **batchSim.py Otomatik Parametre Taraması (`batchsim-py-sweeps`):** Düğüm sayısını, sekme limitini veya paket periyotlarını otomatik artırarak yüzlerce ardışık Monte Carlo simülasyonu koşturan ve CSV raporları üreten test orkestratörü.
+- **nodeConfig.yaml Kalıcı Topoloji (`nodeconfig-yaml-persisted-topology`):** Simülatörde üretilen veya elle yerleştirilen düğüm koordinatları, anten boyları, rolleri ve kazançlarını saklayarak `--from-file` ile deneylerin birebir tekrarlanmasını sağlayan YAML dosyası.
+- **plotExample.py Analiz ve Grafikleştirici (`plotexample-py-visualization`):** `/out/report/` dizinindeki simülasyon loglarını okuyarak Matplotlib ile paket teslim oranları (PDR), gecikme ve çarpışmaları gösteren yüksek çözünürlüklü grafikler üreten araç.
+- **Simülasyonda Router Rolü Modellemesi (`simulated-router-role`):** Ağdaki düğümlere `isRouter: true` atanarak agresif tekrarlama önceliği verilmesi ve optimum Router/Client oranının belirlenmesi.
+- **Sekme Limiti (Hop Limit) Ölçekleme Analizi (`hop-limit-scaling-analysis`):** Hop limitin 1'den 7'ye çıkarılmasının ağda yarattığı paket fırtınasını ve kanal doygunluğunu tespit eden ölçeklenebilirlik analizi.
+- **Algoritmik Rastgele Topoloji Üretimi (`random-topology-generation`):** `MINDIST` asgari mesafe kısıtlamasıyla düğümlerin üst üste binmesini engelleyen ve her düğümün bağlı kalmasını garanti eden örgü ağ grafı üretimi.
+- **Başsız CI/CD Simülasyon Modu (`headless-ci-simulation-mode`):** `--no-gui`, `--simtime-seconds` ve `--period-seconds` bayraklarıyla GitHub Actions ve sunucularda ekran kartı olmadan otomatik regresyon testi koşturma yeteneği.
+- **Milisaniye Hassasiyetli Paket Zaman Çizelgesi (`packet-timeline-scheduling`):** SimPy üzerinde her paketin ön ek, başlık ve veri iletim sürelerini (ToA) hesaplayarak zaman ekseninde çakışan pencereleri ve çarpışmaları gösteren Gantt çizelgesi.
+- **Yapılandırılmış Rapor Kayıt Sistemi (`out-report-metric-logging`):** Gönderilen, alınan, çarpışan paketleri, sekme sayılarını ve gecikmeleri `/out/report/*.csv` dosyalarına işleyen veri kaydı altyapısı.
+
 ### 🔹 Açık Standart ve Tedarikçi Bağımsızlığı (Open Architecture & Vendor Neutrality)
 Meshtastic'in hiçbir tescilli ticari protokole veya tek bir donanım üreticisine bağımlı kalmamasını sağlayan açık kaynak ekosistem felsefesi (GPL-3.0 lisansı ve açık Protobuf şemaları). Semtech SX1262/SX1276/LR1121 telsizleri ile ESP32, nRF52840 ve RP2040 işlemcili onlarca farklı üreticinin (Heltec, LilyGO, RAKwireless) donanımları tam uyumla birlikte çalışabilir.
 
