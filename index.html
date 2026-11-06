@@ -5758,6 +5758,166 @@
           "Araçlar": "NetworkManager, nmcli, nmtui, armbian-web-config"
         },
         seeAlso: ["meshtasticd-linux-daemon", "sbc-headless-ssh-management", "transport-node-tcp"]
+      },
+      {
+        id: "flasher-rockchip-flash-tool",
+        en: "Meshtastic Flasher Integrated Rockchip Flash Tool",
+        tr: "Meshtastic Flasher Entegre Rockchip Flaş Aracı",
+        category: "Yazılım & İstemciler",
+        lead: "WebUSB protokolü sayesinde hiçbir yerel sürücü veya masaüstü yazılımı kurmadan doğrudan Chrome veya Edge tarayıcısından Rockchip işlemcili kartların flaşını silen ve mPWRD-OS imajı yazan web aracı.",
+        details: "Meshtastic Web Flasher bünyesine dahil edilen bu araç, Maskrom modunda USB ile bağlanan kartı otomatik tanır. Ekranda cihazın USB Kimliğini (Vendor/Product ID), algılanan depolama türünü (SPI NAND, SPI NOR, eMMC) ve depolama kapasitesini gösterir. Kullanıcıya tek tıkla 'Erase Flash' (fabrika yazılımını sıfırlama) veya 'Write Image' (.img, .img.gz, .img.xz) imkanı sunarak komut satırına olan ihtiyacı ortadan kaldırır.",
+        github: "meshtastic.org/docs/software/mpwrd-os/rockchip-flashing",
+        infobox: {
+          "Arayüz": "Meshtastic Web Flasher -> Rockchip Flash Tool",
+          "Protokol": "WebUSB API (Chromium / Google Chrome / Edge)",
+          "Desteklenen Çipler": "Rockchip RK3506, RV1106, RV1103",
+          "Temel İşlevler": "Erase Flash (Hafıza Temizleme) ve Direct Image Flashing (eMMC Yazma)"
+        },
+        seeAlso: ["rkdeveloptool-cli", "maskrom-mode-hardware-trigger", "emmc-direct-flashing-mpwrd"]
+      },
+      {
+        id: "rkdeveloptool-cli",
+        en: "rkdeveloptool Command-Line Utility",
+        tr: "rkdeveloptool Komut Satırı Aracı",
+        category: "Yazılım & İstemciler",
+        lead: "Rockchip SoC tabanlı cihazlarla Maskrom modunda düşük seviyeli USB iletişimi kurarak bellek bölüntülerini okuma, yazma ve silme işlemlerini gerçekleştiren resmi açık kaynaklı komut satırı aracı.",
+        details: "Linux ve macOS sistemlerde C++ ile derlenen `rkdeveloptool`, doğrudan libusb altyapısını kullanır. Temel komutları: `rkdeveloptool ld` (bağlı Maskrom cihazını listeleme), `rkdeveloptool db MiniLoaderAll.bin` (SRAM'e geçici önyükleyici indirme), `rkdeveloptool ef` (tüm flaş bloklarını silme - Erase Flash) ve `rkdeveloptool wl 0 image.img` (imajı doğrudan yazma). Otomatik üretim hatlarında veya sunucu ortamlarında betik tabanlı kart hazırlama için vazgeçilmezdir.",
+        github: "github.com/rockchip-linux/rkdeveloptool",
+        infobox: {
+          "Geliştirici": "Rockchip Open Source Platform",
+          "Lisans": "GPL-2.0 / Apache-2.0",
+          "Kritik Komutlar": "ld (List Devices), db (Download Boot), ef (Erase Flash), wl (Write LBA)",
+          "Platform": "Linux / macOS terminal ortamları"
+        },
+        seeAlso: ["flasher-rockchip-flash-tool", "rockchip-miniloader-execution", "rockchip-maskrom-rkdevtool"]
+      },
+      {
+        id: "maskrom-mode-hardware-trigger",
+        en: "Maskrom Mode Hardware Trigger Procedure",
+        tr: "Maskrom Donanım Modu Tetikleme Prosedürü",
+        category: "Donanım & Modüller",
+        lead: "Rockchip işlemcilerinde dahili ROM kodunun çalışarak cihazı düşük seviyeli USB indirme durumuna almasını sağlayan donanımsal tetikleme protokolü.",
+        details: "İşlemcinin bozuk veya önceden yüklü flaştan boot etmesini engellemek için karttaki 'BOOT' veya 'Maskrom' butonuna (veya ilgili test noktasına) basılı tutulur. Buton basılı tutulurken USB Type-C kablosu takılır ve yaklaşık 5 saniye sonra bırakılır. Bu işlem işlemcinin önyükleme pinini toprağa (GND) çekerek dahili Mask ROM önyükleyicisini zorlar. Kart bilgisayara `2207:xxxx` USB kimliğiyle bir kurtarma aygıtı olarak tanıtılır.",
+        github: "meshtastic.org/docs/software/mpwrd-os/rockchip-flashing#step-1-put-the-board-into-maskrom-mode",
+        infobox: {
+          "Tetikleme Yöntemi": "BOOT/Maskrom butonu basılı iken USB gücü verme (~5 sn)",
+          "Donanım Pini": "Boot / EMMC_CLK veya SPI_CLK hattını GND'ye çekme",
+          "Sistem Yanıtı": "Dahili flaşı atlayıp USB Maskrom dinleme moduna geçiş",
+          "Kullanım": "Kart kilitlenmelerinde kurtarma (unbricking) ve sıfırdan flaş yazma"
+        },
+        seeAlso: ["rockchip-usb-vid-detection", "flasher-rockchip-flash-tool", "rockchip-maskrom-rkdevtool"]
+      },
+      {
+        id: "microsd-removal-precaution",
+        en: "MicroSD Card Removal Precaution Before Erasing",
+        tr: "Flaş Temizleme Öncesi MicroSD Kartı Çıkarma Zorunluluğu",
+        category: "Donanım & Modüller",
+        lead: "mPWRD-OS için dahili flaş silinirken veya eMMC yazılırken veri kaybını ve önyükleme çakışmalarını önlemek amacıyla microSD kartın fiziksel olarak yuvasından çıkarılması kuralı.",
+        details: "Rockchip önyükleyicileri bellek aygıtlarını sırayla tarar (eMMC -> SPI Flash -> SD Card). Maskrom modundayken yuvada bir microSD kart takılı bırakılırsa, 'Erase Flash' komutu hedef aygıt tanımlamasında yanlış bloğu temizleyebilir veya SD karttaki bölüntü tablosunu bozabilir. Ayrıca işlem tamamlandıktan sonra kartın yeniden başlatılmasında öncelik karmaşası yaşanmaması için, flaş temizliği bitene kadar microSD yuvası daima boş tutulmalıdır.",
+        github: "meshtastic.org/docs/software/mpwrd-os/rockchip-flashing#requirements",
+        infobox: {
+          "Kural": "Dahili depolama silinirken/yazılırken SD kart yuvası boş olmalıdır",
+          "Önlenen Riskler": "Yanlış aygıtın silinmesi, MBR/GPT tablosu bozulması, boot çakışması",
+          "Sonraki Adım": "Silme tamamlandıktan sonra mPWRD-OS yazılı SD kart takılır",
+          "Uygulama": "EByte, Luckfox Lyra ve ForLinx kartlarının tümü"
+        },
+        seeAlso: ["onboard-flash-erase-procedure", "balenaetcher-sd-preparation", "emmc-direct-flashing-mpwrd"]
+      },
+      {
+        id: "compressed-image-flashing",
+        en: "Compressed Raw Image Flashing (.img.gz / .img.xz)",
+        tr: "Sıkıştırılmış İmaj Yazma Desteği (.img.gz / .img.xz)",
+        category: "Yazılım & İstemciler",
+        lead: "mPWRD-OS dağıtım imajlarının internetten indirildiği gibi, diskte açılmaya (uncompress) gerek kalmadan doğrudan Web Flasher üzerinden yazılmasını sağlayan bellek akış sıkıştırma desteği.",
+        details: "Ham Armbian imajları 4 GB ile 8 GB arasında yer kaplarken, Gzip (.img.gz) veya XZ/LZMA (.img.xz) algoritmalarıyla sıkıştırıldığında dosya boyutu 500-800 MB seviyesine iner. Meshtastic Web Flasher, modern JavaScript akış çözücülerini (Web Streams & DecompressionStream API) kullanarak sıkıştırılmış imajı bellekte anlık olarak açar ve doğrudan USB üzerinden kartın eMMC veya flaşına yazar. Kullanıcının bilgisayarında onlarca gigabaytlık boş yer açma zorunluluğunu ortadan kaldırır.",
+        github: "meshtastic.org/docs/software/mpwrd-os/rockchip-flashing",
+        infobox: {
+          "Desteklenen Formatlar": ".img (Ham), .img.gz (Gzip), .img.xz (LZMA/XZ)",
+          "Mekanizma": "JavaScript DecompressionStream ile bellekte anlık akış çözme",
+          "Avantaj": "Düşük indirme boyutu ve disk alanı tasarrufu",
+          "Uygulama": "Meshtastic Web Flasher ve balenaEtcher"
+        },
+        seeAlso: ["flasher-rockchip-flash-tool", "balenaetcher-sd-preparation", "mpwrd-os"]
+      },
+      {
+        id: "rockchip-storage-nand-emmc",
+        en: "Rockchip Storage Architecture (Raw SPI NAND vs Managed eMMC)",
+        tr: "Rockchip Depolama Mimarisi (Ham SPI NAND ve Yönetilen eMMC Karşılaştırması)",
+        category: "Donanım & Modüller",
+        lead: "mPWRD-OS uyumlu kartlarda kullanılan depolama teknolojilerinin fiziksel çalışma prensipleri ve yazma prosedürleri arasındaki temel mimari farklar.",
+        details: "Luckfox Lyra Plus/Zero ve EByte kartlarında **SPI NAND Flash** bulunur; bu yongalar ham bellek bloklarından oluşur, dosya sistemi doğrudan donanım seviyesinde blok silme ('Erase Flash') gerektirir. Buna karşılık Luckfox Lyra Ultra W gibi kartlarda bulunan **eMMC**, dahili bir bellek denetleyicisi (wear leveling, bad-block yönetimi) barındıran yönetilen bir flash mimarisidir. eMMC'ye silme yerine standart bir sabit disk gibi doğrudan LBA blok adresleme ile imaj yazılır.",
+        github: "meshtastic.org/docs/software/mpwrd-os/board-support",
+        infobox: {
+          "Ham Flaş (Raw NAND)": "SPI NAND/NOR (EByte, Lyra Plus, Lyra Zero W) -> Erase Flash gerekir",
+          "Yönetilen Bellek (eMMC)": "eMMC 5.1 (Lyra Ultra W) -> Doğrudan blok yazma yapılır",
+          "Mekanik Fark": "eMMC yüksek titreşimli askeri/araç rölelerinde en yüksek güvenilirliği sunar",
+          "Yazma Aracı": "Meshtastic Rockchip Flash Tool / rkdeveloptool"
+        },
+        seeAlso: ["onboard-flash-erase-procedure", "emmc-direct-flashing-mpwrd", "luckfox-lyra-series"]
+      },
+      {
+        id: "balenaetcher-sd-preparation",
+        en: "balenaEtcher SD Card Burning Protocol",
+        tr: "balenaEtcher ile MicroSD Kart Hazırlama Protokolü",
+        category: "Yazılım & İstemciler",
+        lead: "mPWRD-OS ham Linux imajlarının microSD karta sektör sektör hatasız yazılmasını ve yazma sonrası kriptografik sağlama (checksum verification) ile doğrulanmasını sağlayan açık kaynaklı yazma standardı.",
+        details: "mPWRD-OS için kart hazırlarken yanlışlıkla bilgisayarın ana sabit diskini silmeyi önleyen 'Drive Selection' korumasına sahiptir. Sıkıştırılmış `.img.xz` imajını doğrudan okur, microSD karta yazar ve ardından bit seviyesinde SHA doğrulaması yaparak bozuk bloklu veya sahte SD kartları anında tespit eder. Yazma bitince kart doğrudan Lyra Plus veya Raspberry Pi yuvasına takılarak ilk boot başlatılır.",
+        github: "meshtastic.org/docs/software/mpwrd-os/rockchip-flashing#step-3-booting-mpwrd-os",
+        infobox: {
+          "Yazılım": "balenaEtcher (veya Raspberry Pi Imager)",
+          "Özellikler": "Doğrudan XZ açma, hedef sürücü kilidi, otomatik doğrulama (Verify)",
+          "Desteklenen İşletim Sistemleri": "Windows, macOS, Linux",
+          "Kullanım Amacı": "mPWRD-OS önyüklenebilir microSD kart üretimi"
+        },
+        seeAlso: ["compressed-image-flashing", "microsd-removal-precaution", "mpwrd-os"]
+      },
+      {
+        id: "rockchip-usb-vid-detection",
+        en: "Rockchip USB Vendor ID & Device Enumeration (VID 0x2207)",
+        tr: "Rockchip USB Satıcı Kimliği & Cihaz Numaralandırması (VID 0x2207)",
+        category: "Donanım & Modüller",
+        lead: "Rockchip işlemcili tek kartlı bilgisayarlar Maskrom moduna geçtiğinde işletim sistemi ve Web Flasher tarafından tanınmasını sağlayan USB tanımlama parametreleri.",
+        details: "Rockchip işlemcilerinin donanımsal Mask ROM kodunda üretici kimliği (Vendor ID) daima `0x2207` olarak kodlanmıştır. Ürün kimliği (PID) ise çipe göre değişir (örneğin RK3506 için `0x350a`, RV1106 için `0x110a`). WebUSB arayüzü ve işletim sistemi udev kuralları bu VID/PID çiftini yakalayarak aygıta özel iletişim kanalını açar. Terminalde `lsusb` komutuyla `Bus 001 Device 005: ID 2207:350a Fuzhou Rockchip Electronics` şeklinde doğrulanır.",
+        github: "meshtastic.org/docs/software/mpwrd-os/rockchip-flashing",
+        infobox: {
+          "USB Satıcı Kimliği (VID)": "0x2207 (Fuzhou Rockchip Electronics)",
+          "Ürün Kimlikleri (PID)": "0x350a (RK3506), 0x110a (RV1106/RV1103)",
+          "Arayüz Sınıfı": "Vendor Specific USB Class (Maskrom Control Endpoint)",
+          "Teşhis Komutu": "lsusb (Linux) / Device Manager (Windows)"
+        },
+        seeAlso: ["maskrom-mode-hardware-trigger", "flasher-rockchip-flash-tool", "rkdeveloptool-cli"]
+      },
+      {
+        id: "rockchip-miniloader-execution",
+        en: "Rockchip MiniLoader Execution Architecture",
+        tr: "Rockchip MiniLoader Çalıştırma Mimarisi",
+        category: "Donanım & Modüller",
+        lead: "Maskrom modunda kartın harici DDR belleklerini ve depolama denetleyicilerini başlatmak için işlemcinin dahili SRAM'ine gönderilen ilk aşama mikro önyükleyici.",
+        details: "İşlemci ilk açıldığında harici RAM (DDR3/DDR4) aktif değildir; işlemci yalnızca birkaç kilobaytlık dahili SRAM'e sahiptir. Flaş silme veya eMMC'ye gigabaytlarca veri yazma işlemi SRAM sınırlarını aştığı için, `rkdeveloptool db MiniLoaderAll.bin` komutuyla (veya Web Flasher tarafından perde arkasında) küçük bir MiniLoader ikilisi SRAM'e yüklenip koşturulur. MiniLoader karttaki DDR belleği açar ve yüksek hızlı USB 2.0 veri aktarımını mümkün kılar.",
+        github: "meshtastic.org/docs/software/mpwrd-os/rockchip-flashing",
+        infobox: {
+          "Dosya Adı": "MiniLoaderAll.bin / rk3506_loader.bin",
+          "Çalıştığı Hafıza": "İşlemci İçi Dahili SRAM",
+          "Görevi": "DDR RAM kontrolcüsünü ve eMMC/NAND arayüzünü devreye sokma",
+          "Aşama": "Maskrom başlangıcı ile ham imaj yazma arasındaki köprü"
+        },
+        seeAlso: ["rkdeveloptool-cli", "flasher-rockchip-flash-tool", "rockchip-rk3506-soc"]
+      },
+      {
+        id: "rockchip-driverassistant-troubleshooting",
+        en: "Rockchip DriverAssistant & USB Connection Troubleshooting",
+        tr: "Rockchip Sürücü Asistanı & USB Bağlantı Sorun Giderme",
+        category: "Donanım & Modüller",
+        lead: "Windows sistemlerde Maskrom modundaki kartların 'Bilinmeyen Aygıt' olarak kalmasını önleyen Rockchip DriverAssitant çözümü ve olası USB bağlantı arızalarının teşhisi.",
+        details: "Windows işletim sistemlerinde Maskrom aygıtını doğru yönetebilmek için 'Rockchip DriverAssitant' paketiyle resmi `rockusb.sys` sürücüsü kurulmalıdır. Bağlantı sorunlarında en sık karşılaşılan hatalar şunlardır: 1) Yalnızca şarj amaçlı üretilmiş zayıf 2 telli USB kabloları kullanılması (veri hatları D+/D- eksik); 2) Anakart üzerindeki USB 3.0/3.1 portlarındaki aşırı sinyal paraziti (USB 2.0 portuna geçiş önerilir); 3) Linux üzerinde udev kuralı eksikliği nedeniyle `rkdeveloptool`'un 'Device open failed' hatası vermesi (`sudo` veya udev kuralı gerektirir).",
+        github: "meshtastic.org/docs/software/mpwrd-os/rockchip-flashing",
+        infobox: {
+          "Windows Sürücüsü": "Rockchip DriverAssitant (rockusb.sys)",
+          "Linux Çözümü": "/etc/udev/rules.d/ içinde 2207 VID için 0666 izni",
+          "Donanım Sebepleri": "Veri hattı olmayan kablolar, USB 3.0 port kararsızlığı, yetersiz güç",
+          "Teşhis Adımı": "Aygıt Yöneticisi altında 'Rockusb Device' kontrolü"
+        },
+        seeAlso: ["flasher-rockchip-flash-tool", "maskrom-mode-hardware-trigger", "serial-bridge-chip-drivers"]
       }
     ];
 
