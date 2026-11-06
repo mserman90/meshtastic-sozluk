@@ -550,6 +550,18 @@ Meshtastic donanımını kontrol etmek, mesajlaşıp harita görüntülemek ve a
 - **Milisaniye Hassasiyetli Paket Zaman Çizelgesi (`packet-timeline-scheduling`):** SimPy üzerinde her paketin ön ek, başlık ve veri iletim sürelerini (ToA) hesaplayarak zaman ekseninde çakışan pencereleri ve çarpışmaları gösteren Gantt çizelgesi.
 - **Yapılandırılmış Rapor Kayıt Sistemi (`out-report-metric-logging`):** Gönderilen, alınan, çarpışan paketleri, sekme sayılarını ve gecikmeleri `/out/report/*.csv` dosyalarına işleyen veri kaydı altyapısı.
 
+### 🖥️ interactiveSim.py Canlı Firmware Öykünümü (meshtastic.org/docs/software/meshtasticator/interactive-sim)
+- **PlatformIO Yerel Firmware Hedefi (`interactivesim-native-firmware`):** Mikrodenetleyici olmadan `pio run -e native` ile x86/ARM Linux üzerinde doğrudan çalışan Portduino tabanlı yerel Meshtastic ikilisi derleme yöntemi.
+- **interactiveSim.py Komut Satırı Bayrakları (`interactivesim-command-flags`):** `-p` (ikili yolu), `-d` (Docker kipi), `-c` (çarpışma öykünümü) ve `-m` (yol kaybı modeli) parametreleriyle simülatörü yapılandırma standardı.
+- **Düğüm Başına TCP Port Tahsisi (`per-node-tcp-port-allocation`):** 4403 portundan başlayarak her sanal düğüme bağımsız birer TCP soketi (`4403`, `4404`...) atayan ve harici istemcilerin düğümleri yönetmesini sağlayan mimari.
+- **Ayrık Terminal Pencereleri ve Canlı Loglar (`multi-window-terminal-emulation`):** Her düğüm için bağımsız bir terminal penceresi fırlatarak (xterm/tmux) cihazların bootloader, FreeRTOS görev ve yönlendirme loglarını canlı izleme tekniği.
+- **Sanal SPIFFS & NVS Bellek İzolasyonu (`simulated-spiffs-storage-isolation`):** Eşzamanlı çalışan düğümlerin kimliklerinin, NodeDB verilerinin ve kanal PSK anahtarlarının birbirine karışmasını önleyen izole dizin mimarisi (`prefs/node_x`).
+- **Resmi İstemcilerin Sanal Düğümlere Bağlanması (`client-app-tcp-interfacing`):** Meshtastic Web, Python CLI ve Android uygulamalarının yerel TCP soketleri üzerinden sanal düğümlere bağlanıp gerçek telsiz gibi mesajlaşma ve telemetri testi yapabilmesi.
+- **Dinamik Yol Kaybı Modeli Seçimi (`interactivesim-pathloss-selection`):** `-m` parametresiyle metropol, banliyö veya kırsal yayılım modelleri seçilerek sinyalin mesafeye göre zayıflamasının ve paket düşürmelerin canlı öykünmesi.
+- **Uçtan Uca Çok Sekmeli Yönlendirme Öykünümü (`end-to-end-multihop-emulation`):** Doğrudan menzil dışı sanal düğümlerin aradaki Router düğümü üzerinden sekerek uçtan uca mesajlaşması, hop limit düşümü ve ACK tesliminin doğrulanması.
+- **Betik Tabanlı Ağ Trafiği Enjeksiyonu (`scripted-mesh-traffic-injection`):** Harici Python veya bash betikleriyle eşzamanlı olarak düğüm portlarına yoğun mesaj basarak CSMA/CA bekleme sürelerini ve kuyruk taşmalarını stres testine tabi tutma.
+- **Simülasyon Sonlandırma ve Süreç Temizliği (`interactivesim-process-cleanup`):** `Ctrl+C` veya SIGINT sinyaliyle açılan tüm alt süreçleri, Docker konteynerlerini ve TCP soketlerini temizleyerek port kilitlenmelerini önleyen kapanış mekanizması.
+
 ### 🔹 Açık Standart ve Tedarikçi Bağımsızlığı (Open Architecture & Vendor Neutrality)
 Meshtastic'in hiçbir tescilli ticari protokole veya tek bir donanım üreticisine bağımlı kalmamasını sağlayan açık kaynak ekosistem felsefesi (GPL-3.0 lisansı ve açık Protobuf şemaları). Semtech SX1262/SX1276/LR1121 telsizleri ile ESP32, nRF52840 ve RP2040 işlemcili onlarca farklı üreticinin (Heltec, LilyGO, RAKwireless) donanımları tam uyumla birlikte çalışabilir.
 

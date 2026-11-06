@@ -6398,6 +6398,167 @@
           "Kullanım": "Büyük veri analizi, akademik araştırmalar ve grafik çıkarma"
         },
         seeAlso: ["batchsim-py-sweeps", "plotexample-py-visualization", "packet-delivery-ratio-pdr"]
+      },
+      {
+        id: "interactivesim-native-firmware",
+        en: "PlatformIO Native Firmware Target Build (native/program)",
+        tr: "PlatformIO Yerel Firmware Hedefi Derlemesi (native/program)",
+        category: "Yazılım & İstemciler",
+        lead: "Meshtastic C++ gömülü yazılımının herhangi bir mikrodenetleyiciye ihtiyaç duymadan x86_64 veya ARM64 Linux üzerinde yerel bir ikili dosya (program) olarak derlenmesi süreci.",
+        details: "`pio run -e native` komutuyla PlatformIO üzerinden derlenir. Portduino donanım soyutlama katmanını kullanarak ESP32/nRF52 mimarilerine özgü GPIO, SPI ve zamanlayıcı çağrılarını Linux sistem çağrılarına eşler. Üretilen ikili dosya (`firmware/.pio/build/native/program`), `interactiveSim.py` tarafından sanal düğüm süreçlerini ayağa kaldırmak için ana yürütülebilir motor olarak kullanılır.",
+        github: "meshtastic.org/docs/software/meshtasticator/interactive-sim/#using-platformio",
+        infobox: {
+          "PlatformIO Ortamı": "native (`env:native`)",
+          "Üretilen İkili Dosya": "firmware/.pio/build/native/program",
+          "Soyutlama Katmanı": "Portduino C++ Linux HAL",
+          "Kullanım": "interactiveSim.py -p parametresiyle doğrudan yürütme"
+        },
+        seeAlso: ["interactivesim-py", "meshtasticd-linux-daemon", "interactivesim-command-flags"]
+      },
+      {
+        id: "interactivesim-command-flags",
+        en: "interactiveSim.py Command-Line Arguments (-p, -d, -c, -m)",
+        tr: "interactiveSim.py Komut Satırı Parametreleri (-p, -d, -c, -m)",
+        category: "Yazılım & İstemciler",
+        lead: "Etkileşimli simülatörün çalışma modunu, derleme yolunu, Docker konteynerlerini ve yol kaybı modelini belirleyen temel komut satırı bayrakları.",
+        details: "`python3 interactiveSim.py [düğüm_sayısı] [bayraklar]` sözdizimiyle çalışır: `-p <yol>` yerel firmware ikilisinin konumunu belirtir; `-d` simülasyonu Docker konteynerlerinde çalıştırır; `-c` telsiz katmanında çarpışma öykünümünü ve bozuk paket izlemeyi açar; `-m <0-6>` ampirik yol kaybı modelini seçer. Argümansız başlatıldığında kullanıcıya grafiksel arayüz açarak düğümleri fareyle yerleştirme imkanı verir.",
+        github: "meshtastic.org/docs/software/meshtasticator/interactive-sim/#running-the-simulator",
+        infobox: {
+          "Bayraklar": "-p (Path), -d (Docker), -c (Collisions), -m (Pathloss Model)",
+          "Varsayılan": "PlatformIO yerel derlemesi, Model 0 (Log-distance)",
+          "Örnek": "python3 interactiveSim.py 4 -d -c -m 3",
+          "Esneklik": "Hem yerel ikililerle hem de Docker sandbox ortamıyla tam uyum"
+        },
+        seeAlso: ["interactivesim-py", "dockerized-mesh-simulation", "lora-pathloss-models-meshtasticator"]
+      },
+      {
+        id: "per-node-tcp-port-allocation",
+        en: "Per-Node TCP Port Allocation (Port 4403+)",
+        tr: "Düğüm Başına Artan TCP Port Tahsisi (Port 4403+)",
+        category: "Ağ & Protokol",
+        lead: "Simülatörün başlattığı her bir sanal Meshtastic düğümüne yerel makinede 4403 portundan başlayarak bağımsız birer TCP soketi atayan ağ haritalama mimarisi.",
+        details: "Düğüm 0 için `localhost:4403`, Düğüm 1 için `localhost:4404`, Düğüm 2 için `localhost:4405` portları açılır. Bu soketler hem düğümler arası telsiz paketlerinin sanal transferinde aracı görevi görür, hem de harici kullanıcı istemcilerinin (Web arayüzü veya CLI) doğrudan belirli bir sanal düğüme bağlanabilmesi için standart Protobuf API köprüsü sağlar.",
+        github: "meshtastic.org/docs/software/meshtasticator/interactive-sim/",
+        infobox: {
+          "Başlangıç Portu": "4403 (Standard Meshtastic TCP API)",
+          "Artış Kuralı": "Her ek düğüm için +1 (4404, 4405, 4406...)",
+          "Protokol": "Google Protocol Buffers over TCP stream",
+          "İstemci Erişimi": "meshtastic --host localhost --port <port>"
+        },
+        seeAlso: ["tcp-port-proxy-virtual-radio", "client-app-tcp-interfacing", "transport-node-tcp"]
+      },
+      {
+        id: "multi-window-terminal-emulation",
+        en: "Multi-Window Terminal Emulation & Live Node Logs",
+        tr: "Ayrık Terminal Pencereleri ile Eşzamanlı Düğüm Logları",
+        category: "Yazılım & İstemciler",
+        lead: "Simülatör başladığında her bir sanal düğüm için bağımsız bir terminal penceresi açarak cihazın bootloader, FreeRTOS ve paket yönlendirme loglarını canlı izleme tekniği.",
+        details: "Sistemde yüklü olan terminal öykünücüsünü (`xterm`, `gnome-terminal`, `tmux` veya `cmd/powershell`) kullanarak her düğüm için ayrı bir pencere fırlatır. Kullanıcı bir pencereden Düğüm 0'ın bir metin mesajını havaya fırlattığını, komşu Düğüm 1'in penceresinden paketin alındığını ve SNR değerini, Düğüm 2'nin penceresinden ise hop limit azalarak paketin hedefe ulaştığını yan yana canlı olarak izleyebilir.",
+        github: "meshtastic.org/docs/software/meshtasticator/interactive-sim/",
+        infobox: {
+          "Desteklenen Terminaller": "xterm, gnome-terminal, konsole, tmux, Windows Terminal",
+          "Görüntülenen Veriler": "FreeRTOS task logları, Protobuf çözümleme, SNR/RSSI, Routing kararları",
+          "Avantaj": "Çoklu cihaz testinde kör noktaları ve donma problemlerini anında yakalama",
+          "Kullanım": "Geliştirici hata ayıklama (interactive debugging)"
+        },
+        seeAlso: ["interactivesim-py", "meshtasticator-oracle-topology-view", "python-cli-noproto-serial"]
+      },
+      {
+        id: "simulated-spiffs-storage-isolation",
+        en: "Simulated SPIFFS & NVS Flash Storage Isolation",
+        tr: "Sanal SPIFFS & NVS Bellek İzolasyonu",
+        category: "Yazılım & İstemciler",
+        lead: "Eşzamanlı çalışan onlarca sanal düğümün kanal anahtarlarının, NodeDB kayıtlarının ve MAC adreslerinin birbirine karışmasını önleyen bağımsız dizin izolasyonu.",
+        details: "Gerçek donanımda flaş hafızadaki SPIFFS ve NVS bölüntülerine yazılan ayarlar; yerel simülasyonda `prefs/node_0`, `prefs/node_1` gibi bağımsız yerel klasörlere yönlendirilir. Her süreç kendi özel kimlik (Node ID), MAC adresi ve kanal şifreleme anahtarlarını (PSK) bu izole dizinlerde saklar. Böylece düğümler yeniden başlatıldığında kimliklerini korur ve gerçek hayattaki farklı cihazlar gibi davranır.",
+        github: "meshtastic.org/docs/software/meshtasticator/interactive-sim/",
+        infobox: {
+          "İzole Edilen Veriler": "Node ID, MAC adresi, NodeDB, Kanal PSK anahtarları, Tercihler",
+          "Dizin Yapısı": "Sanal düğüm bazlı yerel klasörler (prefs/node_x)",
+          "Önem": "Düğümler arası bellek çakışmasını ve veri kirlenmesini engelleme",
+          "Kalıcılık": "Simülasyon kapatılıp açıldığında cihaz durumunun korunması"
+        },
+        seeAlso: ["interactivesim-py", "meshtasticd-linux-daemon", "nodedb"]
+      },
+      {
+        id: "client-app-tcp-interfacing",
+        en: "Client Application Interfacing (Web, Python CLI, Android over TCP)",
+        tr: "Resmi İstemcilerin (Web, CLI, Android) Sanal Düğümlere Bağlanması",
+        category: "Yazılım & İstemciler",
+        lead: "Meshtastic Web İstemcisi, Python CLI ve Android uygulamasının TCP soketleri üzerinden sanal düğümlere bağlanarak gerçek donanım gibi kontrol edilmesi entegrasyonu.",
+        details: "Kullanıcı terminalde `meshtastic --host localhost --port 4403 --sendtext 'Merhaba'` komutunu vererek sanal Düğüm 0 üzerinden ağa mesaj enjekte edebilir. Aynı anda tarayıcıda Meshtastic Web istemcisini açıp `localhost:4404` adresine bağlanarak Düğüm 1'in ekranında bu mesajın belirdiğini görebilir. Bu sayede yazılım geliştiriciler fiziksel donanımlara gerek kalmadan kullanıcı arayüzlerini ve istemci uygulamalarını baştan uca test edebilir.",
+        github: "meshtastic.org/docs/software/meshtasticator/interactive-sim/",
+        infobox: {
+          "Desteklenen İstemciler": "Meshtastic Web Client, Python CLI, Android (TCP Modu)",
+          "Bağlantı Protokolü": "TCP Socket Protobuf Stream",
+          "Örnek CLI Kullanımı": "meshtastic --host 127.0.0.1 --port 4403 --info",
+          "Test İmkânı": "Uygulama arayüzü ve API entegrasyonlarının sıfır maliyetle doğrulanması"
+        },
+        seeAlso: ["meshtastic-web-client", "meshtastic-python-cli", "per-node-tcp-port-allocation"]
+      },
+      {
+        id: "interactivesim-pathloss-selection",
+        en: "interactiveSim.py Dynamic Pathloss Model Selection (-m)",
+        tr: "interactiveSim.py Dinamik Yol Kaybı Modeli Seçimi (-m)",
+        category: "Radyo Frekans & Anten",
+        lead: "Etkileşimli simülatörde düğümler arası sanal RF paket transferinde sinyal sönümlenmesini hesaplayan ampirik modelin komut satırından dinamik olarak seçilmesi.",
+        details: "Kullanıcı `-m` bayrağı ile farklı arazi tiplerini simüle edebilir. Örneğin `-m 4` kırsal açık arazi seçildiğinde 5 kilometre mesafedeki iki düğüm birbiriyle doğrudan konuşabilirken; `-m 2` metropol yoğun şehir modeli seçildiğinde aynı mesafedeki sinyal binalar tarafından soğurularak eşik altına düşer ve iletişim kopar. Simülatör, bu kararı arka planda anlık olarak hesaplayarak TCP paketini hedefe iletir veya düşürür.",
+        github: "meshtastic.org/docs/software/meshtasticator/interactive-sim/#running-the-simulator",
+        infobox: {
+          "Seçenekler": "0: Log-distance, 1-4: Okumura-Hata, 5-6: 3GPP Macro-cell",
+          "Komut Parametresi": "-m <0-6>",
+          "RF Değişkenleri": "Mesafe, Anten boyu (m), Frekans (MHz), Çıkış gücü (dBm)",
+          "Sonuç": "Alıcı duyarlılık eşiğine göre dinamik paket geçirme/düşürme"
+        },
+        seeAlso: ["lora-pathloss-models-meshtasticator", "interactivesim-command-flags", "fresnel-zone-clearance"]
+      },
+      {
+        id: "end-to-end-multihop-emulation",
+        en: "End-to-End Multi-Hop Mesh Routing Emulation",
+        tr: "Uçtan Uca Çok Sekmeli (Multi-Hop) Yönlendirme Öykünümü",
+        category: "Ağ & Protokol",
+        lead: "Doğrudan birbirini duyamayacak mesafede konumlandırılmış iki düğümün ara röle düğümleri üzerinden mesajlaşmasının gerçek firmware mantığıyla öykünmesi.",
+        details: "Örneğin Düğüm A (0 km), Düğüm B (10 km) ve Düğüm C (20 km) şeklinde doğrusal bir hat kurulduğunda; Düğüm A'nın sinyali Düğüm C'ye ulaşamaz. Ancak Düğüm B 'Router' rolünde ise paketi alıp hop limitini 1 azaltarak yeniden yayınlar (rebroadcast). Düğüm C paketi Düğüm B üzerinden alır ve ACK paketini geriye doğru fırlatır. Bu süreç, gerçek telsiz çiplerindekiyle birebir aynı FreeRTOS durum makineleri tarafından yürütülür.",
+        github: "meshtastic.org/docs/software/meshtasticator/interactive-sim/",
+        infobox: {
+          "Senaryo": "Doğrudan menzil dışı düğümler arası çok sekmeli örgü iletişim",
+          "Doğrulanan Özellikler": "Hop limit düşümü, NodeDB yönlendirme tablosu, ACK teslimi, Traceroute",
+          "Gözlem": "Terminal loglarında sekmelerin ve SNR değerlerinin anlık akışı",
+          "Kritik Önemi": "Fiziksel saha testi yapmadan kule ve röle zincirlerinin laboratuvarda testi"
+        },
+        seeAlso: ["interactivesim-py", "simulated-router-role", "traceroute"]
+      },
+      {
+        id: "scripted-mesh-traffic-injection",
+        en: "Scripted Mesh Traffic Generation & Stress Testing"
+        ,
+        tr: "Betik Tabanlı Sanal Ağ Trafiği Enjeksiyonu & Stres Testi",
+        category: "Yazılım & İstemciler",
+        lead: "interactiveSim ortamında çalışan sanal düğümlere Python veya Bash betikleriyle eşzamanlı mesajlar, sahte telemetri ve GPS paketleri göndererek ağı stres altına sokma yöntemi.",
+        details: "Geliştiriciler harici Python betikleriyle aynı anda birden fazla düğümün TCP portuna (4403, 4404, 4405) bağlanıp saniyede onlarca mesaj basabilir. Bu yöntemle; Managed Flood mekanizmasının kuyruk taşma sınırları, CSMA/CA rastgele bekleme (backoff) süreleri ve FreeRTOS bellek sızıntıları (memory leaks) yüksek yük altında kolayca tespit edilir.",
+        github: "meshtastic.org/docs/software/meshtasticator/interactive-sim/",
+        infobox: {
+          "Yöntem": "Otomatik TCP Protobuf API enjeksiyonu",
+          "Hedef": "Kuyruk taşması (queue overflow), bellek sızıntısı ve tıkanıklık testi",
+          "Kullanılan Araçlar": "Python meshtastic kütüphanesi, bash döngüleri, curl/socat",
+          "Fayda": "Aylar sürecek saha stresini dakikalar içinde simüle etme"
+        },
+        seeAlso: ["interactivesim-py", "client-app-tcp-interfacing", "packet-delivery-ratio-pdr"]
+      },
+      {
+        id: "interactivesim-process-cleanup",
+        en: "Simulation Teardown & Process Cleanup Protocol",
+        tr: "Simülasyon Sonlandırma & Süreç Temizleme Protokolü",
+        category: "Yazılım & İstemciler",
+        lead: "Etkileşimli simülasyon sonlandırıldığında arka planda çalışan onlarca firmware sürecini, Docker konteynerini ve açık TCP soketlerini temizleme mekanizması.",
+        details: "Kullanıcı terminalde `Ctrl+C` bastığında veya pencereyi kapattığında; `interactiveSim.py` bir sinyal yakalayıcı (SIGINT/SIGTERM handler) tetikler. Açılan tüm xterm pencerelerine, arka planda koşan `program` süreçlerine veya Docker konteynerlerine sonlandırma sinyali gönderir. Kapanmayan süreçlerin yerel 4403+ TCP portlarını kilitlemesini (Address already in use hatası) önler ve sanal geçici dosyaları güvenle temizler.",
+        github: "meshtastic.org/docs/software/meshtasticator/interactive-sim/",
+        infobox: {
+          "Tetikleyici": "SIGINT (Ctrl+C) veya SIGTERM sinyalleri",
+          "Temizlenen Kaynaklar": "Firmware child processes, Docker containers, TCP soketleri, PID kilitleri",
+          "Önlenen Sorun": "'Address already in use' (Port çakışması) ve yetim süreçler (zombie processes)",
+          "Güvenlik": "İşletim sistemi kaynaklarının eksiksiz serbest bırakılması"
+        },
+        seeAlso: ["interactivesim-py", "dockerized-mesh-simulation", "per-node-tcp-port-allocation"]
       }
     ];
 
