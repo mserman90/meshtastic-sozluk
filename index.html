@@ -9599,6 +9599,166 @@
           "Kullanım": "433 MHz amatör telsiz ağı ile 868 MHz sivil afet ağını birleştirme"
         },
         seeAlso: ["ch341-eeprom-serial-provisioning", "nodered-telegram-bot-mesh-bridge", "meshstick-always-on-base-station"]
+      },
+      {
+        id: "rpi-meshtasticd-hardware-architecture",
+        en: "Raspberry Pi Hardware Architecture Support for meshtasticd",
+        tr: "meshtasticd için Raspberry Pi Donanım ve İşlemci Mimarisi Desteği",
+        category: "Donanım & Anten",
+        lead: "Raspberry Pi ailesinin 32-bit armhf (BCM2835, BCM2836) ve 64-bit arm64 (BCM2837, BCM2711, BCM2712) mimarilerinin tümünde meshtasticd servisinin yerel olarak çalıştırılması.",
+        details: "meshtasticd, ultra düşük güç tüketimli Raspberry Pi Zero v1'den en gelişmiş Raspberry Pi 5 ve Compute Module 5'e kadar tüm Raspberry Pi tek kart bilgisayarlarında desteklenir. 32-bit eski modeller (Pi 1, Pi Zero) Debian armhf paketleriyle çalışırken, Pi 3, 4, 5 ve Zero 2 gibi modern 64-bit donanımlar arm64 mimarisinde yerel ikili dosyalar veya Docker konteynerleri üzerinden yüksek performanslı baz istasyonu düğümü olarak görev yapar.",
+        github: "meshtastic.org/docs/meshtasticd/hardware/boards/raspberry-pi",
+        infobox: {
+          "32-Bit (armhf) Yonga Setleri": "BCM2835 (Pi 1, Pi Zero 1), BCM2836 (Pi 2 v1.0, v1.1)",
+          "64-Bit (arm64) Yonga Setleri": "BCM2837 (Pi 3, Zero 2, CM3), BCM2711 (Pi 4, Pi 400, CM4), BCM2712 (Pi 5, Pi 500, CM5)",
+          "İşletim Sistemi": "Raspberry Pi OS (Debian Bookworm/Bullseye 32/64-bit)",
+          "Kullanım Amacı": "Düşük güç tüketimli 7/24 LoRa ağ geçidi ve daimi sunucu"
+        },
+        seeAlso: ["meshtasticd-native-daemon", "rpi-compute-module-carrier-integration", "rpi-boot-firmware-config-path"]
+      },
+      {
+        id: "rpi-spi0-0cs-device-tree-overlay",
+        en: "Raspberry Pi dtoverlay=spi0-0cs Device Tree Overlay",
+        tr: "Raspberry Pi dtoverlay=spi0-0cs Cihaz Ağacı Katmanı",
+        category: "Yazılım & İstemciler",
+        lead: "Raspberry Pi'nin Linux çekirdek düzeyindeki donanımsal Chip Select (CS) yönetimini devre dışı bırakarak SPI CE hatlarının doğrudan meshtasticd yazılım denetimine devredilmesini sağlayan çekirdek katmanı.",
+        details: "Standart Linux SPI sürücüsü, veri aktarımı sırasında CE0/CE1 pinlerini çekirdek düzeyinde otomatik tetikler; bu durum SX126x/SX128x telsiz yongalarının talep ettiği özel zamanlamalar ve kesme (IRQ) döngüleriyle donanımsal çakışmalara yol açabilir. `/boot/firmware/config.txt` dosyasına `dtoverlay=spi0-0cs` eklenerek Broadcom donanımsal CS yönetimi kapatılır ve CS pini normal bir GPIO hattı gibi `meshtasticd` tarafından tam senkronize olarak kontrol edilir.",
+        github: "meshtastic.org/docs/meshtasticd/hardware/boards/raspberry-pi",
+        infobox: {
+          "Yapılandırma Dosyası": "/boot/firmware/config.txt",
+          "Ayar Parametresi": "dtoverlay=spi0-0cs",
+          "Gereksinim": "dtparam=spi=on etkinleştirildikten sonra eklenir",
+          "İşlev": "Donanımsal SPI CS hatlarını serbest bırakıp GPIO kontrolüne açma"
+        },
+        seeAlso: ["rpi-boot-firmware-config-path", "rpi-raspi-config-noninteractive-automation", "rak6421-raspberry-pi-hat"]
+      },
+      {
+        id: "rpi-raspi-config-noninteractive-automation",
+        en: "raspi-config Non-Interactive Automation Mode",
+        tr: "raspi-config Etkileşimsiz Otomasyon Kipi",
+        category: "Yazılım & İstemciler",
+        lead: "Raspberry Pi üzerinde grafiksel veya ncurses tabanlı menüyü açmadan, doğrudan Bash komut satırından veya kurulum betiklerinden SPI, I2C ve UART portlarını yapılandırmayı sağlayan nonint komut parametresi.",
+        details: "Özellikle uzaktan SSH üzerinden yapılan konuşlandırmalarda veya Docker/Ansible provizyon betiklerinde kullanıcı etkileşimi gerekmeden donanım arayüzlerini açmak için `sudo raspi-config nonint set_config_var dtparam=spi on /boot/firmware/config.txt` komutu kullanılır. Bu yöntem, konfigürasyon dosyasını manuel düzenleme sırasında oluşabilecek yazım hatalarını ve çakışan parametre girdilerini engeller.",
+        github: "meshtastic.org/docs/meshtasticd/hardware/boards/raspberry-pi",
+        infobox: {
+          "Temel Komut": "sudo raspi-config nonint <fonksiyon> <parametre>",
+          "SPI Açma": "sudo raspi-config nonint set_config_var dtparam=spi on /boot/firmware/config.txt",
+          "I2C Açma": "sudo raspi-config nonint set_config_var dtparam=i2c_arm on /boot/firmware/config.txt",
+          "Avantajı": "Otomatik kule konuşlandırmalarında betik tabanlı hatasız kurulum"
+        },
+        seeAlso: ["rpi-spi0-0cs-device-tree-overlay", "rpi-i2c-arm-bus-configuration", "rpi-uart-gps-serial-hw-enabling"]
+      },
+      {
+        id: "rpi-i2c-arm-bus-configuration",
+        en: "Raspberry Pi dtparam=i2c_arm=on Bus Configuration",
+        tr: "Raspberry Pi dtparam=i2c_arm=on Veri Yolu Yapılandırması",
+        category: "Donanım & Anten",
+        lead: "Raspberry Pi 40-pin GPIO başlığındaki SDA (GPIO 2) ve SCL (GPIO 3) hatlarını aktif ederek harici sensörler ve durum ekranlarının meshtasticd tarafından taranmasını sağlayan veri yolu ayarı.",
+        details: "`sudo raspi-config nonint set_config_var dtparam=i2c_arm on /boot/firmware/config.txt` komutuyla veya config.txt dosyasına `dtparam=i2c_arm=on` satırı eklenerek `/dev/i2c-1` donanım aygıtı oluşturulur. Bu hat üzerinden SSD1306/SH1106 OLED bilgi ekranları, BME280/BMP280 çevre telemetri algılayıcıları ve INA219/INA226 güneş paneli akım izleme sensörleri `meshtasticd` ekosistemine doğrudan bağlanır.",
+        github: "meshtastic.org/docs/meshtasticd/hardware/boards/raspberry-pi",
+        infobox: {
+          "Fiziksel Pinler": "Pin 3 (SDA / GPIO 2) & Pin 5 (SCL / GPIO 3)",
+          "Aygıt Düğümü": "/dev/i2c-1",
+          "Desteklenen Çevre Birimleri": "SSD1306/SH1106 ekranlar, BME280, INA219 sensörleri",
+          "Linux Komutu": "i2cdetect -y 1"
+        },
+        seeAlso: ["meshtasticd-i2c-spi-display-peripherals", "rpi-raspi-config-noninteractive-automation", "rpi-boot-firmware-config-path"]
+      },
+      {
+        id: "rpi-uart-gps-serial-hw-enabling",
+        en: "Raspberry Pi Hardware UART GPS Port Activation",
+        tr: "Raspberry Pi Donanımsal UART GPS Port Aktivasyonu",
+        category: "Donanım & Anten",
+        lead: "Raspberry Pi GPIO başlığındaki TX/RX pinlerine bağlı GNSS/GPS modüllerinden NMEA konum verisi almak için donanımsal seri iletim hattının açılması işlemi.",
+        details: "Standart Linux kurulumlarında seri port varsayılan olarak kapalıdır. `sudo raspi-config nonint do_serial_hw 0` komutuyla `/boot/firmware/config.txt` içine `enable_uart=1` direktifi eklenir. Bu sayede GPIO 14 (TX) ve GPIO 15 (RX) pinleri LoRa HAT üzerindeki u-blox NEO-6M/8M veya Quectel L76K GPS alıcısının 9600 baud hızındaki NMEA cümlelerini `meshtasticd` GPS işleyicisine kesintisiz aktarır.",
+        github: "meshtastic.org/docs/meshtasticd/hardware/boards/raspberry-pi",
+        infobox: {
+          "Yapılandırma Komutu": "sudo raspi-config nonint do_serial_hw 0",
+          "Ayar Parametresi": "enable_uart=1",
+          "Fiziksel Pinler": "Pin 8 (GPIO 14 / TX) & Pin 10 (GPIO 15 / RX)",
+          "Standart GPS Hızı": "9600 Baud (NMEA 0183 protokolü)"
+        },
+        seeAlso: ["rpi-serial-console-tty-suppression", "rpi-legacy-vs-modern-uart-port-mapping", "rpi-pi5-bcm2712-uart0-overlay"]
+      },
+      {
+        id: "rpi-serial-console-tty-suppression",
+        en: "Raspberry Pi Serial Console TTY Suppression",
+        tr: "Raspberry Pi Seri Konsol Bastırma ve Tahsis Temizliği",
+        category: "Yazılım & İstemciler",
+        lead: "Raspberry Pi UART portu üzerinden yayınlanan Linux giriş konsolunu (login tty) devre dışı bırakarak portun yalnızca GPS veya telsiz modülüne ayrılmasını sağlama işlemi.",
+        details: "Varsayılan işletim sistemi yapılandırmasında UART hattında bir seri konsol (serial-getty@ttyAMA0 / serial-getty@ttyS0) çalışır. Bu konsol devrede kaldığında, GPS modülünün gönderdiği NMEA verileri sisteme komut olarak algılanmaya çalışılır ve çökmelere veya kilitlenmelere yol açar. `sudo raspi-config nonint do_serial_cons 1` komutu çalıştırılarak `/boot/firmware/cmdline.txt` içindeki `console=serial0,115200` ifadesi temizlenir ve port serbest bırakılır.",
+        github: "meshtastic.org/docs/meshtasticd/hardware/boards/raspberry-pi",
+        infobox: {
+          "Yürütülen Komut": "sudo raspi-config nonint do_serial_cons 1",
+          "Etkilenen Dosya": "/boot/firmware/cmdline.txt",
+          "Gerekçe": "Seri portta GPS veri akışı ile Linux tty kabuk girişinin çakışmasını önleme",
+          "Zorunlu Adım": "Değişikliklerin yürürlüğe girmesi için yeniden başlatma (reboot) gerekir"
+        },
+        seeAlso: ["rpi-uart-gps-serial-hw-enabling", "rpi-legacy-vs-modern-uart-port-mapping", "rpi-pi5-bcm2712-uart0-overlay"]
+      },
+      {
+        id: "rpi-pi5-bcm2712-uart0-overlay",
+        en: "Raspberry Pi 5 BCM2712 dtoverlay=uart0 Device Tree Mapping",
+        tr: "Raspberry Pi 5 BCM2712 ve dtoverlay=uart0 Cihaz Ağacı Eşlemesi",
+        category: "Donanım & Anten",
+        lead: "Raspberry Pi 5'in yeni RP1 I/O yonga mimarisinde GPS modüllerini /dev/ttyAMA0 aygıt düğümü üzerinden meshtasticd ile tam uyumlu çalıştırmak için gereken özel katman.",
+        details: "Raspberry Pi 5 (BCM2712), tüm çevre birim kontrolünü Raspberry Pi tarafından özel tasarlanan RP1 I/O köprüsüne devretmiştir. Bu radikal mimari değişiklik nedeniyle UART portları yeniden numaralandırılmıştır. GPS HAT modüllerinin 40-pin başlık üzerinden sorunsuz bağlanabilmesi için `/boot/firmware/config.txt` dosyasına `dtoverlay=uart0` eklenmelidir. Yeniden başlatma sonrasında GPS portu `/dev/ttyAMA0` olarak sabitlenir.",
+        github: "meshtastic.org/docs/meshtasticd/hardware/boards/raspberry-pi",
+        infobox: {
+          "Uyumlu Model": "Raspberry Pi 5, Pi 500 ve Compute Module 5",
+          "Yonga Seti": "Broadcom BCM2712 + Raspberry Pi RP1 I/O Controller",
+          "Zorunlu Katman": "dtoverlay=uart0",
+          "Aygıt Yolu": "/dev/ttyAMA0 (Pi 5 üzerinde yeniden başlatma sonrası)"
+        },
+        seeAlso: ["rpi-uart-gps-serial-hw-enabling", "rpi-legacy-vs-modern-uart-port-mapping", "rpi-boot-firmware-config-path"]
+      },
+      {
+        id: "rpi-legacy-vs-modern-uart-port-mapping",
+        en: "Raspberry Pi /dev/ttyAMA0 vs /dev/ttyS0 Port Mapping Rules",
+        tr: "Raspberry Pi /dev/ttyAMA0 ve /dev/ttyS0 Port Eşleme Farklılıkları",
+        category: "Yazılım & İstemciler",
+        lead: "Raspberry Pi nesillerine göre donanımsal PL011 UART ile mini-UART arabirimleri arasındaki port isim farklılıkları ve meshtasticd GPS ayar kuralları.",
+        details: "Raspberry Pi 3, 4 ve Zero W modellerinde yerleşik Bluetooth denetleyicisi donanımsal PL011 UART (/dev/ttyAMA0) portunu kullanır; bu nedenle 40-pin GPIO başlığına varsayılan olarak mini-UART (/dev/ttyS0) atanır. Bu mini-UART çekirdek VPU saat hızına bağımlı olduğundan dalgalanabilir. Modern Pi 5'te ise `dtoverlay=uart0` ile doğrudan `/dev/ttyAMA0` kullanılır. `meshtasticd` konfigürasyonunda GPS aygıt yolu belirlenirken kullanılan Pi modeline göre doğru aygıt yolu seçilmelidir.",
+        github: "meshtastic.org/docs/meshtasticd/hardware/boards/raspberry-pi",
+        infobox: {
+          "Pi 5 Portu": "/dev/ttyAMA0 (dtoverlay=uart0 ile)",
+          "Pi 3 / 4 / Zero 2 Portu": "/dev/ttyS0 (veya Bluetooth devre dışı bırakılırsa /dev/ttyAMA0)",
+          "Pi 1 / 2 Portu": "/dev/ttyAMA0 (Dahili Bluetooth bulunmadığı için doğrudan PL011)",
+          "meshtasticd Ayarı": "config.d/ altında GPS seri port tanımlayıcısı"
+        },
+        seeAlso: ["rpi-pi5-bcm2712-uart0-overlay", "rpi-serial-console-tty-suppression", "rpi-uart-gps-serial-hw-enabling"]
+      },
+      {
+        id: "rpi-boot-firmware-config-path",
+        en: "Raspberry Pi Modern /boot/firmware/config.txt File Standard",
+        tr: "Raspberry Pi Modern /boot/firmware/config.txt Dosya Yolu Standardı",
+        category: "Yazılım & İstemciler",
+        lead: "Debian 12 Bookworm ve güncel Raspberry Pi OS sürümlerinde eski /boot/config.txt dosyasının yerini alan yeni sistem başlatma yapılandırma dizini.",
+        details: "Raspberry Pi vakfı, Debian Bookworm geçişiyle birlikte UEFI standartlarına uyum sağlamak amacıyla FAT32 formatlı boot bölümünü doğrudan `/boot/firmware/` altına bağlamaya (mount) başlamıştır. Bu nedenle SPI (`dtoverlay=spi0-0cs`), I2C (`dtparam=i2c_arm=on`) ve UART ayarları artık `/boot/config.txt` yerine `/boot/firmware/config.txt` dosyasına yazılmalıdır. Eski dosya yoluna yazılan ayarlar modern işletim sisteminde etkisiz kalır.",
+        github: "meshtastic.org/docs/meshtasticd/hardware/boards/raspberry-pi",
+        infobox: {
+          "Modern Yol": "/boot/firmware/config.txt (Debian Bookworm / Pi OS 2023+)",
+          "Eski Yol": "/boot/config.txt (Debian Bullseye ve öncesi)",
+          "Önyükleme Bölümü": "FAT32 dosya sistemi (/dev/mmcblk0p1)",
+          "Kritik Dosyalar": "config.txt, cmdline.txt, overlays/"
+        },
+        seeAlso: ["rpi-spi0-0cs-device-tree-overlay", "rpi-raspi-config-noninteractive-automation", "rpi-meshtasticd-hardware-architecture"]
+      },
+      {
+        id: "rpi-compute-module-carrier-integration",
+        en: "Raspberry Pi Compute Module Industrial Carrier Integration",
+        tr: "Raspberry Pi Compute Module Endüstriyel Taşıyıcı Entegrasyonu",
+        category: "Donanım & Anten",
+        lead: "Raspberry Pi Compute Module (CM3/CM4/CM5) kartlarının mini PCIe LoRa yoğunlaştırıcı modülleri ve endüstriyel taşıyıcı kartlarla birleştirilerek profesyonel baz istasyonu olarak konuşlandırılması.",
+        details: "Tüketici tipi Raspberry Pi kartları microSD kart bozulmalarına ve titreşime karşı hassastır. Endüstriyel Meshtastic kule konuşlandırmalarında yerleşik eMMC flash belleğe sahip Compute Module 4/5 kartları tercih edilir. Waveshare veya Seeed Studio endüstriyel taşıyıcı kartları, mini PCIe yuvasına takılan SX1302/SX1262 LoRa kartlarını, geniş voltaj girişli DC-DC dönüştürücüleri ve donanımsal Watchdog çiplerini barındırarak dağ zirvelerinde yıllarca kesintisiz çalışan bir `meshtasticd` omurgası sağlar.",
+        github: "meshtastic.org/docs/meshtasticd/hardware/boards/raspberry-pi",
+        infobox: {
+          "Modüller": "Raspberry Pi CM3, CM4, CM5 (eMMC depolamalı sürümler)",
+          "Taşıyıcı Arayüzleri": "mini PCIe yuvası, M.2 NVMe, Gigabit Ethernet, RS485",
+          "Güvenilirlik": "microSD kart arızalarını eMMC yonga ile tamamen ortadan kaldırma",
+          "Kullanım Alanı": "Dağ zirvesi telsiz röleleri, telemetri ağ geçitleri, afet haberleşme kuleleri"
+        },
+        seeAlso: ["rpi-meshtasticd-hardware-architecture", "rak6421-raspberry-pi-hat", "meshtasticd-always-on-base-station"]
       }
     ];
 

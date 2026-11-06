@@ -790,6 +790,18 @@ Meshtastic donanımını kontrol etmek, mesajlaşıp harita görüntülemek ve a
 - **MeshStick Docker Konteyner Cihaz Eşleme Kuralı (`meshstick-docker-device-mapping`):** `--privileged` gerektirmeden izole donanım geçişiyle konteynerize ağ geçidi çalıştırma.
 - **MeshStick Çoklu Dongle ile Çapraz Frekans Rölesi (`meshstick-multi-dongle-cross-repeater`):** Tek sunucuda 433 MHz ve 868 MHz iki dongle ile çapraz telsiz köprüsü kurma.
 
+### 🍓 Raspberry Pi Donanım ve Linux Yapılandırması (meshtastic.org/docs/meshtasticd/hardware/boards/raspberry-pi)
+- **meshtasticd için Raspberry Pi Donanım ve İşlemci Mimarisi Desteği (`rpi-meshtasticd-hardware-architecture`):** BCM2835'ten BCM2712'ye (Pi Zero'dan Pi 5'e) 32-bit armhf ve 64-bit arm64 desteği.
+- **Raspberry Pi dtoverlay=spi0-0cs Cihaz Ağacı Katmanı (`rpi-spi0-0cs-device-tree-overlay`):** Donanımsal Chip Select'i kapatıp SPI CE hatlarını doğrudan `meshtasticd` GPIO denetimine devretme.
+- **raspi-config Etkileşimsiz Otomasyon Kipi (`rpi-raspi-config-noninteractive-automation`):** `nonint` parametresiyle Bash veya provizyon betiklerinden SPI, I2C ve UART portlarını hatasız açma.
+- **Raspberry Pi dtparam=i2c_arm=on Veri Yolu Yapılandırması (`rpi-i2c-arm-bus-configuration`):** GPIO 2/3 pinlerini aktif ederek OLED ekranlar ve çevre sensörlerinin taranmasını sağlama.
+- **Raspberry Pi Donanımsal UART GPS Port Aktivasyonu (`rpi-uart-gps-serial-hw-enabling`):** `enable_uart=1` ve `do_serial_hw 0` ile GPIO TX/RX üzerinden NMEA GPS verisi okuma.
+- **Raspberry Pi Seri Konsol Bastırma ve Tahsis Temizliği (`rpi-serial-console-tty-suppression`):** `do_serial_cons 1` ile seri konsolu kapatıp UART portunu münhasıran GPS/telsiz modülüne ayırma.
+- **Raspberry Pi 5 BCM2712 ve dtoverlay=uart0 Cihaz Ağacı Eşlemesi (`rpi-pi5-bcm2712-uart0-overlay`):** RP1 I/O mimarisinde GPS modüllerini `/dev/ttyAMA0` portuyla tam uyumlu hale getirme.
+- **Raspberry Pi /dev/ttyAMA0 ve /dev/ttyS0 Port Eşleme Farklılıkları (`rpi-legacy-vs-modern-uart-port-mapping`):** PL011 UART ile mini-UART arabirimleri arasındaki model bazlı aygıt yolu eşleme kuralları.
+- **Raspberry Pi Modern /boot/firmware/config.txt Dosya Yolu Standardı (`rpi-boot-firmware-config-path`):** Debian Bookworm ile gelen yeni UEFI uyumlu önyükleme yapılandırma dizini standardı.
+- **Raspberry Pi Compute Module Endüstriyel Taşıyıcı Entegrasyonu (`rpi-compute-module-carrier-integration`):** Dahili eMMC ve mini PCIe yuvasıyla microSD arızalarını önleyen endüstriyel baz istasyonları.
+
 ### 🔹 Açık Standart ve Tedarikçi Bağımsızlığı (Open Architecture & Vendor Neutrality)
 Meshtastic'in hiçbir tescilli ticari protokole veya tek bir donanım üreticisine bağımlı kalmamasını sağlayan açık kaynak ekosistem felsefesi (GPL-3.0 lisansı ve açık Protobuf şemaları). Semtech SX1262/SX1276/LR1121 telsizleri ile ESP32, nRF52840 ve RP2040 işlemcili onlarca farklı üreticinin (Heltec, LilyGO, RAKwireless) donanımları tam uyumla birlikte çalışabilir.
 
