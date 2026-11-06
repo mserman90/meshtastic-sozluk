@@ -3808,6 +3808,104 @@
           "Kullanım Amacı": "Modüler el telsizi ve sensör istasyonu prototipleme"
         },
         seeAlso: ["muziworks-base-system", "muziworks-r1-neo", "wisblock"]
+      },
+
+      /* 19. M5Stack ve Raspberry Pi Ekosistemi (meshtastic.org/docs/hardware/devices/m5stack & raspberrypi) */
+      {
+        id: "m5stack-cardputer",
+        en: "M5Stack Cardputer (Cardputer Mesh Kit)",
+        tr: "M5Stack Cardputer (Avuç İçi Klavyeli Mesajlaşma Terminali)",
+        category: "Donanım & Çipler",
+        lead: "56 tuşlu fiziksel QWERTY klavyeye, 1.14 inç renkli LCD ekrana (240x135), ESP32-S3 işlemciye, dahili 1750 mAh Li-ion pile ve tak-çıkar Semtech LoRa/GPS modülüne sahip kredi kartı boyutunda hepsi bir arada bağımsız Meshtastic terminali.",
+        details: "Akıllı telefona hiç ihtiyaç duymadan doğrudan klavyesi üzerinden metin yazıp LoRa üzerinden mesajlaşma imkanı sunar. Gövdesinde dahili SPM1423 mikrofon, hoparlör, MicroSD kart yuvası, IMU hareket sensörü ve kızılötesi (IR) verici barındırır. `firmware-m5stack-cardputer-adv` hedefiyle çalışır.",
+        github: "meshtastic.org/docs/hardware/devices/m5stack/cardputer",
+        infobox: {
+          "Form Faktörü": "Kredi Kartı Boyutunda Bağımsız Terminal (56 Tuş QWERTY)",
+          "İşlemci (MCU)": "Espressif ESP32-S3 (2.4 GHz Wi-Fi & BLE 5.0)",
+          "Ekran & Pil": "1.14 inç Renkli IPS LCD + 1750 mAh Şarjlı Pil",
+          "Telsiz Modülü": "Tak-Çıkar Semtech LoRa & GNSS Modül Eklentisi"
+        },
+        seeAlso: ["t-deck", "t-pager", "canned-messages", "m5burner"]
+      },
+      {
+        id: "m5stack-unit-c6l",
+        en: "M5Stack Unit C6L (ESP32-C6 LoRa Node)",
+        tr: "M5Stack Unit C6L (Entegre OLED Ekranlı Cep Düğümü)",
+        category: "Donanım & Çipler",
+        lead: "Espressif'in 32-bit RISC-V mimarili ESP32-C6 yongası ile Semtech SX1262 telsizini fabrikasyon kompakt muhafazada birleştiren; dahili 0.66 inç OLED ekran, durum RGB LED'i ve sesli buzzer içeren tak-çalıştır Meshtastic ünitesi.",
+        details: "Wi-Fi 6 ve BLE 5 desteğine sahiptir. Küçük boyutu ve montaj delikleriyle araçlara, çantalara veya sensör istasyonlarına kolayca takılır. Gelen mesajları OLED ekranında gösterirken buzzer ile sesli bildirim verir.",
+        github: "meshtastic.org/docs/hardware/devices/m5stack/unit-c6l",
+        infobox: {
+          "Mikrodenetleyici": "Espressif ESP32-C6 (32-bit RISC-V @ 160 MHz)",
+          "LoRa Telsizi": "Semtech SX1262 (Sub-GHz)",
+          "Ekran & Bildirim": "0.66 inç OLED Ekran + RGB LED + Sesli Buzzer",
+          "Kablosuz": "Wi-Fi 6 (802.11ax), BLE 5, Thread/Zigbee"
+        },
+        seeAlso: ["tlora-c6", "heltec-ht-ct62", "m5stack-cardputer"]
+      },
+      {
+        id: "m5burner",
+        en: "M5Burner Firmware Flashing Tool",
+        tr: "M5Burner Çoklu Platform Firmware Yükleyicisi",
+        category: "Yazılım & Protobuf",
+        lead: "M5Stack tarafından geliştirilen; Cardputer, Core ve Unit cihazlarına resmi Meshtastic ve topluluk bellenimlerini tek tıklamayla indirip USB üzerinden yükleyen grafik arayüzlü (GUI) masaüstü yazılımı.",
+        details: "Kullanıcıların komut satırı veya sürücü yapılandırmasıyla uğraşmadan, arama çubuğuna 'Meshtastic' yazarak ilgili model için en son kararlı sürümü doğrudan cihaza yüklemesini sağlar.",
+        github: "meshtastic.org/docs/hardware/devices/m5stack",
+        infobox: {
+          "Geliştirici": "M5Stack Official",
+          "Desteklenen İşletim Sistemleri": "Windows, macOS, Linux",
+          "Kullanım Amacı": "Cardputer ve M5Stack LoRa cihazlarına tek tıkla firmware flaşlama",
+          "Alternatif": "Meshtastic Web Flasher / esptool"
+        },
+        seeAlso: ["web-flasher", "esptool", "m5stack-cardputer"]
+      },
+      {
+        id: "raspberry-pi-pico-lora",
+        en: "Raspberry Pi Pico & Pico 2 (RP2040 / RP2350 Architecture)",
+        tr: "Raspberry Pi Pico & Pico 2 LoRa Düğüm Mimarisi",
+        category: "Donanım & Çipler",
+        lead: "Raspberry Pi'nin RP2040 (çift çekirdek ARM Cortex-M0+) ve RP2350 (ARM Cortex-M33 / RISC-V Hazard3) yongalı mikrodenetleyici kartlarının, SPI veri yolu üzerinden harici Semtech SX1262 LoRa modülüyle birleştirilerek Meshtastic düğümüne dönüştürülmesi platformu.",
+        details: "Telsiz barındırmayan Pico kartları, Waveshare LoRa modülü eklenerek tam işlevsel bir Meshtastic düğümüne dönüşür. Pico W modellerinde dahili Wi-Fi desteğiyle ağa bağlanabilir. Düşük maliyeti ve zengin GPIO pinleriyle amatör projelerde yoğun kullanılır.",
+        github: "meshtastic.org/docs/hardware/devices/raspberrypi/pico",
+        infobox: {
+          "İşlemciler": "RP2040 (Cortex-M0+) / RP2350 (Cortex-M33 / RISC-V)",
+          "Telsiz Gereksinimi": "Harici Semtech SX1262 Modülü (Waveshare vb.)",
+          "Geliştirici": "Raspberry Pi Foundation",
+          "Kablosuz": "Pico W modelinde Wi-Fi istemci desteği"
+        },
+        seeAlso: ["waveshare-pico-lora-module", "rp2040", "cardkb-i2c"]
+      },
+      {
+        id: "waveshare-pico-lora-module",
+        en: "Waveshare SX1262 LoRa Node Module for Pico",
+        tr: "Waveshare SX1262 Raspberry Pi Pico LoRa Genişleme Kartı",
+        category: "Donanım & Çipler",
+        lead: "Raspberry Pi Pico'nun 40 pinli GPIO başlığına doğrudan oturan (hat-style), Semtech SX1262 telsizini, empedans eşleme devresini ve SMA anten soketini barındıran tak-çalıştır LoRa genişleme donanımı.",
+        details: "Pico'ya lehimleme veya harici atlama (jumper) kablosu olmadan LoRa yeteneği kazandırır. 433 MHz, 868 MHz ve 915 MHz bölgesel frekans modelleri bulunur. Meshtastic resmi `firmware-pico` bellenimi bu modülün pin dizilimini doğrudan destekler.",
+        github: "meshtastic.org/docs/hardware/devices/raspberrypi/pico",
+        infobox: {
+          "Form": "Raspberry Pi Pico Pin Uyumlu Genişleme Kartı",
+          "LoRa Telsizi": "Semtech SX1262 Sub-GHz",
+          "Haberleşme Arayüzü": "SPI Veri Yolu",
+          "Anten Bağlantısı": "Standart SMA Dişi Konnektör"
+        },
+        seeAlso: ["raspberry-pi-pico-lora", "sx1262", "rp2040"]
+      },
+      {
+        id: "cardkb-i2c",
+        en: "M5Stack CardKB / I2C Miniature Keyboard",
+        tr: "M5Stack CardKB / I2C Minyatür Donanım Klavyesi",
+        category: "Donanım & Çipler",
+        lead: "Raspberry Pi Pico, Heltec veya ESP32 kartlarının GPIO 4 (SDA) ve GPIO 5 (SCL) I2C pinlerine bağlanarak; telefona gerek kalmadan metin mesajı ve Canned Message girmeyi sağlayan 50 tuşlu minyatür I2C klavye.",
+        details: "Dahili bir mikroişlemci (ATmega8A) ile tuş taraması yaparak basılan karakterleri I2C veri yolu üzerinden Meshtastic firmware'ine iletir. Ekranlı fakat klavyesiz DIY cihazları saniyeler içinde tam teşekküllü el terminallerine dönüştürür.",
+        github: "meshtastic.org/docs/hardware/devices/raspberrypi/pico/peripherals",
+        infobox: {
+          "Haberleşme": "I2C Veri Yolu (Varsayılan Adres 0x5F)",
+          "Tuş Sayısı": "50 Tuşlu QWERTY + Fonksiyon/Sembol Tuşları",
+          "Tavsiye Edilen Pinler": "GPIO 4 (SDA), GPIO 5 (SCL)",
+          "Uyumlu Modül": "Meshtastic Canned Message & Text Module"
+        },
+        seeAlso: ["raspberry-pi-pico-lora", "canned-messages", "m5stack-cardputer", "t-deck"]
       }
     ];
 

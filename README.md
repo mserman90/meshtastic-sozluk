@@ -234,6 +234,13 @@ Aşırı sıcak veya dondurucu soğuk hava koşullarında telsiz frekansının k
   - **R1 Neo:** Uçak sınıfı CNC alüminyum ve karbon fiber PETG kasalı, tam donanımsal GPS güç kesme anahtarlı, NTC batarya korumalı ve kırbaç antenli taktik arazi terminali.
   - **BASE Modüler Sistem (Base Uno & Duo):** Base Uno (nRF52840 + SX1262) ve Base Duo (Semtech LR1121 Sub-GHz & 2.4 GHz) çekirdeklerini barındıran modüler taşıyıcı mimari.
   - **Super I/O Eklenti Kartı:** Base Uno/Duo üzerine dikey istiflenen (stackable); sisteme bağımsız GPS, ekran soketi ve sensör arayüzü kazandıran genişleme modülü.
+- **M5Stack ve Raspberry Pi Ekosistemi:**
+  - **M5Stack Cardputer:** 56 tuşlu tam QWERTY klavyeli, 1.14 inç renkli ekranlı, ESP32-S3, 1750 mAh dahili pil ve tak-çıkar LoRa/GPS modüllü bağımsız mesajlaşma terminali.
+  - **M5Stack Unit C6L:** 32-bit RISC-V mimarili ESP32-C6 çipi, SX1262 telsiz, 0.66" OLED ekran, RGB durum LED'i ve sesli buzzer içeren cep düğümü.
+  - **M5Burner:** M5Stack Cardputer ve LoRa cihazlarına resmi Meshtastic bellenimini tek tıkla yükleyen resmi GUI aracı.
+  - **Raspberry Pi Pico & Pico 2 (RP2040 / RP2350):** Waveshare LoRa modülü eklenerek tam teşekküllü Meshtastic düğümüne dönüştürülen düşük maliyetli açık donanım platformu.
+  - **Waveshare Pico LoRa Modülü:** Pico'nun 40 pinli başlığına doğrudan oturan, Semtech SX1262 telsizli ve SMA soketli tak-çalıştır genişleme kartı.
+  - **CardKB I2C Donanım Klavyesi:** Pico ve ESP32 kartlarının GPIO 4/5 (I2C) pinlerine bağlanarak telefonsuz metin ve Canned Message girişi sağlayan 50 tuşlu mini klavye.
 
 ### 🔹 USB-Seri Dönüştürücüler ve Sürücüler (Serial Drivers)
 Bilgisayar ile cihaz arasında seri haberleşme (UART) ve firmware yükleme sağlayan köprü entegreleri:
