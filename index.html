@@ -7839,6 +7839,166 @@
           "Kutu Temizleme": "input_text.set_value: ' ' (Otomatik sıfırlama)"
         },
         seeAlso: ["ha-input-text-helper-sendbox", "mqtt-json-downlink-injection", "home-assistant-mqtt-integration"]
+      },
+      {
+        id: "python-protobuf-meshpacket-deserialization",
+        en: "Python Protobuf MeshPacket Deserialization (meshtastic/protobufs)",
+        tr: "Python Protobuf MeshPacket İkili Yük Kod Çözümleme",
+        category: "Yazılım & İstemciler",
+        lead: "`meshtastic` Python kütüphanesi veya derlenmiş `mesh_pb2` sınıflarını kullanarak MQTT üzerinden gelen ham ikili `ServiceEnvelope` ve `MeshPacket` paketlerini ayrıştırma yöntemi.",
+        details: "JSON etkinleştirilmemiş veya nRF52 gibi düşük güçlü cihazlardan gelen ikili paketleri çözmek için kullanılır. Python betiğinde `from meshtastic.mesh_pb2 import MeshPacket` ve `from meshtastic.mqtt_pb2 import ServiceEnvelope` import edilir. Broker'dan gelen bayt dizisi `env.ParseFromString(msg.payload)` ile açılır; ardından `env.packet.decoded.payload` çözülerek şifreli kanal anahtarıyla açık metne veya telemetriye dönüştürülür. Bu yöntem CPU ve bant genişliği tasarrufu sağlar.",
+        github: "meshtastic.org/docs/software/integrations/mqtt/mqtt-python",
+        infobox: {
+          "Kütüphane": "protobuf (Google) & meshtastic",
+          "Girdi": "msg.payload (Ham binary bytes)",
+          "Metot": "ServiceEnvelope.ParseFromString(payload)",
+          "Avantaj": "JSON kısıtlı nRF52 düğümlerinin tüm hava paketlerini kayıpsız işleme"
+        },
+        seeAlso: ["serviceenvelope-protobuf-wrapper", "paho-mqtt-python-client", "paho-on-message-callback"]
+      },
+      {
+        id: "paho-mqtt-tls-ssl-context",
+        en: "Paho MQTT TLS/SSL Secure Socket Configuration (client.tls_set())",
+        tr: "Paho MQTT TLS/SSL Güvenli Soket Yapılandırması (client.tls_set())",
+        category: "Ağ & Protokol",
+        lead: "Python betiklerinin genel Wi-Fi veya hücresel internet üzerinden kurumsal/özel MQTT broker'larına 8883 portundan şifreli bağlanmasını sağlayan güvenlik katmanı.",
+        details: "`client.tls_set(ca_certs=\"ca.crt\", certfile=\"client.crt\", keyfile=\"client.key\")` fonksiyonu ile yapılandırılır. Şifresiz 1883 portu yerine 8883 portu üzerinden TLS 1.2/1.3 el sıkışması gerçekleştirilir. Taktik sahra ağlarında telsizden sunucuya giden koordinatların, acil durum mesajlarının ve kullanıcı kimliklerinin açık internette aradaki adam (MitM) saldırılarıyla dinlenmesini ve sahte paket enjeksiyonunu kesin olarak engeller.",
+        github: "meshtastic.org/docs/software/integrations/mqtt/mqtt-python",
+        infobox: {
+          "Metot": "client.tls_set(ca_certs, certfile, keyfile)",
+          "Standart Güvenli Port": "8883 (MQTTS)",
+          "Kriptografi": "TLS 1.2 / TLS 1.3 ve X.509 istemci sertifikası doğrulaması",
+          "Kullanım": "Kurumsal afet ağları, şifreli sahra veri tabanları"
+        },
+        seeAlso: ["paho-mqtt-python-client", "eclipse-mosquitto-broker", "public-mqtt-server-infrastructure"]
+      },
+      {
+        id: "paho-threadsafe-packet-queue",
+        en: "Thread-Safe Packet Ingestion Queue Pattern (queue.Queue)",
+        tr: "İş Parçacığı Güvenli Paket İletim Kuyruğu Deseni (queue.Queue)",
+        category: "Yazılım & İstemciler",
+        lead: "`on_message` geri çağrısı ile ağır veritabanı veya yapay zeka işlemlerini birbirinden ayıran, ağ gecikmelerini ve paket düşmelerini önleyen kuyruk mimarisi.",
+        details: "Paho MQTT'nin ağ döngüsü tek bir iş parçacığında çalışır; eğer `on_message` içinde SQL veritabanı sorgusu veya HTTP API çağrısı gibi yavaş işlemler yapılırsa gelen yeni telsiz paketleri gecikir veya soket düşer. Çözüm olarak `q = queue.Queue()` tanımlanır; `on_message` sadece `q.put(msg)` yaparak mikrosaniyeler içinde döner. Bağımsız bir işçi (worker thread) kuyruktan paketleri çekip işler; böylece yoğun telsiz trafiğinde sıfır paket kaybı elde edilir.",
+        github: "meshtastic.org/docs/software/integrations/mqtt/mqtt-python",
+        infobox: {
+          "Bileşen": "Python queue.Queue / multiprocessing.Queue",
+          "Mimari": "Üretici-Tüketici (Producer-Consumer)",
+          "Faydası": "Ağ soketi bloke edilmeden yüksek hacimli telsiz trafiğini işleme",
+          "Kullanım": "Ağır veritabanı yazımları, Telegram botları, harita sunucuları"
+        },
+        seeAlso: ["paho-on-message-callback", "paho-network-event-loop", "aiomqtt-asyncio-event-pipeline"]
+      },
+      {
+        id: "aiomqtt-asyncio-event-pipeline",
+        en: "Asynchronous AsyncIO MQTT Event Pipeline (aiomqtt)",
+        tr: "Asenkron AsyncIO MQTT Olay Boru Hattı (aiomqtt)",
+        category: "Yazılım & İstemciler",
+        lead: "Modern Python `async/await` yapısıyla tek bir süreçte binlerce eşzamanlı telsiz olayını düşük gecikmeyle yöneten asenkron MQTT istemci mimarisi.",
+        details: "`pip install aiomqtt` ile kurulan ve `async with aiomqtt.Client(\"localhost\") as client:` bağlam yöneticisiyle çalışan çağdaş kütüphanedir. `async for message in client.messages:` döngüsüyle gelen telsiz telemetrilerini asenkron olarak tüketir. FastAPI microservisleri, WebSockets ve modern asenkron veritabanı sürücüleriyle (asyncpg, motor) kusursuz bütünleşir; iş parçacığı (threading) karmaşası olmadan yüksek verimlilik sunar.",
+        github: "meshtastic.org/docs/software/integrations/mqtt/mqtt-python",
+        infobox: {
+          "Kütüphane": "aiomqtt (Eski adıyla asyncio-mqtt)",
+          "Programlama Paradigması": "Python 3.10+ async / await ve Event Loop",
+          "Sözdizimi": "async for message in client.messages: await process(message)",
+          "Performans": "Düşük bellek tüketimi, yüksek eşzamanlılık (High concurrency)"
+        },
+        seeAlso: ["paho-mqtt-python-client", "paho-threadsafe-packet-queue", "meshtastic-python-rest-webhook-bridge"]
+      },
+      {
+        id: "pydantic-meshtastic-json-validation",
+        en: "Pydantic Data Model Validation for Meshtastic JSON",
+        tr: "Meshtastic JSON Paketleri için Pydantic Veri Modeli Doğrulaması",
+        category: "Yazılım & İstemciler",
+        lead: "MQTT'den gelen dinamik JSON yüklerini Pydantic sınıflarıyla tip kontrolüne tabi tutan, bozuk veya eksik telsiz paketlerinde çökmeleri önleyen veri doğrulama katmanı.",
+        details: "Meshtastic düğümleri sensör donanımlarına göre farklı JSON alanları (bazen sadece voltaj, bazen sıcaklık ve nem) yayınlar. Python tarafında `class MeshtasticTelemetry(BaseModel):` tanımlanarak `voltage: Optional[float] = None`, `channel_utilization: Optional[float] = None` gibi alanlar belirlenir. Gelen paket `MeshtasticTelemetry.model_validate_json(msg.payload)` ile güvenle ayrıştırılır; tip uyuşmazlıkları ve KeyError istisnaları anında yakalanır.",
+        github: "meshtastic.org/docs/software/integrations/mqtt/mqtt-python",
+        infobox: {
+          "Kütüphane": "pydantic >= 2.0 (PyPI)",
+          "Görevi": "Çalışma zamanı (runtime) tip denetimi ve JSON şema doğrulaması",
+          "Özellik": "Eksik alanlarda varsayılan değer atama, güvenli veri modelleme",
+          "Kullanım": "REST API ve veritabanı yazım öncesi veri temizliği"
+        },
+        seeAlso: ["mqtt-json-topic-serialization", "python-mqtt-telemetry-publisher", "paho-on-message-callback"]
+      },
+      {
+        id: "python-decimal-hex-conversion-utility",
+        en: "Python Node ID Decimal-Hexadecimal Bitwise Utility",
+        tr: "Python Düğüm Kimliği Ondalık-Onaltılık Bit Düzeyinde Dönüşüm Aracı",
+        category: "Ağ & Protokol",
+        lead: "Python betiklerinde Meshtastic 32-bitlik tam sayı kimliklerini (`2130636288`) telsiz arayüzlerindeki onaltılık etiketlere (`!7efeee00`) dönüştüren matematiksel yardımcı fonksiyon.",
+        details: "Meshtastic MQTT JSON çıktısındaki `from` alanı işaretsiz 32-bit tamsayı iken kullanıcılar cihazları `!7efeee00` gibi hex formatıyla tanır. Python'da `def to_hex(node_id: int) -> str: return f\"!{node_id & 0xFFFFFFFF:08x}\"` fonksiyonu bu dönüşümü sağlar. Tersine dönüşüm için ise `int(hex_id.lstrip('!'), 16)` kullanılır. Bu yardımcı araç, Telegram botlarında personelin telsiz çağrı işaretlerini ve adreslerini doğru etiketlemek için kritik bir gereksinimdir.",
+        github: "meshtastic.org/docs/software/integrations/mqtt/mqtt-python",
+        infobox: {
+          "Fonksiyon Örneği": "to_hex = lambda n: f'!{n & 0xFFFFFFFF:08x}'",
+          "Ters Dönüşüm": "to_dec = lambda h: int(h.lstrip('!'), 16)",
+          "Bit Maskesi": "0xFFFFFFFF (32-bit işaretsiz tamsayı taşma koruması)",
+          "Kullanım": "Log kayıtları, bildirim mesajları ve kullanıcı kimlik eşleştirme"
+        },
+        seeAlso: ["node-id-hex-decimal-conversion", "paho-on-message-callback", "python-meshtastic-bot-pipeline"]
+      },
+      {
+        id: "paho-exponential-reconnect-backoff",
+        en: "Paho MQTT Exponential Reconnect Backoff Delay Strategy",
+        tr: "Paho MQTT Üstel Geri Çekilme (Exponential Backoff) Yeniden Bağlanma Stratejisi",
+        category: "Ağ & Protokol",
+        lead: "Sahra hücresel veya uydu interneti koptuğunda sunucuyu istek yağmuruna tutmadan kademeli artan bekleme süreleriyle yeniden bağlanma algoritması.",
+        details: "`client.reconnect_delay_set(min_delay=1, max_delay=120)` metoduyla yönetilir. Telsiz geçidi dağda veya araçta hareket ederken hücresel kapsama alanı dışına çıktığında istemci hemen saniyede onlarca kez bağlanmayı denemez. İlk denemeyi 1 saniye sonra yapar; başarısız oldukça bekleme süresi 2, 4, 8, 16... katlanarak azami 120 saniyeye ulaşır. Hat geri geldiğinde normal periyoda döner; batarya ve kota israfını önler.",
+        github: "meshtastic.org/docs/software/integrations/mqtt/mqtt-python",
+        infobox: {
+          "Metot": "client.reconnect_delay_set(min_delay, max_delay)",
+          "Mantık": "Üstel artan gecikme (1s, 2s, 4s, 8s... max 120s)",
+          "Faydası": "Mobil/uydu ağlarda bağlantı fırtınalarını (reconnect storm) engelleme",
+          "Özellik": "Bağlantı kurulduğunda otomatik olarak min_delay değerine sıfırlanır"
+        },
+        seeAlso: ["paho-network-event-loop", "mqtt-keepalive-heartbeat", "paho-mqtt-python-client"]
+      },
+      {
+        id: "paho-will-set-lwt-status",
+        en: "Paho MQTT Last Will and Testament (LWT) Health Status Monitoring",
+        tr: "Paho MQTT Son Arzu ve Vasiyet (LWT) Sağlık Durumu İzleme",
+        category: "Ağ & Protokol",
+        lead: "Python geçit betiği beklenmedik şekilde çöktüğünde veya cihazın enerjisi kesildiğinde broker'ın otomatik olarak 'offline' durum mesajı yayınlamasını sağlayan mekanizma.",
+        details: "`client.will_set(\"msh/gateway/status\", payload=\"offline\", qos=1, retain=True)` komutu bağlantı kurulmadan önce tanımlanır. İstemci normal çalıştığı sürece `online` durumu görünür. Eğer elektrik kesintisi veya betik çökmesi sonucu TCP bağlantısı aniden koparsa; broker istemcinin sessizliğini fark ettiği anda bu vasiyet mesajını retained olarak basar. Böylece kriz merkezindeki operatör geçit telsizinin çöktüğünü saniyeler içinde anlar.",
+        github: "meshtastic.org/docs/software/integrations/mqtt/mqtt-python",
+        infobox: {
+          "Metot": "client.will_set(topic, payload, qos, retain)",
+          "Kritik Bayrak": "retain=True (Yeni bağlanan istemciler son durumu hemen görür)",
+          "Kullanım Amacı": "Sessizce çöken veya elektriği kesilen gateway cihazlarını anında tespit",
+          "Tetiklenme": "TCP RST veya Keepalive zaman aşımı durumunda broker tarafından basılır"
+        },
+        seeAlso: ["mqtt-keepalive-heartbeat", "paho-mqtt-python-client", "systemd-daemon-python-mqtt-service"]
+      },
+      {
+        id: "systemd-daemon-python-mqtt-service",
+        en: "Linux systemd Service Daemonization for Python MQTT Bridges",
+        tr: "Python MQTT Köprüleri için Linux systemd Servis Yönetimi",
+        category: "Yapılandırma & Ayarlar",
+        lead: "Python Meshtastic MQTT entegrasyon betiklerinin Raspberry Pi veya Linux sunucularda arka plan servisi (`systemd`) olarak yapılandırılıp sistem açılışında otomatik başlatılması.",
+        details: "`/etc/systemd/system/meshtastic-mqtt.service` dosyası oluşturularak `ExecStart=/usr/bin/python3 /opt/meshtastic_bridge.py`, `Restart=always` ve `RestartSec=10` parametreleri girilir. `sudo systemctl enable --now meshtastic-mqtt` komutuyla servis kalıcı hale getirilir. Sahra çadırındaki mini bilgisayar elektrik dalgalanmasında kapansa dahi açıldığında Python botu kendiliğinden ayağa kalkar ve telsiz trafiğini kesintisiz işlemeye devam eder.",
+        github: "meshtastic.org/docs/software/integrations/mqtt/mqtt-python",
+        infobox: {
+          "Yapılandırma Dosyası": "/etc/systemd/system/meshtastic-mqtt.service",
+          "Yönetim Komutları": "systemctl start / stop / restart / status / enable",
+          "Özellik": "Restart=always ile çökme sonrası 10 saniyede otomatik dirilme",
+          "Kullanım": "Raspberry Pi sahra geçitlerinde 7/24 kesintisiz operasyon"
+        },
+        seeAlso: ["raspberry-pi-mosquitto-server", "paho-will-set-lwt-status", "python-meshtastic-bot-pipeline"]
+      },
+      {
+        id: "meshtastic-python-rest-webhook-bridge",
+        en: "Python FastAPI/Flask Meshtastic MQTT to REST Webhook Bridge",
+        tr: "Python FastAPI/Flask Meshtastic MQTT - REST Webhook Köprüsü",
+        category: "Yazılım & İstemciler",
+        lead: "Paho-MQTT ile telsiz paketlerini dinleyip harici kurumsal web platformlarına, haritalara ve kriz portallarına HTTP POST istekleriyle (webhook) ileten mikroservis mimarisi.",
+        details: "Meshtastic örgü ağını modern web uygulamalarına bağlamak için geliştirilen bir ara katmandır (middleware). Python'da FastAPI veya Flask ile kurulan hafif bir HTTP sunucusu, arka plandaki MQTT dinleyicisiyle eşleşir. Telsizden gelen her konum veya mesaj, JSON formatında kurumsal AFAD, AKUT veya acil çağrı yönetim yazılımlarının REST API uç noktalarına (`POST /api/v1/telsiz-olay`) fırlatılır. Telsiz sistemi böylece kurumsal ERP ve CBS altyapılarına entegre olur.",
+        github: "meshtastic.org/docs/software/integrations/mqtt/mqtt-python",
+        infobox: {
+          "Çerçeve": "FastAPI / Flask / httpx",
+          "İletişim Modeli": "MQTT Dinleyici -> Asenkron HTTP POST (REST Webhook)",
+          "Yük Formatı": "Standardize edilmiş JSON (Telsiz ID, Koordinat, Mesaj, SNR)",
+          "Kullanım": "Kurumsal afet portalları, kriz yönetim yazılımları, harita servisleri"
+        },
+        seeAlso: ["python-meshtastic-bot-pipeline", "aiomqtt-asyncio-event-pipeline", "pydantic-meshtastic-json-validation"]
       }
     ];
 

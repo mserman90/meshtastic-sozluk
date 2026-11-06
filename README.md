@@ -658,6 +658,18 @@ Meshtastic donanımını kontrol etmek, mesajlaşıp harita görüntülemek ve a
 - **input_text Yardımcısı Telsiz Gönderme Kutusu (`ha-input-text-helper-sendbox`):** Kullanıcının web veya mobilden Meshtastic ağına anons yapabilmesi için Lovelace panosuna eklenen 190 karakterlik metin kutusu.
 - **MQTT Aşağı Yönlü Mesaj ve Kutu Temizleme Otomasyonu (`ha-mqtt-downlink-send-automation`):** Kutudan girilen metni `sendtext` JSON paketiyle LoRa telsiz geçidine fırlatan ve ardından giriş kutusunu sıfırlayan otomasyon.
 
+### 🐍 İleri Seviye Python MQTT ve Servis Mimarisi (meshtastic.org/docs/software/integrations/mqtt/mqtt-python)
+- **Python Protobuf MeshPacket Kod Çözümleme (`python-protobuf-meshpacket-deserialization`):** `meshtastic.protobuf` sınıflarıyla MQTT üzerinden gelen ham ikili `ServiceEnvelope` yüklerini açma yöntemi.
+- **Paho MQTT TLS/SSL Güvenli Soket Yapılandırması (`paho-mqtt-tls-ssl-context`):** `client.tls_set()` ile 8883 portundan şifreli kurumsal MQTT bağlantısı kurma ve sahte paket enjeksiyonunu engelleme.
+- **İş Parçacığı Güvenli Paket Kuyruğu Deseni (`paho-threadsafe-packet-queue`):** Ağ I/O döngüsü ile ağır veritabanı/yapay zeka işlemlerini `queue.Queue` ile ayırarak sıfır paket kaybı sağlama.
+- **Asenkron AsyncIO MQTT Boru Hattı (`aiomqtt-asyncio-event-pipeline`):** Modern Python `async/await` sözdizimiyle çalışan `aiomqtt` istemcisi üzerinden yüksek eşzamanlılıklı telsiz olayı tüketimi.
+- **Pydantic Veri Modeli Doğrulaması (`pydantic-meshtastic-json-validation`):** Dinamik Meshtastic JSON yüklerini Pydantic sınıflarıyla tip kontrolüne tabi tutarak eksik alan çökmelerini önleme.
+- **Python Düğüm Kimliği Ondalık-Onaltılık Dönüştürücü (`python-decimal-hex-conversion-utility`):** 32-bit tamsayı kimlikleri (`2130636288`) telsiz etiketlerine (`!7efeee00`) çeviren bit düzeyinde yardımcı fonksiyon.
+- **Paho MQTT Üstel Geri Çekilme Stratejisi (`paho-exponential-reconnect-backoff`):** Hücresel/uydu internet koptuğunda sunucuyu istek yağmuruna tutmadan kademeli (1s-120s) yeniden bağlanma algoritması.
+- **Paho MQTT Son Arzu ve Vasiyet Sağlık İzleme (`paho-will-set-lwt-status`):** Geçit betiği çöktüğünde veya enerjisi kesildiğinde broker'ın otomatik olarak retained `offline` mesajı yayınlaması.
+- **Linux systemd Python Servis Yönetimi (`systemd-daemon-python-mqtt-service`):** Python köprü betiklerinin Raspberry Pi üzerinde `systemd` arka plan servisi olarak yapılandırılıp otomatik diriltilmesi.
+- **Python FastAPI/Flask REST Webhook Köprüsü (`meshtastic-python-rest-webhook-bridge`):** MQTT'den gelen telsiz olaylarını kurumsal kriz yönetimi ve harita portallarına HTTP POST webhook'ları ile aktarma.
+
 ### 🔹 Açık Standart ve Tedarikçi Bağımsızlığı (Open Architecture & Vendor Neutrality)
 Meshtastic'in hiçbir tescilli ticari protokole veya tek bir donanım üreticisine bağımlı kalmamasını sağlayan açık kaynak ekosistem felsefesi (GPL-3.0 lisansı ve açık Protobuf şemaları). Semtech SX1262/SX1276/LR1121 telsizleri ile ESP32, nRF52840 ve RP2040 işlemcili onlarca farklı üreticinin (Heltec, LilyGO, RAKwireless) donanımları tam uyumla birlikte çalışabilir.
 
