@@ -7999,6 +7999,166 @@
           "Kullanım": "Kurumsal afet portalları, kriz yönetim yazılımları, harita servisleri"
         },
         seeAlso: ["python-meshtastic-bot-pipeline", "aiomqtt-asyncio-event-pipeline", "pydantic-meshtastic-json-validation"]
+      },
+      {
+        id: "nodered-dashboard-ui-widgets",
+        en: "Node-RED Dashboard Telemetry & Control UI Widgets",
+        tr: "Node-RED Dashboard Telemetri ve Kontrol Bileşenleri",
+        category: "Yazılım & İstemciler",
+        lead: "Node-RED ortamında çalışan ve telsiz telemetrisini (voltaj, sıcaklık, SNR) ibreli göstergeler, zaman serisi grafikleri ve kontrol anahtarlarıyla görselleştiren web paneli bileşenleri seti.",
+        details: "`node-red-dashboard` veya `@flowfuse/node-red-dashboard` eklentisiyle kurulan bu arayüz, sahadaki telsizlerden MQTT üzerinden gelen verileri tarayıcıda canlı gösterir. Örneğin `ui_gauge` düğümü ile batarya voltajı (3.0V - 4.2V renkli aralıklar) ve kanal doluluğu izlenir; `ui_chart` ile 24 saatlik RSSI/SNR dalgalanmaları çizilir. `ui_switch` veya `ui_button` düğmeleri ise operatörün tek tıkla ağa acil durum duyurusu veya beacon komutu göndermesini sağlar.",
+        github: "meshtastic.org/docs/software/integrations/mqtt/nodered",
+        infobox: {
+          "Eklenti Paketi": "node-red-dashboard / @flowfuse/node-red-dashboard",
+          "Bileşen Türleri": "ui_gauge (Kadran), ui_chart (Çizgi Grafik), ui_text (Durum), ui_button (Tetikleyici)",
+          "Erişim Portu": "http://<ip-adresi>:1880/ui",
+          "Kullanım Alanı": "Sahra çadırı operasyon ekranları, röle telemetri izleme masası"
+        },
+        seeAlso: ["nodered-meshtastic-integration-architecture", "nodered-contrib-meshtastic-node", "ha-telemetry-sensor-entities"]
+      },
+      {
+        id: "nodered-telegram-bot-mesh-bridge",
+        en: "Node-RED Bidirectional Telegram Bot Mesh Bridge",
+        tr: "Node-RED Telegram Botu Çift Yönlü Telsiz Köprüsü",
+        category: "Yazılım & İstemciler",
+        lead: "Node-RED üzerinden Telegram mesajlaşma platformu ile LoRa telsiz ağı arasında çift yönlü acil durum ve telemetri köprüsü kuran akış entegrasyonu.",
+        details: "`node-red-node-telegram` düğümü kullanılarak oluşturulan köprüde iki temel hat çalışır: (1) Meshtastic'ten gelen mesaj veya acil konum paketleri bir Telegram grubuna `node-red-contrib-telegrambot` aracılığıyla otomatik fırlatılır; (2) Yetkili personelin Telegram grubuna yazdığı `#meshtastic <mesaj>` komutları ayrıştırılarak JSON downlink formatında yerel telsiz geçidine aktarılır ve LoRa frekansından havaya yayınlanır. Bu sayede internetteki kriz yönetim masası sahadaki şebekesiz ekiplerle doğrudan haberleşir.",
+        github: "meshtastic.org/docs/software/integrations/mqtt/nodered",
+        infobox: {
+          "Eklenti Paketi": "node-red-node-telegram / node-red-contrib-telegrambot",
+          "İletişim Yönü": "Çift yönlü (Telegram -> LoRa ve LoRa -> Telegram)",
+          "Yetkilendirme": "Chat ID ve User ID beyaz listesi (yetkisiz downlink engeli)",
+          "Kullanım Alanı": "Afet koordinasyon grupları, uzaktan saha duyuruları"
+        },
+        seeAlso: ["nodered-json-downlink-inject-node", "python-meshtastic-bot-pipeline", "ha-mesh-mobile-notifications"]
+      },
+      {
+        id: "nodered-sqlite-telemetry-logging",
+        en: "Node-RED SQLite Local Persistent Telemetry Logging",
+        tr: "Node-RED SQLite Yerel Telemetri Günlük Kaydı",
+        category: "Yazılım & İstemciler",
+        lead: "Saha ağ geçitlerinde telsizlerden akan sensör, konum ve sinyal kalitesi verilerini yerel SQLite ilişkisel veritabanı dosyasında kalıcı olarak arşivleyen depolama düğümü.",
+        details: "`node-red-node-sqlite` eklentisiyle çalışan bu yapı, harici bir SQL sunucusu gerektirmeden Raspberry Pi'ın SD kartında veya USB belleğinde `meshtastic_telemetry.db` dosyası oluşturur. Gelen her MQTT paketi için bir Function düğümü `INSERT INTO telemetry (node_id, timestamp, battery_level, voltage, snr, rssi) VALUES (?, datetime('now'), ?, ?, ?, ?)` SQL sorgusu hazırlar. İnternet kesintilerinde bile saha sinyal geçmişi, sıcaklık trendleri ve batarya ömürleri kayıpsız saklanır.",
+        github: "meshtastic.org/docs/software/integrations/mqtt/nodered",
+        infobox: {
+          "Eklenti Paketi": "node-red-node-sqlite (SQLite3 tabanlı)",
+          "Depolama Dosyası": "/var/data/meshtastic_telemetry.db",
+          "Tablo Yapısı": "node_id, timestamp, battery_pct, voltage, snr, rssi, payload_text",
+          "Avantajı": "Ağ gerektirmez, sıfır yapılandırmalı hafif yerel veritabanı"
+        },
+        seeAlso: ["nodered-edge-pi-iot-gateway", "python-mqtt-telemetry-publisher", "ha-environmental-sensor-entities"]
+      },
+      {
+        id: "nodered-change-node-payload-mapping",
+        en: "Node-RED Change Node Payload Property Remapping",
+        tr: "Node-RED Change Düğümü ile Yük Dönüşümü ve Eşleme",
+        category: "Yazılım & İstemciler",
+        lead: "Kod yazmaya gerek kalmadan, Meshtastic'ten gelen karmaşık JSON veri yapısını harici IoT servislerinin veya kontrol panolarının beklediği standart alanlara dönüştüren çekirdek akış düğümü.",
+        details: "Meshtastic JSON yüklerinde `msg.payload.payload.battery_level` veya `msg.payload.payload.temperature` gibi iç içe (nested) nesneler bulunur. Change düğümü 'Set msg.payload to msg.payload.payload.voltage' veya 'Move msg.payload.from to msg.topic' kurallarıyla veriyi anında yeniden yapılandırır. Ayrıca JSONata ifadeleriyle matematiksel birim dönüşümleri (örneğin Kelvin'den Celsius'a veya milivolttan Volta) görsel olarak tanımlanabilir.",
+        github: "meshtastic.org/docs/software/integrations/mqtt/nodered",
+        infobox: {
+          "Düğüm Türü": "node-red core: change (Dönüştürücü)",
+          "İşlem Türleri": "Set (Ata), Change (Değiştir), Delete (Sil), Move (Taşı)",
+          "İfade Motoru": "JSONata sorgulama ve veri dönüştürme dili",
+          "Kullanım Amacı": "Kodsuz veri standardizasyonu ve format uyumlama"
+        },
+        seeAlso: ["nodered-javascript-function-processor", "pydantic-meshtastic-json-validation", "ha-jinja2-value-template"]
+      },
+      {
+        id: "nodered-switch-node-channel-routing",
+        en: "Node-RED Switch Node Channel & Packet Type Routing",
+        tr: "Node-RED Switch Düğümü ile Kanal ve Paket Koşullu Yönlendirme",
+        category: "Ağ & Protokol",
+        lead: "MQTT'den gelen paketleri kanal indeksi, port numarası veya mesaj tipine göre çok kollu akış yollarına ayıran koşullu yönlendirme düğümü.",
+        details: "Node-RED'in yerleşik `switch` düğümü, gelen `msg.payload.channel` veya `msg.payload.type` değerini kontrol eder. Örneğin 1. çıkışa kanal 0 (Genel Acil Kanalı), 2. çıkışa kanal 1 (Lojistik/Operasyon Kanalı), 3. çıkışa ise telemetri paketleri yönlendirilir. Böylece acil mesajlar derhal siren ve SMS hatlarına aktarılırken, rutin batarya paketleri veritabanı kayıt hattına dallandırılır. Akış mimarisinin temiz ve verimli kalmasını sağlar.",
+        github: "meshtastic.org/docs/software/integrations/mqtt/nodered",
+        infobox: {
+          "Düğüm Türü": "node-red core: switch (Koşullu Yönlendirici)",
+          "Koşul Kuralları": "==, !=, <, >, matches regex, contains, is null",
+          "Yönlendirme Kriteri": "Kanal numarası (0-7), Portnum (1: Text, 67: Telemetry, 3: Position)",
+          "Avantajı": "Gereksiz düğüm işlem yükünü engeller, akış mantığını görselleştirir"
+        },
+        seeAlso: ["mqtt-portnum-whitelist-filtering", "nodered-change-node-payload-mapping", "nodered-flow-context-deduplication"]
+      },
+      {
+        id: "nodered-flow-context-deduplication",
+        en: "Node-RED Flow Context In-Memory Packet Deduplication",
+        tr: "Node-RED Akış Belleği (Context) ile Paket Tekilleştirme",
+        category: "Ağ & Protokol",
+        lead: "Farklı internet geçitlerinden (gateway) MQTT sunucusuna mükerrer olarak iletilen aynı Meshtastic telsiz paketlerini Node-RED bellek önbelleğinde filtreleyen akış algoritması.",
+        details: "Örgü ağında bir mesaj birden fazla MQTT geçidi tarafından duyulduğunda, brokera aynı `id` ve `from` bilgisine sahip birden fazla kopya ulaşır. Node-RED Function düğümünde `flow.get('seen_packets') || {}` kullanılarak gelen paket kimliği önbellekte aranır. Eğer paket son 30 saniye içinde işlenmişse `return null;` ile düşürülür; ilk defa görülüyorsa önbelleğe kaydedilerek akışa devam ettirilir. Bu mekanizma veritabanı şişmesini ve mükerrer Telegram uyarılarını engeller.",
+        github: "meshtastic.org/docs/software/integrations/mqtt/nodered",
+        infobox: {
+          "Bellek Kapsamı": "Node-RED context (flow / global in-memory store)",
+          "Tekilleştirme Anahtarı": "msg.payload.id (Benzersiz LoRa paket ID'si)",
+          "Zaman Aşımı": "Kayan pencere (ör. 30 saniyelik TTL temizliği)",
+          "Önlediği Sorun": "Mükerrer alarm bildirimleri ve yapay veritabanı yükü"
+        },
+        seeAlso: ["multi-gateway-mqtt-deduplication", "paho-threadsafe-packet-queue", "nodered-switch-node-channel-routing"]
+      },
+      {
+        id: "nodered-subflow-modularization",
+        en: "Node-RED Subflow Packaging for Meshtastic Pipelines",
+        tr: "Node-RED Alt Akış (Subflow) ile Modüler Şema Çözümleme",
+        category: "Yazılım & İstemciler",
+        lead: "Karmaşık Meshtastic veri ayrıştırma, doğrulama ve dönüştürme adımlarını tek bir yeniden kullanılabilir özel bileşen kutusu haline getiren alt akış mimarisi.",
+        details: "Birkaç Function, Change ve Protobuf düğümünden oluşan karmaşık bir kod çözme zinciri Node-RED'de 'Subflow' olarak paketlenir. Oluşturulan bu özel kutu (örneğin 'Meshtastic Telemetry Parser' veya 'Downlink Builder'), akış paletinde bağımsız bir düğüm gibi görünür. Çok sayıda farklı proje ve akışta sürükle-bırak yöntemiyle yeniden kullanılabilir. Şema değiştiğinde sadece alt akışın güncellenmesi tüm sistemdeki ilgili düğümleri anında günceller.",
+        github: "meshtastic.org/docs/software/integrations/mqtt/nodered",
+        infobox: {
+          "Özellik": "Node-RED Subflow (Yeniden kullanılabilir modül kutusu)",
+          "Girdi / Çıktı": "1 Giriş (Ham MQTT Yükü) -> 3 Çıkış (Metin, Telemetri, Konum)",
+          "Kapsülleme": "Yerel değişkenler (env properties) ve iç bağlam izolasyonu",
+          "Dağıtım": "JSON formatında export/import ile toplulukla paylaşım"
+        },
+        seeAlso: ["nodered-contrib-meshtastic-node", "nodered-contrib-protobuf-decoder", "off-device-protobuf-schema-decoding"]
+      },
+      {
+        id: "nodered-http-in-webhook-downlink",
+        en: "Node-RED HTTP-In Webhook to Mesh Downlink Gateway",
+        tr: "Node-RED HTTP Giriş Düğümü ile Harici Webhook Downlink Köprüsü",
+        category: "Ağ & Protokol",
+        lead: "Üçüncü parti yazılımların, izleme araçlarının (Zabbix, Grafana) ve acil durum web portallarının basit HTTP POST istekleriyle telsiz ağına anons yapmasını sağlayan REST köprüsü.",
+        details: "Node-RED'in `http in` düğümü dinleme yaparak `/api/v1/broadcast` URL'sini açar. Harici bir sistem `curl -X POST http://nodered:1880/api/v1/broadcast -d '{\"text\": \"Deprem Uyarısı! Toplanma Alanına Geçiniz.\"}'` isteği fırlattığında, Node-RED gelen HTTP yükünü doğrular, API anahtarını kontrol eder ve Meshtastic JSON downlink formatına büründürerek yerel MQTT broker'a fırlatır. Telsizler saniyeler içinde anonsu havadan telsiz ekranlarına basar.",
+        github: "meshtastic.org/docs/software/integrations/mqtt/nodered",
+        infobox: {
+          "Uç Nokta": "POST /api/v1/broadcast veya /api/v1/alert",
+          "Kimlik Doğrulama": "Bearer Token veya API Key başlığı denetimi",
+          "Yanıt Kodu": "200 OK (Kuyruğa alındı) / 401 Unauthorized / 400 Bad Request",
+          "Entegrasyon": "Grafana Alerting, Zabbix, Uptime Kuma, acil durum web butonları"
+        },
+        seeAlso: ["meshtastic-python-rest-webhook-bridge", "nodered-json-downlink-inject-node", "mqtt-json-downlink-injection"]
+      },
+      {
+        id: "nodered-gps-worldmap-tracking",
+        en: "Node-RED Worldmap LoRa Mesh Geospatial Tracking",
+        tr: "Node-RED Worldmap ile LoRa Düğümü Canlı Coğrafi İzleme",
+        category: "Yazılım & İstemciler",
+        lead: "Node-RED akışına eklenen Leaflet/OpenStreetMap tabanlı harita arayüzü ile sahadaki telsizlerin GPS koordinatlarını ve rotalarını canlı olarak takip eden coğrafi bilgi görselleştirmesi.",
+        details: "`node-red-contrib-web-worldmap` eklentisi kullanılarak kurulan harita motoru, telsizlerden gelen enlem (`latitude_i`), boylam (`longitude_i`) ve irtifa telemetrisini anında harita işaretçilerine (marker) dönüştürür. Düğümün pil durumu, çağrı adı ve hız vektörü işaretçinin açılır penceresine eklenir. İnternet olmayan sahra koşullarında yerel OpenStreetMap karo sunucusuyla (offline map tiles) tam uyumlu çalışarak askeri ve kurtarma timlerinin taktik takibini sağlar.",
+        github: "meshtastic.org/docs/software/integrations/mqtt/nodered",
+        infobox: {
+          "Eklenti Paketi": "node-red-contrib-web-worldmap",
+          "Harita Arayüzü": "http://<ip-adresi>:1880/worldmap",
+          "Veri Formatı": "msg.payload = { name: 'TA2XYZ', lat: 41.01, lon: 28.97, icon: 'fa-user' }",
+          "Çevrimdışı Çalışma": "Yerel harita karo (tile) dizini veya MBTiles desteği"
+        },
+        seeAlso: ["caltopo-shared-locations-layer", "ha-device-tracker-gps-mapping", "atak-pli-position-sync"]
+      },
+      {
+        id: "nodered-emergency-buzzer-gpio-trigger",
+        en: "Node-RED Raspberry Pi GPIO Emergency Siren & Buzzer Trigger",
+        tr: "Node-RED Raspberry Pi GPIO Donanım Acil Durum Uyarısı",
+        category: "Donanım & Anten",
+        lead: "Telsiz ağından gelen acil durum (SOS) veya kriz mesajlarını tespit ettiğinde Raspberry Pi'ın fiziksel GPIO pinlerini tetikleyerek sahra çadırında korna, siren veya flaşör çalıştıran donanım düğümü.",
+        details: "Node-RED'in `rpi-gpio out` düğümü doğrudan Raspberry Pi donanım pinlerini sürer. Akışta Meshtastic metin mesajı taranır; eğer mesajda 'SOS', 'ACIL' veya Portnum 70/72 acil durum kodu yakalanırsa, GPIO 17 pinine `msg.payload = 1` sinyali gönderilerek röle modülü enerjilendirilir. Röleye bağlı 12V havalı siren veya flaşörlü tepe lambası devreye girerek operatör uyurken dahi afet veya kriz ihbarının kaçırılmasını engeller.",
+        github: "meshtastic.org/docs/software/integrations/mqtt/nodered",
+        infobox: {
+          "Düğüm Türü": "node-red-node-pi-gpio (rpi-gpio out)",
+          "Donanım Pini": "Raspberry Pi GPIO Pin 17 / Pin 27 (3.3V Lojik Çıkış)",
+          "Sürücü Yükü": "Optokuplörlü röle modülü üzerinden 12V/220V siren veya flaşör",
+          "Tetikleme Şartı": "Metinde 'SOS' tespit edilmesi veya acil paket türü gelmesi"
+        },
+        seeAlso: ["external-usb-to-serial-gpio", "nodered-edge-pi-iot-gateway", "ha-mesh-mobile-notifications"]
       }
     ];
 

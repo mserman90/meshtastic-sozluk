@@ -670,6 +670,18 @@ Meshtastic donanımını kontrol etmek, mesajlaşıp harita görüntülemek ve a
 - **Linux systemd Python Servis Yönetimi (`systemd-daemon-python-mqtt-service`):** Python köprü betiklerinin Raspberry Pi üzerinde `systemd` arka plan servisi olarak yapılandırılıp otomatik diriltilmesi.
 - **Python FastAPI/Flask REST Webhook Köprüsü (`meshtastic-python-rest-webhook-bridge`):** MQTT'den gelen telsiz olaylarını kurumsal kriz yönetimi ve harita portallarına HTTP POST webhook'ları ile aktarma.
 
+### 🔴 İleri Seviye Node-RED Akış Otomasyonu ve Saha Entegrasyonu (meshtastic.org/docs/software/integrations/mqtt/nodered)
+- **Node-RED Dashboard Telemetri Bileşenleri (`nodered-dashboard-ui-widgets`):** Batarya, sıcaklık ve SNR telemetrisini ibreli kadranlar, zaman serisi grafikleri ve kontrol anahtarlarıyla görselleştirme.
+- **Node-RED Telegram Botu Çift Yönlü Köprü (`nodered-telegram-bot-mesh-bridge`):** Sahadaki kriz mesajlarını Telegram gruplarına aktaran ve Telegram'dan telsiz ağına downlink duyurusu yapan köprü.
+- **Node-RED SQLite Yerel Telemetri Günlük Kaydı (`nodered-sqlite-telemetry-logging`):** Ağ gerektirmeden telsiz verilerini yerel `meshtastic_telemetry.db` dosyasında zaman serisi olarak kalıcı arşivleme.
+- **Node-RED Change Düğümü ile Yük Eşleme (`nodered-change-node-payload-mapping`):** Kod yazmadan karmaşık iç içe JSON nesnelerini IoT standartlarına ve panel formatlarına dönüştürme.
+- **Node-RED Switch Düğümü ile Koşullu Yönlendirme (`nodered-switch-node-channel-routing`):** Gelen telsiz paketlerini kanal indeksi veya mesaj tipine göre acil alarm ya da telemetri hatlarına dallandırma.
+- **Node-RED Akış Belleği ile Paket Tekilleştirme (`nodered-flow-context-deduplication`):** Farklı geçitlerden mükerrer gelen aynı LoRa paketlerini in-memory context önbelleğiyle filtreleme.
+- **Node-RED Alt Akış (Subflow) Modülerizasyonu (`nodered-subflow-modularization`):** Karmaşık Protobuf ve filtreleme adımlarını tek bir yeniden kullanılabilir palet bileşeni olarak paketleme.
+- **Node-RED HTTP Giriş ile Webhook Downlink Köprüsü (`nodered-http-in-webhook-downlink`):** Zabbix, Grafana veya harici kriz portallarından gelen HTTP POST isteklerini telsiz yayınına dönüştürme.
+- **Node-RED Worldmap LoRa Canlı Coğrafi İzleme (`nodered-gps-worldmap-tracking`):** Telsiz GPS telemetrisini çevrimdışı destekli web haritası üzerinde canlı simgeler ve rotalarla görselleştirme.
+- **Node-RED Raspberry Pi GPIO Donanım Acil Durum Uyarısı (`nodered-emergency-buzzer-gpio-trigger`):** SOS mesajı alındığında doğrudan Pi GPIO pinlerini tetikleyerek 12V siren veya flaşör çalıştırma.
+
 ### 🔹 Açık Standart ve Tedarikçi Bağımsızlığı (Open Architecture & Vendor Neutrality)
 Meshtastic'in hiçbir tescilli ticari protokole veya tek bir donanım üreticisine bağımlı kalmamasını sağlayan açık kaynak ekosistem felsefesi (GPL-3.0 lisansı ve açık Protobuf şemaları). Semtech SX1262/SX1276/LR1121 telsizleri ile ESP32, nRF52840 ve RP2040 işlemcili onlarca farklı üreticinin (Heltec, LilyGO, RAKwireless) donanımları tam uyumla birlikte çalışabilir.
 
