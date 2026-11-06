@@ -9279,6 +9279,166 @@
           "Yapılandırma": "/etc/meshtasticd/config.yaml -> Display bloğu"
         },
         seeAlso: ["meshtasticd-config-yaml", "adafruit-rfm9x-radio-bonnet", "linux-spidev-lora-interface"]
+      },
+      {
+        id: "meshtadpole-usb-lora-dongle",
+        en: "MeshTadpole Open-Hardware USB LoRa Dongle Modem",
+        tr: "MeshTadpole Açık Donanım USB LoRa Dongle Modemi",
+        category: "Donanım & Anten",
+        lead: "Raspberry Pi, dizüstü bilgisayarlar ve sunucuları doğrudan bir Meshtastic LoRa düğümüne dönüştüren Elecrow üretimi açık kaynaklı USB tak-çalıştır telsiz modemi.",
+        details: "MeshTadpole, Semtech SX1262 LoRa alıcı-verici entegresini WCH CH341 USB-to-SPI köprüleme çipiyle tek bir küçük USB bellek form faktöründe birleştirir. Mikrodenetleyiciye veya harici güç kaynağına ihtiyaç duymadan enerjisini doğrudan USB portundan alır. Linux, macOS ve Windows sistemlerde `meshtasticd` arka plan servisiyle veya doğrudan masaüstü istemcileriyle tam uyumlu çalışarak bilgisayarları bağımsız bir telsiz kriz merkezine dönüştürür.",
+        github: "meshtastic.org/docs/meshtasticd/hardware/radios/usb/meshtadpole",
+        infobox: {
+          "Tasarım / Üretici": "Açık Donanım (Elecrow İş Birliği)",
+          "Telsiz Yonga Seti": "Semtech SX1262 LoRa Transceiver",
+          "USB Köprüsü": "WCH CH341 (USB-to-SPI Mode)",
+          "Arayüz / Form": "USB Type-A Erkek Konnektör & SMA Dişi Anten Soketi"
+        },
+        seeAlso: ["usb-to-spi-meshstick-interface", "meshtasticd-native-daemon", "meshtadpole-side-by-side-slim-form-factor"]
+      },
+      {
+        id: "meshtadpole-side-by-side-slim-form-factor",
+        en: "MeshTadpole Side-by-Side Dual-Port Slim Form Factor",
+        tr: "MeshTadpole İnce Tasarım ve Çift Port Yan Yana Kullanım",
+        category: "Donanım & Anten",
+        lead: "Raspberry Pi veya dizüstü bilgisayarların bitişik USB portlarında komşu soketi engellemeden iki adet dongle'ın yan yana takılabilmesini sağlayan ultra ince PCB tasarımı.",
+        details: "Birçok USB LoRa kartı geniş gövdesi nedeniyle yanındaki USB portunu kapatır ve çok frekanslı kurulumları zorlaştırır. MeshTadpole'un gövde genişliği standart USB port aralığıyla birebir uyumlu olacak şekilde daraltılmıştır. Bu sayede bir Raspberry Pi'ın altlı üstlü veya dizüstü bilgisayarın yan yana duran iki USB soketine aynı anda iki MeshTadpole (örneğin biri 433 MHz, diğeri 868 MHz) adaptör kablosuna gerek kalmadan doğrudan takılabilir.",
+        github: "meshtastic.org/docs/meshtasticd/hardware/radios/usb/meshtadpole",
+        infobox: {
+          "Mekanik Tasarım": "Slim-line Dar Profil (Ultra-narrow PCB Layout)",
+          "Fiziksel Boyut": "Standart USB Type-A genişliğini aşmayan form",
+          "Avantajı": "İki dongle'ın komşu portlara adaptörsüz yan yana takılabilmesi",
+          "Kullanım Alanı": "Çift bantlı (Dual-band 433/868 MHz) kompakt sahra ağ geçitleri"
+        },
+        seeAlso: ["meshtadpole-usb-lora-dongle", "ch341-eeprom-serial-provisioning", "meshtadpole-dual-band-frequency-variants"]
+      },
+      {
+        id: "meshtadpole-onboard-eeprom-autoconfig",
+        en: "MeshTadpole Onboard I2C EEPROM Auto-Configuration",
+        tr: "MeshTadpole Yerleşik EEPROM ve Otomatik Yapılandırma",
+        category: "Donanım & Anten",
+        lead: "Kart üzerindeki I2C EEPROM çipi sayesinde `meshtasticd` servisinin dongle'ı USB'ye takıldığı anda hiçbir manuel YAML ayarı gerektirmeden tanımasını sağlayan donanım kimliği.",
+        details: "MeshTadpole, fabrikasyon olarak kart üzerinde lehimli 24C02 EEPROM yongasıyla gelir. Bu bellekte üretici kimliği, model adı, donanım revizyonu ve benzersiz bir donanım seri numarası yazılıdır. `meshtasticd` servisi başlatıldığında USB veriyolundaki EEPROM'u sorgular; MeshTadpole olduğunu tespit ettiğinde SX1262 pin eşlemelerini, TCXO ayarlarını ve SPI hızını otomatik olarak hafızadan yükler. Kullanıcı sıfır konfigürasyonla tak-çalıştır deneyimi yaşar.",
+        github: "meshtastic.org/docs/meshtasticd/hardware/radios/usb/meshtadpole",
+        infobox: {
+          "Donanım Birimi": "24C02 I2C Seri EEPROM",
+          "Yazılım Desteği": "meshtasticd >= 2.6.5 (Otomatik Algılama)",
+          "Saklanan Bilgiler": "Model Adı (MeshTadpole), Donanım Revizyonu, Benzersiz Seri No",
+          "Faydası": "Manuel config.yaml yazma zorunluluğunu ortadan kaldıran tak-çalıştır mimari"
+        },
+        seeAlso: ["ch341-eeprom-serial-provisioning", "meshtadpole-meshtasticd-v265-support", "meshtasticd-config-yaml"]
+      },
+      {
+        id: "meshtadpole-sma-antenna-coupling",
+        en: "MeshTadpole SMA Female Coaxial RF Antenna Coupling",
+        tr: "MeshTadpole Standart SMA Dişi Anten Konnektörü ve RF Eşleme",
+        category: "Donanım & Anten",
+        lead: "Doğrudan PCB üzerine lehimlenmiş 50 Ohm empedanslı standart SMA dişi konnektör ile harici çubuk veya çatı antenlerinin güvenle bağlanmasını sağlayan RF çıkışı.",
+        details: "Birçok küçük modülde bulunan kırılgan U.FL (IPEX) ara kabloları yerine MeshTadpole üzerinde sağlam pirinç SMA konnektör yer alır. Kartın RF çıkışında Semtech SX1262 için optimize edilmiş empedans uyumlama filtreleri (matching network) bulunur. Kullanıcılar doğrudan küçük bir omni çubuk anten takabileceği gibi, düşük kayıplı koaksiyel kabloyla (LMR-400) çatıya monte edilmiş yüksek kazançlı fiberglas antenlere de bağlayarak menzili onlarca kilometreye çıkarabilir.",
+        github: "meshtastic.org/docs/meshtasticd/hardware/radios/usb/meshtadpole",
+        infobox: {
+          "Konnektör Tipi": "Standart SMA Dişi (SMA Female / 50 Ohm)",
+          "Maksimum RF Gücü": "+22 dBm (160 mW)",
+          "RF Eşleme Devresi": "Dahili LC empedans filtreleme ve harmonik bastırıcı",
+          "Tavsiye": "Anten takılmadan cihaz USB'ye takılıp TX moduna geçirilmemelidir (VSWR uyarısı)"
+        },
+        seeAlso: ["meshtadpole-usb-lora-dongle", "rak6421-raspberry-pi-hat", "meshtadpole-sx1262-tcxo-stability"]
+      },
+      {
+        id: "meshtadpole-ch341-spi-bridge-mode",
+        en: "MeshTadpole WCH CH341 USB-to-SPI Bridge Operation",
+        tr: "MeshTadpole CH341 USB-SPI Donanım Köprüleme Modu",
+        category: "Donanım & Anten",
+        lead: "WCH CH341 entegresinin özel donanım SPI kipinde çalışarak USB paketlerini Semtech SX1262 yazmaç seviyesindeki komutlara dönüştürme mekanizması.",
+        details: "CH341 yongası hem UART hem de SPI/I2C köprüleme yeteneğine sahiptir. MeshTadpole tasarımında CH341, SPI master modunda yapılandırılmıştır. Linux'ta çalışan Portduino sürücüsü, SX1262'nin CS, MOSI, MISO, SCK ve kesme pinlerini USB üzerinden milisaniyelik paketlerle kontrol eder. Bu sayede harici bir ESP32 veya STM32 mikrodenetleyiciye ihtiyaç kalmadan doğrudan PC veya Raspberry Pi işletim sistemi telsiz çipini yönetir.",
+        github: "meshtastic.org/docs/meshtasticd/hardware/radios/usb/meshtadpole",
+        infobox: {
+          "Köprü Entegresi": "WCH CH341T / CH341A",
+          "İletişim Hızı": "Donanım SPI (azami ~2 MHz veri aktarımı)",
+          "Sürücü Desteği": "Linux çekirdek ch341 modülü & Portduino USB katmanı",
+          "Avantajı": "Mikrodenetleyicisiz doğrudan donanım yazmaç kontrolü"
+        },
+        seeAlso: ["portduino-abstraction-framework", "usb-to-spi-meshstick-interface", "meshtadpole-onboard-eeprom-autoconfig"]
+      },
+      {
+        id: "meshtadpole-sx1262-tcxo-stability",
+        en: "MeshTadpole SX1262 TCXO Temperature-Compensated Oscillator",
+        tr: "MeshTadpole SX1262 ve TCXO Sıcaklık Dengelemeli Osilatör",
+        category: "Donanım & Anten",
+        lead: "Aşırı sıcak veya dondurucu soğuk ortam koşullarında radyo frekans kaymasını engelleyerek dar bant LoRa haberleşmesinde paket kaybını önleyen 32 MHz TCXO kristali.",
+        details: "MeshTadpole üzerinde standart ucuz kristaller yerine ±0.5 ppm hassasiyete sahip Sıcaklık Dengelemeli Kristal Osilatör (TCXO) kullanılır. Özellikle dar bant genişliklerinde (BW 62.5 kHz veya BW 125 kHz) ve yüksek yayılma faktörlerinde (SF11/SF12), sıcaklık değişimleri frekansta kaymaya (frequency drift) yol açar. TCXO bu kaymayı sıfıra indirerek sahra koşullarında ve sıcak sunucu kasalarında kesintisiz paket alımı sağlar.",
+        github: "meshtastic.org/docs/meshtasticd/hardware/radios/usb/meshtadpole",
+        infobox: {
+          "Kristal Bileşeni": "32 MHz TCXO (Temperature Compensated Crystal Oscillator)",
+          "Frekans Toleransı": "±0.5 ppm (Maksimum kararlılık)",
+          "Çalışma Sıcaklığı": "-40°C ile +85°C arası endüstriyel aralık",
+          "Faydası": "Zorlu kış ve çöl şartlarında frekans kaymasını ve paket kaybını önleme"
+        },
+        seeAlso: ["meshadv-pi-dedicated-hat", "rak6421-raspberry-pi-hat", "meshtadpole-usb-lora-dongle"]
+      },
+      {
+        id: "meshtadpole-dual-band-frequency-variants",
+        en: "MeshTadpole Regional Frequency Hardware Variants (868 / 915 / 433 MHz)",
+        tr: "MeshTadpole Bölgesel Frekans Donanım Varyantları",
+        category: "Donanım & Anten",
+        lead: "Farklı ülkelerin ISM telsiz mevzuatlarına uygun olarak optimize edilmiş harmonik filtreler ve bobin değerleriyle üretilen MeshTadpole modelleri.",
+        details: "LoRa telsizlerinde anten empedans eşleme devresi ve alçak geçiren filtreler (LPF) belirli bir frekans bandına göre üretilmelidir. MeshTadpole üç temel fabrikasyon varyantla sunulur: (1) 868 MHz (Türkiye ve Avrupa CE/ETSI SRD bandı); (2) 915 MHz (ABD ve Avustralya FCC bandı); (3) 433 MHz (Amatör telsiz ve Asya bandı). Doğru varyantın seçilmesi, azami çıkış gücü ve yasal emisyon limitlerine uyum için esastır.",
+        github: "meshtastic.org/docs/meshtasticd/hardware/radios/usb/meshtadpole",
+        infobox: {
+          "Avrupa & Türkiye Modeli": "868 MHz ISM Bandı (863 - 870 MHz filtreli)",
+          "Amerika Modeli": "915 MHz ISM Bandı (902 - 928 MHz filtreli)",
+          "Alternatif Model": "433 MHz Amatör Telsiz Bandı (430 - 440 MHz)",
+          "RF Filtre": "Dahili yüzey montajlı (SMD) SAW / LC bant geçiren filtre"
+        },
+        seeAlso: ["meshtadpole-side-by-side-slim-form-factor", "meshtadpole-sma-antenna-coupling", "meshtadpole-usb-lora-dongle"]
+      },
+      {
+        id: "meshtadpole-open-hardware-gerber",
+        en: "MeshTadpole Open-Hardware Schematics & Gerber PCB Release",
+        tr: "MeshTadpole Açık Donanım Şematikleri ve Gerber Tasarımı",
+        category: "Donanım & Anten",
+        lead: "Kullanıcıların ve araştırmacıların kendi USB LoRa modüllerini basabilmesi için GitHub üzerinde açık kaynak lisansıyla yayınlanan KiCad şematik ve PCB üretim dosyaları.",
+        details: "MeshTadpole projesi açık donanım (Open Source Hardware - OSHW) felsefesine dayanır. Elecrow ve topluluk geliştiricileri kartın şematiklerini, malzeme listesini (BOM) ve PCB üretim için gerekli Gerber dosyalarını kamuya açık depolarında paylaşır. Kullanıcılar veya kurumlar afet hazırlığı kapsamında bu dosyaları indirip yerel PCB üreticilerinde kendi özel telsiz dongle'larını ürettirebilir veya devreye ek sensörler entegre edebilir.",
+        github: "meshtastic.org/docs/meshtasticd/hardware/radios/usb/meshtadpole",
+        infobox: {
+          "Lisans Türü": "CERN Open Hardware Licence (CERN-OHL) veya GPL",
+          "CAD Yazılımı": "KiCad EDA (Açık Kaynak Elektronik Tasarım Paketi)",
+          "Depo İçeriği": "Şematikler (.kicad_sch), PCB Çizimleri (.kicad_pcb), Gerber ve BOM",
+          "Üretim": "JLCPCB, PCBWay veya Elecrow PCB montaj servisleriyle doğrudan uyumlu"
+        },
+        seeAlso: ["meshtadpole-usb-lora-dongle", "meshadv-pi-dedicated-hat", "meshtasticd-native-daemon"]
+      },
+      {
+        id: "meshtadpole-meshtasticd-v265-support",
+        en: "meshtasticd v2.6.5+ Native MeshTadpole Hardware Driver Integration",
+        tr: "meshtasticd v2.6.5+ Yerel MeshTadpole Donanım Desteği",
+        category: "Yazılım & İstemciler",
+        lead: "`meshtasticd` yazılımının 2.6.5 sürümünden itibaren eklenen ve MeshTadpole dongle'ını takıldığı anda EEPROM üzerinden otomatik yapılandıran çekirdek sürücü yeteneği.",
+        details: "Eski sürümlerde CH341 tabanlı USB cihazlar için manuel SPI pin tanımları ve `config.yaml` düzenlemesi gerekirken, `meshtasticd` v2.6.5 ile birlikte tak-çalıştır altyapısı devreye girdi. Servis başlatıldığında USB cihazları taranır; MeshTadpole EEPROM imzası görüldüğü anda radyo frekansı, SX1262 pin haritası ve RF anahtarlama ayarları otomatik olarak belleğe yüklenir. Kullanıcının tek yapması gereken dongle'ı USB'ye takmak ve `systemctl start meshtasticd` demektir.",
+        github: "meshtastic.org/docs/meshtasticd/hardware/radios/usb/meshtadpole",
+        infobox: {
+          "Asgari Yazılım Sürümü": "meshtasticd >= 2.6.5",
+          "Özellik": "EEPROM Tabanlı Otomatik Donanım Eşleme (Auto-Detection)",
+          "Manuel Ayar İhtiyacı": "YOK (Zero Configuration / Plug-and-Play)",
+          "Geriye Uyumluluk": "Eski MeshStick donanımlarıyla da tam uyumlu"
+        },
+        seeAlso: ["meshtadpole-onboard-eeprom-autoconfig", "meshtasticd-native-daemon", "meshtasticd-config-yaml"]
+      },
+      {
+        id: "meshtadpole-portable-field-station",
+        en: "MeshTadpole Portable Field Laptop Base Station Architecture",
+        tr: "MeshTadpole Taşınabilir Sahra ve Dizüstü Baz İstasyonu Mimarisi",
+        category: "Yazılım & İstemciler",
+        lead: "Sahada çalışan arama-kurtarma ekiplerinin dizüstü bilgisayarlarının USB portuna MeshTadpole takarak anında şebekesiz kriz komuta merkezi oluşturma yöntemi.",
+        details: "Doğal afetlerde veya internetin çöktüğü tatbikatlarda AFAD/AKUT koordinatörleri sahra çadırında dizüstü bilgisayarlarına MeshTadpole takar. Bilgisayarda çalışan `meshtasticd` veya yerel Python istemcisi, telsizden gelen tim koordinatlarını alır ve yerel CalTopo Desktop veya ATAK haritasına canlı basar. Ekstra bir el telsizine veya Bluetooth eşleşmesine gerek kalmadan doğrudan bilgisayarın kendi pilinden beslenen bağımsız bir taktik terminal elde edilir.",
+        github: "meshtastic.org/docs/meshtasticd/hardware/radios/usb/meshtadpole",
+        infobox: {
+          "Kullanım Senaryosu": "Şebekesiz afet alanı, mobil sahra koordinasyon çadırı",
+          "Ana Donanım": "Standart Dizüstü Bilgisayar (Laptop / Toughbook) + MeshTadpole",
+          "Entegrasyonlar": "CalTopo Desktop, ATAK/CivTAK, Yerel WebUI, QGIS",
+          "Avantajı": "Harici batarya veya şarj kablosu olmadan laptop pilinden beslenme"
+        },
+        seeAlso: ["meshtadpole-usb-lora-dongle", "caltopo-desktop-edition", "atak-eud-tactical-deployment"]
       }
     ];
 

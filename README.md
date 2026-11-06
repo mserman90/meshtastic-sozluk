@@ -766,6 +766,18 @@ Meshtastic donanımını kontrol etmek, mesajlaşıp harita görüntülemek ve a
 - **Pine64 PineDio LoRa HAT Donanım Kısıtları (`pine64-pinedio-lora-hat-constraints`):** GPIO seviye dönüştürücü ve IRQ kesme kararsızlığına yönelik resmi uyarılar.
 - **meshtasticd I2C ve SPI Ekran Çevre Birimleri (`meshtasticd-i2c-spi-display-peripherals`):** SSD1306 OLED ve E-Paper ekranlarda canlı kanal ve düğüm telemetrisi gösterme.
 
+### 🎛️ MeshTadpole Açık Donanım USB LoRa Modemi (meshtastic.org/docs/meshtasticd/hardware/radios/usb/meshtadpole)
+- **MeshTadpole Açık Donanım USB LoRa Modemi (`meshtadpole-usb-lora-dongle`):** Elecrow üretimi, PC ve Raspberry Pi'ları anında telsiz düğümü yapan tak-çalıştır USB dongle.
+- **MeshTadpole Çift Port Yan Yana Kullanım (`meshtadpole-side-by-side-slim-form-factor`):** Komşu USB soketini tıkamayan ultra dar gövdeyle aynı anda çift frekans çalıştırma.
+- **MeshTadpole Yerleşik EEPROM ve Otomatik Yapılandırma (`meshtadpole-onboard-eeprom-autoconfig`):** 24C02 EEPROM ile `meshtasticd` tarafından takıldığı anda otomatik tanınma.
+- **MeshTadpole Standart SMA Dişi Anten Konnektörü (`meshtadpole-sma-antenna-coupling`):** Kart üzeri 50 Ohm SMA soketi ile çatı veya omni antenlere doğrudan bağlanma.
+- **MeshTadpole CH341 USB-SPI Köprüleme Modu (`meshtadpole-ch341-spi-bridge-mode`):** CH341 entegresinin SPI kipinde çalışarak SX1262 yazmaçlarını doğrudan sürmesi.
+- **MeshTadpole SX1262 ve TCXO Kristal Kararlılığı (`meshtadpole-sx1262-tcxo-stability`):** Aşırı sıcaklık değişimlerinde ±0.5 ppm toleransla frekans kaymasını sıfırlama.
+- **MeshTadpole Bölgesel Frekans Varyantları (`meshtadpole-dual-band-frequency-variants`):** Türkiye/AB için 868 MHz, ABD için 915 MHz fabrikasyon RF filtreli modeller.
+- **MeshTadpole Açık Donanım ve Gerber Tasarımı (`meshtadpole-open-hardware-gerber`):** KiCad çizimleri ve PCB üretim dosyalarının açık kaynak depolarında paylaşımı.
+- **meshtasticd v2.6.5+ Yerel MeshTadpole Sürücü Desteği (`meshtadpole-meshtasticd-v265-support`):** Sıfır manuel YAML konfigürasyonuyla tam tak-çalıştır Linux desteği.
+- **MeshTadpole Taşınabilir Sahra Baz İstasyonu (`meshtadpole-portable-field-station`):** Laptop pilinden beslenerek sahra çadırında internet olmadan CalTopo/ATAK harita merkezi kurma.
+
 ### 🔹 Açık Standart ve Tedarikçi Bağımsızlığı (Open Architecture & Vendor Neutrality)
 Meshtastic'in hiçbir tescilli ticari protokole veya tek bir donanım üreticisine bağımlı kalmamasını sağlayan açık kaynak ekosistem felsefesi (GPL-3.0 lisansı ve açık Protobuf şemaları). Semtech SX1262/SX1276/LR1121 telsizleri ile ESP32, nRF52840 ve RP2040 işlemcili onlarca farklı üreticinin (Heltec, LilyGO, RAKwireless) donanımları tam uyumla birlikte çalışabilir.
 
