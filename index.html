@@ -5438,6 +5438,166 @@
           "İşlev": "Dahili SPI NAND/NOR flaşı temizleme ve ham mPWRD-OS imajı yükleme"
         },
         seeAlso: ["mpwrd-os", "mpwrd-supported-sbc-platforms"]
+      },
+      {
+        id: "rockchip-rk3506-soc",
+        en: "Rockchip RK3506 Processor Architecture (Triple Cortex-A7 Industrial SoC)",
+        tr: "Rockchip RK3506 Yonga Mimarisi (Üç Çekirdekli Cortex-A7 Endüstriyel İşlemci)",
+        category: "Donanım & Modüller",
+        lead: "mPWRD-OS ve Linux tabanlı Meshtastic düğümlerinde yaygın olarak benimsenen, 3x ARM Cortex-A7 çekirdeği ve gerçek zamanlı Cortex-M0 mikrodenetleyicisi barındıran düşük güç tüketimli endüstriyel uygulama işlemcisi.",
+        details: "Rockchip RK3506 (RK3506G, RK3506B ve RK3506J varyantları); 1.2 GHz hızında çalışan üç çekirdekli Cortex-A7 mimarisi, dahili güç yönetim ünitesi (PMU), 3 adet bağımsız Ethernet MAC kontrolcüsü, CAN-FD, SPI ve GPIO hatlarıyla öne çıkar. Düşük rölanti güç tüketimi (<1W) sayesinde güneş enerjili sabit baz istasyonları ve çatı rölelerinde Raspberry Pi'ye kıyasla çok daha verimli ve ısınmayan bir Linux alternatifi sunar.",
+        github: "meshtastic.org/docs/software/mpwrd-os/board-support",
+        infobox: {
+          "Mimari": "3x ARM Cortex-A7 (1.2 GHz) + 1x Cortex-M0 MCU",
+          "Varyantlar": "RK3506G (Commercial), RK3506B (Wi-Fi Optimized), RK3506J (Industrial -40°C~85°C)",
+          "Ağ & Arayüz": "Triple Ethernet, SPI, I2C, CAN-FD, USB 2.0",
+          "Kullanım": "mPWRD-OS destekli Luckfox Lyra, EByte ve ForLinx kartları"
+        },
+        seeAlso: ["mpwrd-os", "luckfox-lyra-series", "ebyte-ecb41-pge", "meshtasticd-linux-daemon"]
+      },
+      {
+        id: "luckfox-lyra-series",
+        en: "Luckfox Lyra SBC Family (Lyra Plus, Lyra Ultra W, Lyra Zero W)",
+        tr: "Luckfox Lyra Tek Kartlı Bilgisayar Ailesi (Lyra Plus, Ultra W, Zero W)",
+        category: "Donanım & Modüller",
+        lead: "Rockchip RK3506 işlemcisi üzerine kurulu, mPWRD-OS ile tam uyumlu çalışan ve bağımsız Meshtastic düğümleri inşa etmek için optimize edilmiş açık donanımlı Linux tek kartlı bilgisayar ailesi.",
+        details: "Üç ana modeli bulunur: 1) **Lyra Plus:** Ethernet portlu ve Raspberry Pi Pico pin dizilimli model; Waveshare Pico-LoRa-SX1262 şapkaları doğrudan takılabilir. 2) **Lyra Ultra W:** Dahili Wi-Fi/Bluetooth modüllü, çift Ethernetli ve dahili eMMC depolamaya sahip amiral gemisi kart. 3) **Lyra Zero W:** Raspberry Pi Zero form faktöründe son derece kompakt, Wi-Fi özellikli ve düşük enerjili mobil/sabit düğüm kartı. mPWRD-OS üzerinde hazır donanım katmanlarıyla gelir.",
+        github: "meshtastic.org/docs/software/mpwrd-os/board-support",
+        infobox: {
+          "Modeller": "Lyra Plus, Lyra Ultra W, Lyra Zero W",
+          "İşlemci": "Rockchip RK3506G / RK3506B",
+          "Form Faktörler": "Pico uyumlu pin başlığı, Standart SBC, Pi Zero benzeri",
+          "mPWRD-OS Durumu": "Destekleniyor (Beta - meshtasticd entegre)"
+        },
+        seeAlso: ["rockchip-rk3506-soc", "waveshare-pico-lora-hat", "armbian-web-setup-hotspot", "mpwrd-os"]
+      },
+      {
+        id: "ebyte-ecb41-pge",
+        en: "EByte ECB41-PGE Industrial Carrier Board",
+        tr: "EByte ECB41-PGE Endüstriyel Ağ Geçidi Taşıyıcı Kartı",
+        category: "Donanım & Modüller",
+        lead: "Rockchip RK3506G yongası etrafında geliştirilmiş, PoE (Power over Ethernet) ve endüstriyel LoRa haberleşme ağ geçitleri kurmak için optimize edilmiş profesyonel SBC anakartı.",
+        details: "EByte tarafından üretilen bu kart; dahili Ethernet arayüzü, endüstriyel klemens bağlantıları, SPI LoRa modül yuvası ve harici anten konnektörleriyle donatılmıştır. mPWRD-OS çalıştırılmadan önce dahili NAND flaşının silinmesi ('Erase flash') gerekir. Ardından SD karttan boot edilerek Ethernet ve SSH üzerinden doğrudan yönetilen sabit bir kule/çatı rölesine dönüşür.",
+        github: "meshtastic.org/docs/software/mpwrd-os/board-support",
+        infobox: {
+          "İşlemci": "Rockchip RK3506G",
+          "Ağ Bağlantısı": "Kablolu RJ45 Ethernet (Opsiyonel PoE)",
+          "Hazırlık": "Dahili flaş silinmeli (Erase flash via rkdevtool)",
+          "Kullanım": "Endüstriyel Meshtastic IoT & MQTT ağ geçitleri"
+        },
+        seeAlso: ["rockchip-rk3506-soc", "onboard-flash-erase-procedure", "mpwrd-os"]
+      },
+      {
+        id: "forlinx-ok3506-s12",
+        en: "ForLinx OK3506-S12 Industrial Single Board Computer",
+        tr: "ForLinx OK3506-S12 Endüstriyel Tek Kartlı Bilgisayar",
+        category: "Donanım & Modüller",
+        lead: "Aşırı sıcaklık ve zorlu çevre koşullarına dayanıklı Rockchip RK3506J endüstriyel işlemcisiyle çalışan, mPWRD-OS destekli yüksek güvenilirlikli tek kartlı bilgisayar.",
+        details: "-40°C ile +85°C çalışma sıcaklığı aralığı sunan RK3506J yongasına sahiptir. Çift Ethernet, CAN haberleşmesi ve zengin GPIO pinleriyle zorlu dağ zirvesi röleleri, askeri veya sivil savunma taktik haberleşme merkezleri için tasarlanmıştır. mPWRD-OS kurulumu öncesinde dahili flaş hafızasının silinmesi gerekir; kurulum sonrası SSH ve meshtasticd üzerinden Ethernet üzerinden yönetilir.",
+        github: "meshtastic.org/docs/software/mpwrd-os/board-support",
+        infobox: {
+          "İşlemci": "Rockchip RK3506J (Endüstriyel sınıf)",
+          "Çalışma Sıcaklığı": "-40°C ~ +85°C",
+          "Arayüzler": "Çift Ethernet, RS485, CAN-FD, SPI LoRa arayüzü",
+          "mPWRD-OS Kurulumu": "Erase Flash + Ethernet SSH Yapılandırması"
+        },
+        seeAlso: ["rockchip-rk3506-soc", "onboard-flash-erase-procedure", "mpwrd-os"]
+      },
+      {
+        id: "luckfox-pico-rv1106-rv1103",
+        en: "Luckfox Pico Series (RV1106 & RV1103 Embedded Linux Modules)",
+        tr: "Luckfox Pico Serisi (RV1106 & RV1103 Gömülü Linux Modülleri)",
+        category: "Donanım & Modüller",
+        lead: "Rockchip RV1106 ve RV1103 mikro yongaları üzerine inşa edilmiş, madeni para boyutunda ve birkaç saniyede boot eden ultra kompakt gömülü Linux Meshtastic modülleri.",
+        details: "Luckfox Pico Mini (RV1103G) ve Pico Max (RV1106G); ARM Cortex-A7 çekirdeğinin yanı sıra entegre RISC-V çekirdeği ve 0.5/1.0 TOPS NPU barındırır. Son derece düşük enerji harcar ve doğrudan SPI LoRa modülü lehimlenerek veya mini genişleme kartlarıyla çalıştırılır. mPWRD-OS ekosisteminde taşınabilir mikro baz istasyonları ve pilli saha cihazları için desteklenmektedir.",
+        github: "meshtastic.org/docs/software/mpwrd-os/board-support",
+        infobox: {
+          "Yongalar": "RV1106G (Pico Max) / RV1103G (Pico Mini)",
+          "Mimari": "ARM Cortex-A7 (1.2 GHz) + RISC-V Co-processor + NPU",
+          "Boyut": "Ultra kompakt (Raspberry Pi Pico benzeri modül)",
+          "Özellik": "Hızlı önyükleme (fast-boot) ve çok düşük bekleme akımı"
+        },
+        seeAlso: ["luckfox-lyra-series", "onioniot-omega4", "mpwrd-os"]
+      },
+      {
+        id: "onioniot-omega4",
+        en: "OnionIOT Omega4 Compact Linux SBC (RV1103B Planned Support)",
+        tr: "OnionIOT Omega4 Kompakt Linux Kartı (RV1103B Planlanan Destek)",
+        category: "Donanım & Modüller",
+        lead: "Onion IoT tarafından geliştirilen, Rockchip RV1103B işlemcili ve mPWRD-OS yol haritasında desteği planlanan yeni nesil modüler minyatür Linux IoT kartı.",
+        details: "Gömülü IoT projeleri ve açık kaynak telsiz altyapıları için geliştirilen Onion Omega serisinin en son üyesidir. RV1103B mikro işlemcisi sayesinde Linux çekirdeğini ve meshtasticd arka plan servisini minik bir ayak izi içinde koşturabilir. Kablolu Ethernet ve modüler genişleme pinleriyle kompakt taktik mesh cihazları kurmayı hedefler.",
+        github: "meshtastic.org/docs/software/mpwrd-os/board-support",
+        infobox: {
+          "Üretici": "Onion Corporation (OnionIOT)",
+          "İşlemci": "Rockchip RV1103B",
+          "Durum": "mPWRD-OS Yol Haritasında (Planned / Todo)",
+          "Öne Çıkan": "Kompakt modüler tak-çalıştır IoT mimarisi"
+        },
+        seeAlso: ["luckfox-pico-rv1106-rv1103", "mpwrd-os", "mpwrd-supported-sbc-platforms"]
+      },
+      {
+        id: "onboard-flash-erase-procedure",
+        en: "Onboard Flash Erase Procedure (Clearing Factory SPI NAND/NOR)",
+        tr: "Dahili Flaş Temizleme Prosedürü (Fabrika SPI NAND/NOR Sıfırlama)",
+        category: "Donanım & Modüller",
+        lead: "Rockchip tabanlı kartlarda (Luckfox Lyra, EByte, ForLinx) fabrika çıkışı yüklü gelen dahili işletim sisteminin mPWRD-OS önyükleme sürecini engellememesi için uygulanan kritik hafıza temizleme adımı.",
+        details: "Pek çok Rockchip SBC kartı üreticisi, kartın üzerindeki SPI NAND veya NOR flaş çipine kendi özel Buildroot/Linux yazılımını yükler. Kart Maskrom moduna alınmadan veya bu flaş silinmeden SD karta mPWRD-OS yazılsa dahi işlemci öncelikle dahili flaştan boot etmeye çalışır ve sistem kilitlenir. 'rkdevtool' üzerinden 'Erase All Blocks' çalıştırılarak veya Meshtastic Flasher ile dahili flaş sıfırlanır, böylece kart doğrudan mPWRD-OS içeren SD karttan sorunsuz başlar.",
+        github: "meshtastic.org/docs/software/mpwrd-os/rockchip-flashing",
+        infobox: {
+          "Gerekli Olduğu Kartlar": "EByte ECB41-PGE, Lyra Plus, Lyra Zero W, OK3506",
+          "Yöntem": "Maskrom modunda 'Erase All Blocks' komutu",
+          "Kullanılan Araçlar": "rkdevtool, upgrade_tool, Meshtastic Web Flasher",
+          "Amaç": "Önyükleme çakışmasını önleyerek SD karttan mPWRD-OS boot ettirme"
+        },
+        seeAlso: ["rockchip-maskrom-rkdevtool", "luckfox-lyra-series", "emmc-direct-flashing-mpwrd"]
+      },
+      {
+        id: "emmc-direct-flashing-mpwrd",
+        en: "Direct eMMC Flashing Procedure (Luckfox Lyra Ultra W)",
+        tr: "Dahili eMMC Belleğe mPWRD-OS Yazma Prosedürü",
+        category: "Donanım & Modüller",
+        lead: "Luckfox Lyra Ultra W gibi harici SD kart yerine yüksek hızlı dahili eMMC çipi barındıran kartlara mPWRD-OS işletim sistemi imajının doğrudan yazılması işlemi.",
+        details: "SD kartların zamanla bozulma veya gevşeme riskine karşı, endüstriyel eMMC bellekler çok daha yüksek okuma/yazma döngüsü ve mekanik dayanıklılık sunar. Kart üzerindeki 'BOOT' butonuna basılı tutularak USB Type-C kablosuyla bilgisayara bağlanır ve Maskrom moduna sokulur. Windows'ta rkdevtool veya Linux'ta rkdeveloptool kullanılarak parça imajları (Loader, Parameter, Boot, Rootfs) doğrudan eMMC bloklarına yazılır. Bu sayede harici SD karta gerek kalmadan kart bağımsız olarak boot eder.",
+        github: "meshtastic.org/docs/software/mpwrd-os/rockchip-flashing",
+        infobox: {
+          "Uygulandığı Kart": "Luckfox Lyra Ultra W (RK3506B + eMMC)",
+          "Depolama Türü": "Dahili eMMC (Embedded MultiMediaCard)",
+          "Prosedür": "Maskrom Modu -> rkdevtool -> Write to eMMC",
+          "Avantaj": "SD kartsız çalışma, yüksek sarsıntı ve sıcaklık dayanımı"
+        },
+        seeAlso: ["luckfox-lyra-series", "onboard-flash-erase-procedure", "rockchip-maskrom-rkdevtool"]
+      },
+      {
+        id: "waveshare-pico-lora-hat",
+        en: "Waveshare Pico-LoRa-SX1262 HAT (Lyra Plus Compatibility)",
+        tr: "Waveshare Pico-LoRa-SX1262 Şapkası (Lyra Plus Entegrasyonu)",
+        category: "Donanım & Modüller",
+        lead: "Raspberry Pi Pico pin standardını kullanan ve Luckfox Lyra Plus gibi kartlara doğrudan lehim veya başlık (header) ile takılarak sıfır yapılandırmayla çalışan SX1262 LoRa eklenti kartı.",
+        details: "868 MHz / 915 MHz frekans bantlarında Semtech SX1262 alıcı-vericisi barındırır. Lyra Plus kartı doğrudan Raspberry Pi Pico pin rozetine sahip olduğu için bu şapka mekanik ve elektriksel olarak doğrudan kartın üzerine oturur. mPWRD-OS içerisinde Lyra Plus için bu şapkanın SPI ve GPIO pin tanımları (`config.yaml`) fabrikasyon olarak önceden entegre edilmiştir; kullanıcı ekstra pin yapılandırması yapmadan düğümü anında devreye alabilir.",
+        github: "meshtastic.org/docs/software/mpwrd-os/board-support",
+        infobox: {
+          "Telsiz Entegresi": "Semtech SX1262 (RF Switch + TCXO)",
+          "Pin Standardı": "Raspberry Pi Pico 40-pin GPIO dizilimi",
+          "Uyumlu SBC": "Luckfox Lyra Plus (Tak-Çalıştır / Out-of-the-box)",
+          "Kazanç / Çıkış": "22 dBm (160 mW) azami RF çıkış gücü"
+        },
+        seeAlso: ["luckfox-lyra-series", "sbc-lora-hat-configuration", "sx1262-transceiver"]
+      },
+      {
+        id: "bcm2711-armbian-mpwrd",
+        en: "BCM2711 ARM64 mPWRD-OS Support (Raspberry Pi 4 / 5 / Zero 2 W)",
+        tr: "BCM2711 ARM64 mPWRD-OS Desteği (Raspberry Pi 4 / 5 / Zero 2 W)",
+        category: "Donanım & Modüller",
+        lead: "Raspberry Pi'nin 64-bit Broadcom işlemcili modellerinde mPWRD-OS'un sıfır donanım hazırlığı gerektirmeden, doğrudan SD karta yazılarak ve Bluetooth ile kurularak çalışmasını sağlayan resmi destek katmanı.",
+        details: "Broadcom BCM2711 (Pi 4, Compute Module 4) ve BCM2710A1 (Pi Zero 2 W) işlemcilerini tam 64-bit Armbian çekirdeğiyle çalıştırır. Rockchip kartlarının aksine dahili flaş silme ('Erase flash') veya Maskrom adımları gerektirmez. İmaj Raspberry Pi Imager veya Etcher ile microSD karta yazılır ve karta enerji verildiğinde dahili Wi-Fi ve Bluetooth açılır. `nymea-networkmanager` üzerinden Meshtastic Flasher veya mobil cihazla saniyeler içinde ağa bağlanır.",
+        github: "meshtastic.org/docs/software/mpwrd-os/board-support",
+        infobox: {
+          "İşlemciler": "Broadcom BCM2711, BCM2712, BCM2710A1 (ARM64)",
+          "Desteklenen Kartlar": "Raspberry Pi 4, Pi 5, Pi Zero 2 W, CM4, CM5",
+          "Ön Hazırlık": "Gerektirmez (Doğrudan SD karta yaz ve başlat)",
+          "Ağ Kurulumu": "Ethernet veya Bluetooth BLE (nymea)"
+        },
+        seeAlso: ["mpwrd-os", "nymea-ble-provisioning", "meshtasticd-linux-daemon"]
       }
     ];
 
