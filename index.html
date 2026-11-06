@@ -9920,6 +9920,166 @@
           "Topluluk Değeri": "Geliştirici ekibinin test yükünü hafifleten en kritik gönüllü rol"
         },
         seeAlso: ["pr-acceptance-best-practices", "developer-contributor-workflow", "discord-collaborative-governance"]
+      },
+      {
+        id: "http-api-embedded-rest-spec",
+        en: "Meshtastic Embedded HTTP REST API Specification",
+        tr: "Meshtastic Gömülü HTTP REST API Spesifikasyonu",
+        category: "Ağ & Protokol",
+        lead: "ESP32 gibi Wi-Fi/Ethernet özellikli telsiz cihazlarında çalışan ve tarayıcı tabanlı istemcilerin cihazla doğrudan ağ üzerinden konuşmasını sağlayan hafif HTTP arayüzü.",
+        details: "Meshtastic cihazları, Bluetooth veya Seri kablo olmadan doğrudan yerel Wi-Fi ağı üzerinden kontrol edilebilmek için yerleşik bir HTTP sunucusuna sahiptir. Bu spesifikasyon, istemcilerin minimum ağ yükü ve donanım zorlanmasıyla cihazı yönetebilmesini amaçlar. REST mimarisini takip eden sunucu, GET ve PUT isteklerini doğrudan binary Protobuf yükleriyle işleyerek kısıtlı MCU kaynaklarında yüksek verim sağlar.",
+        github: "meshtastic.org/docs/development/device/http-api",
+        infobox: {
+          "Protokol": "HTTP / HTTPS (ESP32 self-signed SSL desteği)",
+          "Uyumlu Yonga Setleri": "ESP32, ESP32-S3 (Wi-Fi/Ethernet donanımlı kartlar)",
+          "Temel Uç Noktalar": "/api/v1/toradio & /api/v1/fromradio",
+          "Kullanım Senaryosu": "Ev ağındaki telsizi web tarayıcısı üzerinden kablosuz yönetme"
+        },
+        seeAlso: ["http-api-binary-protobuf-payload", "http-api-toradio-endpoint", "http-api-fromradio-endpoint"]
+      },
+      {
+        id: "http-api-binary-protobuf-payload",
+        en: "HTTP API Binary Protocol Buffers Payload Standard",
+        tr: "HTTP API İkili Protobuf Veri Yükü Standardı",
+        category: "Ağ & Protokol",
+        lead: "HTTP REST istek ve yanıtlarında JSON yerine Content-Type: application/x-protobuf kullanılarak mikrodenetleyici üzerindeki ayrıştırma yükünü sıfırlama yöntemi.",
+        details: "Gömülü sistemlerde metin tabanlı JSON ayrıştırma (parsing) yoğun RAM ve CPU tüketir; ayrıca bellek parçalanmasına (fragmentation) neden olabilir. Meshtastic HTTP API'si tüm istek ve yanıtlarda `Content-Type: application/x-protobuf` başlığıyla doğrudan ikili serileştirilmiş Protobuf paketlerini taşır. Bu sayede cihaz, diğer iletim kanallarında (Bluetooth/Seri) kullandığı aynı Protobuf motorunu sıfır ek yükle HTTP üzerinde de çalıştırır.",
+        github: "meshtastic.org/docs/development/device/http-api",
+        infobox: {
+          "İçerik Başlığı": "Content-Type: application/x-protobuf",
+          "Neden Protobuf": "Gömülü MCU'da JSON parser gerektirmez, ultra kompakttır",
+          "Geriye Uyumluluk": "Alan numaralarıyla tam geriye ve ileriye dönük uyumluluk",
+          "Veri Biçimi": "Saf binary (ikili) Protobuf akışı"
+        },
+        seeAlso: ["http-api-embedded-rest-spec", "http-api-x-protobuf-schema-header", "client-api-protobuf-bridge"]
+      },
+      {
+        id: "http-api-toradio-endpoint",
+        en: "HTTP API /api/v1/toradio Endpoint",
+        tr: "HTTP API /api/v1/toradio Uç Noktası",
+        category: "Ağ & Protokol",
+        lead: "İstemcilerin telsiz cihazına komut, kanal yapılandırması veya kısa mesaj göndermek için kullandığı binary PUT uç noktası.",
+        details: "Bu uç nokta `PUT` ve `OPTIONS` isteklerini kabul eder. İstemci, gövdesinde ikili formatta tek bir `ToRadio` protobuf paketi içeren bir HTTP PUT isteği gönderir. Telsiz isteği aldığında paketi çözer, telsiz kuyruğuna ekler ve başarıyla işler. Tarayıcıların çapraz kaynak (CORS) denetimleri için gönderdiği `OPTIONS` isteklerine ise sunucu `204 No Content` yanıt kodu ve CORS başlıklarıyla anında karşılık verir.",
+        github: "meshtastic.org/docs/development/device/http-api",
+        infobox: {
+          "Uç Nokta": "/api/v1/toradio",
+          "Desteklenen Metotlar": "PUT, OPTIONS",
+          "Beklenen Paket": "ToRadio protobuf binary yükü (istek başına tek mesaj)",
+          "OPTIONS Yanıtı": "HTTP 204 No Content (CORS başlıkları ile)"
+        },
+        seeAlso: ["http-api-fromradio-endpoint", "http-api-binary-protobuf-payload", "meshtastic-js-http-transport"]
+      },
+      {
+        id: "http-api-fromradio-endpoint",
+        en: "HTTP API /api/v1/fromradio Endpoint",
+        tr: "HTTP API /api/v1/fromradio Uç Noktası",
+        category: "Ağ & Protokol",
+        lead: "Telsizden istemciye yönelen telemetri, gelen mesajlar ve durum bildirimlerini çekmek için kullanılan ana HTTP GET uç noktası.",
+        details: "İstemciler `/api/v1/fromradio` adresine bir HTTP GET isteği gönderdiğinde, sunucu dahili `FromRadio` mesaj kuyruğundaki bekleyen ikili protobuf paketlerini yanıt gövdesinde döndürür. Bu uç nokta sorgu parametreleriyle esnek veri çekim modellerini (`all` ve `chunked`) destekleyerek hem periyodik yoklama (polling) hem de akış (streaming) yapılarına olanak tanır.",
+        github: "meshtastic.org/docs/development/device/http-api",
+        infobox: {
+          "Uç Nokta": "/api/v1/fromradio",
+          "Desteklenen Metot": "GET",
+          "Dönen Paket": "FromRadio protobuf binary yükü",
+          "Sorgu Parametreleri": "?all=true/false, ?chunked=true/false"
+        },
+        seeAlso: ["http-api-toradio-endpoint", "http-api-fromradio-all-parameter", "http-api-chunked-streaming-mode"]
+      },
+      {
+        id: "http-api-fromradio-all-parameter",
+        en: "HTTP API all Query Parameter for Queue Draining",
+        tr: "HTTP API all Sorgu Parametresi ile Kuyruk Boşaltma",
+        category: "Ağ & Protokol",
+        lead: "/api/v1/fromradio uç noktasında tek bir paket yerine birikmiş tüm paketlerin tek seferde çekilmesini denetleyen boolean parametre.",
+        details: "`all=false` (varsayılan) olduğunda, sunucu kuyruktan yalnızca bir adet `FromRadio` paketi döndürür; istemci sonraki paketler için tekrar istek atmalıdır. `all=true` parametresi geçildiğinde ise sunucu o anki istemci oturumu için bellekte birikmiş tüm mevcut protobuf paketlerini tek bir HTTP yanıt gövdesinde ardışık ikili akış olarak istemciye iletir; bu işlem ağ gecikmesini ve HTTP el sıkışma sayısını ciddi oranda azaltır.",
+        github: "meshtastic.org/docs/development/device/http-api",
+        infobox: {
+          "Parametre": "/api/v1/fromradio?all=true|false",
+          "all=false (Varsayılan)": "Yalnızca en öndeki 1 adet protobuf paketi döner",
+          "all=true": "Kuyruktaki tüm bekleyen paketler tek yanıtta toplu döner",
+          "Faydası": "Ağ yoklama trafiğini ve HTTP başlık yükünü minimize etme"
+        },
+        seeAlso: ["http-api-fromradio-endpoint", "http-api-chunked-streaming-mode", "meshtastic-js-http-transport"]
+      },
+      {
+        id: "http-api-chunked-streaming-mode",
+        en: "HTTP API Chunked Transfer Streaming Mode",
+        tr: "HTTP API Chunked Transfer Akış Tabanlı Dinleme Kipi",
+        category: "Ağ & Protokol",
+        lead: "İstemcinin periyodik HTTP yoklaması yapmak yerine tek bir bağlantıyı açık tutarak telsizden gelen paketleri anında dinlemesini sağlayan akış mimarisi.",
+        details: "Geleneksel polling mimarisinde istemci her birkaç saniyede bir GET isteği yapar; bu hem ağda gereksiz trafik yaratır hem de paketlerin istemciye ulaşmasında gecikmeye yol açar. `/api/v1/fromradio?chunked=true` parametresiyle açılan bağlantıda sunucu `Transfer-Encoding: chunked` başlığını kullanır ve TCP soketini kapatmaz. Telsiz anteninden yeni bir paket alındığı anda sunucu bunu anında açık bağlantı üzerinden bir chunk olarak istemciye iletir.",
+        github: "meshtastic.org/docs/development/device/http-api",
+        infobox: {
+          "Parametre": "/api/v1/fromradio?chunked=true",
+          "HTTP Başlığı": "Transfer-Encoding: chunked",
+          "Çalışma Prensibi": "Bağlantıyı açık tutarak olay güdümlü anlık paket aktarımı",
+          "Avantajı": "Sıfır yoklama gecikmesi ve düşük enerji/bant genişliği sarfiyatı"
+        },
+        seeAlso: ["http-api-fromradio-endpoint", "http-api-fromradio-all-parameter", "meshtastic-js-http-transport"]
+      },
+      {
+        id: "http-api-x-protobuf-schema-header",
+        en: "HTTP API X-Protobuf-Schema Response Header",
+        tr: "HTTP API X-Protobuf-Schema Yanıt Başlığı",
+        category: "Ağ & Protokol",
+        lead: "HTTP sunucusu tarafından dönülen ikili verinin hangi Protobuf şeması ve alan tanımlarıyla çözümlenebileceğini belirten meta-veri başlığı.",
+        details: "HTTP yanıtlarında yer alan `X-Protobuf-Schema: <URI to the .proto schema file>` başlığı, istemcinin aldığı ikili bayt dizisini doğru `.proto` tanımlarıyla eşleştirmesini sağlar. Zorunlu olmamakla birlikte, API keşfi (reflection), otomatik kod üretimi ve üçüncü taraf geliştiricilerin hata ayıklama süreçlerinde hangi firmware Protobuf şeması sürümünün devrede olduğunu anlamalarını kolaylaştırır.",
+        github: "meshtastic.org/docs/development/device/http-api",
+        infobox: {
+          "Başlık Adı": "X-Protobuf-Schema",
+          "Örnek Değer": "https://raw.githubusercontent.com/meshtastic/protobufs/master/meshtastic/mesh.proto",
+          "İşlev": "İstemciye dönen ikili verinin resmi şema URI bağlantısını bildirme",
+          "Kullanım Alanı": "Dokümantasyon, otomatik ayrıştırma ve yansıma (reflection)"
+        },
+        seeAlso: ["http-api-binary-protobuf-payload", "http-api-embedded-rest-spec", "protoman-http-testing-tool"]
+      },
+      {
+        id: "http-api-network-trust-model",
+        en: "Meshtastic HTTP API Network-Level Trust Model",
+        tr: "Meshtastic HTTP API Ağ Düzeyinde Güven Modeli",
+        category: "Ağ & Protokol",
+        lead: "Gömülü HTTP sunucusunda kullanıcı adı ve şifre doğrulaması yerine yerel Wi-Fi veya Ethernet ağına fiziksel erişimi güven temeli kabul eden yetkilendirme modeli.",
+        details: "Meshtastic HTTP API spesifikasyonunda kullanıcı bazlı kimlik doğrulama (basic auth, JWT vb.) bulunmaz. Bu tasarım kararı, kısıtlı mikrodenetleyici belleğini korumak ve ev/afet ağlarındaki acil durum erişimini engellememek için alınmıştır. Telsizin bağlı olduğu Wi-Fi ağına (WPA2/WPA3 parolasıyla) erişebilen herhangi bir istemci güvenilir kabul edilir. Ek güvenlik için ESP32 üzerinde HTTPS (öz-imzalı SSL sertifikası) desteklenir.",
+        github: "meshtastic.org/docs/development/device/http-api",
+        infobox: {
+          "Yetkilendirme": "Kullanıcı adı/şifre yok (Ağ düzeyinde erişim güveni)",
+          "Gerekçe": "MCU bellek tasarrufu ve acil afet anında engelsiz yerel erişim",
+          "Şifreleme Desteği": "ESP32 üzerinde yerleşik HTTPS / TLS desteği",
+          "Güvenlik Tavsiyesi": "Telsizi güvenli bir yerel WPA2/WPA3 Wi-Fi ağına bağlamak"
+        },
+        seeAlso: ["http-api-embedded-rest-spec", "http-api-toradio-endpoint", "protoman-http-testing-tool"]
+      },
+      {
+        id: "meshtastic-js-http-transport",
+        en: "meshtastic.js HTTP Client Transport Layer",
+        tr: "meshtastic.js HTTP İstemci İletim Katmanı",
+        category: "Yazılım & İstemciler",
+        lead: "Web tarayıcılarında çalışan resmi JavaScript kütüphanesinin HTTP API üzerinden telsizle konuşmasını sağlayan soyutlama sınıfı.",
+        details: "`meshtastic.js` kütüphanesi, geliştiricilerin düşük seviyeli HTTP PUT/GET ve ikili Protobuf ayrıştırma detaylarıyla uğraşmasını önler. Kütüphane dahili olarak `/api/v1/toradio` ve `/api/v1/fromradio` uç noktalarını yönetir. Geliştiriciye `sendToRadio(packet)` ve `onFromRadio(callback)` şeklinde temiz iki ana metot sunar; böylece geliştiriciler web uygulamalarından tek satır kodla telsize paket gönderebilir ve gelen mesajları anında yakalayabilir.",
+        github: "meshtastic.org/docs/development/device/http-api",
+        infobox: {
+          "Kütüphane": "github.com/meshtastic/meshtastic.js",
+          "Temel Görev": "HTTP REST ve Protobuf boru hattını üst seviye JS API'siyle soyutlama",
+          "Ana Gönderme Metodu": "sendToRadio(packet)",
+          "Ana Dinleme Metodu": "onFromRadio(callback)"
+        },
+        seeAlso: ["http-api-toradio-endpoint", "http-api-fromradio-endpoint", "client-api-protobuf-bridge"]
+      },
+      {
+        id: "protoman-http-testing-tool",
+        en: "Protoman GUI Tool for Meshtastic REST Protobuf Testing",
+        tr: "Protoman ile Meshtastic REST Protobuf Test ve Hata Ayıklama",
+        category: "Yazılım & İstemciler",
+        lead: "Postman benzeri grafiksel arayüzle Meshtastic HTTP API'sine doğrudan ikili Protobuf istekleri göndermeyi ve yanıtları görselleştirmeyi sağlayan geliştirici aracı.",
+        details: "Standart API test araçları (Postman, cURL) ikili Protobuf gövdelerini kolayca oluşturup çözümleyemez. `Protoman` (github.com/spluxx/Protoman), Meshtastic `.proto` şemalarını doğrudan içe aktararak form alanlarından dinamik olarak `ToRadio` ikili paketleri üretir ve `/api/v1/toradio` adresine PUT istekleri atabilir. Aynı zamanda `/api/v1/fromradio` adresinden dönen ikili baytları anında okunabilir JSON formatında ekranda görselleştirir.",
+        github: "meshtastic.org/docs/development/device/http-api",
+        infobox: {
+          "Araç": "Protoman (Açık kaynak Protobuf REST İstemcisi)",
+          "Bağlantı": "github.com/spluxx/Protoman",
+          "Özellik": "Meshtastic .proto şemalarını doğrudan yükleyip binary PUT/GET yapabilme",
+          "Kullanım Amacı": "Firmware HTTP API uç noktalarını kod yazmadan manuel doğrulama"
+        },
+        seeAlso: ["http-api-embedded-rest-spec", "http-api-binary-protobuf-payload", "http-api-x-protobuf-schema-header"]
       }
     ];
 

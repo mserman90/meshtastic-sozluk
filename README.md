@@ -814,6 +814,18 @@ Meshtastic donanımını kontrol etmek, mesajlaşıp harita görüntülemek ve a
 - **Meshtastic Çapraz Platform İstemci Matrisi (`cross-platform-client-matrix`):** Android Kotlin, Apple Swift, Web Client, Python CLI ve Linux meshtasticd ekosisteminin tam uyumu.
 - **Meshtastic Katkıcı Eş İnceleme ve Güven İnşa Kültürü (`contributor-peer-review-culture`):** Açık PR'ları farklı telsiz kartlarında test ederek topluluk içinde hızlı güven ve itibar kazanma.
 
+### 🌐 Meshtastic Gömülü HTTP REST API Spesifikasyonu (meshtastic.org/docs/development/device/http-api)
+- **Meshtastic Gömülü HTTP REST API Spesifikasyonu (`http-api-embedded-rest-spec`):** Wi-Fi/Ethernet özellikli kartlarda çalışan doğrudan yerel ağ üzerinden tarayıcı telsiz yönetimi.
+- **HTTP API İkili Protobuf Veri Yükü Standardı (`http-api-binary-protobuf-payload`):** `application/x-protobuf` başlığıyla mikrodenetleyicide JSON parser yükünü sıfırlama.
+- **HTTP API /api/v1/toradio Uç Noktası (`http-api-toradio-endpoint`):** Telsize komut ve kısa mesaj göndermek için ikili `ToRadio` paketi alan PUT ve CORS OPTIONS uç noktası.
+- **HTTP API /api/v1/fromradio Uç Noktası (`http-api-fromradio-endpoint`):** Telsizden gelen telemetri ve mesaj paketlerini ikili `FromRadio` formatında çeken ana okuma arayüzü.
+- **HTTP API all Sorgu Parametresi ile Kuyruk Boşaltma (`http-api-fromradio-all-parameter`):** `all=true` ile bellekte birikmiş tüm paketleri tek bir HTTP yanıtında toplu çekme.
+- **HTTP API Chunked Transfer Akış Tabanlı Dinleme Kipi (`http-api-chunked-streaming-mode`):** `chunked=true` ile HTTP bağlantısını açık tutarak telsizden gelen paketleri anında akışla alma.
+- **HTTP API X-Protobuf-Schema Yanıt Başlığı (`http-api-x-protobuf-schema-header`):** Dönen ikili baytların çözümleneceği resmi `.proto` şema dosya adresini bildiren başlık.
+- **Meshtastic HTTP API Ağ Düzeyinde Güven Modeli (`http-api-network-trust-model`):** Şifre yerine yerel ağ (Wi-Fi/Ethernet) fiziksel erişimini yetkilendirme temeli kabul eden yapı.
+- **meshtastic.js HTTP İstemci İletim Katmanı (`meshtastic-js-http-transport`):** Web tarayıcılarında `sendToRadio` ve `onFromRadio` metotlarıyla HTTP/Protobuf katmanını soyutlama.
+- **Protoman ile Meshtastic REST Protobuf Test ve Hata Ayıklama (`protoman-http-testing-tool`):** Postman benzeri arayüzle `.proto` şemaları üzerinden binary PUT/GET testleri yapma.
+
 ### 🔹 Açık Standart ve Tedarikçi Bağımsızlığı (Open Architecture & Vendor Neutrality)
 Meshtastic'in hiçbir tescilli ticari protokole veya tek bir donanım üreticisine bağımlı kalmamasını sağlayan açık kaynak ekosistem felsefesi (GPL-3.0 lisansı ve açık Protobuf şemaları). Semtech SX1262/SX1276/LR1121 telsizleri ile ESP32, nRF52840 ve RP2040 işlemcili onlarca farklı üreticinin (Heltec, LilyGO, RAKwireless) donanımları tam uyumla birlikte çalışabilir.
 
