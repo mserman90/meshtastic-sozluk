@@ -7519,6 +7519,166 @@
           "Özellik": "İnternet dünyası ile telsiz dünyası arasında çift yönlü köprü"
         },
         seeAlso: ["paho-mqtt-python-client", "mqtt-bidirectional-ping-pong", "node-red-flow-integration"]
+      },
+      {
+        id: "nodered-meshtastic-integration-architecture",
+        en: "Node-RED Meshtastic Integration Architecture (Three Ingestion Approaches)",
+        tr: "Node-RED Meshtastic Entegrasyon Mimarisi (Üç Veri İşleme Yaklaşımı)",
+        category: "Yazılım & İstemciler",
+        lead: "Node-RED akış platformunun Meshtastic telsiz ağlarına bağlanması için sunulan üç temel mimari: Cihaz içi JSON, özel Meshtastic eklentisi ve harici Protobuf şema çözümleme.",
+        details: "IBM tarafından IoT için geliştirilen Node-RED, blok tabanlı görsel akışlarla donanım, API ve bulut servislerini birbirine bağlar. Meshtastic dokümantasyonu üç farklı tasarım deseni tanımlar: 1) ESP32/Linux cihaz üzerinde JSON çıktısını açıp doğrudan `msh/.../json` konularını dinlemek, 2) `@meshtastic/node-red-contrib-meshtastic` resmi eklentisini kullanmak, 3) Düşük güçlü nRF52 telsizlerinde cihazı yormamak için ham ikili Protobuf paketlerini `.proto` şemalarıyla Node-RED sunucusunda harici olarak çözmek (off-device decoding).",
+        github: "meshtastic.org/docs/software/integrations/mqtt/nodered",
+        infobox: {
+          "Platform": "Node-RED (Node.js tabanlı görsel IoT akış motoru)",
+          "Yaklaşım 1": "Cihaz İçi JSON (ESP32/Linux uyumlu)",
+          "Yaklaşım 2": "Resmi Node-RED Meshtastic Eklentisi",
+          "Yaklaşım 3": "Harici .proto Şemalarıyla Protobuf Çözümleme (nRF52 uyumlu)"
+        },
+        seeAlso: ["nodered-contrib-meshtastic-node", "off-device-protobuf-schema-decoding", "node-red-flow-integration"]
+      },
+      {
+        id: "nodered-contrib-meshtastic-node",
+        en: "Node-RED Meshtastic Contrib Plugin (@meshtastic/node-red-contrib-meshtastic)",
+        tr: "Node-RED Resmi Meshtastic Eklentisi (@meshtastic/node-red-contrib-meshtastic)",
+        category: "Yazılım & İstemciler",
+        lead: "Node-RED paletine eklenerek MQTT üzerinden gelen ham Meshtastic paketlerini otomatik ayrıştıran resmi açık kaynak düğüm eklentisi.",
+        details: "`npm install @meshtastic/node-red-contrib-meshtastic` komutuyla veya Node-RED Palet Yöneticisi üzerinden kurulur. Akışa sürükle-bırak ile eklenen bu düğüm, broker'dan gelen ikili `ServiceEnvelope` yükünü alır; kanal anahtarını çözerek `MeshPacket` içindeki metin, konum, telemetri veya düğüm bilgisi yüklerini standart JavaScript nesnelerine (`msg.payload`) dönüştürür. Geliştiriciyi karmaşık Protobuf derleme veya harici kütüphane bağımlılıklarından kurtarır.",
+        github: "meshtastic.org/docs/software/integrations/mqtt/nodered",
+        infobox: {
+          "Paket": "@meshtastic/node-red-contrib-meshtastic",
+          "Kurulum": "Node-RED Palette Manager veya npm",
+          "İşlev": "Otomatik Protobuf çözme ve Meshtastic olay nesnesine dönüştürme",
+          "Çıktı": "Ayrıştırılmış JSON veri nesnesi (msg.payload)"
+        },
+        seeAlso: ["nodered-meshtastic-integration-architecture", "serviceenvelope-protobuf-wrapper", "nodered-contrib-protobuf-decoder"]
+      },
+      {
+        id: "nodered-contrib-aedes-broker",
+        en: "Node-RED Embedded Aedes MQTT Broker (node-red-contrib-aedes)",
+        tr: "Node-RED Yerleşik Aedes MQTT Broker Düğümü (node-red-contrib-aedes)",
+        category: "Yazılım & İstemciler",
+        lead: "Harici bir Mosquitto sunucusuna ihtiyaç duymadan, doğrudan Node-RED akışı içinde çalışan hafif yerleşik MQTT mesaj sunucusu.",
+        details: "`node-red-contrib-aedes` eklentisi, Node.js tabanlı yüksek performanslı Aedes MQTT broker motorunu doğrudan Node-RED sürecine gömer. Akış tuvaline tek bir Aedes düğümü yerleştirilip 1883 portuna bağlandığında, yerel ağdaki tüm Meshtastic Wi-Fi geçitleri bu IP'ye bağlanabilir. Harici Linux servisleri veya ek yazılım kurmaya gerek kalmadan, tek bir Node-RED penceresinde hem MQTT sunucusu hem de veri işleme akışları bir arada çalıştırılır.",
+        github: "meshtastic.org/docs/software/integrations/mqtt/nodered",
+        infobox: {
+          "Paket": "node-red-contrib-aedes",
+          "Tür": "Gömülü (In-process) MQTT Broker",
+          "Avantaj": "Harici Mosquitto kurulumu gerektirmez, tek tıkla başlar",
+          "Standart Port": "1883 TCP (İsteğe bağlı WebSocket desteği)"
+        },
+        seeAlso: ["eclipse-mosquitto-broker", "nodered-meshtastic-integration-architecture", "nodered-mqtt-topic-wildcards"]
+      },
+      {
+        id: "nodered-contrib-protobuf-decoder",
+        en: "Node-RED Generic Protobuf Decoder Node (node-red-contrib-protobuf)",
+        tr: "Node-RED Genel Amaçlı Protobuf Kod Çözücü Düğümü (node-red-contrib-protobuf)",
+        category: "Yazılım & İstemciler",
+        lead: "Harici `.proto` şema dosyalarını okuyarak Meshtastic MQTT konularından gelen ikili bayt dizilerini JSON nesnelerine dönüştüren genel kod çözücü düğüm.",
+        details: "`node-red-contrib-protobuf` eklentisi, Google Protocol Buffers formatındaki ikili verileri ayrıştırmak için kullanılır. Düğüm ayarlarına `mqtt.proto` dosya yolu ve `ServiceEnvelope` mesaj türü girilir. Düğüme giren ham `msg.payload` bayt akışı, şemadaki tanımlara göre saniyeler içinde ayrıştırılarak JavaScript nesnesi haline getirilir. Bu sayede Meshtastic firmware'ine özel bir eklenti olmadan da saf Protobuf akışı başarıyla çözümlenir.",
+        github: "meshtastic.org/docs/software/integrations/mqtt/nodered",
+        infobox: {
+          "Paket": "node-red-contrib-protobuf",
+          "Girdi": "Ham ikili Buffer (MeshPacket / ServiceEnvelope)",
+          "Şema Bağımlılığı": "meshtastic/protobufs deposundaki .proto dosyaları",
+          "Çıktı": "Standart JSON / JS Nesnesi"
+        },
+        seeAlso: ["off-device-protobuf-schema-decoding", "serviceenvelope-protobuf-wrapper", "nodered-contrib-meshtastic-node"]
+      },
+      {
+        id: "off-device-protobuf-schema-decoding",
+        en: "Off-Device Protobuf Schema Decoding Architecture",
+        tr: "Cihaz Dışı (Off-Device) Protobuf Şema Kod Çözümleme Mimarisi",
+        category: "Ağ & Protokol",
+        lead: "Düşük RAM kapasiteli mikrodenetleyicileri (özellikle nRF52) yormamak için Protobuf-JSON dönüşümünün sunucu/ağ geçidi katmanında yürütülmesi stratejisi.",
+        details: "nRF52840 gibi düşük güç tüketimli çipler sınırlı RAM (256 KB) ve flash belleğe sahiptir; bu nedenle cihaz içi JSON dizileştirme donanım seviyesinde desteklenmez. Meshtastic telsizi ikili Protobuf verisini havadan duyduğu gibi en saf ve kompakt haliyle (`msh/.../2/e/...`) MQTT'ye basar. Node-RED sunucusu GitHub'dan çekilen resmi `meshtastic/protobufs` şemalarını kullanarak bu kod çözme işlemini kendi güçlü CPU ve belleği üzerinde üstlenir. Bu yaklaşım telsiz pilini korurken ağ yükünü minimumda tutar.",
+        github: "meshtastic.org/docs/software/integrations/mqtt/nodered",
+        infobox: {
+          "Kullanım Amacı": "nRF52 yongalarında JSON kısıtını aşma ve telsiz pilini koruma",
+          "Şema Kaynağı": "github.com/meshtastic/protobufs",
+          "Kritik Şema Dosyaları": "mqtt.proto, mesh.proto, telemetry.proto, portnums.proto",
+          "İşlem Yeri": "Sahra sunucusu, Raspberry Pi veya Node-RED ana makinesi"
+        },
+        seeAlso: ["nodered-contrib-protobuf-decoder", "serviceenvelope-protobuf-wrapper", "mqtt-json-vs-protobuf-export"]
+      },
+      {
+        id: "nodered-mqtt-topic-wildcards",
+        en: "Node-RED MQTT Topic Wildcards (+ and #) Filtering",
+        tr: "Node-RED MQTT Konu Joker Karakterleri (+ ve #) ile Filtreleme",
+        category: "Ağ & Protokol",
+        lead: "Node-RED MQTT giriş düğümlerinde tüm örgü ağını veya belirli kanalları dinamik yakalamak için kullanılan tek seviyeli (`+`) ve çok seviyeli (`#`) joker filtreleri.",
+        details: "Node-RED `mqtt in` düğümünde konu tanımlanırken standart MQTT joker karakterleri kullanılır. Tek seviyeli joker `+`, belirli bir hiyerarşi basamağındaki herhangi bir değeri temsil eder; örneğin `msh/+/2/json/#` konusu frekans bölgesi (US, EU_868, TR vb.) fark etmeksizin tüm JSON kanallarını yakalar. Çok seviyeli joker `#` ise konu ağacının sonuna konularak o seviyenin altındaki tüm alt başlıkları (tüm düğüm kimlikleri ve portları) tek bir dinleyici düğüme yönlendirir.",
+        github: "meshtastic.org/docs/software/integrations/mqtt/nodered",
+        infobox: {
+          "Tek Seviyeli Joker (+)": "msh/+/2/json/LongFast/!1234abcd (Sadece bölge basamağını jokerler)",
+          "Çok Seviyeli Joker (#)": "msh/EU_868/2/json/# (Belirtilen kanal ve altındaki tüm paketleri alır)",
+          "Tam Kapsama": "msh/# (Broker'daki tüm Meshtastic trafiğini yakalar)",
+          "Kullanım": "Node-RED mqtt-in düğümü Topic alanı"
+        },
+        seeAlso: ["mqtt-root-topic-hierarchy", "nodered-contrib-aedes-broker", "nodered-debug-telemetry-inspector"]
+      },
+      {
+        id: "nodered-json-downlink-inject-node",
+        en: "Node-RED JSON Downlink Inject Node Workflow",
+        tr: "Node-RED JSON Aşağı Yönlü Enjeksiyon Düğümü İş Akışı",
+        category: "Yazılım & İstemciler",
+        lead: "Node-RED arayüzündeki bir `inject` düğmesine basılarak veya zamanlanarak Meshtastic geçidine telsiz üzerinden sahaya yayınlatılan JSON mesaj akışı.",
+        details: "Node-RED akış tuvalindeki bir Inject düğmesi `{\"from\": 2130636288, \"type\": \"sendtext\", \"payload\": \"Dikkat: Fırtına Uyarısı\"}` JSON nesnesini üretecek şekilde ayarlanır. Bu düğüm bir `mqtt out` düğümüne bağlanır ve hedef konu `msh/US/2/json/mqtt/` olarak seçilir. Operatör butona bastığında veya cron tetiklendiğinde paket geçit telsizine ulaşır ve LoRa üzerinden tüm sahra timlerinin telsiz ekranlarına eşzamanlı olarak düşürülür.",
+        github: "meshtastic.org/docs/software/integrations/mqtt/nodered",
+        infobox: {
+          "Kaynak Düğüm": "Node-RED inject (Manuel buton veya cron zamanlayıcı)",
+          "Çıkış Konusu": "msh/REGION/2/json/mqtt/",
+          "Gerekli JSON Alanları": "from (Gateway decimal Node ID), type (sendtext/sendposition), payload",
+          "Hedef": "Telsiz ekranlarına acil anons veya yapay hedef fırlatma"
+        },
+        seeAlso: ["mqtt-json-downlink-injection", "nodered-javascript-function-processor", "node-id-hex-decimal-conversion"]
+      },
+      {
+        id: "nodered-debug-telemetry-inspector",
+        en: "Node-RED Debug Node Telemetry Inspection Sidebar",
+        tr: "Node-RED Hata Ayıklama (Debug) Telemetri Denetleme Yan Paneli",
+        category: "Yazılım & İstemciler",
+        lead: "Telsizlerden gelen ham ve ayrıştırılmış telemetri nesnelerini (batarya, sinyal kalitesi, GPS koordinatları) görsel ağaç yapısında anlık inceleyen hata ayıklama paneli.",
+        details: "Node-RED geliştirme ortamının sağ tarafındaki böcek simgeli hata ayıklama konsoludur. Bir `debug` düğmesi MQTT girişine veya Protobuf kod çözücüye bağlandığında (`output: complete msg object`), gelen her telsiz paketinin konusu, `msg.payload.id`, `msg.payload.battery_level`, `msg.payload.snr` ve `msg.payload.rssi` alanları tıklanıp genişletilebilir bir JSON ağacı olarak dökülür. Sahadaki zayıf çeken veya bataryası tükenen düğümler bu panel üzerinden anında teşhis edilir.",
+        github: "meshtastic.org/docs/software/integrations/mqtt/nodered",
+        infobox: {
+          "Arayüz Bileşeni": "Node-RED Debug Sidebar (msg.payload görüntüleyici)",
+          "İncelenen Alanlar": "Düğüm kimliği, voltaj, sıcaklık, hava basıncı, SNR, hop sayısı",
+          "Faydası": "Kod yazmadan paket yükünü ve JSON şemasını görsel doğrulama",
+          "Özellik": "JSON yolunu panoya kopyalama (Copy path) butonu"
+        },
+        seeAlso: ["nodered-contrib-meshtastic-node", "nodered-mqtt-topic-wildcards", "multi-gateway-mqtt-deduplication"]
+      },
+      {
+        id: "nodered-javascript-function-processor",
+        en: "Node-RED Function Node JavaScript Telemetry Processor",
+        tr: "Node-RED Fonksiyon Düğümü JavaScript Telemetri İşleyicisi",
+        category: "Yazılım & İstemciler",
+        lead: "Meshtastic düğümlerinden gelen ham telemetri değerlerini JavaScript kod bloklarıyla filtreleyip matematiksel ve mantıksal kurallarla işleyen çekirdek düğüm.",
+        details: "Node-RED'in en güçlü yapı taşı olan `function` düğümüdür. Geliştirici içine yazdığı kısa JavaScript kodlarıyla örneğin: `if (msg.payload.payload.barometric_pressure < 980) { return { payload: \"Fırtına Yaklaşıyor!\" }; }` gibi mantıklar kurar. Düğüm kimliğini hex-decimal arasında çevirebilir, batarya voltajını yüzdeye dönüştürebilir veya birden fazla geçitten gelen mükerrer paketleri bellek içi nesnelerle (`flow.set` / `context.get`) tekilleştirebilir.",
+        github: "meshtastic.org/docs/software/integrations/mqtt/nodered",
+        infobox: {
+          "Programlama Dili": "JavaScript (V8 / Node.js çalışma ortamı)",
+          "Erişilen Değişkenler": "msg.payload, msg.topic, flow, global context",
+          "Kullanım Örnekleri": "Eşik değeri alarmları, telemetri birim dönüşümleri, paket tekilleştirme",
+          "Çıkış": "Sonraki düğümlere yönlendirilen filtrelenmiş msg nesnesi"
+        },
+        seeAlso: ["nodered-json-downlink-inject-node", "node-id-hex-decimal-conversion", "multi-gateway-mqtt-deduplication"]
+      },
+      {
+        id: "nodered-edge-pi-iot-gateway",
+        en: "Raspberry Pi Edge Node-RED IoT Gateway Appliance",
+        tr: "Raspberry Pi Uç Nokta Node-RED IoT Ağ Geçidi Cihazı",
+        category: "Kullanım Kılavuzları & Pratik Senaryolar",
+        lead: "Sahra çadırlarında veya kriz merkezlerinde Raspberry Pi üzerinde çalışan Node-RED ve Aedes/Mosquitto bileşenlerinden oluşan hepsi-bir-arada bağımsız taktik IoT cihazı.",
+        details: "İnternet veya bulut erişimi olmayan afet alanlarında tam operasyonel kabiliyet sunan donanım çözümüdür. Bir Raspberry Pi üzerine kurulan Node-RED, yerel Wi-Fi erişim noktası (Hotspot) açar. Alandaki Meshtastic düğümleri bu Wi-Fi'a bağlanarak verilerini Pi'ye basar; Node-RED akışları gelen konumları haritada gösterir, kritik telemetrileri yerel SQLite/InfluxDB veritabanında saklar ve yerel sesli sirenleri veya LED uyarı panolarını tetikler.",
+        github: "meshtastic.org/docs/software/integrations/mqtt/nodered",
+        infobox: {
+          "Donanım": "Raspberry Pi 4 / 5 veya CM4 (Compute Module)",
+          "Çalışma Şekli": "Tamamen yerel, sıfır bulut bağımlılığı (Air-gapped)",
+          "Entegre Servisler": "Node-RED Flow Engine + Aedes Broker + Yerel Dashboard",
+          "Kullanım": "Afet koordinasyon çadırları, dağ kurtarma baz istasyonu, akıllı karavan"
+        },
+        seeAlso: ["raspberry-pi-mosquitto-server", "nodered-meshtastic-integration-architecture", "sar-incident-tactical-mapping"]
       }
     ];
 

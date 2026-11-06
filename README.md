@@ -634,6 +634,18 @@ Meshtastic donanımını kontrol etmek, mesajlaşıp harita görüntülemek ve a
 - **Python Sensör Telemetri Yayın Döngüsü (`python-mqtt-telemetry-publisher`):** Harici sensörlerden veya simülatörlerden gelen verileri periyodik olarak MQTT'ye basan otomatik yayın döngüsü mimarisi.
 - **Python Meshtastic Ağ Geçidi Bot Mimarisi (`python-meshtastic-bot-pipeline`):** Telsiz paketlerini Telegram, Discord, e-posta veya veritabanlarına çift yönlü köprüleyen uçtan uca reaktif bot omurgası.
 
+### 🔴 Node-RED Görsel IoT ve Akış Otomasyonu (meshtastic.org/docs/software/integrations/mqtt/nodered)
+- **Node-RED Meshtastic Entegrasyon Mimarisi (`nodered-meshtastic-integration-architecture`):** Cihaz içi JSON, özel Meshtastic eklentisi ve sunucu taraflı Protobuf şema çözümleme mimarisi.
+- **Node-RED Resmi Meshtastic Eklentisi (`nodered-contrib-meshtastic-node`):** Palete eklenerek MQTT üzerinden gelen ham Meshtastic paketlerini otomatik ayrıştıran resmi açık kaynak düğüm eklentisi.
+- **Node-RED Yerleşik Aedes MQTT Broker (`nodered-contrib-aedes-broker`):** Harici Mosquitto kurmadan doğrudan akış içinde çalışan gömülü hafif MQTT mesaj sunucusu düğümü.
+- **Node-RED Genel Amaçlı Protobuf Kod Çözücü (`nodered-contrib-protobuf-decoder`):** `.proto` şema dosyalarını okuyarak ikili telsiz bayt dizilerini JSON nesnelerine dönüştüren genel amaçlı düğüm.
+- **Cihaz Dışı (Off-Device) Protobuf Çözümleme (`off-device-protobuf-schema-decoding`):** nRF52 gibi sınırlı RAM'e sahip yongalarda telsiz pilini korumak için Protobuf çözümlemesini Node-RED sunucusunda yürütme stratejisi.
+- **Node-RED MQTT Konu Joker Filtreleri (`nodered-mqtt-topic-wildcards`):** Giriş düğümlerinde tüm örgü ağını veya belirli kanalları dinamik yakalamak için kullanılan tek seviyeli (`+`) ve çok seviyeli (`#`) filtreler.
+- **Node-RED JSON Aşağı Yönlü Enjeksiyon Düğümü (`nodered-json-downlink-inject-node`):** Akış arayüzünden butonla veya cron zamanlayıcıyla Meshtastic geçidine telsiz üzerinden sahaya metin/konum yayınlatma iş akışı.
+- **Node-RED Hata Ayıklama Telemetri Denetleme Paneli (`nodered-debug-telemetry-inspector`):** Gelen her telsiz paketinin voltaj, sinyal (SNR/RSSI) ve sensör yüklerini sağ taraftaki JSON ağaç panelinde anlık denetleme.
+- **Node-RED JavaScript Fonksiyon İşleyicisi (`nodered-javascript-function-processor`):** Gelen telsiz verilerini JavaScript bloklarıyla filtreleyip eşik alarmları ve birim dönüşümleri üreten çekirdek düğüm mantığı.
+- **Raspberry Pi Uç Nokta Node-RED IoT Cihazı (`nodered-edge-pi-iot-gateway`):** Sahra çadırlarında internet olmadan Raspberry Pi üzerinde çalışan Node-RED, yerel broker ve dashboard'dan oluşan bağımsız taktik merkez.
+
 ### 🔹 Açık Standart ve Tedarikçi Bağımsızlığı (Open Architecture & Vendor Neutrality)
 Meshtastic'in hiçbir tescilli ticari protokole veya tek bir donanım üreticisine bağımlı kalmamasını sağlayan açık kaynak ekosistem felsefesi (GPL-3.0 lisansı ve açık Protobuf şemaları). Semtech SX1262/SX1276/LR1121 telsizleri ile ESP32, nRF52840 ve RP2040 işlemcili onlarca farklı üreticinin (Heltec, LilyGO, RAKwireless) donanımları tam uyumla birlikte çalışabilir.
 
