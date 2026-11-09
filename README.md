@@ -922,6 +922,18 @@ Meshtastic donanımını kontrol etmek, mesajlaşıp harita görüntülemek ve a
 - **nRF52 DC-DC RegÃ¼latÃ¶r ve DÃ¼ÅŸÃ¼k GÃ¼Ã§ Uyku ModlarÄ± (`nrf52-dcdc-power-optimization`):** `DCDCEN = 1` ile akÄ±m tÃ¼ketimini %30-40 azaltarak beklemede mikroamper seviyesine inme.
 - **Adafruit nRF52 UF2 Bootloader ve SWD Kurtarma (`adafruit-nrf52-uf2-bootloader-swd`):** Ã‡ift tÄ±kla USB disk formatÄ±nda yÃ¼kleme ve kilitlenen kartlarÄ± SWD ile baÅŸtan ayaÄŸa kaldÄ±rma.
 
+### ğŸŒ Meshtastic Entegrasyon YollarÄ± ve YazÄ±lÄ±m Mimarileri (meshtastic.org/docs/development/firmware/integration-paths)
+- **DÃ¶rt Meshtastic Entegrasyon Mimarisi (`integration-paths-four-architectures`):** Bellenim modÃ¼lÃ¼, bellenim iÃ§i istemci, harici istemci ve baÄŸÄ±msÄ±z yaprak mimarilerinin karÅŸÄ±laÅŸtÄ±rmasÄ±.
+- **PacketAPI ile Bellenim Ä°Ã§i Ä°stemci Mimarisi (`infirmware-client-packetapi`):** Kablosuz aynÄ± iÅŸlemcide `ToRadio`/`FromRadio` takas eden FreeRTOS `PhoneAPI` kuyruk yapÄ±sÄ± (`device-ui`).
+- **IClientBase Soyutlama SÃ¶zleÅŸmesi ArayÃ¼zÃ¼ (`iclientbase-contract-interface`):** Hem yerel hem uzak istemcileri aynÄ± ToRadio/FromRadio sÃ¶zleÅŸmesinde birleÅŸtiren C++ arayÃ¼zÃ¼.
+- **SÄ±fÄ±r SerileÅŸtirmeli SÃ¼reÃ§ Ä°Ã§i Mesaj KuyruÄŸu (`zero-serialization-inprocess-queue`):** Bellekte Protobuf bayt dÃ¶nÃ¼ÅŸÃ¼mÃ¼ne gerek kalmadan doÄŸrudan struct iÅŸaretÃ§ileriyle yÃ¼ksek hÄ±zlÄ± veri aktarÄ±mÄ±.
+- **BaÄŸÄ±msÄ±z Mesh GerÃ§ekleÅŸtirmesi [Bellenimsiz Mimari] (`independent-mesh-implementation`):** Meshtastic bellenimi olmadan sadece hafif kÃ¼tÃ¼phaneyle aÄŸa baÄŸlanan yaprak cihazlar.
+- **libmeshtastic-leaf RadioLib KÃ¼tÃ¼phanesi (`libmeshtastic-leaf-radiolib`):** RadioLib Ã¼zerine kurulu, framing, PKI ve AES ÅŸifrelemeyi baÄŸÄ±msÄ±z yÃ¼rÃ¼ten C++ kÃ¼tÃ¼phanesi.
+- **Yaprak DÃ¼ÄŸÃ¼m Yeniden YayÄ±nlamama Ä°lkesi (`leaf-node-non-rebroadcasting-policy`):** BaÄŸÄ±msÄ±z yaprak cihazlarÄ±n aÄŸdan veri alÄ±p gÃ¶nderebildiÄŸi fakat rÃ¶leleme (relay) yapmadÄ±ÄŸÄ± kuralÄ±.
+- **DÃ¼ÄŸÃ¼m Ãœzerinden Kriptografi ve Protokol YÃ¼kÃ¼nÃ¼ Devretme (`via-the-node-cryptographic-offload`):** Åifreleme, gÃ¶rev dÃ¶ngÃ¼sÃ¼ ve frekans yÃ¶netiminin ana firmware'e bÄ±rakÄ±lmasÄ±.
+- **YardÄ±mcÄ± Ä°ÅŸlemci Ã‡ift Hedefli TaÅŸÄ±nabilirlik (`coprocessor-dual-target-portability`):** YazÄ±lan istemci kodunun tek satÄ±r deÄŸiÅŸmeden hem ana CPU'da hem de harici yardÄ±mcÄ± iÅŸlemcide Ã§alÄ±ÅŸabilmesi.
+- **Standart Bellenimli Harici Ä°stemci Entegrasyon Yolu (`stock-firmware-external-client-path`):** Cihaza Ã¶zel firmware derlemeden Python, JS, Android SDK'larÄ± ile USB/TCP Ã¼zerinden entegrasyon.
+
 ### 🔹 Açık Standart ve Tedarikçi Bağımsızlığı (Open Architecture & Vendor Neutrality)
 Meshtastic'in hiçbir tescilli ticari protokole veya tek bir donanım üreticisine bağımlı kalmamasını sağlayan açık kaynak ekosistem felsefesi (GPL-3.0 lisansı ve açık Protobuf şemaları). Semtech SX1262/SX1276/LR1121 telsizleri ile ESP32, nRF52840 ve RP2040 işlemcili onlarca farklı üreticinin (Heltec, LilyGO, RAKwireless) donanımları tam uyumla birlikte çalışabilir.
 

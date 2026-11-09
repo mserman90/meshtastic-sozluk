@@ -11359,6 +11359,166 @@
           "Depo": "adafruit/Adafruit_nRF52_Bootloader"
         },
         seeAlso: ["nanodap-rakdap1-debug-probe", "swd-serial-wire-debug-interface", "nrf52-development-guide"]
+      }      ,
+      {
+        id: "integration-paths-four-architectures",
+        en: "Four Meshtastic Integration Architectures",
+        tr: "DÃ¶rt Meshtastic Entegrasyon Mimarisi",
+        category: "Protokol & Mimari",
+        lead: "GeliÅŸtiricilerin kendi kodlarÄ±nÄ± Meshtastic ekosistemiyle birleÅŸtirebilecekleri dÃ¶rt temel mimari yaklaÅŸÄ±m.",
+        details: "Meshtastic geliÅŸtirici kÄ±lavuzu kod ile firmware arasÄ±ndaki sÄ±nÄ±rÄ± belirleyen 4 entegrasyon yolu tanÄ±mlar: 1) Bellenim iÃ§i modÃ¼l (`MeshModule` alt sÄ±nÄ±fÄ±), 2) Bellenim iÃ§i istemci (`PacketAPI` / `IClientBase`), 3) Harici istemci (Serial/TCP/BLE Ã¼zerinden Python, JS, Android veya Arduino), 4) BaÄŸÄ±msÄ±z protokol kÃ¼tÃ¼phanesi (`libmeshtastic-leaf`). Her yaklaÅŸÄ±m donanÄ±m gereksinimi, Ã¶zel firmware derleme zorunluluÄŸu ve mesh yÃ¶nlendirme yetenekleri aÃ§Ä±sÄ±ndan farklÄ± avantajlar sunar.",
+        github: "meshtastic.org/docs/development/firmware/integration-paths",
+        infobox: {
+          "Entegrasyon YollarÄ±": "1. Firmware ModÃ¼lÃ¼, 2. Bellenim Ä°Ã§i Ä°stemci, 3. Harici Ä°stemci, 4. BaÄŸÄ±msÄ±z Yaprak",
+          "Karar Kriteri": "Kodun nerede koÅŸacaÄŸÄ± ve firmware sÃ¼rÃ¼m baÄŸÄ±mlÄ±lÄ±ÄŸÄ±",
+          "En Derin Yol": "MeshModule (TÃ¼m paketleri gÃ¶rebilir)",
+          "En BaÄŸÄ±msÄ±z Yol": "libmeshtastic-leaf (Firmware yok, saf RadioLib)"
+        },
+        seeAlso: ["infirmware-client-packetapi", "independent-mesh-implementation", "stock-firmware-external-client-path"]
+      },
+      {
+        id: "infirmware-client-packetapi",
+        en: "In-Firmware Client via PacketAPI",
+        tr: "PacketAPI ile Bellenim Ä°Ã§i Ä°stemci Mimarisi",
+        category: "GeliÅŸtirici & Bellenim",
+        lead: "AynÄ± iÅŸlemci Ã¼zerinde harici bir kablo olmadan Ã§alÄ±ÅŸan ve `PhoneAPI` kuyruÄŸuyla haberleÅŸen bellenim iÃ§i istemci yapÄ±sÄ± (`src/mesh/api/PacketAPI.h`).",
+        details: "`PacketAPI`, `PhoneAPI` sÄ±nÄ±fÄ±nÄ±n bir tÃ¼revidir ve FreeRTOS Ã¼zerinde baÄŸÄ±msÄ±z bir `OSThread` olarak Ã§alÄ±ÅŸÄ±r. Geleneksel seri veya Bluetooth baÄŸlantÄ±sÄ±nÄ±n aksine veriler UART Ã¼zerinden baytlara serileÅŸtirilmez; doÄŸrudan iÅŸlemci belleÄŸinde paylaÅŸÄ±lan bir kuyruk (`Queue`) Ã¼zerinden `ToRadio` ve `FromRadio` protobuf nesneleri takas edilir. Resmi dokunmatik ekran kullanÄ±cÄ± arayÃ¼zÃ¼ (`device-ui`), bellenim Ã§ekirdeÄŸiyle bu mimari Ã¼zerinden konuÅŸur.",
+        github: "meshtastic/firmware: src/mesh/api/PacketAPI.h",
+        infobox: {
+          "SÄ±nÄ±f / BaÅŸlÄ±k": "PacketAPI.h (PhoneAPI alt sÄ±nÄ±fÄ±)",
+          "Ä°letiÅŸim KanalÄ±": "SÄ±fÄ±r SerileÅŸtirmeli Dahili Kuyruk (In-Process Queue)",
+          "Mesaj Tipleri": "meshtastic.ToRadio / meshtastic.FromRadio",
+          "Referans Uygulama": "device-ui (Ekranda Ã§alÄ±ÅŸan yerel arayÃ¼z)"
+        },
+        seeAlso: ["iclientbase-contract-interface", "zero-serialization-inprocess-queue", "coprocessor-dual-target-portability"]
+      },
+      {
+        id: "iclientbase-contract-interface",
+        en: "IClientBase Abstraction Contract Interface",
+        tr: "IClientBase Soyutlama SÃ¶zleÅŸmesi ArayÃ¼zÃ¼",
+        category: "GeliÅŸtirici & Bellenim",
+        lead: "Bir istemci uygulamasÄ±nÄ±n yalnÄ±zca ToRadio gÃ¶nderip FromRadio almasÄ±nÄ± zorunlu kÄ±lan evrensel C++ soyutlama arayÃ¼zÃ¼.",
+        details: "`IClientBase` arayÃ¼zÃ¼, Meshtastic istemci mantÄ±ÄŸÄ±nÄ± altÄ±ndaki fiziksel taÅŸÄ±ma katmanÄ±ndan tamamen yalÄ±tÄ±r. Bu arayÃ¼zÃ¼n hem dahili (`PacketAPI`) hem de harici (`Serial`, `TCP`, `Ethernet`, `Bluetooth`) uygulamalarÄ± mevcuttur. Bu sayede `IClientBase` kullanÄ±larak yazÄ±lan bir ekran veya kÃ¶prÃ¼leme uygulamasÄ±, tek bir satÄ±r kod deÄŸiÅŸtirilmeden hem doÄŸrudan bellenim iÃ§ine gÃ¶mÃ¼lebilir hem de ikinci bir yardÄ±mcÄ± iÅŸlemci (co-processor) Ã¼zerinde Ã§alÄ±ÅŸtÄ±rÄ±labilir.",
+        github: "meshtastic.org/docs/development/firmware/integration-paths",
+        infobox: {
+          "ArayÃ¼z": "IClientBase",
+          "Temel SÃ¶zleÅŸme": "ToRadio gÃ¶nderimi ve FromRadio alÄ±mÄ±",
+          "TaÅŸÄ±yÄ±cÄ± UygulamalarÄ±": "PacketAPI, Serial, TCP, Ethernet, BLE",
+          "TasarÄ±m Deseni": "Adapter / Facade Pattern"
+        },
+        seeAlso: ["infirmware-client-packetapi", "coprocessor-dual-target-portability", "zero-serialization-inprocess-queue"]
+      },
+      {
+        id: "zero-serialization-inprocess-queue",
+        en: "Zero-Serialization In-Process Message Queue",
+        tr: "SÄ±fÄ±r SerileÅŸtirmeli SÃ¼reÃ§ Ä°Ã§i Mesaj KuyruÄŸu",
+        category: "GeliÅŸtirici & Bellenim",
+        lead: "Bellenim iÃ§i istemciler ile Ã§ekirdek arasÄ±nda protobuf mesajlarÄ±nÄ±n bayt dizisine dÃ¶nÃ¼ÅŸtÃ¼rÃ¼lmeden doÄŸrudan C++ yapÄ±larÄ± olarak aktarÄ±lmasÄ±.",
+        details: "Harici istemcilerde (telefon, PC, Raspberry Pi) `ToRadio` veya `FromRadio` mesajlarÄ± Protobuf kodlayÄ±cÄ± tarafÄ±ndan baytlara ayrÄ±ÅŸtÄ±rÄ±lÄ±r, Ã§erÃ§evelenir (framing) ve seri/TCP soketinden iletilir. Oysa `PacketAPI` Ã¼zerinden Ã§alÄ±ÅŸan bellenim iÃ§i istemcilerde CPU dÃ¶ngÃ¼lerini ve RAM'i boÅŸa harcamamak iÃ§in sÄ±fÄ±r serileÅŸtirme (zero-serialization) prensibi kullanÄ±lÄ±r. Mesaj doÄŸrudan C++ struct iÅŸaretÃ§isi olarak FreeRTOS kuyruÄŸuna yazÄ±lÄ±r ve karÅŸÄ± gÃ¶rev tarafÄ±ndan kopyalanmadan tÃ¼ketilir.",
+        github: "meshtastic.org/docs/development/firmware/integration-paths",
+        infobox: {
+          "Optimizasyon": "Zero-Serialization / Zero-Copy",
+          "Veri Tipi": "C++ Protobuf Struct ReferansÄ±",
+          "KazanÃ§": "SÄ±fÄ±r CPU paketleme maliyeti, minimum RAM kullanÄ±mÄ±",
+          "UygulandÄ±ÄŸÄ± Yer": "Bellenim Ä°Ã§i Ä°stemci (In-firmware client)"
+        },
+        seeAlso: ["infirmware-client-packetapi", "iclientbase-contract-interface"]
+      },
+      {
+        id: "independent-mesh-implementation",
+        en: "Independent Mesh Implementation (No-Firmware)",
+        tr: "BaÄŸÄ±msÄ±z Mesh GerÃ§ekleÅŸtirmesi (Bellenimsiz Mimari)",
+        category: "Protokol & Mimari",
+        lead: "Meshtastic bellenimini hiÃ§ kullanmadan, yalnÄ±zca protokol kurallarÄ±nÄ± ve kriptografiyi kÃ¼tÃ¼phane seviyesinde uygulayan hafif cihaz yaklaÅŸÄ±mÄ±.",
+        details: "DÃ¶rt entegrasyon yolunun en radikal olanÄ±dÄ±r. Cihaz Ã¼zerinde Meshtastic bellenimi, FreeRTOS gÃ¶revleri, web sunucusu, Bluetooth yÄ±ÄŸÄ±nÄ± veya SQLite/NodeDB veritabanÄ± bulunmaz. Bunun yerine mikrodenetleyici doÄŸrudan `RadioLib` ve hafif bir protokol kÃ¼tÃ¼phanesi sÃ¼rer. YalnÄ±zca paket Ã¼retip havaya atar veya gelen paketleri dinler; komÅŸularÄ± iÃ§in paket rÃ¶leleme (relay/hop) yapmaz. Tek bir sensÃ¶r, kÃ¼Ã§Ã¼k bir batarya ve ucuz bir mikrokontrolcÃ¼ ile aÄŸa veri basmak iÃ§in idealdir.",
+        github: "meshtastic.org/docs/development/firmware/integration-paths",
+        infobox: {
+          "Bellenim Gereksinimi": "Yok (Meshtastic Firmware KoÅŸmaz)",
+          "RÃ¶leleme YeteneÄŸi": "Yok (YalnÄ±zca Leaf / UÃ§ DÃ¼ÄŸÃ¼m)",
+          "Kaynak TÃ¼ketimi": "Minimum Flash ve RAM",
+          "Tipik Senaryo": "BaÄŸÄ±msÄ±z dÃ¼ÅŸÃ¼k gÃ¼Ã§lÃ¼ Ã§evre sensÃ¶rleri"
+        },
+        seeAlso: ["libmeshtastic-leaf-radiolib", "leaf-node-non-rebroadcasting-policy", "integration-paths-four-architectures"]
+      },
+      {
+        id: "libmeshtastic-leaf-radiolib",
+        en: "libmeshtastic-leaf RadioLib Library",
+        tr: "libmeshtastic-leaf RadioLib KÃ¼tÃ¼phanesi",
+        category: "YazÄ±lÄ±m & Protokol",
+        lead: "RadioLib Ã¼zerine inÅŸa edilmiÅŸ, paket Ã§erÃ§eveleme, kanal ÅŸifreleme ve PKI anahtarlamayÄ± tek bir baÄŸÄ±msÄ±z kÃ¼tÃ¼phanede toplayan hafif yaprak dÃ¼ÄŸÃ¼m aracÄ±.",
+        details: "`libmeshtastic-leaf`, Meshtastic ekosisteminin baÄŸÄ±msÄ±z yaprak (leaf) dÃ¼ÄŸÃ¼mler geliÅŸtirmek iÃ§in kullandÄ±ÄŸÄ± C++ kÃ¼tÃ¼phanesidir. `jgromes/RadioLib` LoRa sÃ¼rÃ¼cÃ¼sÃ¼nÃ¼ temel alarak Meshtastic paket Ã§erÃ§evelemesini (framing), kanal ÅŸifrelemesini (AES-128/256), PKI genel anahtar imzasÄ±nÄ± ve bÃ¶lgesel frekans tablolarÄ±nÄ± tek bir kÃ¼tÃ¼phane Ã§atÄ±sÄ±nda sunar. GeliÅŸtirici Arduino IDE veya PlatformIO projesine bu kÃ¼tÃ¼phaneyi ekleyerek doÄŸrudan sensÃ¶r verisini Meshtastic uyumlu paketlere dÃ¶nÃ¼ÅŸtÃ¼rÃ¼r.",
+        github: "meshtastic/libmeshtastic-leaf",
+        infobox: {
+          "KÃ¼tÃ¼phane AdÄ±": "libmeshtastic-leaf",
+          "Alt SÃ¼rÃ¼cÃ¼ KatmanÄ±": "RadioLib (Jan Gromes)",
+          "Ä°ÅŸlevler": "Framing, PKI, AES Åifreleme, Frekans/BÃ¶lge Tablosu",
+          "Hedef": "RÃ¶lesiz, ultra hafif Meshtastic verici/alÄ±cÄ±larÄ±"
+        },
+        seeAlso: ["independent-mesh-implementation", "leaf-node-non-rebroadcasting-policy"]
+      },
+      {
+        id: "leaf-node-non-rebroadcasting-policy",
+        en: "Leaf Node Non-Rebroadcasting Policy",
+        tr: "Yaprak DÃ¼ÄŸÃ¼m Yeniden YayÄ±nlamama Ä°lkesi",
+        category: "Protokol & Mimari",
+        lead: "BaÄŸÄ±msÄ±z yaprak gerÃ§ekleÅŸtirmelerinin mesh aÄŸÄ±na paket gÃ¶nderip alabildiÄŸi ancak komÅŸularÄ± iÃ§in rÃ¶le gÃ¶revi yapmadÄ±ÄŸÄ±nÄ± belirten kural.",
+        details: "Meshtastic dokÃ¼mantasyonu, dÃ¶rt entegrasyon yolundan yalnÄ±zca ilk Ã¼Ã§Ã¼nÃ¼n (ModÃ¼l, Bellenim Ä°Ã§i Ä°stemci, Harici Ä°stemci) gerÃ§ek bir tam Meshtastic dÃ¼ÄŸÃ¼mÃ¼ Ã¼rettiÄŸini Ã¶zellikle vurgular. BaÄŸÄ±msÄ±z gerÃ§ekleÅŸtirimler (`libmeshtastic-leaf`) birer 'Yaprak DÃ¼ÄŸÃ¼m'dÃ¼r (Leaf Node). Bu cihazlar paket iletir ve dinler ancak yÃ¶nlendirme algoritmasÄ± (Routing / Rebroadcast) koÅŸturmadÄ±klarÄ± iÃ§in aÄŸÄ± coÄŸrafi olarak geniÅŸletmez ve komÅŸu dÃ¼ÄŸÃ¼mlerin paketlerini tekrarlamaz.",
+        github: "meshtastic.org/docs/development/firmware/integration-paths",
+        infobox: {
+          "DÃ¼ÄŸÃ¼m TÃ¼rÃ¼": "Leaf Node (UÃ§ / Yaprak DÃ¼ÄŸÃ¼m)",
+          "Yeniden YayÄ±nlama (Rebroadcast)": "Desteklenmez (No Relay)",
+          "AÄŸ Etkisi": "AÄŸÄ± geniÅŸletmez, yalnÄ±zca veri Ã¼retir/tÃ¼ketir",
+          "GerekÃ§e": "YÃ¶nlendirme tablosu ve veritabanÄ± taÅŸÄ±mama"
+        },
+        seeAlso: ["independent-mesh-implementation", "libmeshtastic-leaf-radiolib"]
+      },
+      {
+        id: "via-the-node-cryptographic-offload",
+        en: "Via-The-Node Cryptographic and Protocol Offloading",
+        tr: "DÃ¼ÄŸÃ¼m Ãœzerinden Kriptografi ve Protokol YÃ¼kÃ¼nÃ¼ Devretme",
+        category: "Protokol & Mimari",
+        lead: "Åifreleme, kanal anahtarlarÄ±, frekans politikalarÄ± ve gÃ¶rev dÃ¶ngÃ¼sÃ¼ yÃ¶netiminin istemci yerine ana bellenime devredilmesi prensibi.",
+        details: "Ä°lk Ã¼Ã§ entegrasyon yolunda (ModÃ¼l, Bellenim Ä°Ã§i Ä°stemci, Harici Ä°stemci) PKI anahtar yÃ¶netimi, kanal AES ÅŸifrelemesi, bÃ¶lge frekans kurallarÄ± (EU868, US915), gÃ¶rev dÃ¶ngÃ¼sÃ¼ (duty cycle) ve ortam dinleme (carrier sense) 'Via the node' (dÃ¼ÄŸÃ¼m vasÄ±tasÄ±yla) yÃ¼rÃ¼tÃ¼lÃ¼r. Ä°stemci uygulamasÄ±nÄ±n telsiz mevzuatÄ±nÄ± veya kriptografik ilkelere hakim olmasÄ±nÄ± gerektirmez; dÃ¼ÄŸÃ¼m tÃ¼m bu karmaÅŸÄ±k protokol kurallarÄ±nÄ± ÅŸeffaf ÅŸekilde yÃ¶netir. YalnÄ±zca 4. yolda (BaÄŸÄ±msÄ±z Yaprak) tÃ¼m bu sorumluluk geliÅŸtiricinin kendi koduna aittir.",
+        github: "meshtastic.org/docs/development/firmware/integration-paths",
+        infobox: {
+          "Prensip": "Via The Node (DÃ¼ÄŸÃ¼m VasÄ±tasÄ±yla)",
+          "Devredilen GÃ¶revler": "Kanal ÅŸifreleme, PKI, Duty cycle, Frekans yÃ¶netimi",
+          "Kapsam": "ModÃ¼l, Dahili Ä°stemci ve Harici Ä°stemci yollarÄ±",
+          "Fayda": "Ä°stemci kodunun telsiz regÃ¼lasyonlarÄ±ndan soyutlanmasÄ±"
+        },
+        seeAlso: ["integration-paths-four-architectures", "stock-firmware-external-client-path"]
+      },
+      {
+        id: "coprocessor-dual-target-portability",
+        en: "Co-Processor Dual-Target Client Portability",
+        tr: "YardÄ±mcÄ± Ä°ÅŸlemci Ã‡ift Hedefli TaÅŸÄ±nabilirlik",
+        category: "YazÄ±lÄ±m & Mimari",
+        lead: "YazÄ±lan bir istemci kodunun tek satÄ±r deÄŸiÅŸtirilmeden hem dÃ¼ÄŸÃ¼mÃ¼n kendi iÅŸlemcisinde hem de harici bir yardÄ±mcÄ± iÅŸlemcide Ã§alÄ±ÅŸabilme yeteneÄŸi.",
+        details: "Bellenim iÃ§i istemci mimarisinin en bÃ¼yÃ¼k gÃ¼cÃ¼ Ã§ift hedefli taÅŸÄ±nabilirliktir (dual-target portability). GeliÅŸtirici Ã¶rneÄŸin bir e-mÃ¼rekkep ekran arayÃ¼zÃ¼ veya sensÃ¶r kÃ¶prÃ¼sÃ¼ kodladÄ±ÄŸÄ±nda bunu `IClientBase` arayÃ¼zÃ¼ne gÃ¶re yazar. Kaynak kÄ±sÄ±tÄ± olan kÃ¼Ã§Ã¼k bir dÃ¼ÄŸÃ¼mde bu kod `PacketAPI` ile bellenim iÃ§ine gÃ¶mÃ¼lerek tek iÅŸlemcide Ã§alÄ±ÅŸtÄ±rÄ±labilir. Ä°leride sistem bÃ¼yÃ¼dÃ¼ÄŸÃ¼nde aynÄ± C++ kodu harici bir Raspberry Pi veya RP2040 yardÄ±mcÄ± iÅŸlemciye taÅŸÄ±nÄ±p bir UART/TCP soketi Ã¼zerinden Ã§alÄ±ÅŸtÄ±rÄ±ldÄ±ÄŸÄ±nda hiÃ§bir mantÄ±ksal deÄŸiÅŸiklik gerektirmez.",
+        github: "meshtastic.org/docs/development/firmware/integration-paths",
+        infobox: {
+          "Mimari Avantaj": "Dual-Target Portability",
+          "Soyutlama KatmanÄ±": "IClientBase",
+          "Ã‡alÄ±ÅŸma Modu 1": "Bellenim iÃ§i sÃ¼reÃ§ (In-process via PacketAPI)",
+          "Ã‡alÄ±ÅŸma Modu 2": "Ä°kinci iÅŸlemci (Co-processor via Serial/TCP)"
+        },
+        seeAlso: ["iclientbase-contract-interface", "infirmware-client-packetapi"]
+      },
+      {
+        id: "stock-firmware-external-client-path",
+        en: "Stock-Firmware External Client Integration Path",
+        tr: "Standart Bellenimli Harici Ä°stemci Entegrasyon Yolu",
+        category: "YazÄ±lÄ±m & Ä°stemciler",
+        lead: "DÃ¼ÄŸÃ¼mÃ¼n orijinal fabrika bellenimine dokunmadan, Serial/TCP/BLE Ã¼zerinden Python, JS veya Android SDK'larÄ± ile dÄ±ÅŸarÄ±dan haberleÅŸme yolu.",
+        details: "En yaygÄ±n kullanÄ±lan ve bakÄ±mÄ± en zahmetsiz entegrasyon modelidir. GeliÅŸtirici Ã¶zel bir firmware derlemek, PlatformIO kurmak veya Meshtastic ana deposunun sÃ¼rÃ¼m gÃ¼ncellemelerini takip etmek zorunda kalmaz. Cihaza resmi stock firmware yÃ¼klenir; geliÅŸtiricinin kodu Python, JavaScript, Java, Go veya Arduino SDK'larÄ± kullanarak dÃ¼ÄŸÃ¼me USB Seri kablo, TCP (Port 4403) veya Bluetooth Ã¼zerinden baÄŸlanÄ±r. DÃ¼ÄŸÃ¼mÃ¼n tÃ¼m Ã¶zelliklerini Client API Ã¼zerinden yÃ¶netir.",
+        github: "meshtastic.org/docs/development/firmware/integration-paths",
+        infobox: {
+          "Yol AdÄ±": "External client over Client API",
+          "Bellenim TÃ¼rÃ¼": "Resmi Standart Bellenim (Stock Firmware)",
+          "Desteklenen Diller": "Python, JavaScript/TypeScript, Java/Kotlin, C++",
+          "BaÄŸlantÄ± TÃ¼rleri": "USB Seri (UART), TCP (Port 4403), BLE"
+        },
+        seeAlso: ["integration-paths-four-architectures", "via-the-node-cryptographic-offload"]
       }
     ];
 
