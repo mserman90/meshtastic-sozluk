@@ -11839,6 +11839,166 @@
           "AraÃ§": "Meshtasticator / Interactive Simulator"
         },
         seeAlso: ["local-tcp-virtual-lora-simulation", "meshtasticd-native-daemon-build"]
+      }      ,
+      {
+        id: "web-client-dual-hosting-model",
+        en: "Web Client Dual-Hosting Architecture",
+        tr: "Web Ä°stemcisi Ä°kili BarÄ±ndÄ±rma Mimarisi",
+        category: "YazÄ±lÄ±m & Ä°stemciler",
+        lead: "Meshtastic web arayÃ¼zÃ¼nÃ¼n hem buluttan (client.meshtastic.org) hem de doÄŸrudan cihazÄ±n dahili flash belleÄŸinden (meshtastic.local) sunulabilmesi.",
+        details: "Meshtastic web mimarisi iki farklÄ± Ã§alÄ±ÅŸma modelini destekler: Bulut/CDN modeli (`client.meshtastic.org`) sayesinde internet eriÅŸimi olan kullanÄ±cÄ±lar hiÃ§bir ÅŸey yÃ¼klemeden tarayÄ±cÄ± Ã¼zerinden Bluetooth veya Serial ile cihaza baÄŸlanÄ±r. Dahili modelde ise (`http://meshtastic.local`) tÃ¼m web dosyalarÄ± GZip ile sÄ±kÄ±ÅŸtÄ±rÄ±lÄ±p cihazÄ±n LittleFS flash belleÄŸine gÃ¶mÃ¼lÃ¼r; internetin olmadÄ±ÄŸÄ± acil durumlarda dÃ¼ÄŸÃ¼mÃ¼n yerel Wi-Fi eriÅŸim noktasÄ±na baÄŸlanan kullanÄ±cÄ±lar arayÃ¼zÃ¼ doÄŸrudan telsizden Ã§eker.",
+        github: "meshtastic.org/docs/development/web",
+        infobox: {
+          "Bulut Adresi": "client.meshtastic.org",
+          "Cihaz Ä°Ã§i Adres": "http://meshtastic.local (veya IP adresi)",
+          "Ã‡alÄ±ÅŸma ModlarÄ±": "1. BarÄ±ndÄ±rÄ±lan (Hosted), 2. DÃ¼ÄŸÃ¼m Ä°Ã§i (Served from node)",
+          "Ä°nternetsiz EriÅŸim": "LittleFS Ã¼zerinden tam baÄŸÄ±msÄ±z Ã§alÄ±ÅŸma"
+        },
+        seeAlso: ["littlefs-gzip-embedded-web-package", "client-meshtastic-org-production", "mdns-meshtastic-local-discovery"]
+      },
+      {
+        id: "deno-task-build-packaging",
+        en: "Deno Runtime Development and Task Packaging",
+        tr: "Deno Ã‡alÄ±ÅŸma ZamanÄ± GeliÅŸtirme ve GÃ¶rev Paketleme",
+        category: "YazÄ±lÄ±m & Ä°stemciler",
+        lead: "Meshtastic web istemcisinin Node.js yerine modern Deno Ã§alÄ±ÅŸma zamanÄ± Ã¼zerinde geliÅŸtirilmesi ve 'deno task package' komutuyla paketlenmesi.",
+        details: "Meshtastic web deposu (`github.com/meshtastic/web`) baÄŸÄ±mlÄ±lÄ±k ve gÃ¶rev yÃ¶netiminde Deno motorunu kullanÄ±r. GeliÅŸtiriciler `deno i` ile baÄŸÄ±mlÄ±lÄ±klarÄ± yÃ¼kler, `deno task dev` ile yerel geliÅŸtirme sunucusunu baÅŸlatÄ±r. `deno task build` TypeScript/React kodlarÄ±nÄ± optimize HTML/JS/CSS varlÄ±klarÄ±na dÃ¶nÃ¼ÅŸtÃ¼rÃ¼rken, `deno task package` komutu bu Ã§Ä±ktÄ±larÄ± ESP32 flash belleÄŸine uygun ultra hafif GZip arÅŸivine Ã§evirir.",
+        github: "meshtastic/web: deno.json",
+        infobox: {
+          "Ã‡alÄ±ÅŸma ZamanÄ±": "Deno (Modern V8 / Rust tabanlÄ± JS runtime)",
+          "Temel Komutlar": "deno i, deno task dev, deno task build, deno task package",
+          "YapÄ±landÄ±rma": "deno.json",
+          "Avantaj": "HÄ±zlÄ± TypeScript derlemesi ve yerleÅŸik paketleme"
+        },
+        seeAlso: ["web-client-dual-hosting-model", "littlefs-gzip-embedded-web-package"]
+      },
+      {
+        id: "littlefs-gzip-embedded-web-package",
+        en: "LittleFS GZip Embedded Web Package",
+        tr: "LittleFS GZip GÃ¶mÃ¼lÃ¼ Web Paketi",
+        category: "GeliÅŸtirici & Bellenim",
+        lead: "Web istemcisinin tÃ¼m HTML, JS ve CSS dosyalarÄ±nÄ±n GZip ile sÄ±kÄ±ÅŸtÄ±rÄ±larak mikrodenetleyicinin LittleFS flash bÃ¶lÃ¼mÃ¼ne sÄ±ÄŸdÄ±rÄ±lmasÄ±.",
+        details: "ESP32'nin flash belleÄŸinde web sunucusu iÃ§in ayrÄ±lan alan son derece sÄ±nÄ±rlÄ±dÄ±r (genellikle 1.5 - 2 MB). Web arayÃ¼zÃ¼nÃ¼n tÃ¼m sayfalarÄ±, harita motoru ve ikonlarÄ± `deno task package` ile `.gz` formatÄ±nda sÄ±kÄ±ÅŸtÄ±rÄ±lÄ±r. ESP32'nin yerel web sunucusu bir tarayÄ±cÄ± isteÄŸi geldiÄŸinde dosyayÄ± aÃ§madan (decompress etmeden) doÄŸrudan `Content-Encoding: gzip` baÅŸlÄ±ÄŸÄ±yla tarayÄ±cÄ±ya gÃ¶nderir; bÃ¶ylece hem cihazÄ±n CPU ve RAM'i korunur hem de aktarÄ±m anÄ±nda gerÃ§ekleÅŸir.",
+        github: "meshtastic/firmware: LittleFS web assets",
+        infobox: {
+          "Dosya Sistemi": "LittleFS (SPIFFS alternatifi)",
+          "SÄ±kÄ±ÅŸtÄ±rma FormatÄ±": "GZip (.gz)",
+          "HTTP YanÄ±t BaÅŸlÄ±ÄŸÄ±": "Content-Encoding: gzip",
+          "KazanÃ§": "Flash bellekte %70'e varan alan tasarrufu, sÄ±fÄ±r CPU decompress yÃ¼kÃ¼"
+        },
+        seeAlso: ["web-client-dual-hosting-model", "deno-task-build-packaging"]
+      },
+      {
+        id: "vercel-pr-preview-deployments",
+        en: "Vercel PR Preview Deployments",
+        tr: "Vercel PR Otomatik Ã–nizleme DaÄŸÄ±tÄ±mlarÄ±",
+        category: "YazÄ±lÄ±m & AltyapÄ±",
+        lead: "Web deposuna aÃ§Ä±lan her Pull Request iÃ§in baÄŸÄ±msÄ±z ve anÄ±nda test edilebilir bir canlÄ± Ã¶nizleme baÄŸlantÄ±sÄ± Ã¼reten Vercel entegrasyonu.",
+        details: "Meshtastic web istemcisi ekosisteminde kod inceleme sÃ¼recini hÄ±zlandÄ±rmak iÃ§in Vercel botu kullanÄ±lÄ±r. Bir geliÅŸtirici PR aÃ§tÄ±ÄŸÄ± veya commit eklediÄŸi anda Vercel arka planda projeyi derler ve benzersiz bir URL (Ã¶rneÄŸin `https://web-git-fork-feature.meshtastic.vercel.app`) oluÅŸturur. Ä°nceleyiciler (reviewers) ve topluluk Ã¼yeleri yerel geliÅŸtirme ortamÄ± kurmadan tarayÄ±cÄ±dan bu linki aÃ§arak Web Bluetooth veya Web Serial ile kendi cihazlarÄ±na baÄŸlanÄ±p yeni Ã¶zelliÄŸi canlÄ± test eder.",
+        github: "meshtastic.org/docs/development/web",
+        infobox: {
+          "Platform": "Vercel Edge Platform",
+          "Tetikleyici": "GitHub Pull Request aÃ§Ä±lmasÄ± / gÃ¼ncellenmesi",
+          "URL FormatÄ±": "Unique Preview Deploy URL",
+          "Fayda": "Yerel kuruluma gerek kalmadan canlÄ± UI/UX ve donanÄ±m testi"
+        },
+        seeAlso: ["client-test-staging-environment", "client-meshtastic-org-production"]
+      },
+      {
+        id: "client-test-staging-environment",
+        en: "client-test Staging Environment",
+        tr: "client-test Sahneleme (Staging) OrtamÄ±",
+        category: "YazÄ±lÄ±m & AltyapÄ±",
+        lead: "Ana dala birleÅŸtirilen (merged) yeni Ã¶zelliklerin Ã¼retim Ã¶ncesi topluluk tarafÄ±ndan test edildiÄŸi staging platformu (client-test.meshtastic.org).",
+        details: "Bir PR onaylanÄ±p ana `master` dalÄ±na birleÅŸtirildiÄŸinde doÄŸrudan Ã¼retim sunucusuna gÃ¶nderilmez. Ä°lk olarak otomatik CD boru hattÄ± tarafÄ±ndan `client-test.meshtastic.org` sahneleme ortamÄ±na daÄŸÄ±tÄ±lÄ±r. Bu ortam, geliÅŸtiricilerin en son Ã¶zellikleri hÄ±zlÄ± dÃ¶ngÃ¼lerle geniÅŸ kullanÄ±cÄ± kitlesi Ã¼zerinde test etmesine olanak tanÄ±rken, kararlÄ± Ã¼retim kullanÄ±cÄ±larÄ±nÄ±n beklenmedik regresyon hatalarÄ±ndan etkilenmesini Ã¶nler.",
+        github: "meshtastic.org/docs/development/web",
+        infobox: {
+          "CanlÄ± Adres": "client-test.meshtastic.org",
+          "DaÄŸÄ±tÄ±m Tetikleyicisi": "Ana dala birleÅŸen (merged) commit'ler",
+          "Ortam TÃ¼rÃ¼": "Staging / Pre-Production",
+          "Hedef": "HÄ±zlÄ± Ã¶zellik iterasyonu ve kararlÄ±lÄ±k doÄŸrulamasÄ±"
+        },
+        seeAlso: ["vercel-pr-preview-deployments", "client-meshtastic-org-production"]
+      },
+      {
+        id: "client-meshtastic-org-production",
+        en: "client.meshtastic.org Official Production Web Client",
+        tr: "client.meshtastic.org Resmi Ãœretim Web Ä°stemcisi",
+        category: "YazÄ±lÄ±m & Ä°stemciler",
+        lead: "DÃ¼nya Ã§apÄ±ndaki Meshtastic kullanÄ±cÄ±larÄ±na hizmet veren, tamamen kararlÄ± ve doÄŸrulanmÄ±ÅŸ resmi web arayÃ¼zÃ¼ daÄŸÄ±tÄ±mÄ±.",
+        details: "`client.meshtastic.org`, yÃ¼z binlerce kullanÄ±cÄ±nÄ±n tarayÄ±cÄ± Ã¼zerinden LoRa cihazlarÄ±nÄ± yapÄ±landÄ±rmak, mesajlaÅŸmak, harita izlemek ve kanal ÅŸifrelerini dÃ¼zenlemek iÃ§in kullandÄ±ÄŸÄ± resmi Ã¼retim sÃ¼rÃ¼mÃ¼dÃ¼r. Staging ortamÄ±nda kapsamlÄ± testlerden geÃ§en sÃ¼rÃ¼mler dÃ¼zenli aralÄ±klarla buraya terfi (promote) ettirilir. GÃ¼venli HTTPS baÄŸlantÄ±sÄ± Ã¼zerinden Ã§alÄ±ÅŸÄ±r ve tarayÄ±cÄ±nÄ±n Web Bluetooth/Web Serial API'lerine gÃ¼venli kÃ¶prÃ¼ saÄŸlar.",
+        github: "client.meshtastic.org",
+        infobox: {
+          "Ãœretim Adresi": "https://client.meshtastic.org",
+          "KullanÄ±cÄ± Profili": "Son kullanÄ±cÄ±lar, saha operatÃ¶rleri, acil yardÄ±m ekipleri",
+          "EriÅŸim Protokolleri": "HTTPS, Web Bluetooth, Web Serial, HTTP/TCP",
+          "GÃ¼ncelleme DÃ¶ngÃ¼sÃ¼": "Periyodik kararlÄ± sÃ¼rÃ¼m terfisi (Promote)"
+        },
+        seeAlso: ["client-test-staging-environment", "web-client-dual-hosting-model"]
+      },
+      {
+        id: "mdns-meshtastic-local-discovery",
+        en: "mDNS meshtastic.local Local Network Discovery",
+        tr: "mDNS meshtastic.local Yerel AÄŸ KeÅŸif ProtokolÃ¼",
+        category: "YazÄ±lÄ±m & Protokol",
+        lead: "Wi-Fi aÄŸÄ±na baÄŸlÄ± bir dÃ¼ÄŸÃ¼mÃ¼n IP adresini bilmeye gerek kalmadan 'http://meshtastic.local' adresiyle anÄ±nda bulunmasÄ±nÄ± saÄŸlayan mDNS servisi.",
+        details: "Meshtastic cihazlarÄ± bir Wi-Fi aÄŸÄ±na baÄŸlandÄ±ÄŸÄ±nda Multicast DNS (mDNS / Bonjour) protokolÃ¼nÃ¼ kullanarak aÄŸa `meshtastic.local` adÄ±nÄ± anons eder. Ev veya saha aÄŸÄ±ndaki kullanÄ±cÄ±lar yÃ¶nlendirici (router) yÃ¶netim paneline girip IP adresi aramak zorunda kalmadan doÄŸrudan tarayÄ±cÄ± adres satÄ±rÄ±na `http://meshtastic.local` yazarak web arayÃ¼zÃ¼ne ulaÅŸÄ±r. EÄŸer aÄŸda birden fazla dÃ¼ÄŸÃ¼m varsa cihazlar `meshtastic-XXXX.local` (MAC adresinin son 4 hanesi) ÅŸeklinde Ã§akÄ±ÅŸmasÄ±z anons edilir.",
+        github: "meshtastic/firmware: src/mesh/wifi",
+        infobox: {
+          "Protokol": "Multicast DNS (mDNS / Zeroconf)",
+          "VarsayÄ±lan Alan AdÄ±": "meshtastic.local",
+          "Ã‡oklu DÃ¼ÄŸÃ¼m KuralÄ±": "meshtastic-<shortname>.local",
+          "Fayda": "IP yapÄ±landÄ±rmasÄ± olmadan sÄ±fÄ±r yapÄ±landÄ±rmalÄ± yerel eriÅŸim"
+        },
+        seeAlso: ["web-client-dual-hosting-model", "http-api-embedded-rest-spec"]
+      },
+      {
+        id: "pwa-offline-mesh-caching",
+        en: "PWA Offline Mesh Caching Architecture",
+        tr: "PWA Ã‡evrimdÄ±ÅŸÄ± Mesh Ã–nbellekleme Mimarisi",
+        category: "YazÄ±lÄ±m & Ä°stemciler",
+        lead: "Web istemcisinin bir Progressive Web App (PWA) olarak internet baÄŸlantÄ±sÄ± kesildiÄŸinde dahi tarayÄ±cÄ±da Ã§alÄ±ÅŸmaya devam etmesini saÄŸlayan Service Worker mimarisi.",
+        details: "Meshtastic web istemcisi bir PWA (Progressive Web App) olarak tasarlanmÄ±ÅŸtÄ±r. KullanÄ±cÄ± siteyi bir kez ziyaret ettiÄŸinde Service Worker tÃ¼m arayÃ¼z bileÅŸenlerini, simgeleri ve temel harita katmanlarÄ±nÄ± tarayÄ±cÄ± Ã¶nbelleÄŸine (Cache Storage) kaydeder. Cihaz internetin olmadÄ±ÄŸÄ± bir daÄŸ baÅŸÄ±nda veya afet bÃ¶lgesinde aÃ§Ä±lsa bile web istemcisi aÃ§Ä±lÄ±r ve bilgisayarÄ±n USB/Bluetooth portu Ã¼zerinden telsizle iletiÅŸim kurmaya devam eder.",
+        github: "meshtastic/web: service-worker",
+        infobox: {
+          "Teknoloji": "Progressive Web App (PWA) & Service Worker",
+          "Ã–nbellek MekanizmasÄ±": "Browser Cache Storage API",
+          "Uygulama Hali": "MasaÃ¼stÃ¼ne ve telefona 'Uygulama Olarak YÃ¼kle'",
+          "Temel GÃ¼Ã§": "Tam Ã§evrimdÄ±ÅŸÄ± (offline) telsiz kontrol yeteneÄŸi"
+        },
+        seeAlso: ["client-meshtastic-org-production", "web-client-dual-hosting-model"]
+      },
+      {
+        id: "web-bluetooth-serial-unified-gateway",
+        en: "Web Bluetooth and Web Serial Unified Gateway",
+        tr: "Web Bluetooth ve Web Serial BirleÅŸik AÄŸ GeÃ§idi",
+        category: "YazÄ±lÄ±m & Ä°stemciler",
+        lead: "Chrome ve Edge gibi modern tarayÄ±cÄ±larÄ±n donanÄ±m API'lerini kullanarak sÃ¼rÃ¼cÃ¼ yÃ¼klemeden telsize doÄŸrudan baÄŸlanma arayÃ¼zÃ¼.",
+        details: "Geleneksel web siteleri fiziksel donanÄ±mlarla doÄŸrudan konuÅŸamaz. Meshtastic web istemcisi W3C standartlarÄ± olan Web Bluetooth API ve Web Serial API'yi birleÅŸik bir taÅŸÄ±ma soyutlamasÄ±nda (`TransportManager`) birleÅŸtirir. KullanÄ±cÄ± bir butona basarak Chrome/Edge iÃ§inden USB kablosuyla baÄŸlÄ± telsizi veya Bluetooth LE sinyali yayan dÃ¼ÄŸÃ¼mÃ¼ seÃ§er; tarayÄ±cÄ± donanÄ±m soketini aÃ§arak Ã§ift yÃ¶nlÃ¼ protobuf Ã§erÃ§eveleri gÃ¶ndermeye baÅŸlar.",
+        github: "meshtastic/web: src/transport",
+        infobox: {
+          "TarayÄ±cÄ± API'leri": "Web Bluetooth API, Web Serial API",
+          "Destekleyen TarayÄ±cÄ±lar": "Google Chrome, Microsoft Edge, Opera, Brave",
+          "SÃ¼rÃ¼cÃ¼ Gereksinimi": "SÄ±fÄ±r (TarayÄ±cÄ± yerel donanÄ±m sÃ¼rÃ¼cÃ¼sÃ¼)",
+          "Soyutlama SÄ±nÄ±fÄ±": "TransportManager / WebSerialTransport"
+        },
+        seeAlso: ["web-serial-transport", "web-bluetooth-transport", "protobuf-browser-client-decoding"]
+      },
+      {
+        id: "protobuf-browser-client-decoding",
+        en: "Protobuf Browser Client Decoding via @meshtastic/protobufs",
+        tr: "TarayÄ±cÄ±da @meshtastic/protobufs ile Protobuf AyrÄ±ÅŸtÄ±rma",
+        category: "YazÄ±lÄ±m & Protobuf",
+        lead: "Telsizden seri veya Bluetooth Ã¼zerinden gelen ham ikili bayt dizilerini JavaScript/TypeScript nesnelerine Ã§eviren tarayÄ±cÄ± iÃ§i Ã§Ã¶zÃ¼cÃ¼ motor.",
+        details: "Web istemcisi dÃ¼ÄŸÃ¼mle haberleÅŸirken JSON yerine ikili Protobuf formatÄ±nÄ± kullanÄ±r. `@meshtastic/protobufs` NPM paketi (`buf.build` tarafÄ±ndan TypeScript olarak derlenmiÅŸ sÄ±nÄ±flar), Web Serial veya BLE Ã¼zerinden gelen her `FromRadio` paketini ayrÄ±ÅŸtÄ±rÄ±r. Mesaj iÃ§indeki `meshPacket`, `telemetry`, `nodeInfo` veya `position` alanlarÄ± anÄ±nda TypeScript arayÃ¼zlerine dÃ¶nÃ¼ÅŸtÃ¼rÃ¼lerek React durum yÃ¶neticisine (State Manager) beslenir ve ekran bileÅŸenleri anÄ±nda yeniden render edilir.",
+        github: "meshtastic/web: package.json (@meshtastic/protobufs)",
+        infobox: {
+          "Paket": "@meshtastic/protobufs (NPM / JSR)",
+          "Kodlama": "Google Protocol Buffers (proto3)",
+          "Girdi": "ArrayBuffer / Uint8Array (Seri/BLE baytlarÄ±)",
+          "Ã‡Ä±ktÄ±": "Tip gÃ¼venli TypeScript arayÃ¼z nesneleri (FromRadio)"
+        },
+        seeAlso: ["buf-protobuf-ts-generator", "web-bluetooth-serial-unified-gateway"]
       }
     ];
 

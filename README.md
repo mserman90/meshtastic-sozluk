@@ -958,6 +958,18 @@ Meshtastic donanımını kontrol etmek, mesajlaşıp harita görüntülemek ve a
 - **Yerel TCP Sanal LoRa Telsiz SimÃ¼lasyonu (`local-tcp-virtual-lora-simulation`):** Fiziksel telsiz Ã§ipi olmadan `localhost:<port>` soketleri Ã¼zerinden telsiz trafiÄŸini simÃ¼le etme.
 - **Ã‡oklu SÃ¼reÃ§ Sanal Mesh AÄŸÄ± Test Mimarisi (`multi-instance-virtual-mesh-testing`):** Meshtasticator ile tek bilgisayarda 10 farklÄ± meshtasticd sÃ¼recini coÄŸrafi olarak yarÄ±ÅŸtÄ±rÄ±p test etme.
 
+### ğŸŒ Meshtastic Web Ä°stemcisi ve TarayÄ±cÄ± Mimarisi (meshtastic.org/docs/development/web)
+- **Web Ä°stemcisi Ä°kili BarÄ±ndÄ±rma Mimarisi (`web-client-dual-hosting-model`):** Hem buluttan (`client.meshtastic.org`) hem de cihaz iÃ§i flash bellekten (`meshtastic.local`) Ã§alÄ±ÅŸma modeli.
+- **Deno Ã‡alÄ±ÅŸma ZamanÄ± GeliÅŸtirme ve Paketleme (`deno-task-build-packaging`):** TypeScript web kodlarÄ±nÄ±n `deno task build` ve `package` ile optimize GZip Ã§Ä±ktÄ±larÄ±na dÃ¶nÃ¼ÅŸtÃ¼rÃ¼lmesi.
+- **LittleFS GZip GÃ¶mÃ¼lÃ¼ Web Paketi (`littlefs-gzip-embedded-web-package`):** ESP32 flash belleÄŸine doÄŸrudan sÄ±kÄ±ÅŸtÄ±rÄ±lmÄ±ÅŸ web varlÄ±klarÄ±nÄ±n yÃ¼klenmesi ve HTTP sunumu.
+- **Vercel PR Otomatik Ã–nizleme DaÄŸÄ±tÄ±mlarÄ± (`vercel-pr-preview-deployments`):** AÃ§Ä±lan her PR iÃ§in tek tÄ±kla test edilebilir baÄŸÄ±msÄ±z Ã¶nizleme baÄŸlantÄ±sÄ± Ã¼retme sÃ¼reci.
+- **client-test Sahneleme OrtamÄ± (`client-test-staging-environment`):** Ana dala birleÅŸen Ã¶zelliklerin Ã¼retime geÃ§meden Ã¶nce toplulukÃ§a test edildiÄŸi platform.
+- **client.meshtastic.org Resmi Ãœretim Web Ä°stemcisi (`client-meshtastic-org-production`):** KararlÄ±, gÃ¼venli HTTPS ve donanÄ±m API'leriyle Ã§alÄ±ÅŸan global web arayÃ¼zÃ¼.
+- **mDNS meshtastic.local Yerel AÄŸ KeÅŸif ProtokolÃ¼ (`mdns-meshtastic-local-discovery`):** Wi-Fi aÄŸÄ±ndaki dÃ¼ÄŸÃ¼mÃ¼n IP adresi aranmadan `http://meshtastic.local` ile anÄ±nda bulunmasÄ±.
+- **PWA Ã‡evrimdÄ±ÅŸÄ± Mesh Ã–nbellekleme Mimarisi (`pwa-offline-mesh-caching`):** Service Worker sayesinde internet kesilse bile daÄŸ baÅŸÄ±nda veya afette tarayÄ±cÄ±dan telsiz kontrolÃ¼.
+- **Web Bluetooth ve Web Serial BirleÅŸik AÄŸ GeÃ§idi (`web-bluetooth-serial-unified-gateway`):** Chrome/Edge Ã¼zerinden sÃ¼rÃ¼cÃ¼sÃ¼z doÄŸrudan USB seri port veya BLE ile dÃ¼ÄŸÃ¼m baÄŸlantÄ±sÄ±.
+- **TarayÄ±cÄ±da @meshtastic/protobufs ile Protobuf AyrÄ±ÅŸtÄ±rma (`protobuf-browser-client-decoding`):** Telsizden gelen ikili FromRadio baytlarÄ±nÄ± TypeScript nesnelerine anlÄ±k dÃ¶nÃ¼ÅŸtÃ¼rme.
+
 ### 🔹 Açık Standart ve Tedarikçi Bağımsızlığı (Open Architecture & Vendor Neutrality)
 Meshtastic'in hiçbir tescilli ticari protokole veya tek bir donanım üreticisine bağımlı kalmamasını sağlayan açık kaynak ekosistem felsefesi (GPL-3.0 lisansı ve açık Protobuf şemaları). Semtech SX1262/SX1276/LR1121 telsizleri ile ESP32, nRF52840 ve RP2040 işlemcili onlarca farklı üreticinin (Heltec, LilyGO, RAKwireless) donanımları tam uyumla birlikte çalışabilir.
 
