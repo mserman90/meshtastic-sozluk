@@ -10560,6 +10560,166 @@
           "Sonuç": "Modülün telsiz açılış sekansına ve küresel paket dinleme listesine eklenmesi"
         },
         seeAlso: ["module-api-meshmodule-base", "replymodule-ping-service-template", "osthread-cooperative-threading"]
+      },
+      {
+        id: "critical-error-code-subsystem",
+        en: "Critical Error Codes Diagnostic Subsystem",
+        tr: "Meshtastic Kritik Hata Kodları Alt Sistemi",
+        category: "Donanım & Anten",
+        lead: "Cihazın ekranında (OLED/E-Paper) ve UART seri konsolunda CriticalErrorCode enum numaralarıyla donanım arızalarını bildiren çekirdek hata denetim mekanizması.",
+        details: "Meshtastic firmware'i açılış sırasında ve çalışma anında kritik donanım bileşenlerini (LoRa telsizi, GPS, PMIC, Flash dosya sistemi, CPU voltajı) sürekli denetler. Bir arıza tespit edildiğinde cihaz sistem paniğine girmemek veya sessizce kilitlenmemek için ekranda ve seri loglarda 'Critical Error X' şeklinde sayısal hata kodları üretir. Bu kodlar resmi Protobuf şemasındaki `CriticalErrorCode` enum değerlerine dayanır ve arızanın kök nedenini anında tespit etmeyi sağlar.",
+        github: "meshtastic.org/docs/development/device/error-codes",
+        infobox: {
+          "Tanımlandığı Yer": "meshtastic/mesh.proto (CriticalErrorCode enum)",
+          "Görüntüleme Kanalları": "Yerleşik Ekran (OLED/E-Ink/TFT) & 115200 Baud Seri Port",
+          "Kod Aralığı": "Hata 1 (TxWatchdog) ile Hata 13 (FlashCorruptionUnrecoverable) arası",
+          "Kullanıcı Eylemi": "Hata kodu numarasını topluluk forumunda veya hata ayıklama kılavuzunda sorgulamak"
+        },
+        seeAlso: ["error-code-noradio", "error-code-brownout", "error-code-flashcorruption"]
+      },
+      {
+        id: "error-code-noradio",
+        en: "Fault Code 3: NoRadio Hardware Failure",
+        tr: "Hata Kodu 3: NoRadio Telsiz Donanımı Bulunamadı Hatası",
+        category: "Donanım & Anten",
+        lead: "Açılışta SPI veri yolu üzerinden Semtech LoRa telsiz yongasına (SX1262/SX1276) erişilemediğinde veya telsiz enerjisiz kaldığında oluşan kritik hata.",
+        details: "Firmware başlatılırken SPI CE hattı üzerinden telsiz entegresinin 'WhoAmI' veya sürüm kaydedicilerini (version registers) okur. Eğer yonga yanıt vermezse ekranda 'Critical Error 3: NoRadio' belirir. Başlıca nedenleri: Yanlış kart hedefiyle (target) derlenmiş firmware yüklenmesi (hatalı GPIO pin eşlemesi), SPI hatlarında soğuk lehim veya kopukluk olması, ya da telsiz yongasının 3.3V güç hattının PMIC tarafından aktif edilmemesidir.",
+        github: "meshtastic.org/docs/development/device/error-codes",
+        infobox: {
+          "Hata Numarası": "3 (NoRadio)",
+          "Belirti": "Ekranda Hata 3 uyarısı ve cihazın hiçbir telsiz paketi alamaması",
+          "Muhtemel Nedenler": "Yanlış firmware sürümü, SPI pin uyumsuzluğu, hasarlı LoRa yongası",
+          "Çözüm": "Donanım modeline tam uyan resmi firmware yüklemek, SPI pin lehimlerini kontrol etmek"
+        },
+        seeAlso: ["critical-error-code-subsystem", "error-code-sx1262failure", "error-code-transmitfailed"]
+      },
+      {
+        id: "error-code-brownout",
+        en: "Fault Code 9: CPU Brownout Voltage Drop",
+        tr: "Hata Kodu 9: Brownout İşlemci Düşük Voltaj Hatası",
+        category: "Donanım & Anten",
+        lead: "Özellikle LoRa iletimi (TX) anındaki anlık yüksek akım çekişi nedeniyle CPU besleme voltajının güvenli çalışma eşiğinin altına düşmesiyle oluşan donanımsal koruma hatası.",
+        details: "ESP32 ve nRF52 mikrodenetleyicileri dahili brownout dedektörlerine sahiptir. Cihaz +22 dBm (160 mW) güçle telsiz yayını başlattığında anlık olarak 120-150 mA ek akım çeker. Yıpranmış veya kalitesiz bir 18650 batarya, ince ve uzun USB şarj kabloları veya yetersiz güç adaptörleri kullanıldığında voltaj anlık olarak 2.7V seviyesinin altına çöker. İşlemci RAM bozulmasını önlemek için kendini resetler ve açılışta 'Critical Error 9: Brownout' kaydı düşer.",
+        github: "meshtastic.org/docs/development/device/error-codes",
+        infobox: {
+          "Hata Numarası": "9 (Brownout)",
+          "Tetikleyici": "İşlemci VDD voltajının donanımsal eşik altına ani düşüşü",
+          "Zamanlama": "Genellikle LoRa paket gönderme (TX) veya Wi-Fi başlatma anında",
+          "Çözüm": "Yüksek deşarj akımlı kaliteli pil kullanmak, kalın USB kablosu ve 5V 2A adaptör seçmek"
+        },
+        seeAlso: ["critical-error-code-subsystem", "error-code-noaxp192", "offgrid-solar-meshtastic-node"]
+      },
+      {
+        id: "error-code-txwatchdog",
+        en: "Fault Code 1: TxWatchdog Transmission Timeout",
+        tr: "Hata Kodu 1: TxWatchdog Telsiz İletim Zaman Aşımı Hatası",
+        category: "Yazılım & İstemciler",
+        lead: "LoRa paket gönderme işlemi sırasında telsiz sürücüsünün kilitlenmesi veya bekleme süresinin aşılması durumunda bekçi köpeği tarafından yakalanan yazılım hatası.",
+        details: "Firmware, LoRa üzerinden bir paket gönderirken donanımdan iletimin bittiğine dair kesme (TX Done interrupt) bekler. Eğer telsiz kütüphanesinde bir kilitlenme yaşanırsa veya yazılımsal durum makinesi (state machine) askıda kalırsa, arka plandaki bekçi köpeği (Watchdog) sistemi resetler ve 'Critical Error 1: TxWatchdog' kodunu üretir. Bu durum genellikle firmware güncellemeleri sonrasında sürücü zamanlama optimizasyonlarıyla çözülür.",
+        github: "meshtastic.org/docs/development/device/error-codes",
+        infobox: {
+          "Hata Numarası": "1 (TxWatchdog)",
+          "Tür": "Yazılımsal zaman aşımı (Software Bug / Radio Driver Timeout)",
+          "Etki": "Paket gönderim döngüsünün kilitlenmesi sonucu sistemin yeniden başlatılması",
+          "Topluluk Eylemi": "Firmware sürümü ve log kayıtlarıyla geliştiricilere hata bildirimi açmak"
+        },
+        seeAlso: ["critical-error-code-subsystem", "error-code-transmitfailed", "service-sendtomesh-uplink"]
+      },
+      {
+        id: "error-code-transmitfailed",
+        en: "Fault Code 8: TransmitFailed Radio Hardware Failure",
+        tr: "Hata Kodu 8: TransmitFailed Donanımsal Gönderim Arızası",
+        category: "Donanım & Anten",
+        lead: "Veri paketinin telsiz yongasına SPI üzerinden başarıyla yazılmasına rağmen yonganın iletim tamamlandı donanım kesmesini (DIO1) üretmemesi arızası.",
+        details: "Hata Kodu 1'den farklı olarak `TransmitFailed` (Hata 8), doğrudan donanım seviyesinde bir arızayı gösterir. Telsiz entegresine (SX1262/SX1276) 'gönder' komutu verilmiş ancak yonga belirlenen süre zarfında DIO1 kesme bacağını lojik 1 yapamamıştır. Bu durum telsiz RF güç katının (PA) yanmış olabileceğini, antensiz çalıştırma sonucu yonganın hasar gördüğünü veya DIO1 kesme hattında fiziksel lehim kopukluğu olduğunu gösterir.",
+        github: "meshtastic.org/docs/development/device/error-codes",
+        infobox: {
+          "Hata Numarası": "8 (TransmitFailed)",
+          "Donanım Sinyali": "DIO1 / IRQ Kesme hattı yanıt vermiyor",
+          "Kritik Risk": "Antensiz çalıştırma (TX without antenna) sonucu RF PA yanması",
+          "Donanımsal İnceleme": "DIO1 GPIO hattı lehim kontrolü ve telsiz yongası değişimi"
+        },
+        seeAlso: ["critical-error-code-subsystem", "error-code-txwatchdog", "error-code-noradio"]
+      },
+      {
+        id: "error-code-noaxp192",
+        en: "Fault Code 6: NoAXP192 Power Management IC Failure",
+        tr: "Hata Kodu 6: NoAXP192 Güç Yönetim Entegresi (PMIC) Hatası",
+        category: "Donanım & Anten",
+        lead: "T-Beam ve benzeri kartlarda bulunan AXP192 veya AXP2101 güç yönetim entegresinin I2C hattı üzerinden yanıt vermemesi veya hasar görmesi arızası.",
+        details: "LilyGO T-Beam gibi gelişmiş donanımlarda pil şarjı, GPS gücü ve ekran voltaj hatları harici bir PMIC (AXP192/AXP2101) tarafından yönetilir. Açılışta işlemci I2C veri yolu üzerinden bu entegreyi sorgular; yanıt alamadığında 'Critical Error 6: NoAXP192' uyarısı verir. Bu arıza genellikle I2C hatlarındaki lehim temassızlığından, ters kutuplu pil takılması sonucu PMIC'in yanmasından veya yanlış firmware yüklenmesinden (ör. AXP entegresi olmayan karta T-Beam firmware'i yüklenmesi) kaynaklanır.",
+        github: "meshtastic.org/docs/development/device/error-codes",
+        infobox: {
+          "Hata Numarası": "6 (NoAXP192)",
+          "Etkilenen Parça": "X-Powers AXP192 / AXP2101 Güç Yönetim Çipi",
+          "Haberleşme Hattı": "I2C Veri Yolu (SDA/SCL)",
+          "Belirtiler": "GPS ve telsizin açılmaması, pil şarjının algılanamaması"
+        },
+        seeAlso: ["critical-error-code-subsystem", "error-code-brownout", "error-code-ubloxinitfailed"]
+      },
+      {
+        id: "error-code-ubloxinitfailed",
+        en: "Fault Code 5: UBloxInitFailed GPS Configuration Error",
+        tr: "Hata Kodu 5: UBloxInitFailed GPS Yapılandırma Hatası",
+        category: "Donanım & Anten",
+        lead: "u-blox GNSS/GPS alıcısının UART portu üzerinden başlatılamaması, baud hızı el sıkışmasının başarısız olması veya UBX komutlarına yanıt vermemesi hatası.",
+        details: "Meshtastic açılırken u-blox NEO-6M/8M/M9N GPS modüllerini standart 9600 baud hızından başlayarak tarar, baud hızını optimize eder ve UBX ikili protokolü üzerinden güç tasarrufu ve NMEA mesaj filtreleme komutları gönderir. Eğer GPS modülü bu konfigürasyon dizisine beklenen onay (ACK) yanıtını vermezse 'Critical Error 5: UBloxInitFailed' tetiklenir. Sebepleri arasında GPS RX/TX pinlerinin ters bağlanması, GPS anteninin takılmaması veya modül voltajının kesik olması yer alır.",
+        github: "meshtastic.org/docs/development/device/error-codes",
+        infobox: {
+          "Hata Numarası": "5 (UBloxInitFailed)",
+          "Hedef Donanım": "u-blox NEO/MAX serisi GNSS modülleri",
+          "İletişim Protokolü": "UART Seri Hat + UBX İkili Protokolü",
+          "Olası Sorunlar": "Ters UART pinleri (TX/RX), zayıf lehim, GPS modülünün bozulması"
+        },
+        seeAlso: ["critical-error-code-subsystem", "error-code-noaxp192", "heltec-tracker-uc6580-gnss"]
+      },
+      {
+        id: "error-code-sx1262failure",
+        en: "Fault Code 10: SX1262Failure Transceiver Self-Test Error",
+        tr: "Hata Kodu 10: SX1262Failure Telsiz Yongası Öz-Test Hatası",
+        category: "Donanım & Anten",
+        lead: "Semtech SX1262 LoRa telsiz entegresinin açılış sırasındaki dahili donanımsal öz-test ve kalibrasyon adımlarından geçememesi durumu.",
+        details: "SX1262 yongası açılırken dahili RC osilatörlerini kalibre eder, TCXO kristal voltajını ayarlar ve görüntü frekansı bastırma (image calibration) testleri yürütür. Bu test adımları başarısız olduğunda veya yonganın durum kaydedicileri (GetStatus komutu) dahili hata raporladığında 'Critical Error 10: SX1262Failure' oluşur. Genellikle arızalı TCXO osilatöründen, hatalı RF filtre bobinlerinden veya üretim hatası olan çiplerden kaynaklanır.",
+        github: "meshtastic.org/docs/development/device/error-codes",
+        infobox: {
+          "Hata Numarası": "10 (SX1262Failure)",
+          "Etkilenen Entegre": "Semtech SX1262 LoRa Alıcı-Verici",
+          "Test Kapsamı": "Dahili osilatör, TCXO kalibrasyonu, imaj filtreleme testleri",
+          "Kalıcı Çözüm": "Donanım değişimi veya modül lehimlerinin yenilenmesi"
+        },
+        seeAlso: ["critical-error-code-subsystem", "error-code-noradio", "error-code-invalidradiosetting"]
+      },
+      {
+        id: "error-code-invalidradiosetting",
+        en: "Fault Code 7: InvalidRadioSetting Unsupported Parameter Error",
+        tr: "Hata Kodu 7: InvalidRadioSetting Desteklenmeyen Parametre Hatası",
+        category: "Yazılım & İstemciler",
+        lead: "Kanal konfigürasyonunda seçilen frekans, bant genişliği veya yayılma faktörünün bağlı telsiz yongasının donanımsal sınırlarını aşması sonucu telsiz ayarlarının tanımsız kalması.",
+        details: "Farklı Semtech yongaları farklı bant genişliklerini (BW) ve frekans aralıklarını destekler. Örneğin SX1276 bazı düşük bant genişliklerini veya yüksek bit hızlarını SX1262 gibi işleyemez. Kullanıcı mobil uygulama veya CLI üzerinden yonganın desteklemediği ekstrem bir radyo ayarı (örneğin donanımın desteklemediği 62.5 kHz BW veya sınır dışı frekans) gönderdiğinde cihaz 'Critical Error 7: InvalidRadioSetting' üretir ve iletişimi durdurur.",
+        github: "meshtastic.org/docs/development/device/error-codes",
+        infobox: {
+          "Hata Numarası": "7 (InvalidRadioSetting)",
+          "Nedeni": "Yonga setinin desteklemediği kanal/frekans ayarlarının girilmesi",
+          "Telsiz Durumu": "İletişim parametreleri tanımsız (undefined) kalır ve radyo susturulur",
+          "Çözüm": "Kanalı varsayılan LongFast veya standart bölgesel ön ayarlara sıfırlamak"
+        },
+        seeAlso: ["critical-error-code-subsystem", "error-code-sx1262failure", "turkiye-ism-band-frequency-compliance"]
+      },
+      {
+        id: "error-code-flashcorruption",
+        en: "Fault Codes 12 and 13: FlashCorruption Filesystem Errors",
+        tr: "Hata Kodu 12 ve 13: FlashCorruption Dosya Sistemi Bozulması",
+        category: "Yazılım & İstemciler",
+        lead: "Cihazın dahili flash belleğindeki LittleFS dosya sisteminde tespit edilen onarılabilir (Hata 12) veya onarılamaz (Hata 13) veri bozulması arızaları.",
+        details: "Meshtastic, ayarları ve şifreleme anahtarlarını dahili flash bellekte LittleFS üzerinde saklar. Cihaz yazma anında aniden kapatılırsa dosya sistemi bozulabilir. Hata 12 (FlashCorruptionRecoverable), sistemin bozulmayı tespit edip otomatik olarak onardığını bildirir. Hata 13 (FlashCorruptionUnrecoverable) ise dosya sisteminin kurtarılamaz şekilde hasar gördüğünü belirtir; bu durumda cihaz fabrika ayarlarına döner, bölge kodu (region) silinir ve cihazın yeniden yapılandırılması zorunlu hale gelir.",
+        github: "meshtastic.org/docs/development/device/error-codes",
+        infobox: {
+          "Hata 12": "FlashCorruptionRecoverable (Bozulma tespit edildi ve başarıyla onarıldı)",
+          "Hata 13": "FlashCorruptionUnrecoverable (Onarılamaz hasar, fabrika ayarlarına dönüş)",
+          "Dosya Sistemi": "LittleFS (SPI Flash bellek üzerinde)",
+          "Kullanıcı Eylemi (Hata 13)": "Cihazı yeniden başlatıp kanal, bölge ve anahtar ayarlarını baştan girmek"
+        },
+        seeAlso: ["critical-error-code-subsystem", "error-code-brownout", "uf2-bootloader-dfu-flashing"]
       }
     ];
 

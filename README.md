@@ -862,6 +862,18 @@ Meshtastic donanımını kontrol etmek, mesajlaşıp harita görüntülemek ve a
 - **nanopb regen-protos.sh Kod Üretim Araç Zinciri (`nanopb-regen-protos-toolchain`):** Yeni `.proto` şemalarından kısıtlı MCU belleğine uygun ANSI-C struct ve kodları üretme.
 - **setupModules Modules.cpp Merkezi Modül Kayıt Kancası (`modules-cpp-registration-hook`):** Yazılan yeni C++ modül nesnesinin açılarak firmware açılış zincirine dahil edildiği ana fonksiyon.
 
+### 🚨 Meshtastic Kritik Donanım Hata Kodları ve Tanılama (meshtastic.org/docs/development/device/error-codes)
+- **Meshtastic Kritik Hata Kodları Alt Sistemi (`critical-error-code-subsystem`):** Ekran ve seri portta `CriticalErrorCode` numaralarıyla donanım arızalarını bildiren çekirdek tanı mimarisi.
+- **Hata Kodu 3: NoRadio Telsiz Donanımı Bulunamadı Hatası (`error-code-noradio`):** SPI hattı üzerinden SX126x/SX127x telsiz yongasına erişilemediğinde oluşan kritik arıza.
+- **Hata Kodu 9: Brownout İşlemci Düşük Voltaj Hatası (`error-code-brownout`):** LoRa iletim anındaki ani akım çekişiyle CPU besleme voltajının eşik altına çökmesi koruması.
+- **Hata Kodu 1: TxWatchdog Telsiz İletim Zaman Aşımı Hatası (`error-code-txwatchdog`):** LoRa paket gönderme döngüsünün sürücü kilitlenmesiyle zaman aşımına uğraması hatası.
+- **Hata Kodu 8: TransmitFailed Donanımsal Gönderim Arızası (`error-code-transmitfailed`):** Telsiz yongasına veri yazıldığı halde beklenen TX Done kesmesinin (DIO1) dönmemesi durumu.
+- **Hata Kodu 6: NoAXP192 Güç Yönetim Entegresi (PMIC) Hatası (`error-code-noaxp192`):** T-Beam kartlarında AXP192/AXP2101 güç çipinin I2C hattından yanıt vermemesi arızası.
+- **Hata Kodu 5: UBloxInitFailed GPS Yapılandırma Hatası (`error-code-ubloxinitfailed`):** u-blox GNSS alıcısının UART baud hızı ve UBX protokol başlatma dizisinde başarısız olması.
+- **Hata Kodu 10: SX1262Failure Telsiz Yongası Öz-Test Hatası (`error-code-sx1262failure`):** Semtech SX1262 yongasının açılıştaki osilatör ve imaj kalibrasyonu testlerinden geçememesi.
+- **Hata Kodu 7: InvalidRadioSetting Desteklenmeyen Parametre Hatası (`error-code-invalidradiosetting`):** Seçilen frekans veya bant genişliğinin yonga sınırlarını aşması sonucu telsizin susturulması.
+- **Hata Kodu 12 ve 13: FlashCorruption Dosya Sistemi Bozulması (`error-code-flashcorruption`):** LittleFS flash belleğindeki onarılabilen (Hata 12) veya fabrika resetine zorlayan (Hata 13) bozulmalar.
+
 ### 🔹 Açık Standart ve Tedarikçi Bağımsızlığı (Open Architecture & Vendor Neutrality)
 Meshtastic'in hiçbir tescilli ticari protokole veya tek bir donanım üreticisine bağımlı kalmamasını sağlayan açık kaynak ekosistem felsefesi (GPL-3.0 lisansı ve açık Protobuf şemaları). Semtech SX1262/SX1276/LR1121 telsizleri ile ESP32, nRF52840 ve RP2040 işlemcili onlarca farklı üreticinin (Heltec, LilyGO, RAKwireless) donanımları tam uyumla birlikte çalışabilir.
 
