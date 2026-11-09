@@ -994,6 +994,18 @@ Meshtastic donanımını kontrol etmek, mesajlaşıp harita görüntülemek ve a
 - **device.configure() BaÅŸlatma ve El SÄ±kÄ±ÅŸma AdÄ±mÄ± (`device-configure-handshake-step`):** Kanal ve dÃ¼ÄŸÃ¼m veritabanÄ±nÄ± hafÄ±zaya Ã§ekip telsizi hazÄ±r kÄ±lan senkronizasyon.
 - **Ã‡oklu Ã‡alÄ±ÅŸma ZamanlÄ± JavaScript UyumluluÄŸu (`multi-runtime-js-compatibility`):** Node.js, Deno, Bun ve tarayÄ±cÄ±da tek bir platform baÄŸÄ±msÄ±z API ile kod yazma.
 
+### ğŸ“š Meshtastic DokÃ¼mantasyon MÃ¼hendisliÄŸi ve Docusaurus Mimarisi (meshtastic.org/docs/development/docs)
+- **Docusaurus React MDX DokÃ¼mantasyon Platformu (`docusaurus-mdx-documentation-stack`):** Meta Docusaurus v3 ile React bileÅŸenleri barÄ±ndÄ±ran zengin MDX yayÄ±nlama altyapÄ±sÄ±.
+- **Ä°stemci TasarÄ±m StandartlarÄ± BÃ¶lÃ¼m 11 [YazÄ±m KÄ±lavuzu] (`client-design-standards-section-11`):** DokÃ¼mantasyonun Ã¼rÃ¼nÃ¼n parÃ§asÄ± olduÄŸunu belirten teknik dil ve Ã¼slup standardÄ±.
+- **meshtastic/design Git Alt-ModÃ¼lÃ¼ ve Marka VarlÄ±klarÄ± (`meshtastic-design-submodule-assets`):** LogolarÄ±, renk paletini ve donanÄ±m Ã§izimlerini tÃ¼m projelere daÄŸÄ±tan Git alt-modÃ¼lÃ¼.
+- **Playwright Otomatik DonanÄ±m Ã–nizleme KartÄ± Ãœreticisi (`playwright-hardware-preview-generator`):** `devices.json` deÄŸiÅŸtiÄŸinde `pnpm preview:hardware` ile 1200x630px sosyal kart oluÅŸturma.
+- **Docusaurus SÃ¼rÃ¼m TabanlÄ± DokÃ¼man Dondurma Mimarisi (`docusaurus-versioned-docs-freezing`):** Her bellenim sÃ¼rÃ¼mÃ¼nde dokÃ¼manlarÄ± `versioned_docs/` altÄ±na arÅŸivleme yÃ¶ntemi.
+- **Ä°stemciden EÅŸitlenen DokÃ¼manlar ve CI Koruma KalkanÄ± (`client-synced-documentation-ci-guard`):** Android ve Apple dokÃ¼manlarÄ±nÄ±n ana sitede doÄŸrudan dÃ¼zenlenmesini engelleyen CI kalkanÄ±.
+- **PaylaÅŸÄ±lan MDX ParÃ§alÄ± BloklarÄ± [docs/blocks] (`shared-mdx-partial-blocks`):** Anten uyarÄ±larÄ± ve sÃ¼rÃ¼cÃ¼ adÄ±mlarÄ±nÄ± tek kaynaktan iÃ§eri aktaran DRY bileÅŸenleri.
+- **Docusaurus Dinamik Terim Ä°puÃ§larÄ± ve SÃ¶zlÃ¼k Motoru (`docusaurus-terms-glossary-tooltips`):** LoRa, SNR, Duty Cycle terimlerinin Ã¼zerine gelince aÃ§Ä±lan bilgi kutucuklarÄ±.
+- **DokÃ¼mantasyon Sorun-PR BaÄŸlama SÃ¶zleÅŸmesi [Closes #ID] (`documentation-issue-linking-contract`):** YazÄ±m hatalarÄ± dahil her PR'Ä±n aÃ§Ä±k bir GitHub Issue'ya baÄŸlanmasÄ± kuralÄ±.
+- **PNPM Sabit SÃ¼rÃ¼mlÃ¼ DokÃ¼mantasyon Derleme HattÄ± (`pnpm-pinned-documentation-pipeline`):** Node.js ve PNPM sÃ¼rÃ¼mlerinin kilitlenerek kÄ±rÄ±k linkleri Ã¶nceden doÄŸrulayan derleme hattÄ±.
+
 ### 🔹 Açık Standart ve Tedarikçi Bağımsızlığı (Open Architecture & Vendor Neutrality)
 Meshtastic'in hiçbir tescilli ticari protokole veya tek bir donanım üreticisine bağımlı kalmamasını sağlayan açık kaynak ekosistem felsefesi (GPL-3.0 lisansı ve açık Protobuf şemaları). Semtech SX1262/SX1276/LR1121 telsizleri ile ESP32, nRF52840 ve RP2040 işlemcili onlarca farklı üreticinin (Heltec, LilyGO, RAKwireless) donanımları tam uyumla birlikte çalışabilir.
 

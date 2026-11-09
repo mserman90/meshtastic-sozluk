@@ -12319,6 +12319,167 @@
           "Fayda": "Tek bir API ile hem sunucuda hem tarayÄ±cÄ±da kod yazabilme"
         },
         seeAlso: ["meshtastic-core-npm-package", "transport-http-npm-package"]
+      }      ,
+      {
+        id: "docusaurus-mdx-documentation-stack",
+        en: "Docusaurus React MDX Documentation Platform",
+        tr: "Docusaurus React MDX DokÃ¼mantasyon Platformu",
+        category: "YazÄ±lÄ±m & AltyapÄ±",
+        lead: "Meshtastic resmi dokÃ¼mantasyon sitesinin (meshtastic.org) React bileÅŸenleri barÄ±ndÄ±ran Markdown (MDX) ile Ã¼retilmesini saÄŸlayan modern statik site motoru.",
+        details: "`meshtastic.org`, Meta tarafÄ±ndan geliÅŸtirilen aÃ§Ä±k kaynaklÄ± Docusaurus v3 platformu Ã¼zerinde koÅŸar. DÃ¼z Markdown yerine MDX formatÄ± kullanÄ±ldÄ±ÄŸÄ±ndan teknik yazarlar sayfalarÄ±n iÃ§erisine interaktif React butonlarÄ±, sekmeler (`Tabs`), uyarÄ± kutularÄ± (`Admonitions`) ve donanÄ±m kartlarÄ± yerleÅŸtirebilir. PNPM paket yÃ¶neticisi ile inÅŸa edilen site, kÄ±rÄ±k baÄŸlantÄ±larÄ± derleme anÄ±nda (`pnpm run build`) denetleyerek hatalÄ± linklerin yayÄ±na girmesini engeller.",
+        github: "meshtastic/meshtastic",
+        infobox: {
+          "Platform": "Docusaurus v3 (Meta / React tabanlÄ±)",
+          "Ä°Ã§erik FormatÄ±": "MDX (Markdown + JSX BileÅŸenleri)",
+          "Paket YÃ¶neticisi": "PNPM",
+          "YayÄ±n AlanÄ±": "https://meshtastic.org/docs/"
+        },
+        seeAlso: ["pnpm-pinned-documentation-pipeline", "shared-mdx-partial-blocks", "docusaurus-versioned-docs-freezing"]
+      },
+      {
+        id: "client-design-standards-section-11",
+        en: "Meshtastic Client Design Standards Section 11 (Writing Style)",
+        tr: "Meshtastic Ä°stemci TasarÄ±m StandartlarÄ± BÃ¶lÃ¼m 11 (YazÄ±m KÄ±lavuzu)",
+        category: "Topluluk & Ekosistem",
+        lead: "TÃ¼m Meshtastic dokÃ¼mantasyonu, web ve mobil istemcilerdeki teknik dilin, terimlerin ve Ã¼slubun tutarlÄ±lÄ±ÄŸÄ±nÄ± baÄŸlayan resmi anayasa standardÄ±.",
+        details: "Meshtastic projesinde teknik dokÃ¼mantasyon 'Ã¼rÃ¼nÃ¼n ayrÄ±lmaz bir parÃ§asÄ±' kabul edilir. Client Design Standards BÃ¶lÃ¼m 11; kÄ±saltmalarÄ±n ilk kullanÄ±mda aÃ§Ä±lmasÄ±, pasif dil yerine doÄŸrudan ve net eylemlerin kullanÄ±lmasÄ±, terminoloji tutarlÄ±lÄ±ÄŸÄ± (Ã¶rn. 'node' ve 'device' ayrÄ±mÄ±) ve gereksiz teknik karmaÅŸadan kaÃ§Ä±nÄ±lmasÄ± kurallarÄ±nÄ± belirler. Bir dokÃ¼man sayfasÄ± ile standart Ã§eliÅŸtiÄŸinde her zaman BÃ¶lÃ¼m 11 esas alÄ±nÄ±r.",
+        github: "meshtastic.org/docs/development/docs",
+        infobox: {
+          "Standart": "Client Design Standards Section 11",
+          "Kapsam": "TÃ¼m resmi dokÃ¼manlar, UI metinleri, hata mesajlarÄ±",
+          "Temel Ä°lke": "DokÃ¼mantasyon Ã¼rÃ¼nÃ¼n parÃ§asÄ±dÄ±r",
+          "HiyerarÅŸi": "En Ã¼st dÃ¼zey yazÄ±m baÄŸlayÄ±cÄ±lÄ±ÄŸÄ±"
+        },
+        seeAlso: ["docusaurus-mdx-documentation-stack", "documentation-issue-linking-contract"]
+      },
+      {
+        id: "meshtastic-design-submodule-assets",
+        en: "meshtastic/design Git Submodule Brand Assets",
+        tr: "meshtastic/design Git Alt-ModÃ¼lÃ¼ ve Marka VarlÄ±klarÄ±",
+        category: "YazÄ±lÄ±m & AltyapÄ±",
+        lead: "Resmi Meshtastic logolarÄ±, vektÃ¶r Ã§izimleri ve marka kÄ±lavuzunu tÃ¼m projelere merkezi olarak daÄŸÄ±tan 'meshtastic/design' Git alt modÃ¼lÃ¼.",
+        details: "DokÃ¼mantasyon sitesi yerel olarak derlenirken `git submodule update --init --recursive` komutuyla `meshtastic/design` deposu Ã§ekilmelidir. Bu alt modÃ¼l, projenin yÃ¼ksek Ã§Ã¶zÃ¼nÃ¼rlÃ¼klÃ¼ SVG logolarÄ±nÄ±, renk paleti deÄŸiÅŸkenlerini, cihaz silÃ¼etlerini ve sosyal medya ÅŸablonlarÄ±nÄ± iÃ§erir. Submodule Ã§ekilmediÄŸinde Docusaurus derlemesi eksik varlÄ±k hatasÄ± vererek durur.",
+        github: "meshtastic/design",
+        infobox: {
+          "Depo": "github.com/meshtastic/design",
+          "Entegrasyon TÃ¼rÃ¼": "Git Submodule (Alt modÃ¼l)",
+          "Ä°Ã§erik": "SVG Logolar, Favicon, Marka renkleri, DonanÄ±m Ã§izimleri",
+          "Gereksinim": "git submodule update --init --recursive"
+        },
+        seeAlso: ["docusaurus-mdx-documentation-stack", "playwright-hardware-preview-generator"]
+      },
+      {
+        id: "playwright-hardware-preview-generator",
+        en: "Playwright Automated Hardware Preview Card Generator",
+        tr: "Playwright Otomatik DonanÄ±m Ã–nizleme KartÄ± Ãœreticisi",
+        category: "YazÄ±lÄ±m & AltyapÄ±",
+        lead: "Desteklenen donanÄ±m listesi deÄŸiÅŸtiÄŸinde sosyal medya Ã¶nizleme gÃ¶rselini (hardware-1200x630.png) Chromium tarayÄ±cÄ±sÄ±yla otomatik oluÅŸturan boru hattÄ±.",
+        details: "Meshtastic donanÄ±m sayfasÄ±nÄ±n sosyal medya Ã¶nizleme resmi (`hardware-1200x630.png`), `src/data/devices.json` dosyasÄ±ndan otomatik Ã¼retilir. GeliÅŸtirici yeni bir kart eklediÄŸinde veya sildiÄŸinde `pnpm preview:hardware` komutunu Ã§alÄ±ÅŸtÄ±rÄ±r. Arka planda Playwright headless Chromium tarayÄ±cÄ±sÄ± cihaz resimlerini, baÅŸlÄ±klarÄ±nÄ± ve etiketlerini Ã¶lÃ§Ã¼p hizalayarak 1200x630 piksel boyutunda mÃ¼kemmel bir sosyal kart render eder. `devices.json` deÄŸiÅŸip bu gÃ¶rsel gÃ¼ncellenmezse CI derlemesi baÅŸarÄ±sÄ±z olur.",
+        github: "meshtastic/meshtastic: pnpm preview:hardware",
+        infobox: {
+          "Komut": "pnpm preview:hardware",
+          "TarayÄ±cÄ± Motoru": "Playwright Chromium (Headless)",
+          "Kaynak Veri": "src/data/devices.json",
+          "Ã‡Ä±ktÄ± DosyasÄ±": "static/img/preview/hardware-1200x630.png (1200x630px)",
+          "CI KuralÄ±": "GÃ¶rsel gÃ¼ncellenmezse PR reddedilir"
+        },
+        seeAlso: ["docusaurus-mdx-documentation-stack", "meshtastic-design-submodule-assets"]
+      },
+      {
+        id: "docusaurus-versioned-docs-freezing",
+        en: "Docusaurus Versioned Documentation Freezing",
+        tr: "Docusaurus SÃ¼rÃ¼m TabanlÄ± DokÃ¼man Dondurma Mimarisi",
+        category: "YazÄ±lÄ±m & AltyapÄ±",
+        lead: "Her resmi bellenim sÃ¼rÃ¼mÃ¼nde (Ã¶rn. 2.5, 2.8) dokÃ¼mantasyonun o anki halinin 'versioned_docs/' altÄ±na arÅŸivlenerek eski sÃ¼rÃ¼mlerin korunmasÄ±.",
+        details: "Meshtastic hÄ±zlÄ± geliÅŸtiÄŸi iÃ§in yeni bellenim Ã¶zellikleri eski sÃ¼rÃ¼mlerle farklÄ±lÄ±k gÃ¶sterebilir. Docusaurus'un sÃ¼rÃ¼mleme (versioning) Ã¶zelliÄŸi sayesinde `docs/` dizini her zaman geliÅŸtirme aÅŸamasÄ±ndaki en son sÃ¼rÃ¼mÃ¼ temsil ederken, yayÄ±nlanmÄ±ÅŸ kararlÄ± sÃ¼rÃ¼mler `versioned_docs/version-2.5/` gibi salt okunur snapshot dizinlerine dondurulur (freeze). KullanÄ±cÄ±lar sitenin saÄŸ Ã¼st kÃ¶ÅŸesindeki aÃ§Ä±lÄ±r menÃ¼den cihazlarÄ±nda koÅŸan sÃ¼rÃ¼me ait dokÃ¼manlarÄ± birebir inceleyebilir.",
+        github: "meshtastic/meshtastic: versioned_docs",
+        infobox: {
+          "GeliÅŸtirme Dizini": "docs/ (CanlÄ± / Gelecek sÃ¼rÃ¼m)",
+          "ArÅŸiv Dizini": "versioned_docs/version-X.X/",
+          "Mekanizma": "Docusaurus Version Snapshots",
+          "Fayda": "Eski firmware kullanÄ±cÄ±larÄ±nÄ±n doÄŸru belgelere eriÅŸebilmesi"
+        },
+        seeAlso: ["docusaurus-mdx-documentation-stack", "client-synced-documentation-ci-guard"]
+      },
+      {
+        id: "client-synced-documentation-ci-guard",
+        en: "Client-Synced Documentation and CI Protection Guard",
+        tr: "Ä°stemciden EÅŸitlenen DokÃ¼manlar ve CI Koruma KalkanÄ±",
+        category: "YazÄ±lÄ±m & AltyapÄ±",
+        lead: "Android ve Apple istemci dokÃ¼mantasyonunun ana depoda dÃ¼zenlenmesini engelleyen ve deÄŸiÅŸiklikleri istemci depolarÄ±na yÃ¶nlendiren CI denetimi.",
+        details: "Meshtastic dokÃ¼mantasyon sitesindeki `docs/software/android` ve `docs/software/apple` dizinleri ana sitede elle yazÄ±lmaz; doÄŸrudan `Meshtastic-Android` ve `Meshtastic-Apple` depolarÄ±ndan haftalÄ±k otomatik senkronizasyonla Ã§ekilir. EÄŸer bir katkÄ±cÄ± ana dokÃ¼mantasyon deposunda bu dosyalara doÄŸrudan PR aÃ§arsa, GitHub Actions CI kalkanÄ± PR'Ä± derhal reddeder ve katkÄ±cÄ±yÄ± ilgili mobil uygulamanÄ±n deposuna yÃ¶nlendirir.",
+        github: "meshtastic.org/docs/development/docs",
+        infobox: {
+          "Senkronize Dizinler": "docs/software/android, docs/software/apple",
+          "Kaynak Depolar": "Meshtastic-Android, Meshtastic-Apple",
+          "EÅŸitleme SÄ±klÄ±ÄŸÄ±": "HaftalÄ±k Otomatik Sync",
+          "CI KuralÄ±": "DoÄŸrudan ana depoda dÃ¼zenleme kesinlikle yasaktÄ±r"
+        },
+        seeAlso: ["docusaurus-mdx-documentation-stack", "documentation-issue-linking-contract"]
+      },
+      {
+        id: "shared-mdx-partial-blocks",
+        en: "Shared MDX Partial Blocks (docs/blocks)",
+        tr: "PaylaÅŸÄ±lan MDX ParÃ§alÄ± BloklarÄ± (docs/blocks)",
+        category: "YazÄ±lÄ±m & AltyapÄ±",
+        lead: "Birden fazla sayfada tekrar eden kurulum adÄ±mlarÄ±nÄ±, anten uyarÄ±larÄ±nÄ± veya cihaz ipuÃ§larÄ±nÄ± tek bir kaynaktan iÃ§eri aktaran yeniden kullanÄ±labilir bloklar.",
+        details: "DokÃ¼mantasyonda bilgi tekrarÄ±nÄ± Ã¶nlemek (DRY prensibi) amacÄ±yla `docs/blocks/` dizininde ortak MDX bileÅŸenleri tutulur. Bu bloklar kendi baÅŸlarÄ±na bir web sayfasÄ± olarak yayÄ±nlanmaz; Ã¶rneÄŸin anten baÄŸlamadan cihazÄ± aÃ§mama uyarÄ±sÄ± (`NoAntennaWarning.mdx`) veya seri port sÃ¼rÃ¼cÃ¼sÃ¼ talimatÄ± onlarca farklÄ± donanÄ±m sayfasÄ±nda `import NoAntenna from '@site/docs/blocks/_no_antenna.mdx'` ÅŸeklinde Ã§aÄŸrÄ±lÄ±r. Metin gÃ¼ncellendiÄŸinde tÃ¼m sayfalar otomatik olarak gÃ¼ncellenir.",
+        github: "meshtastic/meshtastic: docs/blocks",
+        infobox: {
+          "Dizin": "docs/blocks/",
+          "YayÄ±nlanma Durumu": "BaÄŸÄ±msÄ±z yayÄ±nlanmaz (Not published directly)",
+          "Ä°Ã§eri Aktarma FormatÄ±": "MDX Component Import (<BlockName />)",
+          "Prensip": "DRY (Don't Repeat Yourself)"
+        },
+        seeAlso: ["docusaurus-mdx-documentation-stack", "docusaurus-terms-glossary-tooltips"]
+      },
+      {
+        id: "docusaurus-terms-glossary-tooltips",
+        en: "Docusaurus Terms and Dynamic Glossary Tooltips",
+        tr: "Docusaurus Dinamik Terim Ä°puÃ§larÄ± ve SÃ¶zlÃ¼k Motoru",
+        category: "YazÄ±lÄ±m & AltyapÄ±",
+        lead: "Sayfalarda geÃ§en LoRa, SNR, Duty Cycle veya Protobuf gibi teknik terimlerin Ã¼zerine gelindiÄŸinde `docs/terms/` Ã¼zerinden aÃ§Ä±lan dinamik aÃ§Ä±klama ipuÃ§larÄ±.",
+        details: "Meshtastic dokÃ¼mantasyon sitesi, teknik jargonun yeni baÅŸlayanlarÄ± korkutmasÄ±nÄ± Ã¶nlemek iÃ§in dinamik bir sÃ¶zlÃ¼k ipucu motoru kullanÄ±r. `docs/terms/` dizininde tanÄ±mlanan terimler, MDX sayfalarÄ±nda bir React bileÅŸeni veya Ã¶zel etiketle iÅŸaretlendiÄŸinde cÃ¼mlenin Ã¼zerine gelindiÄŸinde (hover) ÅŸÄ±k bir bilgi kutucuÄŸu (tooltip) aÃ§ar. KullanÄ±cÄ± sayfadan ayrÄ±lmadan terimin Ã¶zet tanÄ±mÄ±nÄ± okuyabilir veya detay iÃ§in tÄ±kla sÃ¶zlÃ¼k sayfasÄ±na geÃ§ebilir.",
+        github: "meshtastic/meshtastic: docs/terms",
+        infobox: {
+          "Kaynak Dizin": "docs/terms/",
+          "KullanÄ±cÄ± EtkileÅŸimi": "Hover Tooltip (Fare Ã¼zerine gelince aÃ§Ä±lan ipucu)",
+          "Ã–rnek Terimler": "LoRa, SNR, Duty Cycle, Protobuf, ESP32, nRF52",
+          "Fayda": "Teknik okuryazarlÄ±ÄŸÄ± ve kullanÄ±cÄ± deneyimini artÄ±rma"
+        },
+        seeAlso: ["docusaurus-mdx-documentation-stack", "shared-mdx-partial-blocks"]
+      },
+      {
+        id: "documentation-issue-linking-contract",
+        en: "Documentation Issue-to-PR Linking Contract (Closes #ID)",
+        tr: "DokÃ¼mantasyon Sorun-PR BaÄŸlama SÃ¶zleÅŸmesi (Closes #ID)",
+        category: "Topluluk & Ekosistem",
+        lead: "Tek bir kelimelik yazÄ±m hatasÄ± dÃ¼zeltmesi dahil her dokÃ¼mantasyon PR'Ä±nÄ±n Ã¶nce aÃ§Ä±lmÄ±ÅŸ bir GitHub Issue'ya 'Closes #ID' ile baÄŸlanmasÄ± zorunluluÄŸu.",
+        details: "Meshtastic dokÃ¼mantasyon yÃ¶netiÅŸiminde 'Ã¶nce Issue, sonra PR' kuralÄ± katÄ± bir sÃ¶zleÅŸmedir. En ufak bir yazÄ±m hatasÄ± (typo) dahi olsa Ã¶nce sorunun nerede ve ne olduÄŸunun mutabakatÄ± iÃ§in bir dokÃ¼mantasyon kayÄ±t talebi aÃ§Ä±lÄ±r. KatkÄ±cÄ± issue'yu Ã¼zerine alÄ±r ve PR aÃ§Ä±klama metnine `Closes #1234` yazar. Bu anahtar kelime GitHub tarafÄ±ndan algÄ±lanarak PR birleÅŸtiÄŸinde (merge) iliÅŸkili sorunun otomatik kapanmasÄ±nÄ± ve sitenin tÃ¼m deÄŸiÅŸiklik tarihÃ§esinin geriye dÃ¶nÃ¼k izlenebilmesini gÃ¼venceye alÄ±r.",
+        github: "meshtastic.org/docs/development/docs",
+        infobox: {
+          "Kural FormatÄ±": "Closes #<ISSUE_NUMBER>",
+          "Gereksinim": "YazÄ±m hatalarÄ± (typo) dahil tÃ¼m deÄŸiÅŸiklikler iÃ§in zorunlu",
+          "GitHub MekanizmasÄ±": "Otomatik Issue-PR baÄŸlama ve birleÅŸmede kapatma",
+          "AmacÄ±": "Ã‡ift Ã§alÄ±ÅŸma yapÄ±lmasÄ±nÄ± Ã¶nleme ve baÄŸlamsal kayÄ±t tutma"
+        },
+        seeAlso: ["client-design-standards-section-11", "client-synced-documentation-ci-guard"]
+      },
+      {
+        id: "pnpm-pinned-documentation-pipeline",
+        en: "PNPM Pinned Version Documentation Build Pipeline",
+        tr: "PNPM Sabit SÃ¼rÃ¼mlÃ¼ DokÃ¼mantasyon Derleme HattÄ±",
+        category: "YazÄ±lÄ±m & AltyapÄ±",
+        lead: "Node.js ve PNPM sÃ¼rÃ¼mlerinin 'package.json' ve CI iÅŸ akÄ±ÅŸlarÄ±nda kilitlenerek tÃ¼m geliÅŸtiricilerde aynÄ± derleme Ã§Ä±ktÄ±sÄ±nÄ± Ã¼reten hat.",
+        details: "FarklÄ± Node.js veya paket yÃ¶neticisi sÃ¼rÃ¼mlerinin Docusaurus'ta CSS/HTML bozulmalarÄ±na veya kÄ±rÄ±k baÄŸlantÄ± denetimi tutarsÄ±zlÄ±klarÄ±na yol aÃ§mamasÄ± iÃ§in Meshtastic dokÃ¼mantasyon deposu PNPM motorunu ve Node LTS sÃ¼rÃ¼mÃ¼nÃ¼ katÄ± biÃ§imde sabitler (`packageManager: pnpm@x.y.z`). `pnpm install` ile baÄŸÄ±mlÄ±lÄ±klar kilit dosyasÄ±ndan (`pnpm-lock.yaml`) kurulur, `pnpm start` yerel sunucuyu aÃ§ar ve `pnpm run build` ile Ã¼retim Ã¶ncesi tÃ¼m linkler ve Markdown sÃ¶zdizimi doÄŸrulanÄ±r.",
+        github: "meshtastic/meshtastic: package.json",
+        infobox: {
+          "Paket YÃ¶neticisi": "PNPM (Performant NPM)",
+          "Kilit DosyasÄ±": "pnpm-lock.yaml",
+          "Derleme Testi": "pnpm run build (KÄ±rÄ±k link kontrolÃ¼)",
+          "GeliÅŸtirme Sunucusu": "pnpm start"
+        },
+        seeAlso: ["docusaurus-mdx-documentation-stack", "playwright-hardware-preview-generator"]
       }
     ];
 
