@@ -982,6 +982,18 @@ Meshtastic donanımını kontrol etmek, mesajlaşıp harita görüntülemek ve a
 - **DÃ¼ÄŸÃ¼m localConfig ve writeConfig YapÄ±landÄ±rma API'si (`node-localconfig-writeconfig-api`):** Python ile telsiz ayarlarÄ±nÄ± okuyup `writeConfig` ile kalÄ±cÄ± belleÄŸe yazma.
 - **PyPI ve Tek Dosya YÃ¼rÃ¼tÃ¼lebilir Ä°kili DaÄŸÄ±tÄ±mÄ± (`pypi-single-executable-distribution`):** `pip install meshtastic` yanÄ±nda Python gerektirmeyen baÄŸÄ±msÄ±z .exe/binary sÃ¼rÃ¼mler.
 
+### ğŸŸ¨ Meshtastic JavaScript / TypeScript SDK ve Reaktif Olay Mimarisi (meshtastic.org/docs/development/js)
+- **@meshtastic/core NPM Paketi (`meshtastic-core-npm-package`):** TarayÄ±cÄ±, Node.js ve Deno'da Ã§alÄ±ÅŸan cihaz kontrolÃ¼ ve Protobuf veri Ã§erÃ§evesi.
+- **MeshDevice Cephe [Facade] SoyutlamasÄ± (`meshdevice-facade-abstraction`):** HTTP, TCP, BLE veya Serial taÅŸÄ±ma fark etmeksizin telsizi tek nesne Ã¼zerinden yÃ¶netme.
+- **RxJS Reaktif Olay AkÄ±ÅŸ Motoru (`rxjs-reactive-event-streams`):** Gelen telsiz paketlerini Observable akÄ±ÅŸlarÄ±yla asenkron iÅŸleme mimarisi.
+- **device.onTextPacket Reaktif Metin AkÄ±ÅŸÄ± (`ontextpacket-observable-stream`):** Gelen metin ve Unishox2 mesajlarÄ±nÄ± otomatik Ã§Ã¶zÃ¼p teslim eden olay akÄ±ÅŸÄ±.
+- **device.onPositionPacket Reaktif Konum AkÄ±ÅŸÄ± (`onpositionpacket-observable-stream`):** CanlÄ± GPS koordinatlarÄ±nÄ±, irtifa ve uydu verilerini haritaya baÄŸlayan akÄ±ÅŸ.
+- **device.onMyNodeInfo DÃ¼ÄŸÃ¼m Durum AkÄ±ÅŸÄ± (`onmynodeinfo-state-observable`):** BaÄŸlÄ± telsizin kimlik, donanÄ±m modeli ve bellenim sÃ¼rÃ¼mÃ¼nÃ¼ bildiren akÄ±ÅŸ.
+- **device.onHeartbeat CanlÄ±lÄ±k [Keepalive] AkÄ±ÅŸÄ± (`onheartbeat-keepalive-stream`):** Bluetooth veya TCP baÄŸlantÄ±sÄ±nÄ±n kopup kopmadÄ±ÄŸÄ±nÄ± periyodik izleyen mekanizma.
+- **@meshtastic/transport-http NPM Paketi (`transport-http-npm-package`):** Wi-Fi Ã¼zerinden HTTP REST ve Server-Sent Events (SSE) ile sÃ¼rÃ¼cÃ¼sÃ¼z baÄŸlantÄ±.
+- **device.configure() BaÅŸlatma ve El SÄ±kÄ±ÅŸma AdÄ±mÄ± (`device-configure-handshake-step`):** Kanal ve dÃ¼ÄŸÃ¼m veritabanÄ±nÄ± hafÄ±zaya Ã§ekip telsizi hazÄ±r kÄ±lan senkronizasyon.
+- **Ã‡oklu Ã‡alÄ±ÅŸma ZamanlÄ± JavaScript UyumluluÄŸu (`multi-runtime-js-compatibility`):** Node.js, Deno, Bun ve tarayÄ±cÄ±da tek bir platform baÄŸÄ±msÄ±z API ile kod yazma.
+
 ### 🔹 Açık Standart ve Tedarikçi Bağımsızlığı (Open Architecture & Vendor Neutrality)
 Meshtastic'in hiçbir tescilli ticari protokole veya tek bir donanım üreticisine bağımlı kalmamasını sağlayan açık kaynak ekosistem felsefesi (GPL-3.0 lisansı ve açık Protobuf şemaları). Semtech SX1262/SX1276/LR1121 telsizleri ile ESP32, nRF52840 ve RP2040 işlemcili onlarca farklı üreticinin (Heltec, LilyGO, RAKwireless) donanımları tam uyumla birlikte çalışabilir.
 

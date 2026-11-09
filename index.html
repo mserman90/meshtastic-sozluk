@@ -12159,6 +12159,166 @@
           "Hedef Kitle": "Python kurulumu olmayan son kullanÄ±cÄ±lar"
         },
         seeAlso: ["poetry-python-dependency-manager", "serialinterface-python-api"]
+      }      ,
+      {
+        id: "meshtastic-core-npm-package",
+        en: "@meshtastic/core NPM Package",
+        tr: "@meshtastic/core NPM Paketi",
+        category: "YazÄ±lÄ±m & Ä°stemciler",
+        lead: "JavaScript, Node.js ve Deno ekosisteminde Meshtastic aygÄ±t yÃ¶netimi, Protobuf iÅŸleme ve durum takibi saÄŸlayan Ã§ekirdek kÃ¼tÃ¼phane.",
+        details: "`@meshtastic/core`, modern JavaScript/TypeScript uygulamalarÄ± geliÅŸtirmek iÃ§in temel Ã§erÃ§evedir. TaÅŸÄ±ma katmanlarÄ±ndan (HTTP, TCP, BLE, Serial) baÄŸÄ±msÄ±z olarak Ã§alÄ±ÅŸÄ±r. `MeshDevice` ana sÄ±nÄ±fÄ±nÄ±, RxJS reaktif olay akÄ±ÅŸlarÄ±nÄ± ve tip gÃ¼venli Protobuf veri modellerini iÃ§erir. Web tarayÄ±cÄ±larÄ±nda, Electron masaÃ¼stÃ¼ yazÄ±lÄ±mlarÄ±nda veya Node.js/Deno arka plan servislerinde ortak kod tabanÄ± sunar.",
+        github: "npmjs.com/package/@meshtastic/core",
+        infobox: {
+          "NPM Paketi": "@meshtastic/core",
+          "Desteklenen Ortamlar": "TarayÄ±cÄ±, Node.js, Deno, Bun",
+          "Temel BileÅŸenler": "MeshDevice, RxJS Event Streams, Protobuf Types",
+          "BaÄŸÄ±mlÄ±lÄ±k Durumu": "TaÅŸÄ±ma katmanlarÄ±ndan baÄŸÄ±msÄ±z Ã§ekirdek"
+        },
+        seeAlso: ["meshdevice-facade-abstraction", "rxjs-reactive-event-streams", "multi-runtime-js-compatibility"]
+      },
+      {
+        id: "meshdevice-facade-abstraction",
+        en: "MeshDevice Facade Abstraction",
+        tr: "MeshDevice Cephe (Facade) SoyutlamasÄ±",
+        category: "YazÄ±lÄ±m & Ä°stemciler",
+        lead: "BaÄŸlantÄ± tÃ¼rÃ¼ ne olursa olsun (HTTP, TCP, Seri, BLE) telsiz cihazÄ±nÄ± tek bir nesne Ã¼zerinden yÃ¶netmeyi saÄŸlayan ana arayÃ¼z sÄ±nÄ±fÄ±.",
+        details: "`const device = new MeshDevice(connection)` sÃ¶zdizimi ile baÅŸlatÄ±lan `MeshDevice`, yazÄ±lÄ±m mÃ¼hendisliÄŸindeki Facade tasarÄ±m desenini uygular. GeliÅŸtirici altÄ±na hangi taÅŸÄ±ma sÃ¼rÃ¼cÃ¼sÃ¼nÃ¼n (Transport) baÄŸlandÄ±ÄŸÄ±nÄ± umursamadan doÄŸrudan `device.configure()`, `device.sendText()`, `device.setChannel()` Ã§aÄŸrÄ±larÄ± yapar. TÃ¼m hata yÃ¶netimi, paket kuyruklama ve olay akÄ±ÅŸlarÄ± bu sÄ±nÄ±f Ã¼zerinden koordine edilir.",
+        github: "meshtastic.org/docs/development/js/connecting/",
+        infobox: {
+          "SÄ±nÄ±f": "MeshDevice",
+          "TasarÄ±m Deseni": "Facade Pattern",
+          "Girdi": "ITransport arabirimi (HTTP, TCP, Serial, BLE)",
+          "Ä°ÅŸlev": "Tek bir nesne Ã¼zerinden tÃ¼m radyo kontrolÃ¼"
+        },
+        seeAlso: ["meshtastic-core-npm-package", "device-configure-handshake-step", "transport-http-npm-package"]
+      },
+      {
+        id: "rxjs-reactive-event-streams",
+        en: "RxJS Reactive Event Streaming Engine",
+        tr: "RxJS Reaktif Olay AkÄ±ÅŸ Motoru",
+        category: "YazÄ±lÄ±m & Ä°stemciler",
+        lead: "Meshtastic JS kÃ¼tÃ¼phanesinde telsiz olaylarÄ±nÄ± ve paket akÄ±ÅŸlarÄ±nÄ± dinlemek iÃ§in kullanÄ±lan ReactiveX (RxJS) Observable mimarisi.",
+        details: "Geleneksel callback fonksiyonlarÄ± veya basit EventListener'lar yerine `@meshtastic/core`, Reactive Extensions (RxJS) Observable akÄ±ÅŸlarÄ±nÄ± temel alÄ±r. Telsizden gelen her FromRadio paketi ilgili konuya gÃ¶re filtrelenir, dÃ¶nÃ¼ÅŸtÃ¼rÃ¼lÃ¼r ve tip gÃ¼venli Observable akÄ±ÅŸlarÄ± (`Observable<T>`) halinde dÄ±ÅŸa aktarÄ±lÄ±r. GeliÅŸtiriciler `device.onTextPacket.subscribe(...)` veya RxJS operatÃ¶rleri (`filter`, `map`, `debounceTime`) ile karmaÅŸÄ±k asenkron veri boru hatlarÄ± kurabilir.",
+        github: "rxjs.dev",
+        infobox: {
+          "Reaktif KÃ¼tÃ¼phane": "RxJS (ReactiveX for JavaScript)",
+          "Veri Tipi": "Observable<T>",
+          "Yetkinlikler": "Filtreleme, haritalama, yeniden deneme (retry), tamponlama",
+          "Fayda": "Asenkron telsiz trafiÄŸini reaktif akÄ±ÅŸlarla yÃ¶netme"
+        },
+        seeAlso: ["meshtastic-core-npm-package", "ontextpacket-observable-stream", "onpositionpacket-observable-stream"]
+      },
+      {
+        id: "ontextpacket-observable-stream",
+        en: "device.onTextPacket Observable Stream",
+        tr: "device.onTextPacket Reaktif Metin AkÄ±ÅŸÄ±",
+        category: "YazÄ±lÄ±m & Ä°stemciler",
+        lead: "AÄŸdan gelen tÃ¼m metin mesajlarÄ±nÄ± (TEXT_MESSAGE_APP) otomatik ayrÄ±ÅŸtÄ±rarak doÄŸrudan alÄ±cÄ±ya sunan tip gÃ¼venli olay akÄ±ÅŸÄ±.",
+        details: "`device.onTextPacket.subscribe(packet => { console.log(packet.text, packet.from); })` ÅŸeklinde dinlenen bu akÄ±ÅŸ, geliÅŸtiriciyi ham Protobuf baytlarÄ±nÄ± Ã§Ã¶zme veya port numarasÄ± kontrol etme yÃ¼kÃ¼nden kurtarÄ±r. `TEXT_MESSAGE_APP` (1) veya Unishox2 ile sÄ±kÄ±ÅŸtÄ±rÄ±lmÄ±ÅŸ `TEXT_MESSAGE_COMPRESSED_APP` (7) portlarÄ±ndan gelen mesajlar arka planda Ã§Ã¶zÃ¼lÃ¼r ve gÃ¶nderici kimliÄŸi (`from`), kanal indeksi ve UTF-8 metin dizgisi olarak anÄ±nda bileÅŸenlere aktarÄ±lÄ±r.",
+        github: "meshtastic.org/docs/development/js/events/",
+        infobox: {
+          "Olay AkÄ±ÅŸÄ±": "device.onTextPacket",
+          "Port EÅŸleÅŸmesi": "TEXT_MESSAGE_APP (1) & COMPRESSED (7)",
+          "SaÄŸlanan Veri": "GÃ¶nderen, AlÄ±cÄ±, Kanal, Metin, Zaman DamgasÄ±",
+          "Format": "RxJS Observable<TextPacket>"
+        },
+        seeAlso: ["rxjs-reactive-event-streams", "onpositionpacket-observable-stream", "meshdevice-facade-abstraction"]
+      },
+      {
+        id: "onpositionpacket-observable-stream",
+        en: "device.onPositionPacket Observable Stream",
+        tr: "device.onPositionPacket Reaktif Konum AkÄ±ÅŸÄ±",
+        category: "YazÄ±lÄ±m & Ä°stemciler",
+        lead: "AÄŸdaki diÄŸer dÃ¼ÄŸÃ¼mlerden gelen GPS koordinatlarÄ±nÄ±, irtifa ve hÄ±z verilerini anlÄ±k haritaya basmak iÃ§in saÄŸlanan konum akÄ±ÅŸÄ±.",
+        details: "`device.onPositionPacket`, `POSITION_APP` (3) portu Ã¼zerinden taÅŸÄ±nan Protobuf `Position` paketlerini yakalar. Enlem, boylam, irtifa, uydu sayÄ±sÄ± ve zaman damgasÄ± bilgileri ayrÄ±ÅŸtÄ±rÄ±lmÄ±ÅŸ JavaScript nesnesi olarak iletilir. Web istemcilerinde Leaflet veya MapLibre haritalarÄ±nÄ±n canlÄ± olarak gÃ¼ncellenmesi bu reaktif akÄ±ÅŸ Ã¼zerinden saÄŸlanÄ±r.",
+        github: "meshtastic.org/docs/development/js/events/",
+        infobox: {
+          "Olay AkÄ±ÅŸÄ±": "device.onPositionPacket",
+          "Port EÅŸleÅŸmesi": "POSITION_APP (3)",
+          "Ä°Ã§erik": "Latitude, Longitude, Altitude, Satellites, DOP",
+          "KullanÄ±m AlanÄ±": "CanlÄ± harita izleme, coÄŸrafi takip sistemleri"
+        },
+        seeAlso: ["rxjs-reactive-event-streams", "ontextpacket-observable-stream", "onmynodeinfo-state-observable"]
+      },
+      {
+        id: "onmynodeinfo-state-observable",
+        en: "device.onMyNodeInfo State Observable",
+        tr: "device.onMyNodeInfo DÃ¼ÄŸÃ¼m Durum AkÄ±ÅŸÄ±",
+        category: "YazÄ±lÄ±m & Ä°stemciler",
+        lead: "BaÄŸlÄ± olunan yerel cihazÄ±n donanÄ±m kimliÄŸi, dÃ¼ÄŸÃ¼m numarasÄ±, Ã§aÄŸrÄ± iÅŸareti ve MAC adresini bildiren ilk durum akÄ±ÅŸÄ±.",
+        details: "Bir cihazla baÄŸlantÄ± kurulup el sÄ±kÄ±ÅŸma (`configure()`) tamamlandÄ±ÄŸÄ±nda telsiz bir `MyNodeInfo` paketi basar. `device.onMyNodeInfo` bu paketi yakalayarak uygulamanÄ±n yerel dÃ¼ÄŸÃ¼m numarasÄ±nÄ± (`myNodeNum`), donanÄ±m modelini (Ã¶rn. RAK4631, T-Beam) ve bellenim sÃ¼rÃ¼mÃ¼nÃ¼ Ã¶ÄŸrenmesini saÄŸlar. KullanÄ±cÄ± arayÃ¼zlerinde 'BaÄŸlÄ± Cihaz' profil kartlarÄ± bu akÄ±ÅŸla oluÅŸturulur.",
+        github: "meshtastic.org/docs/development/js/events/",
+        infobox: {
+          "Olay AkÄ±ÅŸÄ±": "device.onMyNodeInfo",
+          "Ä°Ã§erik": "myNodeNum, hasGps, model, firmwareVersion",
+          "Tetiklenme ZamanÄ±": "BaÄŸlantÄ± el sÄ±kÄ±ÅŸmasÄ± tamamlandÄ±ÄŸÄ±nda",
+          "RolÃ¼": "Yerel telsiz profilinin tespiti"
+        },
+        seeAlso: ["device-configure-handshake-step", "meshdevice-facade-abstraction"]
+      },
+      {
+        id: "onheartbeat-keepalive-stream",
+        en: "device.onHeartbeat Keepalive Stream",
+        tr: "device.onHeartbeat CanlÄ±lÄ±k (Keepalive) AkÄ±ÅŸÄ±",
+        category: "YazÄ±lÄ±m & Ä°stemciler",
+        lead: "Telsiz ile istemci arasÄ±ndaki baÄŸlantÄ±nÄ±n fiziksel olarak kopup kopmadÄ±ÄŸÄ±nÄ± denetleyen periyodik kalp atÄ±ÅŸÄ± (heartbeat) akÄ±ÅŸÄ±.",
+        details: "Ã–zellikle Bluetooth LE ve TCP baÄŸlantÄ±larÄ±nda radyo kapsama alanÄ±ndan Ã§Ä±kÄ±ldÄ±ÄŸÄ±nda veya soket sessizce donduÄŸunda baÄŸlantÄ± kopmasÄ± hemen anlaÅŸÄ±lamayabilir. Meshtastic kÃ¼tÃ¼phanesi telsizle dÃ¼zenli aralÄ±klarla Heartbeat mesajlarÄ± takas eder. `device.onHeartbeat` akÄ±ÅŸÄ± bu sinyalleri izler; eÄŸer belirli bir sÃ¼re kalp atÄ±ÅŸÄ± alÄ±namazsa baÄŸlantÄ±yÄ± otomatik olarak 'Koptu' durumuna dÃ¼ÅŸÃ¼rÃ¼r ve yeniden baÄŸlanma (reconnect) mantÄ±ÄŸÄ±nÄ± tetikler.",
+        github: "meshtastic.org/docs/development/js/events/",
+        infobox: {
+          "Olay AkÄ±ÅŸÄ±": "device.onHeartbeat",
+          "Mekanizma": "Periyodik CanlÄ±lÄ±k Paketi (Keepalive Ping)",
+          "Hedef": "Sessiz baÄŸlantÄ± kopmalarÄ±nÄ± (dead socket) anÄ±nda tespit etme",
+          "Ä°liÅŸkili Protokoller": "BLE, TCP, HTTP SSE"
+        },
+        seeAlso: ["meshdevice-facade-abstraction", "rxjs-reactive-event-streams"]
+      },
+      {
+        id: "transport-http-npm-package",
+        en: "@meshtastic/transport-http NPM Package",
+        tr: "@meshtastic/transport-http NPM Paketi",
+        category: "YazÄ±lÄ±m & Ä°stemciler",
+        lead: "Wi-Fi Ã¶zellikli Meshtastic dÃ¼ÄŸÃ¼mlerine HTTP REST ve Server-Sent Events (SSE) Ã¼zerinden baÄŸlanan taÅŸÄ±ma paketi.",
+        details: "`TransportHTTP.create('meshtastic.local')` Ã§aÄŸrÄ±sÄ±yla baÅŸlatÄ±lan bu modÃ¼l, `@meshtastic/core` motoruna HTTP taÅŸÄ±ma yeteneÄŸi kazandÄ±rÄ±r. Telsizin yerel web sunucusuna HTTP GET/POST istekleri atarak Protobuf paketlerini takas eder ve gelen paketleri SSE (Server-Sent Events) akÄ±ÅŸÄ± Ã¼zerinden dinler. TarayÄ±cÄ±larÄ±n herhangi bir ek izin veya USB/Bluetooth API'si istemeden Wi-Fi Ã¼zerinden dÃ¼ÄŸÃ¼mlere eriÅŸmesini saÄŸlar.",
+        github: "npmjs.com/package/@meshtastic/transport-http",
+        infobox: {
+          "NPM Paketi": "@meshtastic/transport-http",
+          "Protokol": "HTTP(S) & Server-Sent Events (SSE)",
+          "KullanÄ±m Åekli": "TransportHTTP.create(ipOrHostname)",
+          "Avantaj": "SÄ±fÄ±r tarayÄ±cÄ± izni, Wi-Fi Ã¼zerinden kolay eriÅŸim"
+        },
+        seeAlso: ["meshtastic-core-npm-package", "meshdevice-facade-abstraction", "http-api-embedded-rest-spec"]
+      },
+      {
+        id: "device-configure-handshake-step",
+        en: "device.configure() Initialization Handshake",
+        tr: "device.configure() BaÅŸlatma ve El SÄ±kÄ±ÅŸma AdÄ±mÄ±",
+        category: "YazÄ±lÄ±m & Ä°stemciler",
+        lead: "Telsize baÄŸlanÄ±ldÄ±ktan sonra kanal tablolarÄ±, dÃ¼ÄŸÃ¼m veritabanÄ± ve yerel yapÄ±landÄ±rmanÄ±n istemci belleÄŸine indirilmesini saÄŸlayan zorunlu senkronizasyon adÄ±mÄ±.",
+        details: "Meshtastic JS istemcisinde bir taÅŸÄ±ma nesnesi oluÅŸturulduktan hemen sonra paket gÃ¶nderilemez; Ã¶nce `await device.configure()` Ã§aÄŸrÄ±lmalÄ±dÄ±r. Bu fonksiyon telsize sÄ±rasÄ±yla `wantConfigId`, `getNodeInfo`, `getChannel` isteklerini gÃ¶nderir. Telsiz tÃ¼m radyo konfigÃ¼rasyonunu, aktif kanallarÄ± ve aÄŸda bilinen diÄŸer dÃ¼ÄŸÃ¼mlerin listesini istemciye gÃ¶nderir. El sÄ±kÄ±ÅŸma baÅŸarÄ±yla bittiÄŸinde Promise Ã§Ã¶zÃ¼mlenir (resolve) ve telsiz tam operasyonel hale gelir.",
+        github: "meshtastic.org/docs/development/js/connecting/",
+        infobox: {
+          "Metot": "await device.configure()",
+          "SÄ±ra": "BaÄŸlantÄ± Kuruldu -> configure() -> HazÄ±r",
+          "Ä°ndirilen Veriler": "DÃ¼ÄŸÃ¼m veritabanÄ±, Kanallar, Cihaz ayarlarÄ±",
+          "DÃ¶nÃ¼ÅŸ DeÄŸeri": "Promise<void>"
+        },
+        seeAlso: ["meshdevice-facade-abstraction", "onmynodeinfo-state-observable"]
+      },
+      {
+        id: "multi-runtime-js-compatibility",
+        en: "Multi-Runtime JavaScript Compatibility (Node.js, Deno, Browser, Bun)",
+        tr: "Ã‡oklu Ã‡alÄ±ÅŸma ZamanlÄ± JavaScript UyumluluÄŸu",
+        category: "YazÄ±lÄ±m & Ä°stemciler",
+        lead: "Meshtastic JS kÃ¼tÃ¼phanelerinin tek bir ortamla sÄ±nÄ±rlÄ± kalmayÄ±p Node.js, Deno, Bun ve modern tarayÄ±cÄ±larda ortak Ã§alÄ±ÅŸabilme mimarisi.",
+        details: "Modern Meshtastic JavaScript kÃ¼tÃ¼phanesi mimarisi, platforma Ã¶zel baÄŸÄ±mlÄ±lÄ±klarÄ± (Ã¶rneÄŸin Node `fs`, browser `window.navigator.serial`, Deno API) Ã§ekirdekten ayÄ±rarak `@meshtastic/transport-*` paketlerine daÄŸÄ±tmÄ±ÅŸtÄ±r. Ã‡ekirdek (`@meshtastic/core`) tamamen platform baÄŸÄ±msÄ±z saf ESM (ECMAScript Module) olarak yazÄ±lmÄ±ÅŸtÄ±r. BÃ¶ylece bir IoT geliÅŸtiricisi Raspberry Pi'de Node.js ile, bir sunucu mÃ¼hendisi Deno/Bun ile, bir web tasarÄ±mcÄ±sÄ± ise doÄŸrudan React/Vue tarayÄ±cÄ± uygulamasÄ±nda aynÄ± kÃ¼tÃ¼phaneyi kullanabilir.",
+        github: "meshtastic.org/docs/development/js/",
+        infobox: {
+          "Mimari Model": "Platform-Agnostic Core + Modular Transports",
+          "Desteklenen Motorlar": "Node.js (18+), Deno (2+), Bun, Chromium, WebKit",
+          "Paket FormatÄ±": "ESM (ECMAScript Modules) & TypeScript",
+          "Fayda": "Tek bir API ile hem sunucuda hem tarayÄ±cÄ±da kod yazabilme"
+        },
+        seeAlso: ["meshtastic-core-npm-package", "transport-http-npm-package"]
       }
     ];
 
