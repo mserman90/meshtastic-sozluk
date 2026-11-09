@@ -11679,6 +11679,166 @@
           "Topluluk EtkileÅŸimi": "Oylama (Upvote), yanÄ±tlama ve Ã§Ã¶zÃ¼m iÅŸaretleme"
         },
         seeAlso: ["meshtastic-org-multirepo-governance", "developer-contributor-workflow"]
+      }      ,
+      {
+        id: "linux-portduino-framework",
+        en: "Portduino Linux Arduino Compatibility Framework",
+        tr: "Portduino Linux Arduino Uyumluluk Ã‡erÃ§evesi",
+        category: "GeliÅŸtirici & Bellenim",
+        lead: "Arduino API'lerini (setup, loop, SPI, I2C, GPIO) standart POSIX Linux sistem Ã§aÄŸrÄ±larÄ±na eÅŸleyerek firmware'in PC'de Ã§alÄ±ÅŸmasÄ±nÄ± saÄŸlayan katman.",
+        details: "Meshtastic bellenim kodunun doÄŸrudan x86_64 veya ARM64 Linux sistemlerinde yerel (native) ikili dosya olarak derlenmesini saÄŸlayan temel motor Portduino'dur. Portduino, mikrodenetleyici dÃ¼nyasÄ±ndaki `digitalWrite`, `Wire.h`, `SPI.h` ve `millis()` gibi Arduino Ã§ekirdek fonksiyonlarÄ±nÄ± Linux Ã§ekirdeÄŸinin `libgpiod`, `/dev/i2c`, `/dev/spidev` ve `clock_gettime` sistem Ã§aÄŸrÄ±larÄ±na kÃ¶prÃ¼ler.",
+        github: "portduino/Portduino",
+        infobox: {
+          "Ã‡erÃ§eve": "Portduino",
+          "Ä°ÅŸlev": "Arduino API -> POSIX Linux API eÅŸlemesi",
+          "Desteklenen Mimariler": "x86_64, ARMv7, ARM64 (aarch64)",
+          "KullanÄ±ldÄ±ÄŸÄ± Proje": "meshtasticd ve native-mui"
+        },
+        seeAlso: ["meshtasticd-native-daemon-build", "platformio-native-target-compilation", "libgpiod-linux-hardware-abstraction"]
+      },
+      {
+        id: "meshtasticd-native-daemon-build",
+        en: "meshtasticd Native Linux Daemon Compilation",
+        tr: "meshtasticd Yerel Linux Servis Derlemesi",
+        category: "YazÄ±lÄ±m & AltyapÄ±",
+        lead: "Meshtastic firmware'inin bir Linux arka plan servisi (daemon) olarak derlenmiÅŸ hali olan meshtasticd yÃ¼rÃ¼tÃ¼lebilir dosyasÄ±.",
+        details: "Raspberry Pi, Banana Pi, sunucu veya kiÅŸisel Linux bilgisayarlarda Ã§alÄ±ÅŸan `meshtasticd`, mikrodenetleyici gerektirmeden aÄŸ dÃ¼ÄŸÃ¼mÃ¼ gÃ¶revi gÃ¶rÃ¼r. Debian tabanlÄ± sistemlerde `libgpiod-dev`, `libyaml-cpp-dev`, `libbluetooth-dev` gibi kÃ¼tÃ¼phaneler kurulduktan sonra PlatformIO ile derlenerek `.pio/build/native/meshtasticd` dosyasÄ±nÄ± oluÅŸturur. `/etc/meshtasticd/config.yaml` dosyasÄ±ndan yapÄ±landÄ±rma alarak SPI veya USB Ã¼zerinden LoRa telsiz modÃ¼llerini sÃ¼rer.",
+        github: "meshtastic/firmware: target native",
+        infobox: {
+          "Ã‡Ä±ktÄ± DosyasÄ±": "meshtasticd (ELF binary)",
+          "Derleme Yolu": ".pio/build/native/meshtasticd",
+          "YapÄ±landÄ±rma": "/etc/meshtasticd/config.yaml",
+          "Ã‡alÄ±ÅŸma Åekli": "Linux Systemd Arka Plan Servisi"
+        },
+        seeAlso: ["linux-portduino-framework", "platformio-native-target-compilation", "fedora-copr-meshtastic-build-tools"]
+      },
+      {
+        id: "native-mui-sdl2-display-simulation",
+        en: "native-mui SDL2 Graphical Display Simulation",
+        tr: "native-mui SDL2 Grafik Ekran SimÃ¼lasyonu",
+        category: "GeliÅŸtirici & Bellenim",
+        lead: "OLED ve renkli TFT ekranlarÄ± Linux masaÃ¼stÃ¼nde bir pencere iÃ§inde simÃ¼le eden Simple DirectMedia Layer (SDL2) grafik arayÃ¼zÃ¼.",
+        details: "`native-mui` derleme hedefi, cihaz Ã¼zerinde fiziksel bir I2C/SPI OLED veya ST7789 ekran olmasa bile `libsdl2-dev` kÃ¼tÃ¼phanesini kullanarak bilgisayar masaÃ¼stÃ¼nde sanal bir ekran penceresi aÃ§ar. GeliÅŸtiriciler buton tÄ±klamalarÄ±nÄ± klavye tuÅŸlarÄ±yla taklit edebilir, dokunmatik ekranÄ± fareyle kontrol edebilir ve yeni ekran menÃ¼lerini donanÄ±ma yÃ¼kleme yapmadan saniyeler iÃ§inde masaÃ¼stÃ¼nde test edebilir.",
+        github: "meshtastic/firmware: SDL2 display driver",
+        infobox: {
+          "Grafik KÃ¼tÃ¼phanesi": "Simple DirectMedia Layer 2 (libsdl2-dev)",
+          "KullanÄ±m AmacÄ±": "Ekran ve kullanÄ±cÄ± arayÃ¼zÃ¼ simÃ¼lasyonu",
+          "Girdi EmÃ¼lasyonu": "Fare (Dokunmatik ekran) ve Klavye (Butonlar)",
+          "Ã‡alÄ±ÅŸma AlanÄ±": "Linux masaÃ¼stÃ¼ penceresi"
+        },
+        seeAlso: ["linux-portduino-framework", "meshtasticd-native-daemon-build"]
+      },
+      {
+        id: "libgpiod-linux-hardware-abstraction",
+        en: "libgpiod Linux GPIO Hardware Abstraction",
+        tr: "libgpiod Linux GPIO DonanÄ±m SoyutlamasÄ±",
+        category: "YazÄ±lÄ±m & DonanÄ±m",
+        lead: "Eski sysfs arayÃ¼zÃ¼ yerine modern Linux Ã§ekirdeÄŸi karakter aygÄ±tÄ± (/dev/gpiochip) Ã¼zerinden yÃ¼ksek hÄ±zlÄ± pin kontrolÃ¼ saÄŸlayan kÃ¼tÃ¼phane.",
+        details: "`meshtasticd`, Raspberry Pi veya SBC kartlarÄ±nÄ±n GPIO pinlerine baÄŸlÄ± LoRa modÃ¼llerinin (SX1262) NSS, RESET, DIO1 ve BUSY pinlerini yÃ¶netmek iÃ§in `libgpiod-dev` kullanÄ±r. Modern Linux Ã§ekirdeÄŸinin `/dev/gpiochip` karakter aygÄ±tÄ± arayÃ¼zÃ¼nÃ¼ kullanan libgpiod, sysfs'e kÄ±yasla mikrosaniye hassasiyetinde pin durumu okuma ve kesme (interrupt) yakalama saÄŸlayarak paket kaÃ§Ä±rmalarÄ±nÄ±n Ã¶nÃ¼ne geÃ§er.",
+        github: "meshtastic/firmware: Portduino GPIO",
+        infobox: {
+          "KÃ¼tÃ¼phane": "libgpiod (libgpiod-dev)",
+          "ArayÃ¼z": "Linux Character Device (/dev/gpiochip*)",
+          "YÃ¶netilen Sinyaller": "SX1262 NSS, RESET, DIO1 IRQ, BUSY",
+          "Avantaj": "sysfs'e gÃ¶re kat kat dÃ¼ÅŸÃ¼k gecikme ve kesme yakalama"
+        },
+        seeAlso: ["linux-portduino-framework", "meshtasticd-native-daemon-build"]
+      },
+      {
+        id: "ulfius-orcania-embedded-webserver",
+        en: "Ulfius and Orcania Embedded Web Server Stack",
+        tr: "Ulfius ve Orcania GÃ¶mÃ¼lÃ¼ Web Sunucu YÄ±ÄŸÄ±nÄ±",
+        category: "YazÄ±lÄ±m & Ä°stemciler",
+        lead: "Linux ortamÄ±nda Ã§alÄ±ÅŸan meshtasticd servisinin yerleÅŸik HTTP API ve web istemcisi barÄ±ndÄ±rmasÄ±nÄ± saÄŸlayan C kÃ¼tÃ¼phanesi yÄ±ÄŸÄ±nÄ±.",
+        details: "`meshtasticd` derlenirken `libulfius-dev` ve `liborcania-dev` (ve Fedora'da `libyder`) paketleri dahil edilirse, yerel Linux servisi 443 veya 80 portu Ã¼zerinden baÄŸÄ±msÄ±z bir HTTP/HTTPS REST sunucusu aÃ§ar. Bu sunucu dahili web arayÃ¼zÃ¼ statik dosyalarÄ±nÄ± (`/static`) servis eder ve `/api/v1` Ã¼zerinden ToRadio/FromRadio HTTP endpoint'lerini sunarak tarayÄ±cÄ±dan doÄŸrudan cihaz yÃ¶netimi saÄŸlar.",
+        github: "babelouest/ulfius",
+        infobox: {
+          "Web Sunucu Motoru": "Ulfius (GNU Libmicrohttpd tabanlÄ±)",
+          "YardÄ±mcÄ± KÃ¼tÃ¼phaneler": "Orcania (bellek/string), Yder (loglama), OpenSSL",
+          "Sunulan ArayÃ¼z": "Yerel Web Client & HTTP REST API",
+          "KullanÄ±ldÄ±ÄŸÄ± Yer": "meshtasticd Linux Web DesteÄŸi"
+        },
+        seeAlso: ["http-api-embedded-rest-spec", "meshtasticd-native-daemon-build"]
+      },
+      {
+        id: "platformio-native-target-compilation",
+        en: "PlatformIO Native Target Compilation (pio run -e native)",
+        tr: "PlatformIO native Hedefi ile Yerel Derleme",
+        category: "GeliÅŸtirici & Bellenim",
+        lead: "PlatformIO CLI Ã¼zerinden cross-compiler yerine doÄŸrudan ana sistemin GCC/G++ derleyicisini kullanarak x86/ARM ikilisi Ã¼retme yÃ¶ntemi.",
+        details: "Meshtastic geliÅŸtiricileri `pio run -e native` komutunu Ã§alÄ±ÅŸtÄ±rdÄ±ÄŸÄ±nda PlatformIO, Xtensa veya ARM Ã§apraz derleyicisi yerine Linux daÄŸÄ±tÄ±mÄ±ndaki yerel `gcc-c++` derleyicisini ve sistem baÅŸlÄ±klarÄ±nÄ± Ã§aÄŸÄ±rÄ±r. PlatformIO sanal ortamÄ± (`venv`) iÃ§inde Ã§alÄ±ÅŸan bu iÅŸlem, donanÄ±m flaÅŸlama sÃ¼resini ortadan kaldÄ±rarak saniyeler iÃ§inde bellenim deÄŸiÅŸikliklerini derleyip `./meshtasticd` ile test etmeye olanak tanÄ±r.",
+        github: "meshtastic.org/docs/development/linux",
+        infobox: {
+          "Komut": "pio run -e native",
+          "Derleyici": "Yerel GCC / G++ (Host Toolchain)",
+          "Ã‡Ä±ktÄ± Konumu": ".pio/build/native/meshtasticd",
+          "Avantaj": "Mikrodenetleyici flaÅŸlamadan saniyeler iÃ§inde test dÃ¶ngÃ¼sÃ¼"
+        },
+        seeAlso: ["meshtasticd-native-daemon-build", "linux-portduino-framework"]
+      },
+      {
+        id: "fedora-copr-meshtastic-build-tools",
+        en: "Fedora COPR Meshtastic Build Tools Repository",
+        tr: "Fedora COPR Meshtastic Derleme AraÃ§larÄ± Deposu",
+        category: "YazÄ±lÄ±m & AltyapÄ±",
+        lead: "Fedora ve Red Hat tabanlÄ± daÄŸÄ±tÄ±mlarda meshtasticd baÄŸÄ±mlÄ±lÄ±klarÄ±nÄ± tek tÄ±kla kurmayÄ± saÄŸlayan resmi COPR paket deposu.",
+        details: "Red Hat ve Fedora ekosisteminde bazÄ± gÃ¶mÃ¼lÃ¼ C/C++ kÃ¼tÃ¼phaneleri (Ã¶rneÄŸin Orcania, Ulfius veya Ã¶zel yaml-cpp sÃ¼rÃ¼mleri) varsayÄ±lan depolarda yer almayabilir. Meshtastic ekibi `sudo dnf copr enable @meshtastic/build-tools` komutuyla etkinleÅŸtirilen Ã¶zel bir COPR (Cool Other Package Repo) deposu sunar. Bu depo Fedora geliÅŸtiricilerinin tÃ¼m baÄŸÄ±mlÄ±lÄ±klarÄ± tek bir `dnf install` komutuyla eksiksiz kurmasÄ±nÄ± gÃ¼venceye alÄ±r.",
+        github: "copr.fedorainfracloud.org/coprs/g/meshtastic/build-tools",
+        infobox: {
+          "Depo AdÄ±": "@meshtastic/build-tools",
+          "Paket YÃ¶neticisi": "DNF / RPM",
+          "Hedef DaÄŸÄ±tÄ±m": "Fedora, RHEL, CentOS Stream",
+          "Kurulum": "sudo dnf copr enable @meshtastic/build-tools"
+        },
+        seeAlso: ["meshtasticd-native-daemon-build", "ulfius-orcania-embedded-webserver"]
+      },
+      {
+        id: "libuv-asynchronous-event-loop-daemon",
+        en: "libuv Asynchronous Event Loop in meshtasticd",
+        tr: "meshtasticd Ä°Ã§inde libuv Asenkron Olay DÃ¶ngÃ¼sÃ¼",
+        category: "YazÄ±lÄ±m & AltyapÄ±",
+        lead: "AÄŸ soketleri, zamanlayÄ±cÄ±lar ve donanÄ±m kesmelerini bloke olmadan tek bir asenkron olay dÃ¶ngÃ¼sÃ¼nde yÃ¶neten C kÃ¼tÃ¼phanesi.",
+        details: "`meshtasticd`, Node.js'in de kalbinde yer alan yÃ¼ksek performanslÄ± `libuv1-dev` kÃ¼tÃ¼phanesini kullanÄ±r. Linux servisi birden Ã§ok TCP istemci baÄŸlantÄ±sÄ±nÄ± (port 4403), seri portlarÄ±, Unix domain soketlerini ve zamanlayÄ±cÄ±larÄ± eÅŸzamanlÄ± dinlerken CPU tÃ¼ketimini minimumda tutmak iÃ§in libuv'nin epoll/kqueue tabanlÄ± reaktÃ¶r modelini kullanÄ±r.",
+        github: "libuv/libuv",
+        infobox: {
+          "KÃ¼tÃ¼phane": "libuv (libuv1-dev)",
+          "Mimari Model": "Non-blocking Asynchronous Event Loop",
+          "Ä°ÅŸlenen Olaylar": "TCP baÄŸlantÄ±larÄ±, SPI/GPIO olaylarÄ±, Timer geri Ã§aÄŸrÄ±larÄ±",
+          "KazanÃ§": "SÄ±fÄ±r CPU dÃ¶ngÃ¼ israfÄ±, yÃ¼ksek Ã¶lÃ§eklenebilirlik"
+        },
+        seeAlso: ["meshtasticd-native-daemon-build", "linux-portduino-framework"]
+      },
+      {
+        id: "local-tcp-virtual-lora-simulation",
+        en: "Local TCP Virtual LoRa Simulation",
+        tr: "Yerel TCP Sanal LoRa Telsiz SimÃ¼lasyonu",
+        category: "GeliÅŸtirici & Bellenim",
+        lead: "Fiziksel LoRa telsiz Ã§ipi olmadan Meshtastic paketlerini yerel TCP portlarÄ± Ã¼zerinden alÄ±p vererek havayÄ± taklit eden simÃ¼lasyon yeteneÄŸi.",
+        details: "Meshtastic bellenimi sÃ¼rÃ¼m 1.3.42'den itibaren yerel bir TCP soketi Ã¼zerinden telsiz taklidi yapabilme desteÄŸine sahiptir. Bilgisayarda Ã§alÄ±ÅŸan `meshtasticd` Ã¶rneÄŸi gerÃ§ek bir SX1262 Ã§ipi sÃ¼rmek yerine paketleri `localhost:<port>` soketine yazar. AynÄ± bilgisayarda veya yerel aÄŸda Ã§alÄ±ÅŸan diÄŸer `meshtasticd` sÃ¼reÃ§leri bu porta baÄŸlanarak sanki telsiz sinyalleri havada dolaÅŸÄ±yormuÅŸ gibi birbirlerinin paketlerini alÄ±r.",
+        github: "meshtastic.org/docs/development/linux",
+        infobox: {
+          "BaÅŸlangÄ±Ã§ SÃ¼rÃ¼mÃ¼": "Firmware 1.3.42+",
+          "SimÃ¼lasyon OrtamÄ±": "Yerel TCP Soketi",
+          "DonanÄ±m Gereksinimi": "SÄ±fÄ±r (Telsiz Ã§ipi gerekmez)",
+          "Protokol Portu": "SIMULATOR_APP (PortNum 69)"
+        },
+        seeAlso: ["multi-instance-virtual-mesh-testing", "meshtasticd-native-daemon-build"]
+      },
+      {
+        id: "multi-instance-virtual-mesh-testing",
+        en: "Multi-Instance Virtual Mesh Network Testing",
+        tr: "Ã‡oklu SÃ¼reÃ§ Sanal Mesh AÄŸÄ± Test Mimarisi",
+        category: "GeliÅŸtirici & Bellenim",
+        lead: "Tek bir Linux bilgisayar Ã¼zerinde birden fazla meshtasticd sÃ¼recini farklÄ± sanal koordinatlarda Ã§alÄ±ÅŸtÄ±rarak karmaÅŸÄ±k mesh yÃ¶nlendirmesini test etme.",
+        details: "GeliÅŸtiricilerin Ã§ok sekmeli (multi-hop) yÃ¶nlendirme algoritmalarÄ±nÄ± veya flood filtrelerini test etmek iÃ§in onlarca fiziksel karta ihtiyacÄ± yoktur. Linux Ã¼zerinde `meshtasticd -c /tmp/node1.yaml`, `node2.yaml`, `node3.yaml` ÅŸeklinde 5-10 farklÄ± sanal dÃ¼ÄŸÃ¼m baÅŸlatÄ±lÄ±r. Ä°nteraktif aÄŸ simÃ¼latÃ¶rÃ¼ (`Meshtasticator`) bu dÃ¼ÄŸÃ¼mlerin sanal GPS konumlarÄ±nÄ±, aralarÄ±ndaki mesafe ve RSSI/SNR zayÄ±flamasÄ±nÄ± matematiksel olarak modelleyerek gerÃ§ek saha koÅŸullarÄ±nÄ± masaÃ¼stÃ¼nde yaratÄ±r.",
+        github: "GUVWAF/Meshtasticator",
+        infobox: {
+          "YÃ¶ntem": "Ã‡oklu meshtasticd sÃ¼reci + SimÃ¼latÃ¶r kÃ¶prÃ¼sÃ¼",
+          "SimÃ¼le Edilen DeÄŸiÅŸkenler": "Mesafe, RSSI, SNR, Paket KaybÄ±, Konum",
+          "Fayda": "Sahaya Ã§Ä±kmadan 20 dÃ¼ÄŸÃ¼mlÃ¼ devasa mesh aÄŸlarÄ±nÄ± test edebilme",
+          "AraÃ§": "Meshtasticator / Interactive Simulator"
+        },
+        seeAlso: ["local-tcp-virtual-lora-simulation", "meshtasticd-native-daemon-build"]
       }
     ];
 

@@ -946,6 +946,18 @@ Meshtastic donanımını kontrol etmek, mesajlaşıp harita görüntülemek ve a
 - **SÃ¼rÃ¼m YÃ¶neticisi ve Rol TabanlÄ± EriÅŸim Denetimi [RBAC] (`release-manager-rbac-access`):** YayÄ±n, gÃ¼venlik ve altyapÄ± ekiplerinin GitHub Teams Ã¼zerinden yetkilendirilmesi.
 - **GitHub TartÄ±ÅŸmalarÄ± ve Topluluk TasarÄ±m Ã–nerileri [RFC] (`github-discussions-community-rfc`):** Yeni protokol Ã¶zellikleri ve donanÄ±m fikirlerinin Issue Ã¶ncesinde olgunlaÅŸtÄ±rÄ±lmasÄ±.
 
+### ğŸ§ Meshtastic Linux GeliÅŸtirme ve Yerel meshtasticd Servisi (meshtastic.org/docs/development/linux)
+- **Portduino Linux Arduino Uyumluluk Ã‡erÃ§evesi (`linux-portduino-framework`):** Arduino API Ã§aÄŸrÄ±larÄ±nÄ± standart POSIX Linux sistem Ã§aÄŸrÄ±larÄ±na kÃ¶prÃ¼leyen yÃ¼rÃ¼tme motoru.
+- **meshtasticd Yerel Linux Servis Derlemesi (`meshtasticd-native-daemon-build`):** Linux bilgisayarlarda baÄŸÄ±msÄ±z Ã§alÄ±ÅŸan `.pio/build/native/meshtasticd` arka plan servisi.
+- **native-mui SDL2 Grafik Ekran SimÃ¼lasyonu (`native-mui-sdl2-display-simulation`):** MasaÃ¼stÃ¼nde SDL2 penceresi aÃ§arak OLED ve renkli ekran arayÃ¼zÃ¼nÃ¼ donanÄ±msÄ±z simÃ¼le etme.
+- **libgpiod Linux GPIO DonanÄ±m SoyutlamasÄ± (`libgpiod-linux-hardware-abstraction`):** Modern `/dev/gpiochip` aygÄ±tÄ±yla mikrosaniye hassasiyetinde LoRa IRQ ve pin kontrolÃ¼.
+- **Ulfius ve Orcania GÃ¶mÃ¼lÃ¼ Web Sunucu YÄ±ÄŸÄ±nÄ± (`ulfius-orcania-embedded-webserver`):** Linux servisi Ã¼zerinden doÄŸrudan yerleÅŸik HTTP API ve web arayÃ¼zÃ¼ sunma altyapÄ±sÄ±.
+- **PlatformIO native Hedefi ile Yerel Derleme (`platformio-native-target-compilation`):** `pio run -e native` ile Ã§apraz derleyici olmadan doÄŸrudan ana sistemin GCC/G++ derleyicisiyle Ã§Ä±ktÄ± alma.
+- **Fedora COPR Meshtastic Derleme AraÃ§larÄ± Deposu (`fedora-copr-meshtastic-build-tools`):** Red Hat ve Fedora'da `@meshtastic/build-tools` deposuyla baÄŸÄ±mlÄ±lÄ±klarÄ± tek tÄ±kla kurma.
+- **meshtasticd Ä°Ã§inde libuv Asenkron Olay DÃ¶ngÃ¼sÃ¼ (`libuv-asynchronous-event-loop-daemon`):** AÄŸ soketleri, zamanlayÄ±cÄ±lar ve donanÄ±m olaylarÄ±nÄ± bloke olmadan yÃ¶neten reaktÃ¶r mimarisi.
+- **Yerel TCP Sanal LoRa Telsiz SimÃ¼lasyonu (`local-tcp-virtual-lora-simulation`):** Fiziksel telsiz Ã§ipi olmadan `localhost:<port>` soketleri Ã¼zerinden telsiz trafiÄŸini simÃ¼le etme.
+- **Ã‡oklu SÃ¼reÃ§ Sanal Mesh AÄŸÄ± Test Mimarisi (`multi-instance-virtual-mesh-testing`):** Meshtasticator ile tek bilgisayarda 10 farklÄ± meshtasticd sÃ¼recini coÄŸrafi olarak yarÄ±ÅŸtÄ±rÄ±p test etme.
+
 ### 🔹 Açık Standart ve Tedarikçi Bağımsızlığı (Open Architecture & Vendor Neutrality)
 Meshtastic'in hiçbir tescilli ticari protokole veya tek bir donanım üreticisine bağımlı kalmamasını sağlayan açık kaynak ekosistem felsefesi (GPL-3.0 lisansı ve açık Protobuf şemaları). Semtech SX1262/SX1276/LR1121 telsizleri ile ESP32, nRF52840 ve RP2040 işlemcili onlarca farklı üreticinin (Heltec, LilyGO, RAKwireless) donanımları tam uyumla birlikte çalışabilir.
 
