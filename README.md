@@ -850,6 +850,18 @@ Meshtastic donanımını kontrol etmek, mesajlaşıp harita görüntülemek ve a
 - **TA Mesh 900 Saniye Harita Raporlama Politikası (`tamesh-map-reporting-interval`):** LoRa spektrumunu ve sunucu bant genişliğini korumak için en az 900 saniye (15 dk) konum gönderme kuralı.
 - **TA Mesh Yaklaşık Konum ve Gizlilik Katmanı (`tamesh-approximate-location-privacy`):** Ev istasyonu koordinatlarını korumak için 50m - 23km yarıçapında rastgele bulanıklaştırma seçeneği.
 
+### 🧩 Meshtastic Gömülü C++ Modül Geliştirme Mimarisi (meshtastic.org/docs/development/device/module-api)
+- **MeshModule C++ Temel Sınıf Mimarisi (`module-api-meshmodule-base`):** Telsiz yönlendiricisine otomatik kaydolan tüm gömülü C++ servislerinin kök taban sınıfı.
+- **SinglePortModule Ham Bayt İşleyici Sınıfı (`singleportmodule-raw-handler`):** Tek bir port numarasını dinleyen ve serileştirilmemiş ham bayt alışverişi yapan sınıf.
+- **ProtobufModule Tipli Protobuf İşleyici Sınıfı (`protobufmodule-typed-handler`):** Nanopb ile gelen paketleri otomatik C struct yapılarına dönüştüren tip güvenli sınıf.
+- **allocReply ve want_response Yanıt Mekanizması (`module-api-allocreply-mechanism`):** Gelen paketteki `want_response` bayrağına göre otomatik hedef adresi eşleyen bellek ayırıcı.
+- **OSThread İşbirlikçi Çoklu İş Parçacığı Mimarisi (`osthread-cooperative-threading`):** Farklı RTOS ve bare-metal ortamlarda `runOnce()` ile periyodik zamanlanmış görev yürütme.
+- **service.sendToMesh Proaktif Telsiz Yayını (`service-sendtomesh-uplink`):** Gelen paketi beklemeden sensör ve telemetri verilerini doğrudan LoRa iletim kuyruğuna aktarma.
+- **GenericThreadModule Periyodik Çalışma Şablonu (`generic-thread-module-template`):** Belirli aralıklarla ağa paket gönderen referans arka plan iş parçacığı şablonu.
+- **ReplyModule Yankı ve Ping Servisi Şablonu (`replymodule-ping-service-template`):** Gelen her pakete yankı veren ve yeni modül yazımında kopyalanıp çoğaltılan resmi iskelet kod.
+- **nanopb regen-protos.sh Kod Üretim Araç Zinciri (`nanopb-regen-protos-toolchain`):** Yeni `.proto` şemalarından kısıtlı MCU belleğine uygun ANSI-C struct ve kodları üretme.
+- **setupModules Modules.cpp Merkezi Modül Kayıt Kancası (`modules-cpp-registration-hook`):** Yazılan yeni C++ modül nesnesinin açılarak firmware açılış zincirine dahil edildiği ana fonksiyon.
+
 ### 🔹 Açık Standart ve Tedarikçi Bağımsızlığı (Open Architecture & Vendor Neutrality)
 Meshtastic'in hiçbir tescilli ticari protokole veya tek bir donanım üreticisine bağımlı kalmamasını sağlayan açık kaynak ekosistem felsefesi (GPL-3.0 lisansı ve açık Protobuf şemaları). Semtech SX1262/SX1276/LR1121 telsizleri ile ESP32, nRF52840 ve RP2040 işlemcili onlarca farklı üreticinin (Heltec, LilyGO, RAKwireless) donanımları tam uyumla birlikte çalışabilir.
 

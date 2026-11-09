@@ -10400,6 +10400,166 @@
           "Harita Görünümü": "Kullanıcı ağda var olarak görünür ancak nokta atışı tespit edilemez"
         },
         seeAlso: ["tamesh-map-reporting-interval", "share-phone-location-to-mesh", "tamesh-credential-provisioning"]
+      },
+      {
+        id: "module-api-meshmodule-base",
+        en: "MeshModule C++ Base Class Architecture",
+        tr: "MeshModule C++ Temel Sınıf Mimarisi",
+        category: "Yazılım & İstemciler",
+        lead: "Meshtastic firmware'inde çalışan tüm yerel C++ eklentilerinin türetildiği, paket yönlendiriciye otomatik kayıt ve yaşam döngüsü denetimi sağlayan temel sınıf.",
+        details: "`src/mesh/MeshModule.h` dosyasında tanımlanan `MeshModule`, Meshtastic modül sisteminin çekirdeğidir. Bu sınıftan türeyen bir nesne oluşturulduğunda (`new YourModule()`), kurucu metot (constructor) üzerinden telsiz çekirdeğindeki paket yönlendiriciye (router) otomatik olarak kaydolur. Modüller UDP benzeri port numaraları (`PortNum`) dinler; telsiz anteninden veya istemcilerden gelen paketler `handleReceived()` metoduyla modüle teslim edilir.",
+        github: "meshtastic.org/docs/development/device/module-api",
+        infobox: {
+          "Kaynak Dosya": "src/mesh/MeshModule.h",
+          "Miras Hiyerarşisi": "Tüm gömülü C++ servislerinin kök taban sınıfı",
+          "Kayıt Modeli": "Nesne oluşturulduğunda (instantiation) otomatik kayıt",
+          "Kritik Metotlar": "setup(), loop(), handleReceived(), wantPacket()"
+        },
+        seeAlso: ["singleportmodule-raw-handler", "protobufmodule-typed-handler", "modules-cpp-registration-hook"]
+      },
+      {
+        id: "singleportmodule-raw-handler",
+        en: "SinglePortModule Raw Byte Payload Handler",
+        tr: "SinglePortModule Ham Bayt İşleyici Sınıfı",
+        category: "Yazılım & İstemciler",
+        lead: "Tek bir port numarasını dinleyen ve serileştirilmemiş ham ikili veri baytları alışverişi yapan eklentiler için tasarlanmış ikinci seviye C++ sınıfı.",
+        details: "`src/mesh/SinglePortModule.h` dosyasında bulunan `SinglePortModule`, `MeshModule` sınıfından türer. Eğer geliştirilen modül Protobuf yapıları yerine saf bayt dizileri (raw binary), metin dizgileri veya özel ikili protokoller taşıyacaksa bu sınıftan miras alınır. Kurucu metoduna atanan tek bir `portNum` (örneğin `meshtastic_PortNum_PRIVATE_APP`) değerini filtreler ve sadece bu porta gelen paketleri `handleReceived()` işleyicisine aktarır.",
+        github: "meshtastic.org/docs/development/device/module-api",
+        infobox: {
+          "Kaynak Dosya": "src/mesh/SinglePortModule.h",
+          "Taban Sınıf": "MeshModule",
+          "Veri Modeli": "Ham bayt dizisi (raw binary payload)",
+          "Kullanım Senaryosu": "Özel ikili telemetri, ham UART köprüleri ve hafif sensörler"
+        },
+        seeAlso: ["module-api-meshmodule-base", "protobufmodule-typed-handler", "replymodule-ping-service-template"]
+      },
+      {
+        id: "protobufmodule-typed-handler",
+        en: "ProtobufModule Strongly-Typed Message Handler",
+        tr: "ProtobufModule Tipli Protobuf İşleyici Sınıfı",
+        category: "Yazılım & İstemciler",
+        lead: "Gelen paketleri nanopb ile otomatik olarak C struct yapılarına dönüştüren ve tip güvenli Protobuf iletişimi sağlayan üçüncü seviye C++ şablon sınıfı.",
+        details: "`src/mesh/ProtobufModule.h` sınıfı, `SinglePortModule` sınıfından türeyerek Google Protocol Buffers desteğini yerel olarak firmware'e entegre eder. Geliştirici ham baytları ayrıştırmakla uğraşmaz; gelen paket otomatik olarak çözümlenir ve `handleReceivedProtobuf(MeshPacket *mp, MyProtoMsg *msg)` metoduna hazır C veri yapısı olarak sunulur. Aynı şekilde giden paketler de `sendProtobuf()` çağrısıyla otomatik serileştirilir.",
+        github: "meshtastic.org/docs/development/device/module-api",
+        infobox: {
+          "Kaynak Dosya": "src/mesh/ProtobufModule.h",
+          "Taban Sınıf": "SinglePortModule -> MeshModule",
+          "Serileştirme Motoru": "nanopb gömülü C kütüphanesi",
+          "Avantajı": "Bellek taşmalarını önleyen güvenli ve tipli C++ veri yapıları"
+        },
+        seeAlso: ["module-api-meshmodule-base", "nanopb-regen-protos-toolchain", "singleportmodule-raw-handler"]
+      },
+      {
+        id: "module-api-allocreply-mechanism",
+        en: "allocReply and want_response Packet Allocation Mechanism",
+        tr: "allocReply ve want_response Yanıt Mekanizması",
+        category: "Yazılım & İstemciler",
+        lead: "Gelen bir ağ paketine otomatik yanıt vermek için bellek ayıran ve paketteki want_response bayrağına göre tetiklenen firmware mekanizması.",
+        details: "Meshtastic'te bir modül gelen pakete cevap vereceği zaman `allocReply()` metodunu çağırır; bu metot giden paketin hedef adresini (`to`) otomatik olarak gelen paketin kaynak adresine (`from`) eşitler. Kritik nokta şudur: `MeshModule::sendResponse()` döngüsü `allocReply()` fonksiyonunu yalnızca gelen pakette `want_response = true` bayrağı ayarlanmışsa tetikler. Standart sohbet istemcileri bu bayrağı genelde boş bıraktığından, her pakete cevap vermek için doğrudan `handleReceived()` içinde işlem yapılmalıdır.",
+        github: "meshtastic.org/docs/development/device/module-api",
+        infobox: {
+          "Metot": "allocReply() & sendResponse()",
+          "Tetiklenme Koşulu": "Gelen pakette want_response = true olması",
+          "Otomatik Eşleme": "Giden paketin 'to' alanı = Gelen paketin 'from' alanı",
+          "Geliştirici Uyarısı": "Sohbet paketleri bu bayrağı taşımadığından handleReceived() tercih edilmelidir"
+        },
+        seeAlso: ["replymodule-ping-service-template", "service-sendtomesh-uplink", "module-api-meshmodule-base"]
+      },
+      {
+        id: "osthread-cooperative-threading",
+        en: "OSThread Cooperative Multi-Threading Architecture",
+        tr: "OSThread İşbirlikçi Çoklu İş Parçacığı Mimarisi",
+        category: "Yazılım & İstemciler",
+        lead: "ESP32, nRF52 ve RP2040 gibi farklı RTOS ve bare-metal donanımlarda modüllerin periyodik görev yürütmesini sağlayan hafif işbirlikçi iş parçacığı sistemi.",
+        details: "Meshtastic modülleri yalnızca gelen paketlerle değil, belirli aralıklarla (örneğin dakikada bir telemetri okumak için) kendi kendine çalışmaya ihtiyaç duyar. Karmaşık işletim sistemi bağımlılıklarını önlemek için firmware `OSThread` sınıfını kullanır. Modül C++ çoklu kalıtımıyla (`class MyModule : public ProtobufModule, public OSThread`) tanımlanır ve `runOnce()` metodu ezilir (override). `setIntervalMilli()` ile belirlenen aralıklarla zamanlayıcı döngüsü çalışarak modülün işini aksatmadan yürütmesini sağlar.",
+        github: "meshtastic.org/docs/development/device/module-api",
+        infobox: {
+          "Sınıf Adı": "OSThread",
+          "Mekanizma": "İşbirlikçi (Cooperative) yürütme - runOnce() çağrısı",
+          "Aralık Ayarı": "setIntervalMilli(ms) ile periyodik tetikleme",
+          "Çapraz Platform": "FreeRTOS (ESP32) ve FreeRTOS/Bare-metal (nRF52) üzerinde tam uyum"
+        },
+        seeAlso: ["generic-thread-module-template", "module-api-meshmodule-base", "service-sendtomesh-uplink"]
+      },
+      {
+        id: "service-sendtomesh-uplink",
+        en: "service.sendToMesh Proactive Radio Uplink Function",
+        tr: "service.sendToMesh Proaktif Telsiz Yayını",
+        category: "Yazılım & İstemciler",
+        lead: "Modüllerin gelen bir paketi beklemeden, otonom olarak yeni bir telsiz paketi oluşturup LoRa yönlendirme kuyruğuna enjekte ettiği ana firmware metodu.",
+        details: "Proaktif veri gönderimlerinde (örneğin BME280 hava durumu sensörü veya NodeInfo düğüm bilgisi yayını), modül `service.sendToMesh(p)` metodunu çağırır. Geliştirici `MeshPacket *p = allocReply()` veya yeni bir `MeshPacket` belleği ayırır, hedef adresi (`NODENUM_BROADCAST` veya belirli bir hedef düğüm), veri yükünü ve port numarasını doldurur. `service.sendToMesh(p)` çağrıldığı anda paket donanımsal telsiz iletim kuyruğuna aktarılır ve hava sahasına yayılır.",
+        github: "meshtastic.org/docs/development/device/module-api",
+        infobox: {
+          "Metot İmzası": "service.sendToMesh(MeshPacket *p)",
+          "Yayın Türleri": "Yayın (Broadcast) veya doğrudan tekil düğüme (Unicast)",
+          "Örnek Kullanım": "NodeInfoModule::sendOurNodeInfo(), TelemetryModule periyodik gönderim",
+          "Çalışma Mantığı": "Paketi CSMA-CA telsiz gönderme kuyruğuna (TX Queue) ekleme"
+        },
+        seeAlso: ["osthread-cooperative-threading", "module-api-allocreply-mechanism", "generic-thread-module-template"]
+      },
+      {
+        id: "generic-thread-module-template",
+        en: "GenericThreadModule Periodic Execution Template",
+        tr: "GenericThreadModule Periyodik Çalışma Şablonu",
+        category: "Yazılım & İstemciler",
+        lead: "Belirli zaman aralıklarıyla örgü ağına paket gönderen veya sensör okuyan modüller geliştirmek için kullanılan resmi referans iş parçacığı şablonu.",
+        details: "Kaynak kodda `src/modules/GenericThreadModule.*` altında yer alan bu sınıf, `OSThread` ve `SinglePortModule` sınıflarının nasıl birlikte kullanılacağını gösterir. Geliştiricilerin arka planda belirli aralıklarla çalışacak telemetri veya kalp atışı (heartbeat) servisleri tasarlarken örnek alması için sunulmuştur. Varsayılan olarak ikili boyutu şişirmemek için `MESHTASTIC_EXCLUDE_GENERIC_THREAD_MODULE` makrosuyla derleme dışı tutulur; geliştirici bu makroyu kaldırarak kodu aktif eder.",
+        github: "meshtastic.org/docs/development/device/module-api",
+        infobox: {
+          "Kaynak Dosya": "src/modules/GenericThreadModule.cpp / .h",
+          "Derleme Makrosu": "MESHTASTIC_EXCLUDE_GENERIC_THREAD_MODULE",
+          "Kalıtım Yapısı": "SinglePortModule + OSThread",
+          "Kullanım Amacı": "Zamanlayıcı tabanlı periyodik LoRa yayınları için referans şablon"
+        },
+        seeAlso: ["osthread-cooperative-threading", "service-sendtomesh-uplink", "replymodule-ping-service-template"]
+      },
+      {
+        id: "replymodule-ping-service-template",
+        en: "ReplyModule Echo Ping Service Template",
+        tr: "ReplyModule Yankı ve Ping Servisi Şablonu",
+        category: "Yazılım & İstemciler",
+        lead: "Kendisine gelen her pakete yankı vererek ping servisi sağlayan ve yeni bir C++ modülü yazmak için kopyalanıp çoğaltılan temel başlangıç şablonu.",
+        details: "Meshtastic geliştirici kılavuzu, sıfırdan modül yazmak yerine `src/modules/ReplyModule.*` dosyalarının `src/modules/YourModule.*` şeklinde kopyalanmasını önerir. ReplyModule, `meshtastic_PortNum_REPLY_APP` portunu dinler ve kendisine gelen paketleri anında cevaplayarak telsiz link kalitesini test eder. Port numarası `TEXT_MESSAGE_APP` veya özel bir porta çevrilerek hızlıca yeni bir özellik geliştirilebilir.",
+        github: "meshtastic.org/docs/development/device/module-api",
+        infobox: {
+          "Kaynak Dosya": "src/modules/ReplyModule.cpp / .h",
+          "Varsayılan Port": "meshtastic_PortNum_REPLY_APP",
+          "İşlev": "Gelen paketleri tersine çevirip kaynak düğüme geri yansıtma (echo/ping)",
+          "Geliştirici Rolü": "Yeni modüller için PlatformIO derleme ve iskelet başlangıç kodu"
+        },
+        seeAlso: ["modules-cpp-registration-hook", "module-api-meshmodule-base", "generic-thread-module-template"]
+      },
+      {
+        id: "nanopb-regen-protos-toolchain",
+        en: "nanopb regen-protos.sh Code Generation Toolchain",
+        tr: "nanopb regen-protos.sh Kod Üretim Araç Zinciri",
+        category: "Yazılım & İstemciler",
+        lead: "Yeni tanımlanan .proto şema dosyalarından kısıtlı bellekli mikrodenetleyiciler için ultra optimize C yapıları ve ayrıştırıcılar üreten derleme aracı.",
+        details: "Meshtastic, Google Protobuf şemalarını gömülü sistemlerde çalıştırmak için son derece hafif olan `nanopb` motorunu kullanır. Geliştirici `protos/` dizinine yeni bir `.proto` dosyası ekledikten sonra `./bin/regen-protos.sh` betiğini çalıştırır. Betik nanopb derleyicisini kullanarak C başlık (.pb.h) ve kaynak (.pb.c) dosyalarını üretir. Bu sayede yeni veri yapıları firmware içinde doğrudan C struct ve fonksiyonlarıyla sıfır ek yükle kullanılabilir hale gelir.",
+        github: "meshtastic.org/docs/development/device/module-api",
+        infobox: {
+          "Çalıştırılan Betik": "./bin/regen-protos.sh",
+          "Gömülü Araç": "nanopb (ANSI-C Protocol Buffers implementation)",
+          "Girdi Dosyası": "protos/*.proto tanımları",
+          "Üretilen Çıktı": "Kompakt C struct başlıkları (*.pb.h) ve serileştirme kodları (*.pb.c)"
+        },
+        seeAlso: ["protobufmodule-typed-handler", "client-api-protobuf-bridge", "module-api-meshmodule-base"]
+      },
+      {
+        id: "modules-cpp-registration-hook",
+        en: "setupModules Modules.cpp Firmware Registration Hook",
+        tr: "setupModules Modules.cpp Merkezi Modül Kayıt Kancası",
+        category: "Yazılım & İstemciler",
+        lead: "Yazılan yeni bir C++ modülünün nesnesinin oluşturularak firmware açılış zincirine ve paket dağıtım döngüsüne dahil edildiği ana fonksiyon.",
+        details: "C++ dilinde bir sınıf yazılsa bile nesnesi oluşturulmadıkça çalışmaz. Meshtastic firmware'i açılırken `src/modules/Modules.cpp` dosyasındaki `setupModules()` fonksiyonunu çağırır. Geliştirici, kendi modül başlık dosyasını (`#include 'YourModule.h'`) ekleyip `setupModules()` içine `yourModule = new YourModule();` satırını ekler. Bu satırla birlikte modül bellekte yaratılır, `MeshModule` kurucusu üzerinden telsiz yönlendiricisine kancalanır ve açılışta `setup()` metodu otomatik çağrılır.",
+        github: "meshtastic.org/docs/development/device/module-api",
+        infobox: {
+          "Dosya Konumu": "src/modules/Modules.cpp",
+          "Kayıt Fonksiyonu": "void setupModules()",
+          "Örnek Çağrı": "yourModule = new YourModule();",
+          "Sonuç": "Modülün telsiz açılış sekansına ve küresel paket dinleme listesine eklenmesi"
+        },
+        seeAlso: ["module-api-meshmodule-base", "replymodule-ping-service-template", "osthread-cooperative-threading"]
       }
     ];
 
