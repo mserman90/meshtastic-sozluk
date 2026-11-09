@@ -898,6 +898,18 @@ Meshtastic donanımını kontrol etmek, mesajlaşıp harita görüntülemek ve a
 - **Fiziksel Teyitli Ã‡aÄŸrÄ± Portu (`portnum-paging-app`):** AlÄ±cÄ±nÄ±n acil durum veya anons bildirimini ekranda/butonda fiziksel olarak onaylamasÄ±nÄ± gerektiren `PAGING_APP` (38) interaktif Ã§aÄŸrÄ± portu.
 - **LoRa Havadan YazÄ±lÄ±m GÃ¼ncelleme Portu (`portnum-lora-ota`):** Ä°mzalÄ± Ã¼rÃ¼n yazÄ±lÄ±mÄ± bloklarÄ±nÄ± telsiz Ã¼zerinden kablosuz olarak dÃ¼ÄŸÃ¼mlere aktaran `LORA_OTA_APP` (79) differansiyel gÃ¼ncelleme portu.
 
+### ğŸ Meshtastic Bellenim Ã‡aÄŸrÄ± YÄ±ÄŸÄ±nÄ± ve Ã‡Ã¶kme Analizi (meshtastic.org/docs/development/firmware/stacktraces)
+- **Bellenim Ã‡aÄŸrÄ± YÄ±ÄŸÄ±nÄ± Ã‡Ã¶zÃ¼mleme (`firmware-stacktrace-decoding`):** Ã‡Ã¶kme anÄ±nda konsola dÃ¶kÃ¼len hex adresleri `firmware.elf` tablosuyla dosya ve satÄ±r numarasÄ±na dÃ¶nÃ¼ÅŸtÃ¼rme sÃ¼reci.
+- **PlatformIO esp32_exception_decoder MonitÃ¶r Filtresi (`esp32-exception-decoder-filter`):** `pio device monitor -f esp32_exception_decoder` ile canlÄ± seri akÄ±ÅŸÄ±nda Ã§Ã¶kme adreslerini anlÄ±k Ã§Ã¶zÃ¼mleme.
+- **Bellenim ELF Sembol Tablosu [firmware.elf] (`firmware-elf-symbol-table`):** DWARF hata ayÄ±klama sembollerini barÄ±ndÄ±ran ve makine kodunu C++ kaynak satÄ±rlarÄ±na eÅŸleyen ikili dosya.
+- **Meshtastic exception_decoder.py Ã‡evrimdÄ±ÅŸÄ± Ã‡Ã¶zÃ¼cÃ¼ (`exception-decoder-py-script`):** `backtrace.txt` dÃ¶kÃ¼mlerini GNU toolchain aracÄ±lÄ±ÄŸÄ±yla Ã§evrimdÄ±ÅŸÄ± ortamda Ã§Ã¶zÃ¼mleyen resmi Python aracÄ±.
+- **Guru Meditation HatasÄ± ve Panik Ä°ÅŸleyicisi (`guru-meditation-panic-handler`):** ESP32 Ã§ekirdeÄŸinde donanÄ±msal istisnalar (LoadProhibited, StoreProhibited) oluÅŸtuÄŸunda CPU'yu durdurup dump alan mekanizma.
+- **Xtensa addr2line Ä°kili Adres Ã‡Ã¶zÃ¼mleyici (`xtensa-addr2line-resolver`):** `xtensa-esp32-elf-addr2line -pfiaC` ile sayÄ±sal program sayacÄ± adreslerini C++ kaynak kod satÄ±rÄ±na eÅŸleme.
+- **GÃ¶rev Ä°zleme ZamanlayÄ±cÄ±sÄ± PaniÄŸi [TWDT] (`task-watchdog-timer-panic`):** Bir FreeRTOS gÃ¶revinin CPU'yu bloke etmesiyle tetiklenen ve sistemi resetleyen nÃ¶betÃ§i zamanlayÄ±cÄ± mimarisi.
+- **Ã‡aÄŸrÄ± YÄ±ÄŸÄ±nÄ± Ã‡erÃ§evesi ve Backtrace YapÄ±sÄ± (`call-stack-frame-backtrace`):** YÄ±ÄŸÄ±ndaki `PC:SP` Ã§iftlerini geriye doÄŸru tarayarak fonksiyon Ã§aÄŸrÄ± zincirini ortaya Ã§Ä±karan yÄ±ÄŸÄ±n aÃ§ma sÃ¼reci.
+- **FreeRTOS YÄ±ÄŸÄ±n TaÅŸmasÄ± KancasÄ± PaniÄŸi (`stack-overflow-hook-panic`):** GÃ¶rev bellek limitinin aÅŸÄ±lmasÄ± ve canary baytlarÄ±nÄ±n bozulmasÄ±yla tetiklenen `vApplicationStackOverflowHook` korumasÄ±.
+- **YazmaÃ§ DÃ¶kÃ¼mÃ¼ ve EXCVADDR Analizi (`register-dump-excvaddr-analysis`):** Ä°stisnaya neden olan adresi gÃ¶steren `EXCVADDR` yazmacÄ±nÄ± inceleyerek null/dangling pointer hatalarÄ±nÄ± tespit etme.
+
 ### 🔹 Açık Standart ve Tedarikçi Bağımsızlığı (Open Architecture & Vendor Neutrality)
 Meshtastic'in hiçbir tescilli ticari protokole veya tek bir donanım üreticisine bağımlı kalmamasını sağlayan açık kaynak ekosistem felsefesi (GPL-3.0 lisansı ve açık Protobuf şemaları). Semtech SX1262/SX1276/LR1121 telsizleri ile ESP32, nRF52840 ve RP2040 işlemcili onlarca farklı üreticinin (Heltec, LilyGO, RAKwireless) donanımları tam uyumla birlikte çalışabilir.
 

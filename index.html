@@ -11040,6 +11040,165 @@
           "KullanÄ±m AmacÄ±": "Uzak rÃ¶le dÃ¼ÄŸÃ¼mlerini sahaya gitmeden telsiz Ã¼zerinden gÃ¼ncelleme"
         },
         seeAlso: ["portnums", "portnum-range-registered", "portnum-payload-dispatch"]
+      }      ,
+      {
+        id: "firmware-stacktrace-decoding",
+        en: "Firmware Stacktrace Decoding",
+        tr: "Bellenim Ã‡aÄŸrÄ± YÄ±ÄŸÄ±nÄ± Ã‡Ã¶zÃ¼mleme",
+        category: "GeliÅŸtirici & Bellenim",
+        lead: "Meshtastic firmware Ã§Ã¶kmelerinde seri porttan dÃ¶kÃ¼len bellek adreslerini kaynak kod satÄ±r numaralarÄ±na ve fonksiyon adlarÄ±na dÃ¶nÃ¼ÅŸtÃ¼rme sÃ¼reci.",
+        details: "Mikrodenetleyici Ã§alÄ±ÅŸma zamanÄ±nda (runtime) bir istisna (exception) veya panik (panic) ile karÅŸÄ±laÅŸtÄ±ÄŸÄ±nda, konsola `Backtrace: 0x40081234:0x3ffb1234 ...` gibi onaltÄ±lÄ±k (hex) bellek adresleri dÃ¶kÃ¼lÃ¼r. Bellenim Ã§aÄŸrÄ± yÄ±ÄŸÄ±nÄ± Ã§Ã¶zÃ¼mleme, derleme sÄ±rasÄ±nda Ã¼retilen `firmware.elf` sembol tablosunu kullanarak bu adreslerin tam olarak hangi C++ dosyasÄ±nda ve kaÃ§Ä±ncÄ± satÄ±rda Ã§Ã¶ktÃ¼ÄŸÃ¼nÃ¼ ortaya Ã§Ä±karÄ±r. Bu iÅŸlem hem `exception_decoder.py` betiÄŸi ile Ã§evrimdÄ±ÅŸÄ± hem de PlatformIO seri monitÃ¶rÃ¼nde anlÄ±k olarak yapÄ±labilir.",
+        github: "meshtastic.org/docs/development/firmware/stacktraces",
+        infobox: {
+          "Ä°ÅŸlem TÃ¼rÃ¼": "Ã‡Ã¶kme SonrasÄ± Hata AyÄ±klama (Post-Mortem Debugging)",
+          "Girdi": "Backtrace Hex Adresleri",
+          "Gerekli Dosya": "firmware.elf (Sembol tablosu)",
+          "Hedef": "Kaynak kod satÄ±rÄ± ve fonksiyon tespiti"
+        },
+        seeAlso: ["esp32-exception-decoder-filter", "firmware-elf-symbol-table", "exception-decoder-py-script", "xtensa-addr2line-resolver"]
+      },
+      {
+        id: "esp32-exception-decoder-filter",
+        en: "PlatformIO esp32_exception_decoder Monitor Filter",
+        tr: "PlatformIO esp32_exception_decoder MonitÃ¶r Filtresi",
+        category: "GeliÅŸtirici & Bellenim",
+        lead: "PlatformIO seri monitÃ¶rÃ¼nde cihaz Ã§Ã¶ktÃ¼ÄŸÃ¼ anda konsola basÄ±lan backtrace adreslerini anÄ±nda Ã§Ã¶zerek kaynak dosya ve satÄ±rÄ±nÄ± gÃ¶steren gerÃ§ek zamanlÄ± filtre.",
+        details: "Meshtastic cihazlarÄ± USB Ã¼zerinden bilgisayara baÄŸlÄ±yken `pio device monitor --port DEVICE_PORT -f esp32_exception_decoder` komutu Ã§alÄ±ÅŸtÄ±rÄ±ldÄ±ÄŸÄ±nda, bu filtre seri port akÄ±ÅŸÄ±nÄ± sÃ¼rekli dinler. Bir Ã§Ã¶kme durumunda ESP32 panik iÅŸleyicisinin bastÄ±ÄŸÄ± `Backtrace: ...` satÄ±rÄ±nÄ± yakalar, arka planda derlenmiÅŸ son `.pio/build/<board>/firmware.elf` dosyasÄ±nÄ± otomatik olarak aÃ§ar ve adresleri anlÄ±k olarak dosya adÄ± ve satÄ±r numarasÄ±na dÃ¶nÃ¼ÅŸtÃ¼rerek ekrana yazar.",
+        github: "meshtastic.org/docs/development/firmware/stacktraces",
+        infobox: {
+          "Komut": "pio device monitor -f esp32_exception_decoder",
+          "Platform": "PlatformIO CLI / Core",
+          "Ã‡alÄ±ÅŸma ZamanÄ±": "GerÃ§ek ZamanlÄ± (Real-Time In-Flight)",
+          "AvantajÄ±": "Manuel dosya kaydÄ± ve ayrÄ±ÅŸtÄ±rma ihtiyacÄ±nÄ± ortadan kaldÄ±rÄ±r"
+        },
+        seeAlso: ["firmware-stacktrace-decoding", "exception-decoder-py-script", "firmware-elf-symbol-table"]
+      },
+      {
+        id: "firmware-elf-symbol-table",
+        en: "Firmware ELF Symbol Table (firmware.elf)",
+        tr: "Bellenim ELF Sembol Tablosu (firmware.elf)",
+        category: "GeliÅŸtirici & Bellenim",
+        lead: "Derleme sÃ¼recinde Ã¼retilen ve makine kodu bellek adreslerini C/C++ fonksiyon, deÄŸiÅŸken ve kaynak kod satÄ±rlarÄ±yla eÅŸleÅŸtiren hata ayÄ±klama verisi iÃ§eren ikili dosya.",
+        details: "PlatformIO ile Meshtastic bellenimi derlendiÄŸinde iki ana Ã§Ä±ktÄ± oluÅŸur: DonanÄ±ma yazÄ±lan sadeleÅŸtirilmiÅŸ ikili gÃ¶rÃ¼ntÃ¼ (`firmware.bin`) ve hata ayÄ±klama sembollerini barÄ±ndÄ±ran Executable and Linkable Format (`firmware.elf`) dosyasÄ±. ELF dosyasÄ± DWARF hata ayÄ±klama bilgilerini, fonksiyon baÅŸlangÄ±Ã§ adreslerini ve kaynak kod referanslarÄ±nÄ± iÃ§erir. Ã‡Ã¶kme dÃ¶kÃ¼mlerini doÄŸru Ã§Ã¶zebilmek iÃ§in kullanÄ±lan `firmware.elf` dosyasÄ±nÄ±n, cihazda koÅŸan bellenimle birebir aynÄ± derleme anÄ±nda oluÅŸturulmuÅŸ olmasÄ± ÅŸarttÄ±r.",
+        github: "meshtastic/firmware: PlatformIO build system",
+        infobox: {
+          "Dosya FormatÄ±": "ELF (Executable and Linkable Format)",
+          "Dizin": ".pio/build/<board>/firmware.elf",
+          "Ä°Ã§erik": "DWARF Debug sembolleri ve adres haritasÄ±",
+          "KullanÄ±m": "GDB, addr2line ve exception_decoder"
+        },
+        seeAlso: ["firmware-stacktrace-decoding", "xtensa-addr2line-resolver", "esp32-exception-decoder-filter"]
+      },
+      {
+        id: "exception-decoder-py-script",
+        en: "Meshtastic exception_decoder.py Offline Decoder",
+        tr: "Meshtastic exception_decoder.py Ã‡evrimdÄ±ÅŸÄ± Ã‡Ã¶zÃ¼cÃ¼",
+        category: "GeliÅŸtirici & Bellenim",
+        lead: "KullanÄ±cÄ±larÄ±n veya saha testÃ§ilerinin kaydettiÄŸi `backtrace.txt` dÃ¶kÃ¼mlerini `firmware.elf` ile eÅŸleÅŸtirerek Ã§evrimdÄ±ÅŸÄ± ortamda Ã§Ã¶zÃ¼mleyen Python betiÄŸi.",
+        details: "Meshtastic kaynak deposunda `bin/exception_decoder.py` yolunda bulunan bu betik, cihazÄ±n seri konsolundan kopyalanÄ±p bir metin dosyasÄ±na (`backtrace.txt`) yapÄ±ÅŸtÄ±rÄ±lan Ã§Ã¶kme gÃ¼nlÃ¼klerini ayrÄ±ÅŸtÄ±rÄ±r. Betik, yerel araÃ§ zincirindeki (Xtensa veya GCC ARM) `addr2line` aracÄ±nÄ± Ã§aÄŸÄ±rarak her bir program sayacÄ± (PC) ve yÄ±ÄŸÄ±n iÅŸaretÃ§isi (SP) adresini Ã§Ã¶zÃ¼mler. Bu sayede sahada veya uzak kullanÄ±cÄ±larda meydana gelen Ã§Ã¶kmeler geliÅŸtirici bilgisayarÄ±nda zahmetsizce analiz edilebilir.",
+        github: "meshtastic/firmware: bin/exception_decoder.py",
+        infobox: {
+          "Dosya Yolu": "bin/exception_decoder.py",
+          "Girdi DosyasÄ±": "backtrace.txt",
+          "Gereksinim": "Python 3 ve GNU toolchain (addr2line)",
+          "KullanÄ±m Åekli": "python bin/exception_decoder.py backtrace.txt"
+        },
+        seeAlso: ["firmware-stacktrace-decoding", "firmware-elf-symbol-table", "xtensa-addr2line-resolver"]
+      },
+      {
+        id: "guru-meditation-panic-handler",
+        en: "Guru Meditation Error and Panic Handler",
+        tr: "Guru Meditation HatasÄ± ve Panik Ä°ÅŸleyicisi",
+        category: "GeliÅŸtirici & Bellenim",
+        lead: "ESP-IDF ve FreeRTOS Ã§ekirdeÄŸinde donanÄ±msal veya yazÄ±lÄ±msal kritik bir istisna oluÅŸtuÄŸunda CPU'yu durdurup kayÄ±tÃ§Ä± dÃ¶kÃ¼mÃ¼nÃ¼ seri porta basan Ã§Ã¶kme yakalayÄ±cÄ±.",
+        details: "Amiga dÃ¶neminden miras kalan 'Guru Meditation Error', ESP32 tabanlÄ± Meshtastic cihazlarÄ±nda iÅŸlemcinin telafisi imkansÄ±z bir donanÄ±m istisnasÄ±yla karÅŸÄ±laÅŸtÄ±ÄŸÄ±nÄ± belirtir. En sÄ±k karÅŸÄ±laÅŸÄ±lan nedenler arasÄ±nda `LoadProhibited` (geÃ§ersiz/null bellek adresinden okuma), `StoreProhibited` (salt okunur veya geÃ§ersiz belleÄŸe yazma), `IllegalInstruction` (bozuk bellek veya yanlÄ±ÅŸ dal atlama) ve `IntegerDivideByZero` yer alÄ±r. Panik iÅŸleyicisi CPU yazmaÃ§larÄ±nÄ± (A0-A15, PC, SP) ve Ã§aÄŸrÄ± yÄ±ÄŸÄ±nÄ±nÄ± dÃ¶kerek cihazÄ± yeniden baÅŸlatÄ±r (`abort()` veya WDT reset).",
+        github: "espressif/esp-idf: panic handler",
+        infobox: {
+          "KÃ¶ken": "ESP-IDF / FreeRTOS Ã‡ekirdeÄŸi",
+          "Tipik Nedenler": "Null pointer, Heap bozulmasÄ±, GeÃ§ersiz bellek eriÅŸimi",
+          "SonuÃ§": "Konsola Backtrace basÄ±mÄ± ve Watchdog sÄ±fÄ±rlamasÄ±"
+        },
+        seeAlso: ["firmware-stacktrace-decoding", "register-dump-excvaddr-analysis", "task-watchdog-timer-panic"]
+      },
+      {
+        id: "xtensa-addr2line-resolver",
+        en: "Xtensa addr2line Binary Address Resolver",
+        tr: "Xtensa addr2line Ä°kili Adres Ã‡Ã¶zÃ¼mleyici",
+        category: "GeliÅŸtirici & Bellenim",
+        lead: "GCC Xtensa araÃ§ zincirinde bulunan ve sayÄ±sal program sayacÄ± (PC) bellek adresini C++ dosya adÄ± ve satÄ±r numarasÄ±na dÃ¶nÃ¼ÅŸtÃ¼ren GNU yardÄ±mcÄ± programÄ±.",
+        details: "ESP32 mikrodenetleyicileri Xtensa mimarisine sahiptir. PlatformIO altÄ±nda `~/.platformio/packages/toolchain-xtensa-esp32/bin/xtensa-esp32-elf-addr2line` konumunda bulunan bu araÃ§, `xtensa-esp32-elf-addr2line -pfiaC -e firmware.elf 0x40081234` ÅŸeklinde Ã§aÄŸrÄ±lÄ±r. `-C` bayraÄŸÄ± C++ isim bozmasÄ±nÄ± (name demangling) Ã§Ã¶zerken, `-i` bayraÄŸÄ± satÄ±r iÃ§i (inlined) fonksiyonlarÄ± aÃ§arak Ã§Ã¶kmenin hangi ÅŸablon veya makro iÃ§inde gerÃ§ekleÅŸtiÄŸini tam hiyerarÅŸik olarak listeler.",
+        github: "meshtastic.org/docs/development/firmware/stacktraces",
+        infobox: {
+          "AraÃ§": "xtensa-esp32-elf-addr2line",
+          "Ã–nemli Bayraklar": "-pfiaC (Pretty-print, Demangle, Inlines)",
+          "BaÄŸÄ±mlÄ±lÄ±k": "ELF Debug sembolleri (DWARF)",
+          "Ä°ÅŸlev": "Hex bellek adresinden kaynak koda eÅŸleme"
+        },
+        seeAlso: ["firmware-stacktrace-decoding", "firmware-elf-symbol-table", "exception-decoder-py-script"]
+      },
+      {
+        id: "task-watchdog-timer-panic",
+        en: "Task Watchdog Timer Panic (TWDT Crash)",
+        tr: "GÃ¶rev Ä°zleme ZamanlayÄ±cÄ±sÄ± PaniÄŸi (TWDT Ã‡Ã¶kmesi)",
+        category: "GeliÅŸtirici & Bellenim",
+        lead: "FreeRTOS ortamÄ±nda bir gÃ¶revin (task) diÄŸer iÅŸlemlere fÄ±rsat vermeden CPU'yu bloke etmesi sonucu tetiklenen ve backtrace Ã¼reten nÃ¶betÃ§i zamanlayÄ±cÄ± sÄ±fÄ±rlamasÄ±.",
+        details: "Meshtastic belleniminde radyo dinleme, Bluetooth iletiÅŸimi ve ekran yenileme gibi onlarca FreeRTOS gÃ¶revi eÅŸzamanlÄ± Ã§alÄ±ÅŸÄ±r. EÄŸer bir gÃ¶rev (Ã¶rneÄŸin SPI veri aktarÄ±mÄ± veya sonsuz dÃ¶ngÃ¼) FreeRTOS zaman dilimi iÃ§inde `vTaskDelay()` Ã§aÄŸÄ±rmaz ve CPU'yu 5-10 saniye boyunca meÅŸgul ederse, GÃ¶rev NÃ¶betÃ§i ZamanlayÄ±cÄ±sÄ± (TWDT) tetiklenir. Sistem `Task watchdog got triggered. The following tasks did not feed the watchdog in time` uyarÄ±sÄ±yla birlikte donanÄ±mÄ± durdurur ve tÄ±kanan gÃ¶revin backtrace'ini dÃ¶kerek cihazÄ± kilitlenmeden kurtarmak iÃ§in yeniden baÅŸlatÄ±r.",
+        github: "meshtastic/firmware: FreeRTOS task architecture",
+        infobox: {
+          "Mekanizma": "TWDT (Task Watchdog Timer)",
+          "Tetiklenme Sebebi": "CPU blokajÄ±, vTaskDelay eksikliÄŸi, sonsuz dÃ¶ngÃ¼",
+          "Tipik EÅŸik": "5000ms varsayÄ±lan sÃ¼re",
+          "Kurtarma": "GÃ¼venli donanÄ±m yeniden baÅŸlatmasÄ± (Reboot)"
+        },
+        seeAlso: ["guru-meditation-panic-handler", "firmware-stacktrace-decoding", "critical-error-code-subsystem"]
+      },
+      {
+        id: "call-stack-frame-backtrace",
+        en: "Call Stack Frame and Backtrace Structure",
+        tr: "Ã‡aÄŸrÄ± YÄ±ÄŸÄ±nÄ± Ã‡erÃ§evesi ve Backtrace YapÄ±sÄ±",
+        category: "GeliÅŸtirici & Bellenim",
+        lead: "Her fonksiyon Ã§aÄŸrÄ±sÄ±nda yÄ±ÄŸÄ±na (stack) kaydedilen dÃ¶nÃ¼ÅŸ adresleri ve Ã§erÃ§eve iÅŸaretÃ§ilerinin geriye doÄŸru taranmasÄ±yla elde edilen Ã§Ã¶kme zinciri.",
+        details: "Meshtastic'in Ã§alÄ±ÅŸtÄ±ÄŸÄ± mikrodenetleyicilerde fonksiyonlar Ã§aÄŸrÄ±ldÄ±ÄŸÄ±nda dÃ¶nÃ¼ÅŸ adresi (return address) ve yerel deÄŸiÅŸkenler yÄ±ÄŸÄ±n belleÄŸinde (call frame) tutulur. Ã‡Ã¶kme anÄ±nda panik iÅŸleyicisi geÃ§erli yÄ±ÄŸÄ±n iÅŸaretÃ§isinden (`SP`) baÅŸlayarak Ã§erÃ§eve iÅŸaretÃ§ilerini (`FP`) geriye doÄŸru takip eder (stack unwinding). Konsola basÄ±lan `0x400d1234:0x3ffb5678` Ã§iftleri sÄ±rasÄ±yla Program SayacÄ±nÄ± (`PC`) ve YÄ±ÄŸÄ±n Ä°ÅŸaretÃ§isini (`SP`) gÃ¶sterir. Bu liste en son Ã§aÄŸrÄ±lan fonksiyondan `app_main` veya `setup()` fonksiyonuna kadar giden kronolojik yÃ¼rÃ¼tme yolunu temsil eder.",
+        github: "meshtastic.org/docs/development/firmware/stacktraces",
+        infobox: {
+          "YapÄ±": "Stack Unwinding & Frame Pointers",
+          "Ã‡ift FormatÄ±": "PC:SP (Program Counter : Stack Pointer)",
+          "AnlamÄ±": "Fonksiyon Ã§aÄŸrÄ± zinciri ve dÃ¶nÃ¼ÅŸ adresleri",
+          "YÃ¶n": "En iÃ§teki Ã§Ã¶kme noktasÄ±ndan ana fonksiyona doÄŸru"
+        },
+        seeAlso: ["firmware-stacktrace-decoding", "xtensa-addr2line-resolver", "register-dump-excvaddr-analysis"]
+      },
+      {
+        id: "stack-overflow-hook-panic",
+        en: "FreeRTOS Stack Overflow Hook Panic",
+        tr: "FreeRTOS YÄ±ÄŸÄ±n TaÅŸmasÄ± KancasÄ± PaniÄŸi",
+        category: "GeliÅŸtirici & Bellenim",
+        lead: "Bir FreeRTOS gÃ¶revinin kendisine tahsis edilen yÄ±ÄŸÄ±n belleÄŸi sÄ±nÄ±rÄ±nÄ± aÅŸarak komÅŸu bellek alanÄ±nÄ± bozmasÄ± durumunda tetiklenen koruma kancasÄ±.",
+        details: "Mikrodenetleyici sistemlerinde her gÃ¶rev iÃ§in `xTaskCreatePinnedToCore` ile sÄ±nÄ±rlÄ± bir yÄ±ÄŸÄ±n alanÄ± (Ã¶rneÄŸin 4 KB veya 8 KB) tanÄ±mlanÄ±r. Meshtastic iÃ§inde derin Ã¶zyinelemeli fonksiyonlar, bÃ¼yÃ¼k yerel diziler (`char buf[2048]`) veya karmaÅŸÄ±k Protobuf mesaj serileÅŸtirmeleri yapÄ±ldÄ±ÄŸÄ±nda yÄ±ÄŸÄ±n tÃ¼kenir. FreeRTOS yÄ±ÄŸÄ±nÄ±n sonundaki 'kanarya' (canary) baytlarÄ±nÄ±n bozulduÄŸunu fark ettiÄŸinde `vApplicationStackOverflowHook` fonksiyonunu tetikler. Bu kanca doÄŸrudan cihazÄ± panik moduna sokarak taÅŸan gÃ¶revin adÄ±nÄ± ve Ã§Ã¶kme backtrace'ini seri porta dÃ¶ker.",
+        github: "meshtastic/firmware: FreeRTOS stack protection",
+        infobox: {
+          "Tetikleyici": "vApplicationStackOverflowHook()",
+          "Neden": "AÅŸÄ±rÄ± yerel dizi kullanÄ±mÄ±, derin fonksiyon Ã§aÄŸrÄ±larÄ±",
+          "Belirti": "Stack Canary Corruption",
+          "Ã–nlem": "GÃ¶revin yÄ±ÄŸÄ±n boyutunu artÄ±rma (uxTaskGetStackHighWaterMark)"
+        },
+        seeAlso: ["guru-meditation-panic-handler", "task-watchdog-timer-panic", "firmware-stacktrace-decoding"]
+      },
+      {
+        id: "register-dump-excvaddr-analysis",
+        en: "Register Dump and EXCVADDR Analysis",
+        tr: "YazmaÃ§ DÃ¶kÃ¼mÃ¼ ve EXCVADDR Analizi",
+        category: "GeliÅŸtirici & Bellenim",
+        lead: "Ã‡Ã¶kme anÄ±nda CPU yazmaÃ§larÄ±nÄ±n durumunu gÃ¶steren dÃ¶kÃ¼mde, hataya yol aÃ§an bellek adresini bildiren EXCVADDR yazmacÄ±nÄ±n incelenmesi.",
+        details: "ESP32 panik raporunun en Ã¼stÃ¼nde CPU yazmaÃ§larÄ±nÄ±n anlÄ±k deÄŸerleri listelenir: `PC` (Ã§Ã¶kÃ¼len komut adresi), `A0-A15` (genel amaÃ§lÄ± Xtensa yazmaÃ§larÄ±), `SAR` ve en Ã¶nemlisi `EXCVADDR` (Exception Address). EÄŸer `EXCVADDR = 0x00000000` veya sÄ±fÄ±ra Ã§ok yakÄ±n bir deÄŸer (Ã¶rneÄŸin `0x0000000c`) gÃ¶rÃ¼nÃ¼yorsa, kodun boÅŸ bir iÅŸaretÃ§iye (null pointer dereference) eriÅŸmeye Ã§alÄ±ÅŸtÄ±ÄŸÄ± kesinleÅŸir. EÄŸer `EXCVADDR = 0x3ff...` veya `0x400...` dÄ±ÅŸÄ±nda rastgele bir Ã§Ã¶p deÄŸerse, belleÄŸin serbest bÄ±rakÄ±lmÄ±ÅŸ bir iÅŸaretÃ§i (dangling pointer) Ã¼zerinden bozulduÄŸu anlaÅŸÄ±lÄ±r.",
+        github: "meshtastic.org/docs/development/firmware/stacktraces",
+        infobox: {
+          "Kritik YazmaÃ§": "EXCVADDR (Ä°stisnaya Neden Olan Bellek Adresi)",
+          "Null Pointer Belirtisi": "EXCVADDR == 0x00000000 (veya kÃ¼Ã§Ã¼k ofset)",
+          "Ä°ÅŸlemci KayÄ±tÃ§Ä±larÄ±": "PC, SP, A0-A15, PS, EXCCAUSE",
+          "Fayda": "Ã‡Ã¶kmenin mantÄ±ksal donanÄ±m sebebini saniyeler iÃ§inde anlama"
+        },
+        seeAlso: ["guru-meditation-panic-handler", "call-stack-frame-backtrace", "firmware-stacktrace-decoding"]
       }
     ];
 
