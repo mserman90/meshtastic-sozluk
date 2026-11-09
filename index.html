@@ -11999,6 +11999,166 @@
           "Ã‡Ä±ktÄ±": "Tip gÃ¼venli TypeScript arayÃ¼z nesneleri (FromRadio)"
         },
         seeAlso: ["buf-protobuf-ts-generator", "web-bluetooth-serial-unified-gateway"]
+      }      ,
+      {
+        id: "wire-encoding-0x94c3-framing",
+        en: "Wire Encoding 0x94C3 Magic Framing",
+        tr: "Kablo Ä°letim KodlamasÄ± 0x94C3 Sihirli Ã‡erÃ§eveleme",
+        category: "Protokol & Mimari",
+        lead: "Seri veya TCP hattÄ±ndan akan ikili Protobuf paketlerini ayÄ±rt etmek ve senkronize etmek iÃ§in kullanÄ±lan 32-bitlik sihirli baÅŸlÄ±k standardÄ±.",
+        details: "Meshtastic kablo iletiminde (wire encoding) her Protobuf paketinin baÅŸÄ±na bÃ¼yÃ¼k bayt sÄ±ralÄ± (big-endian) 4 baytlÄ±k (`uint32`) bir baÅŸlÄ±k eklenir. BaÅŸlÄ±ÄŸÄ±n Ã¼st 16 biti sabit `0x94C3` sihirli deÄŸeridir; alt 16 biti ise paketin bayt uzunluÄŸunu belirtir. `0x94C3` seÃ§imi bilinÃ§lidir: 7-bit ASCII karakterleriyle ve geÃ§erli UTF-8 dizilimleriyle asla Ã§akÄ±ÅŸmaz. BÃ¶ylece cihaz seri portundan dÃ¼z metin log basarken PC'den ilk `0x94C3` Ã§erÃ§evesini aldÄ±ÄŸÄ±nda anÄ±nda log basmayÄ± kesip ikili Protobuf moduna geÃ§ebilir. EÄŸer uzunluk 512 bayttan bÃ¼yÃ¼kse paket bozuk kabul edilir ve yeni bir `0x94C3` aranÄ±r.",
+        github: "meshtastic.org/docs/development/python",
+        infobox: {
+          "Sihirli Bayt (Magic)": "0x94C3 (Ãœst 16-bit)",
+          "Uzunluk AlanÄ±": "Paket Bayt SayÄ±sÄ± (Alt 16-bit)",
+          "Bayt SÄ±ralamasÄ±": "Big-Endian (AÄŸ SÄ±rasÄ±)",
+          "TasarÄ±m AmacÄ±": "ASCII/UTF-8 ile Ã§akÄ±ÅŸmayan Ã§erÃ§eve senkronizasyonu"
+        },
+        seeAlso: ["serialinterface-python-api", "tcpinterface-python-api", "protobuf-browser-client-decoding"]
+      },
+      {
+        id: "python-pypubsub-event-system",
+        en: "Python PyPubSub Asynchronous Event System",
+        tr: "Python PyPubSub Asenkron Olay Sistemi",
+        category: "YazÄ±lÄ±m & Ä°stemciler",
+        lead: "Python SDK'sÄ±nda telsizden gelen paketleri ve baÄŸlantÄ± durumlarÄ±nÄ± dinlemek iÃ§in kullanÄ±lan yayÄ±nla-abone ol (publish-subscribe) olay mimarisi.",
+        details: "Meshtastic Python istemcisi olay odaklÄ± (event-driven) mimarisinde `pypubsub` kÃ¼tÃ¼phanesini kullanÄ±r. GeliÅŸtiriciler `from pubsub import pub` ile `pub.subscribe(onReceive, 'meshtastic.receive')` ve `pub.subscribe(onConnection, 'meshtastic.connection.established')` konularÄ±na abone olur. DÃ¼ÄŸÃ¼me telsizden bir LoRa paketi veya telemetri ulaÅŸtÄ±ÄŸÄ±nda arka plan iÅŸ parÃ§acÄ±ÄŸÄ± bu paketi Ã§Ã¶zerek ilgili dinleyici fonksiyonlara eÅŸzamanlÄ± daÄŸÄ±tÄ±r.",
+        github: "meshtastic/Meshtastic-python: pubsub",
+        infobox: {
+          "KÃ¼tÃ¼phane": "pypubsub (PyPubSub)",
+          "Temel Konular": "meshtastic.receive, meshtastic.connection.established",
+          "Mimari Model": "Publish-Subscribe (Pub/Sub)",
+          "KullanÄ±m AmacÄ±": "Gelen paket ve baÄŸlantÄ± olaylarÄ±nÄ± asenkron yakalama"
+        },
+        seeAlso: ["serialinterface-python-api", "tcpinterface-python-api"]
+      },
+      {
+        id: "serialinterface-python-api",
+        en: "Meshtastic Python SerialInterface API",
+        tr: "Meshtastic Python SerialInterface API'si",
+        category: "YazÄ±lÄ±m & Ä°stemciler",
+        lead: "USB veya donanÄ±msal seri port Ã¼zerinden baÄŸlÄ± bir Meshtastic dÃ¼ÄŸÃ¼mÃ¼nÃ¼ otomatik algÄ±layan ve Ã§ift yÃ¶nlÃ¼ kontrol saÄŸlayan temel arayÃ¼z sÄ±nÄ±fÄ±.",
+        details: "`meshtastic.serial_interface.SerialInterface()`, parametre verilmediÄŸinde sistemdeki seri portlarÄ± tarayarak CP210x, CH340 veya yerel USB CDC aygÄ±tlarÄ±nÄ± otomatik bulur. `interface.sendText('hello mesh')` ile metin gÃ¶nderme, `interface.sendData()` ile ikili veri basma ve `interface.getNode('^local')` ile ayarlarÄ± okuma metodlarÄ± sunar. Arka planda `0x94C3` Ã§erÃ§evelemesini ve paket kuyruÄŸunu otomatik yÃ¶netir.",
+        github: "meshtastic/Meshtastic-python: meshtastic/serial_interface.py",
+        infobox: {
+          "SÄ±nÄ±f": "meshtastic.serial_interface.SerialInterface",
+          "Port Tespiti": "Otomatik USB VID/PID veya /dev/tty* tespiti",
+          "Ä°letiÅŸim HÄ±zÄ±": "115200 baud varsayÄ±lan",
+          "Desteklenen Metotlar": "sendText(), sendData(), getNode(), close()"
+        },
+        seeAlso: ["wire-encoding-0x94c3-framing", "tcpinterface-python-api", "node-localconfig-writeconfig-api"]
+      },
+      {
+        id: "tcpinterface-python-api",
+        en: "Meshtastic Python TCPInterface API",
+        tr: "Meshtastic Python TCPInterface API'si",
+        category: "YazÄ±lÄ±m & Ä°stemciler",
+        lead: "Wi-Fi veya Ethernet Ã¼zerinden aÄŸa baÄŸlÄ± bir Meshtastic dÃ¼ÄŸÃ¼mÃ¼ne IP adresi ve 4403 portu Ã¼zerinden soket baÄŸlantÄ±sÄ± kuran istemci sÄ±nÄ±fÄ±.",
+        details: "`meshtastic.tcp_interface.TCPInterface(hostname='192.168.1.50')` sÄ±nÄ±fÄ±, aÄŸdaki bir dÃ¼ÄŸÃ¼me TCP soketi aÃ§ar. Fiziksel USB kablosu ihtiyacÄ±nÄ± ortadan kaldÄ±rÄ±r. Ã‡atÄ±daki veya kuledeki bir Wi-Fi/Ethernet rÃ¶lesine uzaktan baÄŸlanarak telemetri Ã§ekmek, anons gÃ¶ndermek veya yapÄ±landÄ±rma gÃ¼ncellemek iÃ§in kullanÄ±lÄ±r. AÄŸ kesildiÄŸinde otomatik yeniden baÄŸlanma (reconnect) mantÄ±ÄŸÄ± iÃ§erir.",
+        github: "meshtastic/Meshtastic-python: meshtastic/tcp_interface.py",
+        infobox: {
+          "SÄ±nÄ±f": "meshtastic.tcp_interface.TCPInterface",
+          "VarsayÄ±lan Port": "TCP 4403",
+          "BaÄŸlantÄ± TÃ¼rÃ¼": "IP / Wi-Fi / Ethernet Soketi",
+          "KullanÄ±m AlanÄ±": "Uzak rÃ¶le ve gateway yÃ¶netimi"
+        },
+        seeAlso: ["serialinterface-python-api", "wire-encoding-0x94c3-framing", "python-pypubsub-event-system"]
+      },
+      {
+        id: "poetry-python-dependency-manager",
+        en: "Poetry Python Dependency and Packaging Manager",
+        tr: "Poetry Python BaÄŸÄ±mlÄ±lÄ±k ve Paketleme YÃ¶neticisi",
+        category: "YazÄ±lÄ±m & AltyapÄ±",
+        lead: "Meshtastic Python projesinin sanal ortam, kÃ¼tÃ¼phane baÄŸÄ±mlÄ±lÄ±klarÄ± ve derleme adÄ±mlarÄ±nÄ± 'pyproject.toml' ile yÃ¶neten araÃ§.",
+        details: "Meshtastic-python projesi eski `setup.py` / `requirements.txt` yapÄ±sÄ±ndan modern Poetry aracÄ±na geÃ§miÅŸtir. `poetry install --all-extras --with dev` komutu tÃ¼m geliÅŸtirici araÃ§larÄ±nÄ± (pylint, pytest, autopep8) ve opsiyonel donanÄ±m kÃ¼tÃ¼phanelerini kurar. `poetry shell` geliÅŸtiriciye izole bir sanal ortam aÃ§arken, `poetry build` tekerlek (wheel) ve kaynak daÄŸÄ±tÄ±m paketlerini Ã¼retir.",
+        github: "meshtastic/Meshtastic-python: pyproject.toml",
+        infobox: {
+          "Paket YÃ¶neticisi": "Poetry",
+          "YapÄ±landÄ±rma DosyasÄ±": "pyproject.toml",
+          "KullanÄ±m KomutlarÄ±": "poetry install, poetry run pytest, poetry build",
+          "Avantaj": "Kilitli baÄŸÄ±mlÄ±lÄ±klar (poetry.lock) ve tutarlÄ± ortamlar"
+        },
+        seeAlso: ["pypi-single-executable-distribution", "pytest-smoke1-hardware-test"]
+      },
+      {
+        id: "pytest-smoke1-hardware-test",
+        en: "pytest smoke1 Single-Device Hardware Regression Test",
+        tr: "pytest smoke1 Tek CihazlÄ± DonanÄ±m Gerileme Testi",
+        category: "GeliÅŸtirici & Bellenim",
+        lead: "Bilgisayara seri porttan baÄŸlÄ± tek bir fiziksel dÃ¼ÄŸÃ¼m Ã¼zerinde temel API iÅŸlevlerini ve bellenim kararlÄ±lÄ±ÄŸÄ±nÄ± test eden suite (pytest -m smoke1).",
+        details: "Python SDK geliÅŸtirme dÃ¶ngÃ¼sÃ¼nde `pytest -m smoke1` komutu, bilgisayara baÄŸlÄ± gerÃ§ek bir donanÄ±mÄ± uÃ§tan uca test eder. CihazÄ±n dÃ¼ÄŸÃ¼m bilgisi, kanal ayarlarÄ±, telemetri yanÄ±tlarÄ± ve mesaj gÃ¶nderimi doÄŸrulanÄ±r. DokÃ¼mantasyonda Ã¶nemli bir uyarÄ± bulunur: `smoke1` testi cihazÄ±n ayarlarÄ±nÄ± sÄ±fÄ±rlar ve frekans bÃ¶lgesini varsayÄ±lan US (1) deÄŸerine Ã§eker; bu nedenle test bitiminde cihazÄ±n reset butonuna basÄ±lmasÄ± veya bÃ¶lgenin tekrar ayarlanmasÄ± gerekir.",
+        github: "meshtastic/Meshtastic-python: meshtastic/tests/test_smoke1.py",
+        infobox: {
+          "Test Ä°ÅŸareti": "-m smoke1",
+          "DonanÄ±m Ä°htiyacÄ±": "1 Adet USB Seri BaÄŸlÄ± DÃ¼ÄŸÃ¼m",
+          "Dikkat": "BÃ¶lge ayarÄ±nÄ± US (1)'e sÄ±fÄ±rlar, test sonrasÄ± reset gerekir",
+          "Kapsam": "Seri paket takasÄ±, kanal okuma/yazma, reset testi"
+        },
+        seeAlso: ["pytest-smoke2-mesh-integration", "serialinterface-python-api"]
+      },
+      {
+        id: "pytest-smoke2-mesh-integration",
+        en: "pytest smoke2 Multi-Node Mesh Integration Test",
+        tr: "pytest smoke2 Ã‡ok DÃ¼ÄŸÃ¼mlÃ¼ Mesh Entegrasyon Testi",
+        category: "GeliÅŸtirici & Bellenim",
+        lead: "Bilgisayara baÄŸlÄ± iki farklÄ± cihaz arasÄ±nda LoRa Ã¼zerinden paket iletimi, ACK doÄŸrulamasÄ± ve yÃ¶nlendirmeyi test eden suite (pytest -m smoke2).",
+        details: "`pytest -m smoke2`, aynÄ± geliÅŸtirici makinesine iki ayrÄ± USB kablosuyla baÄŸlÄ± iki Meshtastic dÃ¼ÄŸÃ¼mÃ¼nÃ¼ yÃ¶netir. Birinci dÃ¼ÄŸÃ¼mden havaya atÄ±lan bir metin veya telemetri paketinin ikinci dÃ¼ÄŸÃ¼m tarafÄ±ndan RF Ã¼zerinden alÄ±nÄ±p alÄ±nmadÄ±ÄŸÄ±nÄ± ve iletim teyidinin (Routing ACK) ilk dÃ¼ÄŸÃ¼me dÃ¶nÃ¼p dÃ¶nmediÄŸini test eder. Telsiz seviyesinde gerÃ§ek RF haberleÅŸmesini otomatize eden en kritik regresyon testidir.",
+        github: "meshtastic/Meshtastic-python: meshtastic/tests/test_smoke2.py",
+        infobox: {
+          "Test Ä°ÅŸareti": "-m smoke2",
+          "DonanÄ±m Ä°htiyacÄ±": "2 Adet USB BaÄŸlÄ± DÃ¼ÄŸÃ¼m",
+          "Test Edilen Alan": "GerÃ§ek LoRa RF sinyali, Hop/ACK takibi, Paket doÄŸruluÄŸu",
+          "Fayda": "Ã‡oklu cihaz haberleÅŸmesini CI/CD veya yerel laboratuvarda doÄŸrulama"
+        },
+        seeAlso: ["pytest-smoke1-hardware-test", "wire-encoding-0x94c3-framing"]
+      },
+      {
+        id: "pytest-coverage-durations-profiling",
+        en: "pytest Coverage and Durations Profiling",
+        tr: "pytest Kapsama ve SÃ¼re Profilleme Analizi",
+        category: "YazÄ±lÄ±m & AltyapÄ±",
+        lead: "Testlerin kaynak kod Ã¼zerindeki kapsama oranÄ±nÄ± (--cov) ve en yavaÅŸ koÅŸan birim testleri (--durations=0) tespit eden analiz araÃ§larÄ±.",
+        details: "Meshtastic-python kÃ¼tÃ¼phanesinde test kalitesini yÃ¼ksek tutmak iÃ§in `pytest --cov=meshtastic --cov-report html` komutuyla her bir C++ baÄŸlayÄ±cÄ±sÄ±nÄ±n ve yardÄ±mcÄ± fonksiyonun kod kapsamÄ± (code coverage) raporlanÄ±r. `pytest --durations=0` (veya `make slow`) komutu ise milisaniye hassasiyetinde en yavaÅŸ Ã§alÄ±ÅŸan testleri bularak CI hatlarÄ±ndaki darboÄŸazlarÄ± giderir.",
+        github: "meshtastic/Meshtastic-python: pytest.ini",
+        infobox: {
+          "Kapsama Komutu": "pytest --cov=meshtastic --cov-report html",
+          "Profil Komutu": "pytest --durations=0",
+          "YapÄ±landÄ±rma": "pytest.ini",
+          "AmaÃ§": "YÃ¼ksek kod gÃ¼venilirliÄŸi ve hÄ±zlÄ± CI Ã§alÄ±ÅŸtÄ±rma sÃ¼releri"
+        },
+        seeAlso: ["poetry-python-dependency-manager", "pytest-smoke1-hardware-test"]
+      },
+      {
+        id: "node-localconfig-writeconfig-api",
+        en: "Node localConfig and writeConfig API",
+        tr: "DÃ¼ÄŸÃ¼m localConfig ve writeConfig YapÄ±landÄ±rma API'si",
+        category: "YazÄ±lÄ±m & Ä°stemciler",
+        lead: "Python Ã¼zerinden dÃ¼ÄŸÃ¼mÃ¼n GPS, Bluetooth, LoRa ve telemetri yapÄ±landÄ±rmalarÄ±nÄ± okuma ve kalÄ±cÄ± flash belleÄŸe yazma arayÃ¼zÃ¼.",
+        details: "Meshtastic Python SDK'sÄ±nda `ourNode = interface.getNode('^local')` Ã§aÄŸrÄ±sÄ±, baÄŸlÄ± telsizin tÃ¼m yapÄ±landÄ±rma alanlarÄ±nÄ± Protobuf `LocalConfig` ve `ModuleConfig` nesneleri olarak dÃ¶ner. GeliÅŸtirici Ã¶rneÄŸin `ourNode.localConfig.position.gps_update_interval = 60` ÅŸeklinde bir ayarÄ± gÃ¼ncelledikten sonra `ourNode.writeConfig('position')` komutunu Ã§aÄŸÄ±rÄ±r. Bu komut telsize bir `AdminMessage` paketi gÃ¶ndererek ayarÄ±n SPIFFS/LittleFS flash belleÄŸine kalÄ±cÄ± olarak yazÄ±lmasÄ±nÄ± ve radyonun yeni parametreyle Ã§alÄ±ÅŸmasÄ±nÄ± saÄŸlar.",
+        github: "meshtastic/Meshtastic-python: meshtastic/node.py",
+        infobox: {
+          "Yerel DÃ¼ÄŸÃ¼m SeÃ§ici": "^local",
+          "YapÄ±landÄ±rma AlanlarÄ±": "localConfig, moduleConfig, channels",
+          "KalÄ±cÄ± Yazma Metodu": "node.writeConfig('section_name')",
+          "Ä°letim FormatÄ±": "AdminMessage (Protobuf)"
+        },
+        seeAlso: ["serialinterface-python-api", "tcpinterface-python-api"]
+      },
+      {
+        id: "pypi-single-executable-distribution",
+        en: "PyPI and Single-Executable Binary Distribution",
+        tr: "PyPI ve Tek Dosya YÃ¼rÃ¼tÃ¼lebilir Ä°kili DaÄŸÄ±tÄ±mÄ±",
+        category: "YazÄ±lÄ±m & AltyapÄ±",
+        lead: "Python CLI aracÄ±nÄ±n hem standart 'pip install meshtastic' ile PyPI Ã¼zerinden hem de Python gerektirmeyen baÄŸÄ±msÄ±z (.exe / ELF) ikili olarak sunulmasÄ±.",
+        details: "Meshtastic Python CLI (`meshtastic`), geliÅŸtiriciler ve sistem yÃ¶neticileri iÃ§in PyPI (`pypi.org/project/meshtastic`) Ã¼zerinden daÄŸÄ±tÄ±lÄ±r. Ancak Python veya pip kurmak istemeyen son kullanÄ±cÄ±lar iÃ§in GitHub Releases Ã¼zerinde PyInstaller ile paketlenmiÅŸ tek dosyalÄ±k (single-executable) ikili dosyalar sunulur. Windows iÃ§in `meshtastic.exe`, Linux ve macOS iÃ§in baÄŸÄ±msÄ±z Ã§alÄ±ÅŸtÄ±rÄ±labilir dosyalar tÃ¼m Python yorumlayÄ±cÄ±sÄ±nÄ± ve baÄŸÄ±mlÄ±lÄ±klarÄ±nÄ± iÃ§inde barÄ±ndÄ±rÄ±r.",
+        github: "meshtastic/Meshtastic-python/releases",
+        infobox: {
+          "PyPI Paketi": "meshtastic (pip install meshtastic)",
+          "Tek Dosya Ä°kili": "PyInstaller tabanlÄ± standalone binary",
+          "Platformlar": "Windows (.exe), Linux (x86_64, aarch64), macOS",
+          "Hedef Kitle": "Python kurulumu olmayan son kullanÄ±cÄ±lar"
+        },
+        seeAlso: ["poetry-python-dependency-manager", "serialinterface-python-api"]
       }
     ];
 

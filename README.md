@@ -970,6 +970,18 @@ Meshtastic donanımını kontrol etmek, mesajlaşıp harita görüntülemek ve a
 - **Web Bluetooth ve Web Serial BirleÅŸik AÄŸ GeÃ§idi (`web-bluetooth-serial-unified-gateway`):** Chrome/Edge Ã¼zerinden sÃ¼rÃ¼cÃ¼sÃ¼z doÄŸrudan USB seri port veya BLE ile dÃ¼ÄŸÃ¼m baÄŸlantÄ±sÄ±.
 - **TarayÄ±cÄ±da @meshtastic/protobufs ile Protobuf AyrÄ±ÅŸtÄ±rma (`protobuf-browser-client-decoding`):** Telsizden gelen ikili FromRadio baytlarÄ±nÄ± TypeScript nesnelerine anlÄ±k dÃ¶nÃ¼ÅŸtÃ¼rme.
 
+### ğŸ Meshtastic Python SDK, CLI ve KÃ¼tÃ¼phane GeliÅŸtirme (meshtastic.org/docs/development/python)
+- **Kablo Ä°letim KodlamasÄ± 0x94C3 Sihirli Ã‡erÃ§eveleme (`wire-encoding-0x94c3-framing`):** Protobuf paketlerini ayÄ±rt eden ve ASCII/UTF-8 ile Ã§akÄ±ÅŸmayan 32-bitlik sihirli baÅŸlÄ±k standardÄ±.
+- **Python PyPubSub Asenkron Olay Sistemi (`python-pypubsub-event-system`):** `meshtastic.receive` ve `meshtastic.connection` konularÄ±yla gelen paketleri yakalama.
+- **Meshtastic Python SerialInterface API'si (`serialinterface-python-api`):** USB seri porttaki dÃ¼ÄŸÃ¼mÃ¼ otomatik keÅŸfedip mesaj ve komut gÃ¶nderen temel sÄ±nÄ±f.
+- **Meshtastic Python TCPInterface API'si (`tcpinterface-python-api`):** Wi-Fi veya Ethernet dÃ¼ÄŸÃ¼mlerine 4403 portu Ã¼zerinden TCP soketi aÃ§an uzaktan yÃ¶netim arayÃ¼zÃ¼.
+- **Poetry Python BaÄŸÄ±mlÄ±lÄ±k ve Paketleme YÃ¶neticisi (`poetry-python-dependency-manager`):** `pyproject.toml` ile kilitli baÄŸÄ±mlÄ±lÄ±klar ve modern Python sanal ortam yÃ¶netimi.
+- **pytest smoke1 Tek CihazlÄ± DonanÄ±m Gerileme Testi (`pytest-smoke1-hardware-test`):** USB'ye baÄŸlÄ± tek kart Ã¼zerinde ayarlarÄ±, paket gÃ¶ndermeyi ve sÄ±fÄ±rlamayÄ± test etme.
+- **pytest smoke2 Ã‡ok DÃ¼ÄŸÃ¼mlÃ¼ Mesh Entegrasyon Testi (`pytest-smoke2-mesh-integration`):** Bilgisayara baÄŸlÄ± iki kart arasÄ±nda gerÃ§ek LoRa RF paket iletimini ve ACK'leri doÄŸrulama.
+- **pytest Kapsama ve SÃ¼re Profilleme Analizi (`pytest-coverage-durations-profiling`):** `--cov` ile test kapsama raporlama ve `--durations=0` ile yavaÅŸ testleri tespit etme.
+- **DÃ¼ÄŸÃ¼m localConfig ve writeConfig YapÄ±landÄ±rma API'si (`node-localconfig-writeconfig-api`):** Python ile telsiz ayarlarÄ±nÄ± okuyup `writeConfig` ile kalÄ±cÄ± belleÄŸe yazma.
+- **PyPI ve Tek Dosya YÃ¼rÃ¼tÃ¼lebilir Ä°kili DaÄŸÄ±tÄ±mÄ± (`pypi-single-executable-distribution`):** `pip install meshtastic` yanÄ±nda Python gerektirmeyen baÄŸÄ±msÄ±z .exe/binary sÃ¼rÃ¼mler.
+
 ### 🔹 Açık Standart ve Tedarikçi Bağımsızlığı (Open Architecture & Vendor Neutrality)
 Meshtastic'in hiçbir tescilli ticari protokole veya tek bir donanım üreticisine bağımlı kalmamasını sağlayan açık kaynak ekosistem felsefesi (GPL-3.0 lisansı ve açık Protobuf şemaları). Semtech SX1262/SX1276/LR1121 telsizleri ile ESP32, nRF52840 ve RP2040 işlemcili onlarca farklı üreticinin (Heltec, LilyGO, RAKwireless) donanımları tam uyumla birlikte çalışabilir.
 
