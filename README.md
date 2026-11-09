@@ -838,6 +838,18 @@ Meshtastic donanımını kontrol etmek, mesajlaşıp harita görüntülemek ve a
 - **Faketec Açık Kaynak Donanım PCB Tasarımı (`faketec-open-hardware-pcb`):** Açık kaynak Gerber dosyalarıyla fabrikada bastırılıp elle dizilebilen topluluk PCB projesi.
 - **Telefona Bağımlı GPS Konum Paylaşımı (`share-phone-location-to-mesh`):** GPS modülü olmayan kartların, Bluetooth üzerinden telefonun GPS koordinatlarını örgü ağına aktarması.
 
+### 🇹🇷 Meshtastic Türkiye Topluluğu TA Mesh MQTT Altyapısı ve Ayarları (blog.purgatoria.tr/2025/06/ta-mesh-mqtt-sunucusu.html)
+- **TA Mesh Özel MQTT Sunucu Altyapısı (`mqtt-tamesh-server-infrastructure`):** 10 milyon kullanıcı kapasiteli, Türkiye'de barındırılan ve 433/868 MHz çaprazlama yapan bağımsız sunucu.
+- **TA Mesh Kimlik Doğrulama ve Gizlilik Modeli (`tamesh-credential-provisioning`):** `form.tamesh.org` üzerinden çağrı işareti veya sıralı ID tahsisi ve form verilerinin silinmesi.
+- **TA Mesh msh Kök Konu Mimarisi (`tamesh-msh-root-topic`):** `msh/EU433` veya `msh/EU868` yerine tüm frekansların buluştuğu birleşik `msh` kök konu standardı.
+- **TA Mesh DMR Benzeri Konuşma Grubu Hiyerarşisi (`tamesh-dmr-talkgroup-hierarchy`):** DMR Talkgroup yapısına benzer şekilde il ve afet haberleşme alt konularına ayrılan mimari.
+- **TA_Mesh Hazır Ayar Yapılandırma Dosyaları (`tamesh-preset-configuration-files`):** `TA_Mesh-PreSet_433` ve `TA_Mesh-PreSet_868` profilleriyle Android'e tek tıkla kurulum.
+- **Mobil İstemci MQTT Proxy Köprüleme (`mqtt-proxy-to-client-uplink`):** Telsizde Wi-Fi olmasa bile Bluetooth üzerinden telefonun hücresel internetiyle MQTT'ye çıkma.
+- **TA Mesh Şifresiz İletişim Zorunluluğu (`tamesh-unencrypted-amateur-compliance`):** Amatör telsizcilik mevzuatında şifreli haberleşmenin yasak olması nedeniyle `Encryption Enabled: Kapalı` kuralı.
+- **TA Mesh JSON Çıktısı Bastırma ve Protobuf Uyumu (`tamesh-json-output-suppression`):** nRF52 yongalarında bellek taşması ve kilitlenmeleri önlemek için `JSON Output Enabled: Kapalı` kuralı.
+- **TA Mesh 900 Saniye Harita Raporlama Politikası (`tamesh-map-reporting-interval`):** LoRa spektrumunu ve sunucu bant genişliğini korumak için en az 900 saniye (15 dk) konum gönderme kuralı.
+- **TA Mesh Yaklaşık Konum ve Gizlilik Katmanı (`tamesh-approximate-location-privacy`):** Ev istasyonu koordinatlarını korumak için 50m - 23km yarıçapında rastgele bulanıklaştırma seçeneği.
+
 ### 🔹 Açık Standart ve Tedarikçi Bağımsızlığı (Open Architecture & Vendor Neutrality)
 Meshtastic'in hiçbir tescilli ticari protokole veya tek bir donanım üreticisine bağımlı kalmamasını sağlayan açık kaynak ekosistem felsefesi (GPL-3.0 lisansı ve açık Protobuf şemaları). Semtech SX1262/SX1276/LR1121 telsizleri ile ESP32, nRF52840 ve RP2040 işlemcili onlarca farklı üreticinin (Heltec, LilyGO, RAKwireless) donanımları tam uyumla birlikte çalışabilir.
 

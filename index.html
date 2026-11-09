@@ -10240,6 +10240,166 @@
           "Pil Tasarrufu": "Telsiz üzerinde sürekli uydu arayan GPS alıcısının pil yükünü ortadan kaldırma"
         },
         seeAlso: ["heltec-tracker-uc6580-gnss", "heltec-wireless-stick-v3-lite", "cross-platform-client-matrix"]
+      },
+      {
+        id: "mqtt-tamesh-server-infrastructure",
+        en: "TA Mesh National MQTT Server Infrastructure",
+        tr: "TA Mesh Özel MQTT Sunucu Altyapısı",
+        category: "Ağ & Protokol",
+        lead: "Meshtastic Türkiye Topluluğu tarafından ülke sınırları içerisinde bağımsız olarak barındırılan ve 10 milyon kullanıcı kapasitesiyle çalışan güvenli ulusal MQTT sunucusu.",
+        details: "Meshtastic resmi global MQTT sunucusunun (mqtt.meshtastic.org) barındırabileceği güvenlik ve veri mahremiyeti risklerine karşı Türkiye'de `mqtt.tamesh.org` adresi üzerinden işletilen yerel bir altyapıdır. RF menzili dışındaki düğümleri internet üzerinden birbirine bağlar, 433 MHz ve 868 MHz ISM bantları arasında çift yönlü otomatik paket çaprazlaması yapar ve afet durumlarında kesintisiz sivil haberleşme omurgası sunar.",
+        github: "blog.purgatoria.tr/2025/06/ta-mesh-mqtt-sunucusu.html",
+        infobox: {
+          "Sunucu Adresi": "mqtt.tamesh.org (Varsayılan Port: 1883)",
+          "Kullanıcı Kapasitesi": "10.000.000 (10 Milyon Düğüm)",
+          "Erişim Türü": "Kişiye özel kullanıcı adı ve şifre ile korumalı",
+          "Kritik Görev": "RF dışı kapsama ve 433/868 MHz çapraz frekans köprüleme"
+        },
+        seeAlso: ["tamesh-credential-provisioning", "tamesh-msh-root-topic", "tamesh-mqtt-cross-band-bridging"]
+      },
+      {
+        id: "tamesh-credential-provisioning",
+        en: "TA Mesh User Credential Provisioning and Privacy Model",
+        tr: "TA Mesh Kimlik Doğrulama ve Gizlilik Modeli",
+        category: "Ağ & Protokol",
+        lead: "TA Mesh MQTT sunucusuna güvenli erişim sağlamak için uygulanan çağrı işareti veya sıralı numara tabanlı kimlik tahsis ve veri temizleme protokolü.",
+        details: "Global sunucudaki anonim ve savunmasız yapı yerine TA Mesh, kötü niyetli botları ve spam trafiğini önlemek için kontrollü kayıt modeli uygular. Başvurular `form.tamesh.org` üzerinden alınır; amatör telsizcilere resmi çağrı işaretleri, diğer sivil kullanıcılara sıralı benzersiz numaralar kullanıcı adı olarak verilir ve rastgele şifre üretilir. Bilgiler kullanıcıya iletildikten sonra form yanıtları sunuculardan kalıcı olarak silinerek KVKK uyumu ve tam mahremiyet sağlanır.",
+        github: "blog.purgatoria.tr/2025/06/ta-mesh-mqtt-sunucusu.html",
+        infobox: {
+          "Başvuru Portalı": "form.tamesh.org (Google Forms tabanlı)",
+          "Kullanıcı Adı Mantığı": "Amatör telsizciler için çağrı işareti / Siviller için sıralı ID",
+          "Şifre Üretimi": "Kriptografik rastgele benzersiz parola",
+          "Gizlilik İlkesi": "İsim, telefon ve e-posta veritabanında tutulmaz; form yanıtları silinir"
+        },
+        seeAlso: ["mqtt-tamesh-server-infrastructure", "tamesh-preset-configuration-files", "tamesh-unencrypted-amateur-compliance"]
+      },
+      {
+        id: "tamesh-msh-root-topic",
+        en: "TA Mesh msh Unified Root Topic Architecture",
+        tr: "TA Mesh msh Kök Konu Mimarisi",
+        category: "Ağ & Protokol",
+        lead: "TA Mesh ağında varsayılan msh/EU433 veya msh/EU868 yerine tüm frekansların tek havuzda buluştuğu msh birleşik kök konu standardı.",
+        details: "Standart Meshtastic firmware'i yüklenen frekansa göre `msh/EU433` veya `msh/EU868` gibi ayrık alt konular (root topic) açar; bu durum farklı frekanstaki kullanıcıların birbirini duymasını engeller. TA Mesh yapılandırmasında Root Topic doğrudan `msh` olarak ayarlanır. Bu merkezi konu altında 433 MHz ve 868 MHz telsizlerden gelen uplink paketleri tek bir noktada toplanır ve sunucu tarafında tüm Türkiye genelindeki abonelere ortaklaşa iletilir.",
+        github: "blog.purgatoria.tr/2025/06/ta-mesh-mqtt-ayarlari.html",
+        infobox: {
+          "Standart Kök Konu": "msh/EU433 veya msh/EU868 (Ayrık konular)",
+          "TA Mesh Kök Konusu": "msh (Birleşik merkezi konu)",
+          "İşlev": "433 ve 868 MHz telsiz ağlarının aynı konu altında çaprazlanması",
+          "Ayar Yeri": "Meshtastic App -> Module Config -> MQTT -> Root Topic"
+        },
+        seeAlso: ["tamesh-dmr-talkgroup-hierarchy", "mqtt-tamesh-server-infrastructure", "tamesh-preset-configuration-files"]
+      },
+      {
+        id: "tamesh-dmr-talkgroup-hierarchy",
+        en: "TA Mesh DMR-Inspired Talkgroup Channel Hierarchy",
+        tr: "TA Mesh DMR Benzeri Konuşma Grubu Hiyerarşisi",
+        category: "Ağ & Protokol",
+        lead: "TA Mesh MQTT altyapısında telsiz kanallarını Sayısal Mobil Telsiz (DMR) Talkgroup mantığıyla il, bölge ve acil durum kanallarına ayıran konu mimarisi.",
+        details: "Geleneksel LoRa ağlarında tüm kullanıcıların tek kanalda konuşması bant genişliğini tıkar. TA Mesh mimarisi, amatör telsizcilikteki DMR (Digital Mobile Radio) Talkgroup hiyerarşisini örnek alır. Genel çağrı kanalı (msh) dışında, il bazlı konular (ör. msh/34-istanbul, msh/06-ankara) ve afet haberleşme grupları tanımlanarak kullanıcıların yalnızca ilgili alt gruplara abone olması ve yerel telsiz trafiğinin izole edilmesi sağlanır.",
+        github: "blog.purgatoria.tr/2025/06/ta-mesh-mqtt-sunucusu.html",
+        infobox: {
+          "Esin Kaynağı": "DMR (Digital Mobile Radio) Talkgroup (TG) Mimarisi",
+          "Kanal Yapısı": "Merkezi kanal (msh) + İl/Bölge bazlı tematik alt konular",
+          "Faydası": "Yüksek düğüm sayılarında hava hattı ve MQTT bant genişliğini koruma",
+          "Yönlendirme": "İl afet grupları ve yerel kurtarma ekipleri için ayrılmış odalar"
+        },
+        seeAlso: ["tamesh-msh-root-topic", "mqtt-tamesh-server-infrastructure", "tamesh-unencrypted-amateur-compliance"]
+      },
+      {
+        id: "tamesh-preset-configuration-files",
+        en: "TA Mesh Verified Preset Configuration Files",
+        tr: "TA_Mesh Hazır Ayar Yapılandırma Dosyaları",
+        category: "Yazılım & İstemciler",
+        lead: "Kullanıcıların karmaşık MQTT ve telsiz ayarlarını manuel yapmadan tek tıkla cihazlarına yüklemelerini sağlayan resmi TA_Mesh-PreSet şablonları.",
+        details: "Meshtastic Türkiye Topluluğu tarafından hazırlanan `TA_Mesh-PreSet_433` ve `TA_Mesh-PreSet_868` konfigürasyon dosyaları, Android uygulamasının dışa/içe aktarma (import/export) özelliğiyle uyumludur. Bu dosyalar yüklendiğinde sunucu adresi (`mqtt.tamesh.org`), kök konu (`msh`), şifreleme ve telemetri aralıkları otomatik olarak en optimize değerlere ayarlanır; kullanıcıya yalnızca kendisine tahsis edilen kullanıcı adı ve şifreyi girmek kalır.",
+        github: "blog.purgatoria.tr/2025/06/ta-mesh-mqtt-ayarlari.html",
+        infobox: {
+          "Hazır Şablonlar": "TA_Mesh-PreSet_433 & TA_Mesh-PreSet_868",
+          "Uyumlu İstemci": "Android Meshtastic Uygulaması (İçe Aktar menüsü)",
+          "Otomatik Yapılan Ayarlar": "Sunucu adresi, kök konu, şifresiz iletim, telemetri periyodu",
+          "Kullanıcıya Kalan": "Yalnızca tahsis edilen kullanıcı adı ve şifreyi yazmak"
+        },
+        seeAlso: ["mqtt-tamesh-server-infrastructure", "tamesh-credential-provisioning", "mqtt-proxy-to-client-uplink"]
+      },
+      {
+        id: "mqtt-proxy-to-client-uplink",
+        en: "MQTT Proxy to Client Mobile Data Bridging",
+        tr: "Mobil İstemci MQTT Proxy Köprüleme",
+        category: "Ağ & Protokol",
+        lead: "Doğrudan Wi-Fi donanımı veya internet bağlantısı olmayan el telsizlerinin, Bluetooth üzerinden bağlı telefonun hücresel internetini kullanarak MQTT ağına çıkması.",
+        details: "Meshtastic ayarlarında 'Proxy To Client Enabled' (veya iOS'ta 'MQTT Client Proxy') seçeneği aktif edildiğinde, telsiz kartı internet paketlerini kendi üzerindeki Wi-Fi çipi yerine Bluetooth LE üzerinden bağlı akıllı telefona aktarır. Telefonun Meshtastic uygulaması bir TCP proxy gibi davranarak bu paketleri mobil veri (4.5G/5G) üzerinden `mqtt.tamesh.org` sunucusuna iletir. Böylece sahada elde taşınan nRF52 veya pilli ESP32 cihazları internete bağlanmış olur.",
+        github: "blog.purgatoria.tr/2025/06/ta-mesh-mqtt-ayarlari.html",
+        infobox: {
+          "Ayar Adı": "Proxy To Client Enabled (Android) / MQTT Client Proxy (iOS)",
+          "Fiziksel İletim": "Telsiz -> Bluetooth LE -> Akıllı Telefon -> Hücresel/Wi-Fi -> MQTT",
+          "Gereksinim": "Telefon ile telsiz arasında aktif Bluetooth eşleşmesi",
+          "Kullanım Alanı": "Sahada yürüyüş yaparken el telsizini anlık olarak internet mesh ağına bağlama"
+        },
+        seeAlso: ["tamesh-preset-configuration-files", "mqtt-tamesh-server-infrastructure", "share-phone-location-to-mesh"]
+      },
+      {
+        id: "tamesh-unencrypted-amateur-compliance",
+        en: "TA Mesh Unencrypted Transmission Amateur Radio Compliance",
+        tr: "TA Mesh Şifresiz İletişim Zorunluluğu",
+        category: "Mevzuat & Hukuk",
+        lead: "Türkiye'de ve uluslararası amatör telsizcilik mevzuatında şifreli haberleşmenin yasak olması nedeniyle TA Mesh MQTT ağında Encryption Enabled ayarının kapalı tutulması kuralı.",
+        details: "Kıyı Emniyeti Genel Müdürlüğü ve BTK Amatör Telsizcilik Yönetmeliği ile ITU Telsiz Tüzüğü (RR) uyarınca, amatör radyo frekansları ve ortak röleler üzerinden kriptolu veya şifreli yayın yapmak kesinlikle yasaktır. Bu nedenle TA Mesh MQTT sunucusuna bağlanan tüm cihazlarda 'Encryption Enabled' seçeneği 'Kapalı' (Disabled) konuma getirilir. Tüm mesaj ve telemetri paketleri şeffaf ve denetlenebilir biçimde açık olarak yayınlanır.",
+        github: "blog.purgatoria.tr/2025/06/ta-mesh-mqtt-ayarlari.html",
+        infobox: {
+          "Zorunlu Yapılandırma": "Encryption Enabled: KAPALI (Disabled)",
+          "Yasal Dayanak": "Kıyı Emniyeti & BTK Amatör Telsizcilik Yönetmeliği",
+          "Uluslararası Kural": "ITU Radio Regulations (Amatör bantlarda şifreleme yasağı)",
+          "İhlal Sonucu": "Kriptolu paket yayan hesapların TA Mesh sunucusundan askıya alınması"
+        },
+        seeAlso: ["turkiye-ism-band-frequency-compliance", "mqtt-tamesh-server-infrastructure", "tamesh-credential-provisioning"]
+      },
+      {
+        id: "tamesh-json-output-suppression",
+        en: "TA Mesh JSON Output Suppression for Resource Conservation",
+        tr: "TA Mesh JSON Çıktısı Bastırma ve Protobuf Uyumu",
+        category: "Yazılım & İstemciler",
+        lead: "Düşük RAM kapasitesine sahip nRF52 ve mikrodenetleyicilerde bellek yetersizliği ve çökme riskini önlemek için JSON Output Enabled ayarının kapalı tutulması.",
+        details: "Meshtastic, MQTT paketlerini metin tabanlı JSON formatında yayınlama seçeneği sunar. Ancak nRF52840 (RAK4631, T-Echo) gibi düşük güçlü işlemcilerde JSON kodlama ve ayrıştırma işlemleri bellek yetersizliği çökmelerine yol açar. Ağdaki tüm donanımların homojen ve kararlı çalışabilmesi adına TA Mesh ayarlarında 'JSON Output Enabled' daima 'Kapalı' tutulur; veri aktarımı tamamen kompakt ikili Protobuf formatında gerçekleştirilir.",
+        github: "blog.purgatoria.tr/2025/06/ta-mesh-mqtt-ayarlari.html",
+        infobox: {
+          "Ayar Parametresi": "JSON Output Enabled: KAPALI (Disabled)",
+          "Teknik Gerekçe": "nRF52 yongalarında bellek taşmasını ve işlemci kilitlenmesini önleme",
+          "Kullanılan Standart": "Saf ikili Protocol Buffers (application/x-protobuf)",
+          "Sistem Faydası": "Düşük bant genişliği sarfiyatı ve cihaz kararlılığı"
+        },
+        seeAlso: ["http-api-binary-protobuf-payload", "tamesh-preset-configuration-files", "mqtt-tamesh-server-infrastructure"]
+      },
+      {
+        id: "tamesh-map-reporting-interval",
+        en: "TA Mesh 900-Second Map Reporting Interval Policy",
+        tr: "TA Mesh 900 Saniye Harita Raporlama Politikası",
+        category: "Ağ & Protokol",
+        lead: "LoRa hava hattında ve MQTT sunucusunda gereksiz trafik yükü oluşturmamak için konum gönderim aralığının en az 900 saniye (15 dakika) olarak yapılandırılması.",
+        details: "Telsizlerin haritaya her birkaç saniyede bir konum atması hem hava kanallarını kilitler hem de MQTT sunucu veritabanında aşırı şişmeye yol açar. TA Mesh yönergelerine göre 'Map Reporting Interval' (iOS'ta Map Publish Interval) değeri kesinlikle 900 saniyenin (15 dakika) altına indirilmemelidir. Bu aralık, sabit ve mobil istasyonların haritada canlı kalmasını sağlarken afet anında mesajlaşma trafiği için hava sahasını açık tutar.",
+        github: "blog.purgatoria.tr/2025/06/ta-mesh-mqtt-ayarlari.html",
+        infobox: {
+          "Önerilen Asgari Süre": "900 Saniye (15 Dakika)",
+          "Ayar Adı": "Map Reporting Interval (Android) / Map Publish Interval (iOS)",
+          "Amaç": "LoRa spektrumunu ve MQTT sunucu bant genişliğini koruma",
+          "Kural": "Sabit baz istasyonlarında bu süre 3600 saniyeye (1 saat) kadar artırılabilir"
+        },
+        seeAlso: ["tamesh-approximate-location-privacy", "tamesh-preset-configuration-files", "mqtt-tamesh-server-infrastructure"]
+      },
+      {
+        id: "tamesh-approximate-location-privacy",
+        en: "TA Mesh Approximate Location and Privacy Layer",
+        tr: "TA Mesh Yaklaşık Konum ve Gizlilik Katmanı",
+        category: "Yazılım & İstemciler",
+        lead: "Kullanıcıların ev veya gizli istasyon koordinatlarını korumak için MQTT haritasına gönderilen konumun 50 metre ile 23 kilometre arasında bulanıklaştırılması seçeneği.",
+        details: "Açık haritalarda tam ev koordinatlarının ifşa olması güvenlik endişesi yaratabilir. 'Precise Location' seçeneği kapatıldığında, Meshtastic konum koordinatlarının son basamaklarını maskeler. Kullanıcı, uygulamanın sunduğu seçeneklerle gerçek yerini 50m'den 23km'ye kadar yarıçapta yaklaşık bir çember içinde gösterebilir. Böylece kullanıcı Türkiye haritasında aktif görünmeye devam ederken kişisel yaşam alanı gizliliğini tam korur.",
+        github: "blog.purgatoria.tr/2025/06/ta-mesh-mqtt-ayarlari.html",
+        infobox: {
+          "Ayar": "Precise Location: KAPALI / Approximate Location: AÇIK",
+          "Bulanıklaştırma Aralığı": "50 metre ile 23 kilometre yarıçapında rastgele sapma",
+          "Güvenlik Amacı": "Ev istasyonlarının kesin GPS koordinatlarının internette ifşasını önleme",
+          "Harita Görünümü": "Kullanıcı ağda var olarak görünür ancak nokta atışı tespit edilemez"
+        },
+        seeAlso: ["tamesh-map-reporting-interval", "share-phone-location-to-mesh", "tamesh-credential-provisioning"]
       }
     ];
 
