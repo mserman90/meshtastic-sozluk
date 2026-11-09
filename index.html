@@ -10720,6 +10720,166 @@
           "Kullanıcı Eylemi (Hata 13)": "Cihazı yeniden başlatıp kanal, bölge ve anahtar ayarlarını baştan girmek"
         },
         seeAlso: ["critical-error-code-subsystem", "error-code-brownout", "uf2-bootloader-dfu-flashing"]
+      },
+      {
+        id: "oled-localization-pipeline",
+        en: "OLED Localization and Font Adaptation Pipeline",
+        tr: "OLED Ekran Yerelleştirme ve Dil Uyarlama Boru Hattı",
+        category: "Yazılım & İstemciler",
+        lead: "Meshtastic OLED ekranlarında Türkçe, Kiril ve özel bölgesel alfabe karakterlerini doğru görüntülemek için uygulanan 4 aşamalı firmware yerelleştirme süreci.",
+        details: "Meshtastic firmware'i varsayılan olarak temel Latin alfabesi (ASCII 32-127) için optimize edilmiş fontlar içerir. Türkçe karakterler (ç, ğ, ı, ö, ş, ü) ve diğer bölgesel diller UTF-8 standardında çift bayt (double-byte) olarak temsil edilir. Yerelleştirme kılavuzu; genişletilmiş ASCII gliflerinin çizilmesini, `Screen.h` içinde UTF-8 eşleme tablosunun güncellenmesini, `Screen.cpp` içinde dil fontlarının tanımlanmasını ve `platformio.ini` üzerinden derleme bayraklarının yapılandırılmasını içeren 4 adımlı standart bir geliştirme hattı sunar.",
+        github: "meshtastic.org/docs/development/firmware/oled-guide",
+        infobox: {
+          "Hedef Ekranlar": "SSD1306, SH1106, SH1107 I2C/SPI OLED paneller",
+          "Desteklenen Diller": "Türkçe, Rusça, Almanca, Fransızca, İspanyolca vb.",
+          "Gereksinim": "Genişletilmiş ASCII glifleri ve UTF-8 çift bayt eşlemesi",
+          "Adım Sayısı": "4 aşamalı boru hattı (Glif -> Tablo -> Tanım -> Derleme)"
+        },
+        seeAlso: ["extended-ascii-glyph-editor", "customfonttablelookup-utf8-mapper", "conditional-compilation-oled-fonts"]
+      },
+      {
+        id: "extended-ascii-glyph-editor",
+        en: "Extended ASCII Online Glyph Editor Tool",
+        tr: "Genişletilmiş ASCII Çevrimiçi Glif Düzenleyici Aracı",
+        category: "Yazılım & İstemciler",
+        lead: "ThingPulse OLEDDisplay kütüphanesi formatında özel karakter pikselleri çizerek genişletilmiş ASCII (128-255) yazı tipi başlık dosyaları üretmeyi sağlayan araç.",
+        details: "Meshtastic'in kullandığı font veri yapısı, standart Adafruit GFX kütüphanesinden farklı bir ikili düzen takip eder. Geliştiriciler, Squix/ThingPulse açık kaynak çevrimiçi glif düzenleyicisini (glyph editor) kullanarak mevcut ArialMT_Plain_10 fontunu içe aktarır. Türkçe veya hedef dile ait özel karakterlerin (ç, ğ, ı, ö, ş, ü) piksel matrisleri 10px/16px/24px boyutlarında düzenlenir ve çıktı `graphics/font/` dizinine yerleştirilecek C++ başlık dosyası olarak dışa aktarılır.",
+        github: "meshtastic.org/docs/development/firmware/oled-guide",
+        infobox: {
+          "Araç": "OLEDDisplay Web-based Glyph Editor (Squix / ThingPulse)",
+          "Format Uyumluluğu": "OLEDDisplay C Header Formatı (Adafruit GFX'ten farklıdır)",
+          "Glif Kod Sayfası": "Genişletilmiş ASCII (Extended ASCII 128 - 255 aralığı)",
+          "Hedef Dizin": "src/graphics/font/OLEDDisplayFonts{LANG}.h"
+        },
+        seeAlso: ["oled-localization-pipeline", "graphics-font-directory-storage", "oleddisplay-library-font-structure"]
+      },
+      {
+        id: "graphics-font-directory-storage",
+        en: "Graphics Font Directory Structure and Headers",
+        tr: "graphics/font Dizin Mimarisi ve Yazı Tipi Başlıkları",
+        category: "Yazılım & İstemciler",
+        lead: "Meshtastic kaynak kodunda yerelleştirilmiş dillerin piksel matris dizilerini barındıran merkezi font başlık dosyaları dizini.",
+        details: "`src/graphics/font/` dizini altında her dil için ayrı bir başlık dosyası (örneğin `OLEDDisplayFontsTR.h`) oluşturulur. Bu dosyalar `ArialMT_Plain_10_{LANG}` ve `ArialMT_Plain_16_{LANG}` gibi adlandırılmış statik `uint8_t` bayt dizilerini barındırır. Bu diziler, her glifin genişlik, yükseklik, piksel atlama ofsetleri ve dikey bit desenlerini içerir. Yalnızca hedeflenen dil derlendiğinde belleğe dahil edildiği için MCU flash tüketimini en aza indirir.",
+        github: "meshtastic.org/docs/development/firmware/oled-guide",
+        infobox: {
+          "Dizin Yolu": "src/graphics/font/",
+          "Dosya Formatı": "OLEDDisplayFonts{LANG_NAME}.h",
+          "Veri Türü": "const uint8_t[] piksel matris dizileri",
+          "Flash Tasarrufu": "Koşullu derleme ile sadece seçilen dilin fontu flash'a yazılır"
+        },
+        seeAlso: ["extended-ascii-glyph-editor", "conditional-compilation-oled-fonts", "oleddisplay-library-font-structure"]
+      },
+      {
+        id: "customfonttablelookup-utf8-mapper",
+        en: "customFontTableLookup UTF-8 to Extended ASCII Translation",
+        tr: "customFontTableLookup UTF-8 Karakter Eşleme Fonksiyonu",
+        category: "Yazılım & İstemciler",
+        lead: "src/graphics/Screen.h dosyasında yer alan ve telsizden gelen 2 baytlık UTF-8 karakterlerini OLED font tablosundaki genişletilmiş ASCII koduna çeviren çekirdek fonksiyon.",
+        details: "Telsiz paketleri UTF-8 formatında metin taşır. Ancak OLED kütüphanesi bellek kısıtı nedeniyle tek baytlık genişletilmiş ASCII (128-255) karakter tablolarıyla çalışır. `customFontTableLookup` fonksiyonu, metin akışındaki çift baytlık dizilimleri analiz eder. İlk bayt (ör. 0xC3 veya 0xC4) ile ikinci bayt arasındaki ilişkiyi matematiksel bir ofsetle (offset) tek bir bayta indirgeyerek doğru glifin ekrana çizilmesini sağlar.",
+        github: "meshtastic.org/docs/development/firmware/oled-guide",
+        infobox: {
+          "Kaynak Dosya": "src/graphics/Screen.h",
+          "Fonksiyon İmzası": "char customFontTableLookup(uint8_t ch)",
+          "Dönüşüm Yönü": "UTF-8 Çok Baytlık Dizi -> Genişletilmiş ASCII (8-bit)",
+          "İşlev": "Ekranda bozuk karakterler (kare/soru işareti) yerine doğru harflerin çıkmasını sağlama"
+        },
+        seeAlso: ["utf8-double-byte-switch-offset", "oled-localization-pipeline", "screen-cpp-renderer-pipeline"]
+      },
+      {
+        id: "utf8-double-byte-switch-offset",
+        en: "UTF-8 Double-Byte Parsing with switch(last) Offset",
+        tr: "UTF-8 Çift Baytlık switch(last) Ofsetleme Mantığı",
+        category: "Yazılım & İstemciler",
+        lead: "UTF-8 karakterin sol (öncü) baytını switch case etiketi olarak kullanıp sağ (takipçi) baytını matematiksel ofsetle glif indeksine bağlama algoritması.",
+        details: "UTF-8 standardında Latin genişletilmiş karakterler (örneğin 'ğ' = 0xC4 0x9F, 'ş' = 0xC5 0x9F) 2 bayt ile kodlanır. `customFontTableLookup` fonksiyonu bir durum makinesi (state machine) tutar; ilk baytı `last` değişkeninde saklar. Bir sonraki bayt geldiğinde `switch (last)` bloğuna girilir; `case 0xC4:` etiketinde sağ bayttan belirli bir ofset çıkarılarak (ör. `return ch - 0x1F;`) font dosyasındaki glifin tam adresine atlanır. Bu zarif algoritma devasa arama tablolarına (lookup table) gerek duymadan anlık çevrim yapar.",
+        github: "meshtastic.org/docs/development/firmware/oled-guide",
+        infobox: {
+          "Kontrol Değişkeni": "switch (last) - Önceki sol bayt",
+          "İşlenen Değer": "ch - Gelen sağ bayt",
+          "Matematiksel Formül": "return ch + / - OFSET_DEĞERİ;",
+          "Performans": "Düşük RAM/CPU kullanımıyla O(1) sabit zamanlı dönüşüm"
+        },
+        seeAlso: ["customfonttablelookup-utf8-mapper", "oled-localization-pipeline", "screen-cpp-renderer-pipeline"]
+      },
+      {
+        id: "conditional-compilation-oled-fonts",
+        en: "Conditional Compilation of OLED Fonts in Screen.cpp",
+        tr: "Screen.cpp İçinde Koşullu Derleme ile Çoklu Dil Fontları",
+        category: "Yazılım & İstemciler",
+        lead: "#ifdef OLED_{LANG_NAME} ön işlemci makrolarıyla FONT_SMALL ve FONT_MEDIUM yazı tiplerinin seçilen dile göre dinamik olarak atanması.",
+        details: "`src/graphics/Screen.cpp` dosyasında dil fontları koşullu derleme (conditional compilation) ile entegre edilir. `#ifdef OLED_TR` tanımlanmışsa `#include 'fonts/OLEDDisplayFontsTR.h'` dosyası dahil edilir ve `FONT_SMALL` makrosu `ArialMT_Plain_10_TR` olarak yeniden tanımlanır; tanımlanmamışsa varsayılan İngilizce `ArialMT_Plain_10` kullanılır. Bu mimari, birden fazla dilin aynı kod tabanında çatışmadan yaşamasını ve her derlemenin yalnızca kendi dilini içermesini sağlar.",
+        github: "meshtastic.org/docs/development/firmware/oled-guide",
+        infobox: {
+          "Kaynak Dosya": "src/graphics/Screen.cpp",
+          "Ön İşlemci Makrosu": "#ifdef OLED_{LANG_NAME}",
+          "Font Tanımları": "FONT_SMALL, FONT_MEDIUM, FONT_LARGE",
+          "Avantajı": "Kod tabanını şişirmeden modüler ve izole dil desteği"
+        },
+        seeAlso: ["variant-platformio-build-flags", "userprefs-header-localization", "graphics-font-directory-storage"]
+      },
+      {
+        id: "variant-platformio-build-flags",
+        en: "variant platformio.ini Build Flags Localization Configuration",
+        tr: "platformio.ini Varyant Derleme Bayrakları Yapılandırması",
+        category: "Yazılım & İstemciler",
+        lead: "Belirli bir donanım kartı için firmware derlenirken variant/*/platformio.ini dosyasına -D OLED_{LANG_NAME} derleme bayrağının eklenmesi.",
+        details: "PlatformIO derleyicisinde yerel dil desteğini aktifleştirmenin birincil ve resmi yolu, ilgili kart varyantının yapılandırma dosyasına derleme bayrağı eklemektir. Örneğin `variants/tbeam/platformio.ini` dosyası altındaki `build_flags` satırına `-D OLED_TR` parametresi eklenir. PlatformIO derleme sırasında tüm C/C++ dosyalarına bu makroyu geçirir; böylece T-Beam kartı için üretilen firmware yerel Türkçe fontlarla paketlenir.",
+        github: "meshtastic.org/docs/development/firmware/oled-guide",
+        infobox: {
+          "Yapılandırma Dosyası": "variants/{BOARD_VARIANT}/platformio.ini",
+          "Derleme Direktifi": "build_flags = ... -D OLED_{LANG_NAME}",
+          "Kapsam": "Yalnızca ilgili donanım kartı varyantı için geçerlidir",
+          "Kullanım Yeri": "Otomatik GitHub Actions derlemeleri ve fabrika çıkış firmware'leri"
+        },
+        seeAlso: ["conditional-compilation-oled-fonts", "userprefs-header-localization", "oled-localization-pipeline"]
+      },
+      {
+        id: "userprefs-header-localization",
+        en: "userPrefs.h Header-Based Localization Definition",
+        tr: "userPrefs.h Üzerinden Kullanıcı Tercihli Dil Tanımlama",
+        category: "Yazılım & İstemciler",
+        lead: "PlatformIO ayar dosyalarını değiştirmeden, yerel derlemelerde firmware dilini userPrefs.h dosyasında #define ile belirleme alternatifi.",
+        details: "Geliştiriciler genel `platformio.ini` dosyasını kirletmek veya git deposunda değişiklik bırakmak istemediklerinde, kullanıcı tercihlerini saklayan `userPrefs.h` başlık dosyasını kullanabilirler. Bu dosya içine `#define OLED_TR` satırı eklendiğinde, PlatformIO derleme bayrağıyla birebir aynı sonucu üretir. Yerel geliştirme ortamlarında hızlıca dil testi yapmak için en pratik yöntemdir.",
+        github: "meshtastic.org/docs/development/firmware/oled-guide",
+        infobox: {
+          "Ayar Dosyası": "src/userPrefs.h",
+          "Tanımlama": "#define OLED_{LANG_NAME}",
+          "Alternatif": "platformio.ini build_flags yerine geçer",
+          "Avantajı": "Git değişikliklerini kirletmeden yerel bilgisayarda hızlı dil testi"
+        },
+        seeAlso: ["variant-platformio-build-flags", "conditional-compilation-oled-fonts", "oled-localization-pipeline"]
+      },
+      {
+        id: "oleddisplay-library-font-structure",
+        en: "OLEDDisplay Library Binary Font Data Structure",
+        tr: "OLEDDisplay Kütüphanesi Yazı Tipi Veri Yapısı",
+        category: "Yazılım & İstemciler",
+        lead: "Squix/ThingPulse OLED sürücüsünün piksel genişliği, atlama tabloları ve dikey bit baytlarını depoladığı optimize C ikili veri formatı.",
+        details: "Standart Adafruit GFX fontları glifleri yatay bit akışı olarak saklarken, Meshtastic'in OLED alt yapısı ThingPulse OLEDDisplay kütüphanesini temel alır. Bu formatta font dizisinin ilk 4 baytı yazı tipinin genel meta verilerini (genişlik, yükseklik, ilk ASCII kodu) tutar. Ardından her karakter için genişlik ve atlama ofsetleri gelir; son kısımda ise ekran kontrolcüsünün (SSD1306) dikey RAM sayfalarına birebir uyan dikey bayt dizilimleri yer alır.",
+        github: "meshtastic.org/docs/development/firmware/oled-guide",
+        infobox: {
+          "Kütüphane Temeli": "ThingPulse ESP8266/ESP32 OLED Driver (OLEDDisplay.cpp)",
+          "Veri Başlığı": "İlk 4 bayt: Genişlik, Yükseklik, Başlangıç ASCII Kodu, Karakter Sayısı",
+          "Bellek Organizasyonu": "SSD1306 dikey sayfa (page) düzenine optimize bit matrisi",
+          "Farkı": "Adafruit GFX glifleriyle doğrudan uyumsuzdur, dönüştürücü gerektirir"
+        },
+        seeAlso: ["extended-ascii-glyph-editor", "graphics-font-directory-storage", "screen-cpp-renderer-pipeline"]
+      },
+      {
+        id: "screen-cpp-renderer-pipeline",
+        en: "Screen.cpp Graphics Renderer and String Drawing Pipeline",
+        tr: "Screen.cpp Grafik Çizim ve Metin İşleme Hattı",
+        category: "Yazılım & İstemciler",
+        lead: "Telsizden gelen UTF-8 metin dizgilerini ekrana çizerken drawStr çağrılarının yerelleştirilmiş font tablolarıyla buluştuğu çekirdek çizim hattı.",
+        details: "`src/graphics/Screen.cpp` dosyası, Meshtastic cihazlarının ekranında düğüm adı, gelen mesajlar, sinyal gücü ve menüleri çizen grafik yöneticisidir. Bir metin ekrana basılacağı zaman `display->drawString()` çağrılır. Bu çağrı arka planda karakter karakter ilerlerken `customFontTableLookup` fonksiyonundan geçer; eşlenen genişletilmiş ASCII kodu font tablosundan doğru piksel bitlerini çeker ve OLED ekran tamponuna (display buffer) yazar. `display->display()` ile tüm ekran güncellenir.",
+        github: "meshtastic.org/docs/development/firmware/oled-guide",
+        infobox: {
+          "Kaynak Dosya": "src/graphics/Screen.cpp",
+          "Temel Çizim Metodu": "display->drawString(x, y, text)",
+          "Boru Hattı Sırası": "Gelen UTF-8 String -> customFontTableLookup() -> Glif Bitleri -> OLED Buffer",
+          "Ekran Yenileme": "display->display() ile I2C/SPI üzerinden panele yazma"
+        },
+        seeAlso: ["customfonttablelookup-utf8-mapper", "oleddisplay-library-font-structure", "conditional-compilation-oled-fonts"]
       }
     ];
 

@@ -874,6 +874,18 @@ Meshtastic donanımını kontrol etmek, mesajlaşıp harita görüntülemek ve a
 - **Hata Kodu 7: InvalidRadioSetting Desteklenmeyen Parametre Hatası (`error-code-invalidradiosetting`):** Seçilen frekans veya bant genişliğinin yonga sınırlarını aşması sonucu telsizin susturulması.
 - **Hata Kodu 12 ve 13: FlashCorruption Dosya Sistemi Bozulması (`error-code-flashcorruption`):** LittleFS flash belleğindeki onarılabilen (Hata 12) veya fabrika resetine zorlayan (Hata 13) bozulmalar.
 
+### 📺 Meshtastic OLED Ekran Yerelleştirme ve Font Uyarlama Kılavuzu (meshtastic.org/docs/development/firmware/oled-guide)
+- **OLED Ekran Yerelleştirme ve Dil Uyarlama Boru Hattı (`oled-localization-pipeline`):** Türkçe (ç, ğ, ı, ö, ş, ü) ve bölgesel alfabelerin ekranda doğru gösterimi için 4 adımlı süreç.
+- **Genişletilmiş ASCII Çevrimiçi Glif Düzenleyici Aracı (`extended-ascii-glyph-editor`):** ThingPulse font formatında 10/16/24px piksel matrisleri çizerek C header dosyası üretme.
+- **graphics/font Dizin Mimarisi ve Yazı Tipi Başlıkları (`graphics-font-directory-storage`):** `OLEDDisplayFonts{LANG}.h` başlıklarında optimize piksel dizilerini saklama mimarisi.
+- **customFontTableLookup UTF-8 Karakter Eşleme Fonksiyonu (`customfonttablelookup-utf8-mapper`):** `Screen.h` içinde telsizden gelen çift baytlık UTF-8 dizilimlerini tek baytlık ASCII koduna çevirme.
+- **UTF-8 Çift Baytlık switch(last) Ofsetleme Mantığı (`utf8-double-byte-switch-offset`):** Sol bayt ile sağ bayt arasındaki matematiksel ofsetle O(1) sabit zamanda glife yönlendirme.
+- **Screen.cpp İçinde Koşullu Derleme ile Çoklu Dil Fontları (`conditional-compilation-oled-fonts`):** `#ifdef OLED_{LANG}` makrolarıyla `FONT_SMALL` ve `FONT_MEDIUM` yazı tiplerini dinamik bağlama.
+- **platformio.ini Varyant Derleme Bayrakları Yapılandırması (`variant-platformio-build-flags`):** `build_flags` içine `-D OLED_{LANG}` ekleyerek kart varyantı için dil desteği paketleme.
+- **userPrefs.h Üzerinden Kullanıcı Tercihli Dil Tanımlama (`userprefs-header-localization`):** Git deposunu kirletmeden yerel derlemelerde `#define OLED_{LANG}` ile hızlı dil testi yapma.
+- **OLEDDisplay Kütüphanesi Yazı Tipi Veri Yapısı (`oleddisplay-library-font-structure`):** SSD1306 dikey sayfa düzenine optimize piksel ve atlama ofsetlerini saklayan kompakt format.
+- **Screen.cpp Grafik Çizim ve Metin İşleme Hattı (`screen-cpp-renderer-pipeline`):** UTF-8 metin dizgilerinin `drawString` ve ekran tamponu üzerinden OLED panele aktarılma süreci.
+
 ### 🔹 Açık Standart ve Tedarikçi Bağımsızlığı (Open Architecture & Vendor Neutrality)
 Meshtastic'in hiçbir tescilli ticari protokole veya tek bir donanım üreticisine bağımlı kalmamasını sağlayan açık kaynak ekosistem felsefesi (GPL-3.0 lisansı ve açık Protobuf şemaları). Semtech SX1262/SX1276/LR1121 telsizleri ile ESP32, nRF52840 ve RP2040 işlemcili onlarca farklı üreticinin (Heltec, LilyGO, RAKwireless) donanımları tam uyumla birlikte çalışabilir.
 
