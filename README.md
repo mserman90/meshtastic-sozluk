@@ -910,6 +910,18 @@ Meshtastic donanımını kontrol etmek, mesajlaşıp harita görüntülemek ve a
 - **FreeRTOS YÄ±ÄŸÄ±n TaÅŸmasÄ± KancasÄ± PaniÄŸi (`stack-overflow-hook-panic`):** GÃ¶rev bellek limitinin aÅŸÄ±lmasÄ± ve canary baytlarÄ±nÄ±n bozulmasÄ±yla tetiklenen `vApplicationStackOverflowHook` korumasÄ±.
 - **YazmaÃ§ DÃ¶kÃ¼mÃ¼ ve EXCVADDR Analizi (`register-dump-excvaddr-analysis`):** Ä°stisnaya neden olan adresi gÃ¶steren `EXCVADDR` yazmacÄ±nÄ± inceleyerek null/dangling pointer hatalarÄ±nÄ± tespit etme.
 
+### âš¡ nRF52 Bellenim GeliÅŸtirme ve DonanÄ±msal Hata AyÄ±klama (meshtastic.org/docs/development/firmware/nrf52-guide)
+- **nRF52 Bellenim GeliÅŸtirme KÄ±lavuzu (`nrf52-development-guide`):** Nordic nRF52840 tabanlÄ± kartlarda ultra dÃ¼ÅŸÃ¼k gÃ¼Ã§ ve SWD donanÄ±m hata ayÄ±klama mimarisi.
+- **NanoDAP ve RAKDAP1 USB Hata AyÄ±klama Probu (`nanodap-rakdap1-debug-probe`):** ARM CMSIS-DAP/DAPLink tabanlÄ±, nRF52 hedeflerine doÄŸrudan SWD baÄŸlantÄ±sÄ± saÄŸlayan ekonomik prob donanÄ±mÄ±.
+- **SWD 3 Pinli Seri Hat ArayÃ¼zÃ¼ (`swd-serial-wire-debug-interface`):** YalnÄ±zca SWDIO, SWCLK ve GND hatlarÄ±yla tam donanÄ±m seviyesi kontrol ve flaÅŸlama saÄŸlayan arayÃ¼z.
+- **pyOCD Python Cortex Hata AyÄ±klama Motoru (`pyocd-cortex-debugger-engine`):** `pyocd pack --i nrf52840` ile Ã§alÄ±ÅŸan ve VSCode iÃ§in GDB sunucusu baÅŸlatan Python kÃ¶prÃ¼sÃ¼.
+- **PlatformIO rak4631_dap Derleme OrtamÄ± (`platformio-rak4631-dap-target`):** `platformio.ini` iÃ§inde NanoDAP Ã¼zerinden doÄŸrudan SWD yÃ¼kleme ve canlÄ± debug hedefleri.
+- **VSCode ICE Devre Ä°Ã§i DonanÄ±msal Hata AyÄ±klama (`vscode-ice-hardware-debugging`):** Cortex-Debug eklentisiyle C++ satÄ±rlarÄ±na kesme noktasÄ± koyup deÄŸiÅŸkenleri donanÄ±mda canlÄ± inceleme.
+- **Linux CMSIS-DAP udev KurallarÄ± YapÄ±landÄ±rmasÄ± (`cmsis-dap-udev-rules-setup`):** `99-pyocd.rules` ile normal kullanÄ±cÄ±larÄ±n root yetkisine gerek kalmadan USB proba eriÅŸmesi.
+- **Nordic SoftDevice ve FreeRTOS Birlikte Ã‡alÄ±ÅŸma Mimarisi (`nordic-softdevice-freertos-stack`):** BLE S140 ikili yÄ±ÄŸÄ±nÄ± ile FreeRTOS kesme Ã¶nceliklerinin uyumlu Ã§alÄ±ÅŸmasÄ±.
+- **nRF52 DC-DC RegÃ¼latÃ¶r ve DÃ¼ÅŸÃ¼k GÃ¼Ã§ Uyku ModlarÄ± (`nrf52-dcdc-power-optimization`):** `DCDCEN = 1` ile akÄ±m tÃ¼ketimini %30-40 azaltarak beklemede mikroamper seviyesine inme.
+- **Adafruit nRF52 UF2 Bootloader ve SWD Kurtarma (`adafruit-nrf52-uf2-bootloader-swd`):** Ã‡ift tÄ±kla USB disk formatÄ±nda yÃ¼kleme ve kilitlenen kartlarÄ± SWD ile baÅŸtan ayaÄŸa kaldÄ±rma.
+
 ### 🔹 Açık Standart ve Tedarikçi Bağımsızlığı (Open Architecture & Vendor Neutrality)
 Meshtastic'in hiçbir tescilli ticari protokole veya tek bir donanım üreticisine bağımlı kalmamasını sağlayan açık kaynak ekosistem felsefesi (GPL-3.0 lisansı ve açık Protobuf şemaları). Semtech SX1262/SX1276/LR1121 telsizleri ile ESP32, nRF52840 ve RP2040 işlemcili onlarca farklı üreticinin (Heltec, LilyGO, RAKwireless) donanımları tam uyumla birlikte çalışabilir.
 

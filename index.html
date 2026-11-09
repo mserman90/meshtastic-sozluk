@@ -11199,6 +11199,166 @@
           "Fayda": "Ã‡Ã¶kmenin mantÄ±ksal donanÄ±m sebebini saniyeler iÃ§inde anlama"
         },
         seeAlso: ["guru-meditation-panic-handler", "call-stack-frame-backtrace", "firmware-stacktrace-decoding"]
+      }      ,
+      {
+        id: "nrf52-development-guide",
+        en: "nRF52 Firmware Development Guide",
+        tr: "nRF52 Bellenim GeliÅŸtirme KÄ±lavuzu",
+        category: "GeliÅŸtirici & Bellenim",
+        lead: "Nordic nRF52 mimarisi Ã¼zerinde Meshtastic bellenimi derleme, donanÄ±msal hata ayÄ±klama ve ultra dÃ¼ÅŸÃ¼k gÃ¼Ã§ optimizasyonu kÄ±lavuzu.",
+        details: "Nordic Semiconductor nRF52840 tabanlÄ± kartlar (RAK4631, LilyGO T-Echo vb.), ESP32'ye kÄ±yasla kat kat daha az gÃ¼Ã§ tÃ¼ketimi (mikroamper seviyesinde uyku akÄ±mÄ±) ve yerleÅŸik donanÄ±msal USB/BLE desteÄŸi sunar. Bu kÄ±lavuz, nRF52 platformunda Ã§alÄ±ÅŸan geliÅŸtiriciler iÃ§in PlatformIO ortam yapÄ±landÄ±rmasÄ±nÄ±, donanÄ±m hata ayÄ±klama problarÄ±nÄ± (NanoDAP), SWD sinyal pinlerini ve FreeRTOS ile SoftDevice uyumunu iÃ§eren en iyi pratikleri Ã¶zetler.",
+        github: "meshtastic.org/docs/development/firmware/nrf52-guide",
+        infobox: {
+          "Ä°ÅŸlemci Mimarisi": "ARM Cortex-M4F (Nordic nRF52840)",
+          "Referans DonanÄ±mlar": "RAK4631, LilyGO T-Echo, Heltec T114",
+          "Temel AvantajÄ±": "Ultra dÃ¼ÅŸÃ¼k gÃ¼Ã§ tÃ¼ketimi, yerel BLE 5.0",
+          "Hata AyÄ±klama": "SWD & CMSIS-DAP / pyOCD"
+        },
+        seeAlso: ["nanodap-rakdap1-debug-probe", "swd-serial-wire-debug-interface", "pyocd-cortex-debugger-engine"]
+      },
+      {
+        id: "nanodap-rakdap1-debug-probe",
+        en: "NanoDAP and RAKDAP1 USB Debug Probe",
+        tr: "NanoDAP ve RAKDAP1 USB Hata AyÄ±klama Probu",
+        category: "DonanÄ±m & TasarÄ±m",
+        lead: "ARM CMSIS-DAP / DAPLink tabanlÄ±, nRF52 ve diÄŸer ARM Cortex hedeflerine doÄŸrudan SWD baÄŸlantÄ±sÄ± saÄŸlayan ekonomik USB hata ayÄ±klama donanÄ±mÄ±.",
+        details: "RAKwireless tarafÄ±ndan sunulan RAKDAP1 veya genel aÃ§Ä±k kaynak NanoDAP problarÄ±, yaklaÅŸÄ±k 10 dolarlÄ±k maliyetleriyle geliÅŸtiricilerin pahalÄ± J-Link problarÄ±na ihtiyaÃ§ duymadan nRF52840 Ã§iplerine donanÄ±msal hata ayÄ±klama (hardware ICE debugging) yapmasÄ±nÄ± saÄŸlar. Cihaz, bilgisayara USB Ã¼zerinden baÄŸlanÄ±r ve hedef karta SWD (Serial Wire Debug) hattÄ± Ã¼zerinden kesme noktalarÄ± (breakpoints), bellek okuma ve tek adÄ±m yÃ¼rÃ¼tme komutlarÄ± gÃ¶nderir.",
+        github: "meshtastic.org/docs/development/firmware/nrf52-guide",
+        infobox: {
+          "Protokol StandardÄ±": "ARM CMSIS-DAP / DAPLink",
+          "Ãœretici / Model": "RAKwireless RAKDAP1 / NanoDAP",
+          "Gerekli Pin SayÄ±sÄ±": "3 Pin (GND, SWDIO, SWCLK)",
+          "Fiyat / EriÅŸilebilirlik": "Ekonomik ($10 seviyesi)"
+        },
+        seeAlso: ["nrf52-development-guide", "swd-serial-wire-debug-interface", "pyocd-cortex-debugger-engine", "vscode-ice-hardware-debugging"]
+      },
+      {
+        id: "swd-serial-wire-debug-interface",
+        en: "SWD (Serial Wire Debug) 3-Pin Interface",
+        tr: "SWD (Seri Hat Hata AyÄ±klama) 3 Pinli ArayÃ¼z",
+        category: "DonanÄ±m & TasarÄ±m",
+        lead: "ARM Cortex Ã§ekirdeklerinde JTAG yerine yalnÄ±zca iki sinyal (SWDIO, SWCLK) ve ortak toprak (GND) hattÄ± kullanan mikro hata ayÄ±klama arayÃ¼zÃ¼.",
+        details: "Standart JTAG arayÃ¼zÃ¼nÃ¼n gerektirdiÄŸi 4-5 pin yerine nRF52840 Ã¼zerinde yalnÄ±zca iki veri piniyle tam donanÄ±m seviyesi kontrol saÄŸlar: Ã‡ift yÃ¶nlÃ¼ veri hattÄ± `SWDIO` (NanoDAP Ã¼zerinde TMS-IO) ve saat sinyali hattÄ± `SWCLK` (NanoDAP Ã¼zerinde TCK-CK). Ortak referans iÃ§in `GND` pini baÄŸlanÄ±r. RESET veya 3V3 pinlerinin baÄŸlanmasÄ± Ã§oÄŸu zaman gerekmez Ã§Ã¼nkÃ¼ hedef kart kendi USB'sinden veya bataryasÄ±ndan beslenirken SWD hattÄ± baÄŸÄ±msÄ±z olarak Ã§ipe baÄŸlanabilir.",
+        github: "meshtastic.org/docs/development/firmware/nrf52-guide",
+        infobox: {
+          "Sinyal HatlarÄ±": "SWDIO (TMS-IO), SWCLK (TCK-CK)",
+          "Referans HattÄ±": "GND (Ortak Toprak)",
+          "Fiziksel Boyut": "Kompakt (2 sinyal pini)",
+          "Ä°ÅŸlev": "FlaÅŸ yazma, donanÄ±m kesme noktalarÄ±, kayÄ±tÃ§Ä± okuma"
+        },
+        seeAlso: ["nanodap-rakdap1-debug-probe", "pyocd-cortex-debugger-engine", "nrf52-development-guide"]
+      },
+      {
+        id: "pyocd-cortex-debugger-engine",
+        en: "pyOCD Python Cortex Debugger Engine",
+        tr: "pyOCD Python Cortex Hata AyÄ±klama Motoru",
+        category: "GeliÅŸtirici & Bellenim",
+        lead: "Python tabanlÄ±, CMSIS-DAP problarÄ± Ã¼zerinden ARM Cortex-M mikrokontrolcÃ¼lerine programlama ve GDB sunucusu hizmeti sunan araÃ§ motoru.",
+        details: "Meshtastic nRF52 geliÅŸtirmesinde VSCode ile NanoDAP arasÄ±ndaki kÃ¶prÃ¼yÃ¼ `pyocd` saÄŸlar. `pip3 install pyocd` ile kurulduktan sonra hedef Ã§ip tanÄ±mlarÄ± `pyocd pack --i nrf52840` komutuyla CMSIS DFP paket deposundan indirilir. PlatformIO veya VSCode hata ayÄ±klayÄ±cÄ±sÄ± Ã§alÄ±ÅŸtÄ±ÄŸÄ±nda arka planda `pyocd gdbserver` ayaÄŸa kalkar; GDB bu yerel sokete baÄŸlanarak mikrodenetleyicinin flash belleÄŸini siler, yeni bellenimi yÃ¼kler ve kod satÄ±rlarÄ±nda duraklama saÄŸlar.",
+        github: "pyocd/pyOCD",
+        infobox: {
+          "Ã‡alÄ±ÅŸma OrtamÄ±": "Python 3 CLI / GDB Server",
+          "Hedef Ã‡ip Paketi": "pyocd pack --i nrf52840",
+          "Desteklenen ArayÃ¼z": "CMSIS-DAP / DAPLink",
+          "KullanÄ±m AmacÄ±": "GDB ile nRF52 donanÄ±m kÃ¶prÃ¼sÃ¼ kurma"
+        },
+        seeAlso: ["nanodap-rakdap1-debug-probe", "swd-serial-wire-debug-interface", "platformio-rak4631-dap-target"]
+      },
+      {
+        id: "platformio-rak4631-dap-target",
+        en: "PlatformIO rak4631_dap Build and Debug Environment",
+        tr: "PlatformIO rak4631_dap Derleme ve Hata AyÄ±klama OrtamÄ±",
+        category: "GeliÅŸtirici & Bellenim",
+        lead: "Meshtastic `platformio.ini` dosyasÄ±nda NanoDAP/CMSIS-DAP probu Ã¼zerinden doÄŸrudan SWD yÃ¼kleme ve hata ayÄ±klama iÃ§in yapÄ±landÄ±rÄ±lmÄ±ÅŸ Ã¶zel hedef ortam.",
+        details: "VarsayÄ±lan `rak4631` derleme ortamÄ± USB UF2 sanal sÃ¼rÃ¼cÃ¼sÃ¼ veya serial bootloader Ã¼zerinden flaÅŸlama yapar. Ancak `env:rak4631_dap` ortamÄ± seÃ§ildiÄŸinde `upload_protocol = custom` ve hata ayÄ±klama aracÄ± olarak pyocd/CMSIS-DAP devreye girer. Bu ortam seÃ§ildiÄŸinde VSCode alt barÄ±ndaki 'Upload' butonu kodu doÄŸrudan SWD probuyla nRF52 flaÅŸÄ±na yazar ve VSCode 'Debug' (F5) butonu donanÄ±msal adÄ±m adÄ±m hata ayÄ±klamayÄ± etkinleÅŸtirir.",
+        github: "meshtastic/firmware: platformio.ini (rak4631_dap)",
+        infobox: {
+          "PlatformIO Hedefi": "env:rak4631_dap",
+          "YapÄ±landÄ±rma DosyasÄ±": "platformio.ini",
+          "YÃ¼kleme ProtokolÃ¼": "CMSIS-DAP / SWD",
+          "Avantaj": "Bootloader beklemeden tek tÄ±kla doÄŸrudan donanÄ±ma yazma ve debug"
+        },
+        seeAlso: ["nrf52-development-guide", "pyocd-cortex-debugger-engine", "vscode-ice-hardware-debugging"]
+      },
+      {
+        id: "vscode-ice-hardware-debugging",
+        en: "VSCode ICE In-Circuit Emulator Hardware Debugging",
+        tr: "VSCode ICE Devre Ä°Ã§i DonanÄ±msal Hata AyÄ±klama",
+        category: "GeliÅŸtirici & Bellenim",
+        lead: "Cortex-Debug eklentisi ve NanoDAP probu sayesinde VSCode Ã¼zerinde C++ kod satÄ±rlarÄ±na kesme noktasÄ± (breakpoint) koyup deÄŸiÅŸkenleri canlÄ± izleme yeteneÄŸi.",
+        details: "GÃ¶mÃ¼lÃ¼ sistemlerde sadece `printf` veya `LOG_DEBUG` ile hata ayÄ±klamak asenkron olaylarda ve FreeRTOS gÃ¶rev kilitlenmelerinde yetersiz kalÄ±r. VSCode ICE (In-Circuit Emulator) hata ayÄ±klamasÄ± ile geliÅŸtiriciler kodun istediÄŸi satÄ±rÄ±na kÄ±rmÄ±zÄ± kesme noktasÄ± (breakpoint) koyabilir; nRF52 donanÄ±mÄ± o satÄ±ra ulaÅŸtÄ±ÄŸÄ±nda saat dÃ¶ngÃ¼sÃ¼nÃ¼ durdurur. GeliÅŸtirici CPU yazmaÃ§larÄ±nÄ±, yerel deÄŸiÅŸkenlerin ram deÄŸerlerini ve Ã§aÄŸrÄ± yÄ±ÄŸÄ±nÄ±nÄ± ekranda incelerken F10/F11 tuÅŸlarÄ±yla satÄ±r satÄ±r kodu yÃ¼rÃ¼tebilir.",
+        github: "meshtastic.org/docs/development/firmware/nrf52-guide",
+        infobox: {
+          "GeliÅŸtirme ArayÃ¼zÃ¼": "Visual Studio Code + Cortex-Debug",
+          "Yetenekler": "Breakpoints, Watch Expressions, Register Inspect, Call Stack",
+          "Kontrol TÃ¼rÃ¼": "Devre Ä°Ã§i DonanÄ±msal EmÃ¼lasyon (ICE)",
+          "Tetikleme": "F5 (Start Debugging)"
+        },
+        seeAlso: ["nanodap-rakdap1-debug-probe", "platformio-rak4631-dap-target", "swd-serial-wire-debug-interface"]
+      },
+      {
+        id: "cmsis-dap-udev-rules-setup",
+        en: "Linux CMSIS-DAP udev Rules Configuration",
+        tr: "Linux CMSIS-DAP udev KurallarÄ± YapÄ±landÄ±rmasÄ±",
+        category: "GeliÅŸtirici & Bellenim",
+        lead: "Linux sistemlerinde pyOCD ve VSCode'un root (sudo) yetkisi olmadan USB CMSIS-DAP donanÄ±mlarÄ±na eriÅŸebilmesini saÄŸlayan izin kurallarÄ± dosyasÄ±.",
+        details: "Linux iÅŸletim sistemlerinde gÃ¼venlik nedeniyle normal kullanÄ±cÄ±larÄ±n USB hidraw aygÄ±tlarÄ±na yazma izni kÄ±sÄ±tlÄ±dÄ±r. NanoDAP baÄŸlandÄ±ÄŸÄ±nda `pyocd`'nin probu gÃ¶rebilmesi iÃ§in `udev` kurallarÄ±nÄ±n tanÄ±mlanmasÄ± gerekir. pyOCD deposundan indirilen `99-pyocd.rules` veya RAK kurallarÄ± `/etc/udev/rules.d/` dizinine kopyalanÄ±r ve `sudo udevadm control --reload-rules && sudo udevadm trigger` komutlarÄ± Ã§alÄ±ÅŸtÄ±rÄ±lÄ±r. Bu sayede `plugdev` grubundaki kullanÄ±cÄ±lar doÄŸrudan SWD aygÄ±tÄ±nÄ± yÃ¶netebilir.",
+        github: "meshtastic.org/docs/development/firmware/nrf52-guide",
+        infobox: {
+          "YapÄ±landÄ±rma DosyasÄ±": "/etc/udev/rules.d/99-pyocd.rules",
+          "Ä°ÅŸletim Sistemi": "Linux (Ubuntu/Debian/Arch vb.)",
+          "AmaÃ§": "Root/sudo yetkisine gerek kalmadan USB prob eriÅŸimi",
+          "Yenileme Komutu": "udevadm control --reload-rules"
+        },
+        seeAlso: ["nanodap-rakdap1-debug-probe", "pyocd-cortex-debugger-engine"]
+      },
+      {
+        id: "nordic-softdevice-freertos-stack",
+        en: "Nordic SoftDevice and FreeRTOS Coexistence",
+        tr: "Nordic SoftDevice ve FreeRTOS Birlikte Ã‡alÄ±ÅŸma Mimarisi",
+        category: "GeliÅŸtirici & Bellenim",
+        lead: "Nordic tarafÄ±ndan derlenmiÅŸ ikili Bluetooth DÃ¼ÅŸÃ¼k Enerji protokol yÄ±ÄŸÄ±nÄ± (SoftDevice S140) ile FreeRTOS gerÃ§ek zamanlÄ± iÅŸletim sisteminin bellek ve kesme paylaÅŸÄ±mÄ±.",
+        details: "Nordic nRF52840 mimarisinde Bluetooth LE yÄ±ÄŸÄ±nÄ±, flash belleÄŸin en alt 150-160 KB'lÄ±k kÄ±smÄ±nda ikili blob olarak bulunan 'SoftDevice' (S140) tarafÄ±ndan yÃ¶netilir. SoftDevice en yÃ¼ksek kesme Ã¶nceliklerine (Priority 0 ve 1) sahiptir ve radyo zamanlamasÄ±nÄ± kaÃ§Ä±rmamak iÃ§in sistemi anlÄ±k olarak durdurabilir. Meshtastic bellenimi, FreeRTOS gÃ¶revlerini ve LoRa SX1262 sÃ¼rÃ¼cÃ¼lerini SoftDevice'Ä±n bu katÄ± zamanlama kurallarÄ±na saygÄ± gÃ¶sterecek ÅŸekilde `nrf_sdh` (SoftDevice Handler) Ã¼zerinden entegre eder.",
+        github: "meshtastic/firmware: nRF52 architecture",
+        infobox: {
+          "BLE YÄ±ÄŸÄ±nÄ±": "Nordic SoftDevice S140",
+          "Kesme Ã–nceliÄŸi": "En yÃ¼ksek (Hardware Priority 0-1)",
+          "Ä°ÅŸletim Sistemi": "FreeRTOS",
+          "Konum": "Flash baÅŸlangÄ±Ã§ adresi (0x00000000 - 0x00026000)"
+        },
+        seeAlso: ["nrf52-development-guide", "nrf52-dcdc-power-optimization"]
+      },
+      {
+        id: "nrf52-dcdc-power-optimization",
+        en: "nRF52 DC-DC Regulator and Ultra-Low Power Modes",
+        tr: "nRF52 DC-DC RegÃ¼latÃ¶r ve DÃ¼ÅŸÃ¼k GÃ¼Ã§ Uyku ModlarÄ±",
+        category: "DonanÄ±m & TasarÄ±m",
+        lead: "Dahili LDO yerine DC-DC anahtarlamalÄ± regÃ¼latÃ¶rÃ¼ ve RAM blok saklamalÄ± System ON/OFF uyku modlarÄ±nÄ± kullanarak akÄ±m tÃ¼ketimini mikroamper seviyesine dÃ¼ÅŸÃ¼rme.",
+        details: "Meshtastic'in nRF52840 cihazlarÄ±nda haftalarca hatta aylarca tek bir 18650 pille Ã§alÄ±ÅŸabilmesinin temel sÄ±rrÄ± gÃ¼Ã§ optimizasyonudur. Firmware baÅŸlatÄ±lÄ±rken dahili DC-DC regÃ¼latÃ¶r `NRF_POWER->DCDCEN = 1` ile etkinleÅŸtirilir; bu iÅŸlem LDO'ya kÄ±yasla gÃ¼Ã§ tÃ¼ketimini yaklaÅŸÄ±k %30-40 azaltÄ±r. DÃ¼ÄŸÃ¼m boÅŸtayken FreeRTOS tickless idle moduna girer, CPU System ON IDLE durumuna alÄ±nÄ±r ve yalnÄ±zca LoRa DIO1 kesmesi veya BLE reklam pencerelerinde mikroamper dÃ¼zeyinde akÄ±m Ã§ekilerek uyanÄ±r.",
+        github: "meshtastic/firmware: src/platform/nrf52"
+        infobox: {
+          "RegÃ¼latÃ¶r YapÄ±landÄ±rmasÄ±": "NRF_POWER->DCDCEN = 1",
+          "Bekleme AkÄ±mÄ±": "~15-30 ÂµA (System ON Sleep)",
+          "GÃ¼Ã§ Tasarrufu": "LDO moduna gÃ¶re %30-40 daha yÃ¼ksek verim",
+          "Uyanma Tetikleyicileri": "LoRa DIO1 IRQ, RTC, BLE Events"
+        },
+        seeAlso: ["nrf52-development-guide", "swd-serial-wire-debug-interface"]
+      },
+      {
+        id: "adafruit-nrf52-uf2-bootloader-swd",
+        en: "Adafruit nRF52 UF2 Bootloader and SWD Recovery",
+        tr: "Adafruit nRF52 UF2 Bootloader ve SWD Kurtarma",
+        category: "GeliÅŸtirici & Bellenim",
+        lead: "USB flaÅŸ sÃ¼rÃ¼cÃ¼ gibi dosya sÃ¼rÃ¼kle-bÄ±rak yÃ¶ntemiyle gÃ¼ncelleme saÄŸlayan UF2 bootloader ve bozulduÄŸunda SWD ile yeniden yÃ¼klenmesi sÃ¼reci.",
+        details: "RAK4631 ve T-Echo gibi cihazlar fabrikadan aÃ§Ä±k kaynak Adafruit nRF52 Bootloader ile gelir. Ã‡ift tÄ±klama (double-tap reset) yapÄ±ldÄ±ÄŸÄ±nda cihaz bilgisayara bir USB flash disk (`RAK4631` veya `NRF52BOOT`) olarak baÄŸlanÄ±r ve `.uf2` uzantÄ±lÄ± bellenim dosyasÄ± sÃ¼rÃ¼klenerek yÃ¼klenir. EÄŸer bootloader bozulursa veya Ã§ip kilitlenirse USB tanÄ±nmaz hale gelir. Bu durumda kurtarmanÄ±n tek yolu, NanoDAP/SWD probu baÄŸlayarak `bootloader-rak4631-*.hex` dosyasÄ±nÄ± Ã§ipe en baÅŸtan yazmaktÄ±r.",
+        github: "adafruit/Adafruit_nRF52_Bootloader",
+        infobox: {
+          "Ã–nyÃ¼kleyici FormatÄ±": "UF2 (USB Flashing Format)",
+          "Kurtarma YÃ¶ntemi": "SWD / NanoDAP Ã¼zerinden HEX yÃ¼kleme",
+          "Tetikleyici": "Double-tap reset (1200 baud touch)",
+          "Depo": "adafruit/Adafruit_nRF52_Bootloader"
+        },
+        seeAlso: ["nanodap-rakdap1-debug-probe", "swd-serial-wire-debug-interface", "nrf52-development-guide"]
       }
     ];
 
