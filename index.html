@@ -11519,6 +11519,166 @@
           "BaÄŸlantÄ± TÃ¼rleri": "USB Seri (UART), TCP (Port 4403), BLE"
         },
         seeAlso: ["integration-paths-four-architectures", "via-the-node-cryptographic-offload"]
+      }      ,
+      {
+        id: "github-actions-cicd-matrix",
+        en: "GitHub Actions Multi-Target CI/CD Matrix",
+        tr: "GitHub Actions Ã‡oklu Hedefli CI/CD Matrisi",
+        category: "YazÄ±lÄ±m & AltyapÄ±",
+        lead: "Meshtastic ekosistemindeki 100'den fazla donanÄ±m hedefi, Android, Python ve web projelerini otomatik derleyip test eden sÃ¼rekli entegrasyon matrisi.",
+        details: "Meshtastic bellenimi ESP32, nRF52, RP2040 ve NRF52840 mimarilerinde onlarca farklÄ± kart varyantÄ±nÄ± destekler. GitHub Actions iÅŸ akÄ±ÅŸlarÄ± (`.github/workflows/`), her pull request ve commit iÃ§in bir derleme matrisi (build matrix) baÅŸlatarak her bir kartÄ±n derleme bayraklarÄ±nÄ±, ikili boyut sÄ±nÄ±rlarÄ±nÄ± ve birim testlerini eÅŸzamanlÄ± doÄŸrular. BaÅŸarÄ±lÄ± geÃ§en derlemeler otomatik olarak test yapay nesnelerine (artifacts) dÃ¶nÃ¼ÅŸtÃ¼rÃ¼lÃ¼r.",
+        github: "meshtastic/firmware: .github/workflows",
+        infobox: {
+          "AltyapÄ±": "GitHub Actions",
+          "Kapsam": "Firmware, Web, Android, Python, OpenWrt",
+          "YÃ¶ntem": "EÅŸzamanlÄ± Matris Derlemesi (Build Matrix)",
+          "Ã‡Ä±ktÄ±": "Test edilen ikili dosyalar (.bin, .uf2, .apk)"
+        },
+        seeAlso: ["self-hosted-github-runner-fleet", "firmware-automated-release-pipeline", "meshtastic-org-multirepo-governance"]
+      },
+      {
+        id: "self-hosted-github-runner-fleet",
+        en: "Self-Hosted GitHub Runner Fleet",
+        tr: "Ã–z-BarÄ±ndÄ±rÄ±lan GitHub Ã‡alÄ±ÅŸtÄ±rÄ±cÄ± (Runner) Filosu",
+        category: "YazÄ±lÄ±m & AltyapÄ±",
+        lead: "GitHub'Ä±n saÄŸladÄ±ÄŸÄ± 20 Ã¼cretsiz Ã§alÄ±ÅŸtÄ±rÄ±cÄ± kotasÄ±nÄ± aÅŸan yoÄŸun derleme yÃ¼kÃ¼nÃ¼ karÅŸÄ±lamak iÃ§in topluluk tarafÄ±ndan veri merkezlerinde barÄ±ndÄ±rÄ±lan sunucular.",
+        details: "Meshtastic organizasyonunda 100'Ã¼ aÅŸkÄ±n depo ve her PR'da yÃ¼zlerce PlatformIO derlemesi koÅŸtuÄŸundan GitHub'Ä±n standart 20 eÅŸzamanlÄ± runner kotasÄ± yetersiz kalÄ±r. Topluluk gÃ¶nÃ¼llÃ¼leri ve sponsorlar tarafÄ±ndan veri merkezlerinde saÄŸlanan en az 4 CPU, 8 GB RAM ve 30 GB disk kapasitesine sahip Ã¶z-barÄ±ndÄ±rÄ±lan (self-hosted) Linux sunucular filoya katÄ±larak CI/CD iÅŸlem hÄ±zÄ±nÄ± saatlerden dakikalara indirir.",
+        github: "meshtastic.org/docs/development/github",
+        infobox: {
+          "Gereksinim": "Min 2 CPU / 4GB RAM (Ã–nerilen 4+ CPU, 8GB+ RAM)",
+          "Disk / AÄŸ": "Min 15-30 GB Disk, Port 80/443 aÃ§Ä±k",
+          "Ä°letiÅŸim KanalÄ±": "Discord #hosting kanalÄ±",
+          "Temel AmaÃ§": "GitHub 20 runner limitini aÅŸarak derlemeleri hÄ±zlandÄ±rma"
+        },
+        seeAlso: ["github-actions-cicd-matrix", "podman-rootless-runner-security", "datacenter-grade-runner-reliability"]
+      },
+      {
+        id: "podman-rootless-runner-security",
+        en: "Podman Rootless Container Runner Security",
+        tr: "Podman Rootless Konteyner Ã‡alÄ±ÅŸtÄ±rÄ±cÄ± GÃ¼venliÄŸi",
+        category: "YazÄ±lÄ±m & AltyapÄ±",
+        lead: "Ã–z-barÄ±ndÄ±rÄ±lan runner sunucularÄ±nda derlemelerin root yetkisi olmayan izole Podman konteynerlerinde Ã§alÄ±ÅŸtÄ±rÄ±larak ana sistemi koruma modeli.",
+        details: "TopluluÄŸa aÃ§Ä±k aÃ§Ä±k kaynak projelerde dÄ±ÅŸarÄ±dan gelen Pull Request'lerin Ã§alÄ±ÅŸtÄ±rdÄ±ÄŸÄ± kodlar potansiyel gÃ¼venlik riski taÅŸÄ±r. Meshtastic CI/CD altyapÄ±sÄ±nda self-hosted sunucularda derleme iÅŸleri doÄŸrudan ana makinede deÄŸil, tek bir root yetkisi olmayan (non-root) kullanÄ±cÄ± hesabÄ±na ait izole Podman konteynerleri iÃ§inde koÅŸturulur. Bu mimari hem sunucu sahibinin Ã¶zel verilerini ve SSH anahtarlarÄ±nÄ± korur hem de her derleme sonrasÄ± temiz bir ortam saÄŸlar.",
+        github: "meshtastic.org/docs/development/github",
+        infobox: {
+          "Konteyner Motoru": "Podman (Rootless Container)",
+          "KullanÄ±cÄ± Modu": "Single non-root user",
+          "GÃ¼venlik KazanÄ±mÄ±": "Ä°zole Ã§alÄ±ÅŸma alanÄ±, gizli anahtar sÄ±zÄ±ntÄ±sÄ± Ã¶nleme",
+          "Ä°ÅŸletim Sistemleri": "Modern Ubuntu, Fedora, Linux"
+        },
+        seeAlso: ["self-hosted-github-runner-fleet", "ci-secret-protection-policy"]
+      },
+      {
+        id: "runner-bandwidth-inbound-profile",
+        en: "CI Runner Bandwidth and Traffic Profile",
+        tr: "CI Runner Bant GeniÅŸliÄŸi ve Trafik Profili",
+        category: "YazÄ±lÄ±m & AltyapÄ±",
+        lead: "Bir Meshtastic CI Ã§alÄ±ÅŸtÄ±rÄ±cÄ±sÄ±nÄ±n paket, toolchain ve kÃ¼tÃ¼phane indirmeleri iÃ§in gÃ¼nlÃ¼k tÃ¼kettiÄŸi yaklaÅŸÄ±k 20 GB gelen ve 1 GB giden veri profili.",
+        details: "Meshtastic bellenim derlemeleri her Ã§alÄ±ÅŸtÄ±rmada PlatformIO platform paketlerini, Espressif ESP-IDF framework'Ã¼nÃ¼, Nordic SDK araÃ§larÄ±nÄ± ve C++ baÄŸÄ±mlÄ±lÄ±klarÄ±nÄ± indirir veya Ã¶nbelleÄŸe alÄ±r. Resmi teknik dokÃ¼mana gÃ¶re tek bir self-hosted runner dÃ¼ÄŸÃ¼mÃ¼ gÃ¼nde yaklaÅŸÄ±k 20 GB gelen (inbound) ve 1 GB giden (outbound) aÄŸ trafiÄŸi Ã¼retir. Bu nedenle gÃ¶nÃ¼llÃ¼ sunucularÄ±n sÄ±nÄ±rsÄ±z veya yÃ¼ksek kotalÄ± geniÅŸbant baÄŸlantÄ±ya sahip olmasÄ± gerekir.",
+        github: "meshtastic.org/docs/development/github",
+        infobox: {
+          "GÃ¼nlÃ¼k Gelen Veri": "~20 GB Inbound (AraÃ§ zincirleri ve paketler)",
+          "GÃ¼nlÃ¼k Giden Veri": "~1 GB Outbound (Derlenen artifact ve loglar)",
+          "AÄŸ PortlarÄ±": "TCP 80 ve TCP 443 (HTTP/HTTPS)",
+          "Trafik KarakteristiÄŸi": "YÃ¼ksek indirme yoÄŸunluklu CI akÄ±ÅŸÄ±"
+        },
+        seeAlso: ["self-hosted-github-runner-fleet", "datacenter-grade-runner-reliability"]
+      },
+      {
+        id: "meshtastic-org-multirepo-governance",
+        en: "Meshtastic Organization Multi-Repository Governance",
+        tr: "Meshtastic Organizasyonu Ã‡oklu Depo YÃ¶netiÅŸimi",
+        category: "YazÄ±lÄ±m & AltyapÄ±",
+        lead: "Firmware, mobil uygulamalar, web istemcisi ve dokÃ¼mantasyon gibi 100'den fazla baÄŸÄ±msÄ±z deponun merkezi yetki ve standartlarla yÃ¶netilmesi.",
+        details: "Meshtastic projesi tek bir devasa depo (monorepo) yerine modÃ¼ler Ã§oklu depo (multi-repo) mimarisiyle idare edilir. `github.com/meshtastic` organizasyonu altÄ±nda `firmware`, `protobufs`, `web`, `Meshtastic-Android`, `Meshtastic-Apple`, `python`, `js`, `meshtasticd` ve dokÃ¼mantasyon gibi 100'Ã¼ aÅŸkÄ±n baÄŸÄ±msÄ±z depo bulunur. Organizasyon dÃ¼zeyinde tanÄ±mlanan kurallar, kod sahipleri (CODEOWNERS), gÃ¼venlik taramalarÄ± (Dependabot) ve yayÄ±n yÃ¶neticisi eriÅŸimleri tÃ¼m depolarda tutarlÄ± olarak uygulanÄ±r.",
+        github: "github.com/meshtastic",
+        infobox: {
+          "Organizasyon": "github.com/meshtastic",
+          "Depo SayÄ±sÄ±": "100+ Aktif Depo",
+          "YapÄ±": "ModÃ¼ler Multi-Repository",
+          "YÃ¶netim UnsurlarÄ±": "CODEOWNERS, Dependabot, CI/CD ÅablonlarÄ±"
+        },
+        seeAlso: ["github-actions-cicd-matrix", "release-manager-rbac-access"]
+      },
+      {
+        id: "datacenter-grade-runner-reliability",
+        en: "Datacenter-Grade Runner Reliability Standard",
+        tr: "Veri Merkezi DÃ¼zeyinde Runner GÃ¼venilirlik StandardÄ±",
+        category: "YazÄ±lÄ±m & AltyapÄ±",
+        lead: "CI/CD hatlarÄ±nda derleme kesintilerini Ã¶nlemek iÃ§in ev bilgisayarlarÄ± yerine kesintisiz enerji, soÄŸutma ve aÄŸa sahip veri merkezlerinin tercih edilmesi.",
+        details: "Meshtastic ilk dÃ¶nemlerinde gÃ¶nÃ¼llÃ¼lerin ev masaÃ¼stÃ¼ bilgisayarlarÄ±nÄ± runner olarak kullanmayÄ± denemiÅŸ; ancak elektrik kesintileri, Wi-Fi kopmalarÄ±, dolan diskler veya makinelerin baÅŸka iÅŸler iÃ§in yeniden baÅŸlatÄ±lmasÄ± geliÅŸtiricilerin PR iÅŸlerini kitlemiÅŸtir. BaÅŸarÄ±sÄ±z olan bir iÅŸi yalnÄ±zca sÄ±nÄ±rlÄ± sayÄ±daki CI yÃ¶neticisi yeniden baÅŸlatabildiÄŸi iÃ§in proje, profesyonel veri merkezlerinde (datacenter) barÄ±ndÄ±rÄ±lan 7/24 kesintisiz sunucu standardÄ±na geÃ§miÅŸtir.",
+        github: "meshtastic.org/docs/development/github",
+        infobox: {
+          "Standart": "Datacenter-based Hosting",
+          "GerekÃ§e": "Elektrik, klima ve internet kesintilerini sÄ±fÄ±ra indirme",
+          "Ã–nem Derecesi": "YÃ¼ksek (BaÅŸarÄ±sÄ±z iÅŸleri sadece admin yeniden baÅŸlatabilir)",
+          "KaÃ§Ä±nÄ±lan YapÄ±": "Ev masaÃ¼stÃ¼ bilgisayarlarÄ± (Home Desktops)"
+        },
+        seeAlso: ["self-hosted-github-runner-fleet", "runner-bandwidth-inbound-profile"]
+      },
+      {
+        id: "firmware-automated-release-pipeline",
+        en: "Automated Firmware Release Pipeline",
+        tr: "Otomatik Bellenim DaÄŸÄ±tÄ±m ve YayÄ±nlama Boru HattÄ±",
+        category: "YazÄ±lÄ±m & AltyapÄ±",
+        lead: "Git etiketi (tag) atÄ±ldÄ±ÄŸÄ±nda tÃ¼m donanÄ±m ikili dosyalarÄ±nÄ± derleyip zip paketleri halinde GitHub Releases ve web flaÅŸÃ¶re sunan otomatik CD hattÄ±.",
+        details: "SÃ¼rÃ¼m yÃ¶neticisi (Release Manager) depoya yeni bir sÃ¼rÃ¼m etiketi (Ã¶rneÄŸin `v2.5.12`) bastÄ±ÄŸÄ±nda GitHub Actions CD boru hattÄ± otomatik tetiklenir. YÃ¼zlerce kart varyantÄ± iÃ§in `.bin`, `.uf2` ve `.hex` dosyalarÄ± derlenir, cihaz manifestosu (`manifest.json`) gÃ¼ncellenir ve GitHub Releases sayfasÄ±na eklenir. EÅŸzamanlÄ± olarak Web Flasher (`flasher.meshtastic.org`) bu API'den yeni sÃ¼rÃ¼mÃ¼ Ã§ekerek kullanÄ±cÄ±larÄ±n tarayÄ±cÄ±dan tek tÄ±kla cihazlarÄ±na yÃ¼klemesini saÄŸlar.",
+        github: "meshtastic/firmware: .github/workflows/release.yml",
+        infobox: {
+          "Tetikleyici": "Git SemVer Tag (Ã¶rn. v2.x.x)",
+          "Ã‡Ä±ktÄ±lar": "Firmware ZIP, UF2 paketleri, manifest.json",
+          "Entegrasyon": "GitHub Releases, flasher.meshtastic.org",
+          "SÃ¼reÃ§ TÃ¼rÃ¼": "SÃ¼rekli DaÄŸÄ±tÄ±m (Continuous Deployment - CD)"
+        },
+        seeAlso: ["github-actions-cicd-matrix", "release-manager-rbac-access"]
+      },
+      {
+        id: "ci-secret-protection-policy",
+        en: "CI/CD Secret and Signing Key Protection Policy",
+        tr: "CI/CD Gizli DeÄŸer ve Ä°mzalama AnahtarÄ± Koruma Ä°lkesi",
+        category: "YazÄ±lÄ±m & AltyapÄ±",
+        lead: "AÃ§Ä±k kaynak PR'larÄ±nda Android imzalama anahtarlarÄ±, PyPI token'larÄ± ve Google Play gizli anahtarlarÄ±nÄ±n sÄ±zmasÄ±nÄ± engelleyen gÃ¼venlik Ã¶nlemleri.",
+        details: "Herkese aÃ§Ä±k depolarda dÄ±ÅŸarÄ±dan gelen katkÄ±cÄ±larÄ±n zararlÄ± kod iÃ§eren PR aÃ§arak GitHub Secrets alanÄ±ndaki sertifikalarÄ± veya API token'larÄ±nÄ± Ã§almasÄ±nÄ± Ã¶nlemek kritik bir gÃ¼venlik konusudur. Meshtastic CI politikasÄ± gereÄŸi, Ã¼Ã§Ã¼ncÃ¼ taraf fork'lardan gelen PR'larda hassas ortam deÄŸiÅŸkenleri (secrets) otomatik olarak devre dÄ±ÅŸÄ± bÄ±rakÄ±lÄ±r. Ãœretim sertifikalarÄ±yla imzalama ve yayÄ±nlama adÄ±mlarÄ± yalnÄ±zca yetkili Ã§ekirdek ekip tarafÄ±ndan onaylanan korumalÄ± dallarda (protected branches) yÃ¼rÃ¼tÃ¼lÃ¼r.",
+        github: "meshtastic.org/docs/development/github",
+        infobox: {
+          "Politika": "Branch Protection & Fork Secret Masking",
+          "Korunan VarlÄ±klar": "Google Play keystore, PyPI token, Docker token",
+          "Mekanizma": "Fork PR'larÄ±nda secrets eriÅŸim engeli",
+          "Hedef": "Tedarik zinciri (Supply Chain) gÃ¼venliÄŸi"
+        },
+        seeAlso: ["podman-rootless-runner-security", "release-manager-rbac-access"]
+      },
+      {
+        id: "release-manager-rbac-access",
+        en: "Release Manager and Team RBAC Access Control",
+        tr: "SÃ¼rÃ¼m YÃ¶neticisi ve Rol TabanlÄ± EriÅŸim Denetimi (RBAC)",
+        category: "YazÄ±lÄ±m & AltyapÄ±",
+        lead: "YayÄ±n yÃ¶neticileri, CI yÃ¶neticileri, gÃ¼venlik ekibi ve Ã§ekirdek geliÅŸtiricilerin depolara eriÅŸim yetkilerini sÄ±nÄ±rlayan rol tabanlÄ± matris.",
+        details: "Meshtastic organizasyonunda 100'Ã¼ aÅŸkÄ±n depo Ã¼zerindeki yetkiler GitHub Teams ve RBAC (Role-Based Access Control) ilkeleriyle ayrÄ±ÅŸtÄ±rÄ±lmÄ±ÅŸtÄ±r. Ã–rneÄŸin gÃ¼venlik ekibi gizli zafiyet bildirimlerini ve baÄŸÄ±mlÄ±lÄ±k taramalarÄ±nÄ± yÃ¶netirken, SÃ¼rÃ¼m YÃ¶neticileri (Release Managers) korumalÄ± dallara etiket basma ve resmi daÄŸÄ±tÄ±m yapma yetkisine sahiptir. CI yÃ¶neticileri ise takÄ±lan runner sunucularÄ±nÄ± yÃ¶netme ve kuyruklarÄ± temizleme rolÃ¼nÃ¼ Ã¼stlenir.",
+        github: "meshtastic.org/docs/development/github",
+        infobox: {
+          "Yetkilendirme Modeli": "GitHub Teams & RBAC",
+          "Roller": "Core Contributors, Release Managers, CI Admins, Security",
+          "GÃ¼venlik": "2FA zorunluluÄŸu, En Az Yetki Prensibi (Least Privilege)",
+          "YÃ¶netim": "Organizasyon seviyesinde merkezi kurallar"
+        },
+        seeAlso: ["meshtastic-org-multirepo-governance", "ci-secret-protection-policy"]
+      },
+      {
+        id: "github-discussions-community-rfc",
+        en: "GitHub Discussions and Community RFC Collaboration",
+        tr: "GitHub TartÄ±ÅŸmalarÄ± ve Topluluk TasarÄ±m Ã–nerileri (RFC)",
+        category: "Topluluk & Ekosistem",
+        lead: "Yeni Ã¶zellik fikirlerinin, protokol deÄŸiÅŸikliklerinin ve donanÄ±m taleplerinin Issue yerine aÃ§Ä±k tartÄ±ÅŸma forumunda olgunlaÅŸtÄ±rÄ±lmasÄ± sÃ¼reci.",
+        details: "Meshtastic projesi hatalar (bug reports) ile yeni fikirleri birbirinden ayÄ±rmak iÃ§in GitHub Discussions modÃ¼lÃ¼nÃ¼ aktif olarak kullanÄ±r. Bir geliÅŸtirici veya kullanÄ±cÄ± mesh protokolÃ¼ne yeni bir port numarasÄ±, yeni bir telemetri alanÄ± veya yeni bir modÃ¼l eklemek istediÄŸinde Ã¶nce Discussions Ã¼zerinde bir RFC (Request for Comments) baÅŸlÄ±ÄŸÄ± aÃ§ar. TopluluÄŸun ve Ã§ekirdek geliÅŸtiricilerin mutabakatÄ± saÄŸlandÄ±ktan sonra resmi GitHub Issue ve Pull Request aÅŸamasÄ±na geÃ§ilir.",
+        github: "github.com/meshtastic/firmware/discussions",
+        infobox: {
+          "Platform": "GitHub Discussions",
+          "KullanÄ±m AmacÄ±": "Ã–zellik Ã¶nerileri, fikir teatisi, topluluk desteÄŸi, RFC",
+          "FarkÄ±": "Bug raporlarÄ± (Issues) ile fikirlerin ayrÄ±ÅŸtÄ±rÄ±lmasÄ±",
+          "Topluluk EtkileÅŸimi": "Oylama (Upvote), yanÄ±tlama ve Ã§Ã¶zÃ¼m iÅŸaretleme"
+        },
+        seeAlso: ["meshtastic-org-multirepo-governance", "developer-contributor-workflow"]
       }
     ];
 

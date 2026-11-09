@@ -934,6 +934,18 @@ Meshtastic donanımını kontrol etmek, mesajlaşıp harita görüntülemek ve a
 - **YardÄ±mcÄ± Ä°ÅŸlemci Ã‡ift Hedefli TaÅŸÄ±nabilirlik (`coprocessor-dual-target-portability`):** YazÄ±lan istemci kodunun tek satÄ±r deÄŸiÅŸmeden hem ana CPU'da hem de harici yardÄ±mcÄ± iÅŸlemcide Ã§alÄ±ÅŸabilmesi.
 - **Standart Bellenimli Harici Ä°stemci Entegrasyon Yolu (`stock-firmware-external-client-path`):** Cihaza Ã¶zel firmware derlemeden Python, JS, Android SDK'larÄ± ile USB/TCP Ã¼zerinden entegrasyon.
 
+### ğŸ™ Meshtastic GitHub AltyapÄ±sÄ± ve CI/CD Mimarisi (meshtastic.org/docs/development/github)
+- **GitHub Actions Ã‡oklu Hedefli CI/CD Matrisi (`github-actions-cicd-matrix`):** 100+ donanÄ±m hedefi iÃ§in PlatformIO derleme ve test sÃ¼reÃ§lerini eÅŸzamanlÄ± yÃ¼rÃ¼ten matris.
+- **Ã–z-BarÄ±ndÄ±rÄ±lan GitHub Runner Filosu (`self-hosted-github-runner-fleet`):** GitHub'Ä±n 20 runner limitini aÅŸmak iÃ§in veri merkezlerinde barÄ±ndÄ±rÄ±lan Linux sunucu filosu.
+- **Podman Rootless Konteyner Ã‡alÄ±ÅŸtÄ±rÄ±cÄ± GÃ¼venliÄŸi (`podman-rootless-runner-security`):** DÄ±ÅŸarÄ±dan gelen PR'larÄ± root yetkisi olmayan izole Podman ortamÄ±nda gÃ¼venle derleme.
+- **CI Runner Bant GeniÅŸliÄŸi ve Trafik Profili (`runner-bandwidth-inbound-profile`):** GÃ¼nlÃ¼k ~20 GB gelen ve ~1 GB giden veri trafiÄŸi Ã¼reten araÃ§ zinciri indirme profili.
+- **Meshtastic Organizasyonu Ã‡oklu Depo YÃ¶netiÅŸimi (`meshtastic-org-multirepo-governance`):** 100'Ã¼ aÅŸkÄ±n baÄŸÄ±msÄ±z deponun merkezi standartlar, CODEOWNERS ve gÃ¼venlik taramalarÄ±yla idaresi.
+- **Veri Merkezi DÃ¼zeyinde Runner GÃ¼venilirlik StandardÄ± (`datacenter-grade-runner-reliability`):** Kesintileri Ã¶nlemek amacÄ±yla ev masaÃ¼stÃ¼ bilgisayarlarÄ± yerine profesyonel sunucu gereksinimi.
+- **Otomatik Bellenim DaÄŸÄ±tÄ±m ve YayÄ±nlama Boru HattÄ± (`firmware-automated-release-pipeline`):** Git etiketiyle tetiklenen, GitHub Releases ve web flaÅŸÃ¶re paket basan CD sÃ¼reci.
+- **CI/CD Gizli DeÄŸer ve Ä°mzalama AnahtarÄ± Koruma Ä°lkesi (`ci-secret-protection-policy`):** ÃœÃ§Ã¼ncÃ¼ taraf PR'larda Google Play ve PyPI sertifikalarÄ±nÄ±n maskelenmesi ve dal korumasÄ±.
+- **SÃ¼rÃ¼m YÃ¶neticisi ve Rol TabanlÄ± EriÅŸim Denetimi [RBAC] (`release-manager-rbac-access`):** YayÄ±n, gÃ¼venlik ve altyapÄ± ekiplerinin GitHub Teams Ã¼zerinden yetkilendirilmesi.
+- **GitHub TartÄ±ÅŸmalarÄ± ve Topluluk TasarÄ±m Ã–nerileri [RFC] (`github-discussions-community-rfc`):** Yeni protokol Ã¶zellikleri ve donanÄ±m fikirlerinin Issue Ã¶ncesinde olgunlaÅŸtÄ±rÄ±lmasÄ±.
+
 ### 🔹 Açık Standart ve Tedarikçi Bağımsızlığı (Open Architecture & Vendor Neutrality)
 Meshtastic'in hiçbir tescilli ticari protokole veya tek bir donanım üreticisine bağımlı kalmamasını sağlayan açık kaynak ekosistem felsefesi (GPL-3.0 lisansı ve açık Protobuf şemaları). Semtech SX1262/SX1276/LR1121 telsizleri ile ESP32, nRF52840 ve RP2040 işlemcili onlarca farklı üreticinin (Heltec, LilyGO, RAKwireless) donanımları tam uyumla birlikte çalışabilir.
 
