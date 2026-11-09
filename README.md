@@ -886,6 +886,18 @@ Meshtastic donanımını kontrol etmek, mesajlaşıp harita görüntülemek ve a
 - **OLEDDisplay Kütüphanesi Yazı Tipi Veri Yapısı (`oleddisplay-library-font-structure`):** SSD1306 dikey sayfa düzenine optimize piksel ve atlama ofsetlerini saklayan kompakt format.
 - **Screen.cpp Grafik Çizim ve Metin İşleme Hattı (`screen-cpp-renderer-pipeline`):** UTF-8 metin dizgilerinin `drawString` ve ekran tamponu üzerinden OLED panele aktarılma süreci.
 
+### ğŸ“¡ Meshtastic Port NumaralandÄ±rma & Protokol YÃ¼kleri (meshtastic.org/docs/development/firmware/portnum)
+- **Ã‡ekirdek Meshtastic Port AralÄ±ÄŸÄ± [0-63] (`portnum-range-core`):** Sistem seviyesinde mesajlaÅŸma, yÃ¶nlendirme, admin ve temel servisler iÃ§in ayrÄ±lmÄ±ÅŸ, Ã¼Ã§Ã¼ncÃ¼ taraf uygulamalara kapalÄ± protokol port alanÄ±.
+- **KayÄ±tlÄ± ÃœÃ§Ã¼ncÃ¼ Taraf Port AralÄ±ÄŸÄ± [64-127] (`portnum-range-registered`):** `portnums.proto` dosyasÄ±na PR gÃ¶nderilerek resmi olarak rezerve edilen genel Ã¼Ã§Ã¼ncÃ¼ taraf ve harici entegrasyon portlarÄ±.
+- **Ã–zel ve GeliÅŸtirme UygulamalarÄ± Port AralÄ±ÄŸÄ± [256-511] (`portnum-range-private`):** Ã–n kayÄ±t veya derleme zorunluluÄŸu olmadan dahili/Ã¶zel yazÄ±lÄ±mlar ve prototipler iÃ§in serbestÃ§e kullanÄ±lan port sahasÄ±.
+- **PortNum YÃ¼k AyrÄ±ÅŸtÄ±rma ve DaÄŸÄ±tÄ±m MekanizmasÄ± (`portnum-payload-dispatch`):** Gelen ÅŸifresi Ã§Ã¶zÃ¼lmÃ¼ÅŸ LoRa paketinin baÅŸlÄ±ÄŸÄ±ndaki `portnum` alanÄ±na gÃ¶re ilgili C++ modÃ¼lÃ¼ne (`MeshModule`) yÃ¶nlendiren firmware mimarisi.
+- **Unishox2 Metin SÄ±kÄ±ÅŸtÄ±rma Portu (`portnum-unishox2-compression`):** `TEXT_MESSAGE_COMPRESSED_APP` (7) portu Ã¼zerinden Unishox2 algoritmasÄ±yla sÄ±kÄ±ÅŸtÄ±rÄ±lan metin mesajlarÄ±nÄ±n havada otomatik optimizasyonu.
+- **LoRaWAN KÃ¶prÃ¼sÃ¼ Portu (`portnum-lorawan-bridge`):** Meshtastic mesh dÃ¼ÄŸÃ¼mlerinin standart LoRaWAN Ã§erÃ§evelerini Ã§ok sekmeli (multi-hop) aÄŸda taÅŸÄ±masÄ±nÄ± saÄŸlayan `LORAWAN_BRIDGE` (75) portu.
+- **Reticulum AÄŸÄ± TÃ¼nel Portu (`portnum-reticulum-tunnel`):** Kriptografik Reticulum Network Stack (RNS) paketlerinin Meshtastic LoRa baÄŸlantÄ±larÄ± Ã¼zerinden taÅŸÄ±nmasÄ±nÄ± saÄŸlayan `RETICULUM_TUNNEL_APP` (76) portu.
+- **Cayenne DÃ¼ÅŸÃ¼k GÃ¼Ã§ YÃ¼kÃ¼ Portu (`portnum-cayenne-lpp`):** LoRaWAN IoT sensÃ¶rlerinde yaygÄ±n kullanÄ±lan CayenneLPP kompakt veri standardÄ±nÄ± doÄŸrudan taÅŸÄ±yan `CAYENNE_APP` (77) portu.
+- **Fiziksel Teyitli Ã‡aÄŸrÄ± Portu (`portnum-paging-app`):** AlÄ±cÄ±nÄ±n acil durum veya anons bildirimini ekranda/butonda fiziksel olarak onaylamasÄ±nÄ± gerektiren `PAGING_APP` (38) interaktif Ã§aÄŸrÄ± portu.
+- **LoRa Havadan YazÄ±lÄ±m GÃ¼ncelleme Portu (`portnum-lora-ota`):** Ä°mzalÄ± Ã¼rÃ¼n yazÄ±lÄ±mÄ± bloklarÄ±nÄ± telsiz Ã¼zerinden kablosuz olarak dÃ¼ÄŸÃ¼mlere aktaran `LORA_OTA_APP` (79) differansiyel gÃ¼ncelleme portu.
+
 ### 🔹 Açık Standart ve Tedarikçi Bağımsızlığı (Open Architecture & Vendor Neutrality)
 Meshtastic'in hiçbir tescilli ticari protokole veya tek bir donanım üreticisine bağımlı kalmamasını sağlayan açık kaynak ekosistem felsefesi (GPL-3.0 lisansı ve açık Protobuf şemaları). Semtech SX1262/SX1276/LR1121 telsizleri ile ESP32, nRF52840 ve RP2040 işlemcili onlarca farklı üreticinin (Heltec, LilyGO, RAKwireless) donanımları tam uyumla birlikte çalışabilir.
 

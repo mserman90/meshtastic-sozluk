@@ -10880,6 +10880,166 @@
           "Ekran Yenileme": "display->display() ile I2C/SPI üzerinden panele yazma"
         },
         seeAlso: ["customfonttablelookup-utf8-mapper", "oleddisplay-library-font-structure", "conditional-compilation-oled-fonts"]
+      }      ,
+      {
+        id: "portnum-range-core",
+        en: "Core Meshtastic Port Range (0-63)",
+        tr: "Ã‡ekirdek Meshtastic Port AralÄ±ÄŸÄ± (0-63)",
+        category: "YazÄ±lÄ±m & Protobuf",
+        lead: "Meshtastic firmware protokolÃ¼nÃ¼n Ã§ekirdek sistem iÅŸlevleri, yÃ¶nlendirme, admin ve temel mesajlaÅŸma servisleri iÃ§in ayrÄ±lmÄ±ÅŸ 0-63 arasÄ± port numaralarÄ± havuzu.",
+        details: "`portnums.proto` ÅŸemasÄ±nda 0 ile 63 arasÄ±ndaki port numaralarÄ± Ã§ekirdek Meshtastic mimarisine tahsis edilmiÅŸtir. ÃœÃ§Ã¼ncÃ¼ taraf harici uygulamalarÄ±n bu aralÄ±ktan port seÃ§mesi protokol Ã§akÄ±ÅŸmalarÄ±nÄ± Ã¶nlemek amacÄ±yla kesinlikle yasaklanmÄ±ÅŸtÄ±r. Bu aralÄ±kta `TEXT_MESSAGE_APP` (1), `REMOTE_HARDWARE_APP` (2), `POSITION_APP` (3), `NODEINFO_APP` (4), `ROUTING_APP` (5), `ADMIN_APP` (6), `TEXT_MESSAGE_COMPRESSED_APP` (7), `WAYPOINT_APP` (8), `AUDIO_APP` (9), `DETECTION_SENSOR_APP` (10), `ALERT_APP` (11), `KEY_VERIFICATION_APP` (12), `REMOTE_SHELL_APP` (13), `REPLY_APP` (32), `IP_TUNNEL_APP` (33), `PAXCOUNTER_APP` (34), `STORE_FORWARD_PLUSPLUS_APP` (35), `NODE_STATUS_APP` (36), `MESH_BEACON_APP` (37) ve `PAGING_APP` (38) gibi kritik bileÅŸenler barÄ±nÄ±r.",
+        github: "meshtastic.org/docs/development/firmware/portnum",
+        infobox: {
+          "Port AralÄ±ÄŸÄ±": "0 - 63",
+          "EriÅŸim Ä°zni": "YalnÄ±zca Meshtastic Ã‡ekirdek ProtokolÃ¼",
+          "TanÄ±mlandÄ±ÄŸÄ± Dosya": "portnums.proto (enum PortNum)",
+          "Ã–rnek Servisler": "TEXT_MESSAGE_APP (1), ROUTING_APP (5), ADMIN_APP (6)"
+        },
+        seeAlso: ["portnums", "portnum-range-registered", "portnum-range-private", "portnum-payload-dispatch"]
+      },
+      {
+        id: "portnum-range-registered",
+        en: "Registered Third-Party Port Range (64-127)",
+        tr: "KayÄ±tlÄ± ÃœÃ§Ã¼ncÃ¼ Taraf Port AralÄ±ÄŸÄ± (64-127)",
+        category: "YazÄ±lÄ±m & Protobuf",
+        lead: "Resmi Meshtastic protobuf deposuna Pull Request aÃ§Ä±larak tescil edilen ve genel kullanÄ±ma sunulan Ã¼Ã§Ã¼ncÃ¼ taraf entegrasyonlar iÃ§in 64-127 arasÄ± port havuzu.",
+        details: "Topluluk geliÅŸtiricileri veya harici platformlar Meshtastic aÄŸÄ± Ã¼zerinden kendi Ã¶zel veri formatlarÄ±nÄ± veya protokollerini taÅŸÄ±mak istediklerinde ve bu projenin tÃ¼m dÃ¼nyada standartlaÅŸmasÄ±nÄ± hedeflediklerinde 64-127 aralÄ±ÄŸÄ±nda bir numara seÃ§erler. `meshtastic/protobufs` deposundaki `portnums.proto` dosyasÄ±na gÃ¶nderilen Pull Request kabul edildikten sonra numara resmi olarak rezerve edilir. Bu grupta `SERIAL_APP` (64), `STORE_FORWARD_APP` (65), `RANGE_TEST_APP` (66), `TELEMETRY_APP` (67), `ZPS_APP` (68), `SIMULATOR_APP` (69), `TRACEROUTE_APP` (70), `NEIGHBORINFO_APP` (71), `ATAK_PLUGIN` (72), `MAP_REPORT_APP` (73), `POWERSTRESS_APP` (74), `LORAWAN_BRIDGE` (75), `RETICULUM_TUNNEL_APP` (76), `CAYENNE_APP` (77), `ATAK_PLUGIN_V2` (78) ve `LORA_OTA_APP` (79) yer alÄ±r.",
+        github: "meshtastic.org/docs/development/firmware/portnum",
+        infobox: {
+          "Port AralÄ±ÄŸÄ±": "64 - 127",
+          "Tescil YÃ¶ntemi": "GitHub Pull Request (meshtastic/protobufs)",
+          "GeliÅŸtirici StatÃ¼sÃ¼": "Resmi KayÄ±tlÄ± AÃ§Ä±k Ekosistem",
+          "Ã–ne Ã‡Ä±kan Uygulamalar": "ATAK (72), Telemetry (67), LoRaWAN Bridge (75)"
+        },
+        seeAlso: ["portnums", "portnum-range-core", "portnum-range-private", "portnum-payload-dispatch"]
+      },
+      {
+        id: "portnum-range-private",
+        en: "Private Application Port Range (256-511)",
+        tr: "Ã–zel Uygulama Port AralÄ±ÄŸÄ± (256-511)",
+        category: "YazÄ±lÄ±m & Protobuf",
+        lead: "Resmi tescil gerektirmeyen, kapalÄ± devre, kurumsal veya yerel prototip geliÅŸtirme Ã§alÄ±ÅŸmalarÄ±na ayrÄ±lmÄ±ÅŸ 256-511 arasÄ± Ã¶zel port numaralarÄ±.",
+        details: "Meshtastic firmware ÅŸemasÄ±nÄ± genel depoya bildirmek istemeyen, kurum iÃ§i Ã¶zel LoRa veri aÄŸlarÄ± kuran veya hÄ±zlÄ±ca prototip geliÅŸtiren mÃ¼hendisler 256 ile 511 arasÄ±ndaki port numaralarÄ±nÄ± serbestÃ§e kullanabilir. GeliÅŸtirme baÅŸlangÄ±cÄ±nda protobuf dosyalarÄ±nÄ± yeniden derleme (`regen-protos.sh`) zahmetine girmeden doÄŸrudan varsayÄ±lan `PRIVATE_APP = 256` enum deÄŸeri kullanÄ±labilir. Ã–rneÄŸin popÃ¼ler Ã¼Ã§Ã¼ncÃ¼ taraf `ATAK_FORWARDER` eklentisi (paulmandal) `portnum = 257` Ã¼zerinden Ã§alÄ±ÅŸmaktadÄ±r. 511 deÄŸeri (`MAX = 511`) Meshtastic protokolÃ¼nde izin verilen en yÃ¼ksek port numarasÄ± Ã¼st sÄ±nÄ±rÄ±nÄ± temsil eder.",
+        github: "meshtastic.org/docs/development/firmware/portnum",
+        infobox: {
+          "Port AralÄ±ÄŸÄ±": "256 - 511",
+          "Tescil Gereksinimi": "Yok (Ã–zel & Dahili KullanÄ±m)",
+          "VarsayÄ±lan Test Portu": "PRIVATE_APP (256)",
+          "Maksimum Port DeÄŸeri": "MAX = 511"
+        },
+        seeAlso: ["portnums", "portnum-range-core", "portnum-range-registered", "portnum-payload-dispatch"]
+      },
+      {
+        id: "portnum-payload-dispatch",
+        en: "PortNum Payload Dispatch Mechanism",
+        tr: "PortNum YÃ¼k AyrÄ±ÅŸtÄ±rma ve DaÄŸÄ±tÄ±m MekanizmasÄ±",
+        category: "YazÄ±lÄ±m & Protokol",
+        lead: "Gelen LoRa paketinin baÅŸlÄ±ÄŸÄ±ndaki PortNum numarasÄ±na bakÄ±larak yÃ¼kÃ¼n (payload) doÄŸru C++ modÃ¼lÃ¼ne veya istemci API'sine yÃ¶nlendirilmesini saÄŸlayan mekanizma.",
+        details: "Meshtastic telsiz katmanÄ± (`MeshService`) Ã¼zerinden bir paket alÄ±ndÄ±ÄŸÄ±nda, paketin ÅŸifresi AES-128/256 ile Ã§Ã¶zÃ¼lÃ¼r ve iÃ§indeki `Data` protobuf mesajÄ± aÃ§Ä±lÄ±r. `Data.portnum` alanÄ± okunarak sistemde kayÄ±tlÄ± modÃ¼ller taranÄ±r. Firmware iÃ§inde her modÃ¼l (`MeshModule`) kurucu metodunda ilgilendiÄŸi `portNum` deÄŸerini bildirir. Gelen paketin portu eÅŸleÅŸtiÄŸinde `handleReceivedProtobuf()` veya `handleReceived()` sanal fonksiyonu tetiklenir. EÄŸer paket donanÄ±m Ã¼zerinde Ã§alÄ±ÅŸan yerel bir modÃ¼l tarafÄ±ndan tÃ¼ketilmeyecekse (Ã¶rneÄŸin telefon uygulamasÄ±na veya harici bir IP tÃ¼neline aitse), paket UART/Bluetooth/TCP/HTTP arayÃ¼zlerinden istemcilere iletilir.",
+        github: "meshtastic/firmware: src/mesh/MeshService.cpp",
+        infobox: {
+          "Ä°ÅŸlem AÅŸamasÄ±": "Paket Ã‡Ã¶zÃ¼mleme ve DaÄŸÄ±tÄ±m (Dispatch)",
+          "Kontrol Edilen Alan": "meshtastic.Data.portnum",
+          "Tetiklenen Metot": "MeshModule::handleReceived(const MeshPacket &p)",
+          "Ã‡alÄ±ÅŸma ZamanÄ±": "O(1) / O(N) modÃ¼l eÅŸleme"
+        },
+        seeAlso: ["module-api-meshmodule-base", "portnums", "portnum-range-core", "portnum-unishox2-compression"]
+      },
+      {
+        id: "portnum-unishox2-compression",
+        en: "Unishox2 Text Compression Port (TEXT_MESSAGE_COMPRESSED_APP = 7)",
+        tr: "Unishox2 Metin SÄ±kÄ±ÅŸtÄ±rma Portu (TEXT_MESSAGE_COMPRESSED_APP = 7)",
+        category: "YazÄ±lÄ±m & Protokol",
+        lead: "KÄ±sa metin mesajlarÄ±nÄ± LoRa hava sÃ¼resini (airtime) dÃ¼ÅŸÃ¼rmek iÃ§in Unishox2 algoritmasÄ±yla sÄ±kÄ±ÅŸtÄ±rarak ileten 7 numaralÄ± optimize port.",
+        details: "`TEXT_MESSAGE_COMPRESSED_APP = 7`, Meshtastic cihazlarÄ± arasÄ±nda kÄ±sa metinlerin hava ortamÄ±nda kapladÄ±ÄŸÄ± bayt miktarÄ±nÄ± azaltmak iÃ§in geliÅŸtirilmiÅŸtir. Cihaz yazÄ±lÄ±mÄ± bir `TEXT_MESSAGE_APP` (1) mesajÄ± gÃ¶ndereceÄŸi zaman yÃ¼kÃ¼ otomatik olarak Unishox2 algoritmasÄ±yla sÄ±kÄ±ÅŸtÄ±rmayÄ± dener. EÄŸer sÄ±kÄ±ÅŸtÄ±rÄ±lmÄ±ÅŸ veri orijinal metinden daha az bayt tutuyorsa, port numarasÄ± otomatik olarak 7 yapÄ±lÄ±r ve sÄ±kÄ±ÅŸtÄ±rÄ±lmÄ±ÅŸ paket havaya iletilir. AlÄ±cÄ± cihaz yazÄ±lÄ±mÄ± port 7'den gelen bir paket aldÄ±ÄŸÄ±nda ÅŸifre Ã§Ã¶zÃ¼mÃ¼ sonrasÄ± yÃ¼kÃ¼ ÅŸeffaf ÅŸekilde Unishox2 ile aÃ§ar (decompress) ve port numarasÄ±nÄ± yeniden 1 (`TEXT_MESSAGE_APP`) yaparak ekrana ve istemcilere teslim eder. BÃ¶ylece mobil uygulamalarÄ±n sÄ±kÄ±ÅŸtÄ±rma motoru yazmasÄ±na gerek kalmaz.",
+        github: "meshtastic.org/docs/development/firmware/portnum",
+        infobox: {
+          "Port NumarasÄ±": "7 (TEXT_MESSAGE_COMPRESSED_APP)",
+          "SÄ±kÄ±ÅŸtÄ±rma AlgoritmasÄ±": "Unishox2 (KÄ±sa metinler iÃ§in optimize)",
+          "DÃ¶nÃ¼ÅŸÃ¼m Yeri": "AygÄ±t Bellenimi (Firmware seviyesinde ÅŸeffaf)",
+          "Temel AmaÃ§": "LoRa Airtime ve gÃ¶rev dÃ¶ngÃ¼sÃ¼ tasarrufu"
+        },
+        seeAlso: ["portnums", "portnum-payload-dispatch", "portnum-range-core"]
+      },
+      {
+        id: "portnum-lorawan-bridge",
+        en: "LoRaWAN Bridge Port (LORAWAN_BRIDGE = 75)",
+        tr: "LoRaWAN KÃ¶prÃ¼sÃ¼ Portu (LORAWAN_BRIDGE = 75)",
+        category: "Protokol & Mimari",
+        lead: "Standart LoRaWAN sensÃ¶r Ã§erÃ§evelerini Ã§ok sekmeli Meshtastic aÄŸÄ± Ã¼zerinden internete veya gateway'lere aktarmayÄ± saÄŸlayan 75 numaralÄ± kÃ¶prÃ¼leme portu.",
+        details: "`LORAWAN_BRIDGE = 75`, `lorawan_bridge.proto` ÅŸemasÄ±nda tanÄ±mlanan veri paketlerini taÅŸÄ±r. Bu port sayesinde standart LoRaWAN uÃ§ cihazlarÄ± (Ã¶rneÄŸin The Things Network - TTN uyumlu sensÃ¶rler), kapsama alanÄ± dÄ±ÅŸÄ±nda kaldÄ±klarÄ±nda Meshtastic dÃ¼ÄŸÃ¼mleri Ã¼zerinden LoRaWAN Ã§erÃ§evelerini aktarabilir. Meshtastic aÄŸÄ±, LoRaWAN Ã§erÃ§evesini kendi mesh yapÄ±sÄ± iÃ§inde Ã§oklu sekme (multi-hop) ile taÅŸÄ±r ve internete baÄŸlÄ± bir Meshtastic gateway dÃ¼ÄŸÃ¼mÃ¼ne ulaÅŸtÄ±rÄ±r. Gateway dÃ¼ÄŸÃ¼m ise paketi aÃ§arak TTN veya ChirpStack gibi LoRaWAN aÄŸ sunucularÄ±na iletir.",
+        github: "meshtastic/protobufs: lorawan_bridge.proto",
+        infobox: {
+          "Port NumarasÄ±": "75 (LORAWAN_BRIDGE)",
+          "Protobuf ÅemasÄ±": "lorawan_bridge.proto",
+          "KullanÄ±m AmacÄ±": "Meshtastic Ã¼zerinden LoRaWAN Uplink/Downlink taÅŸÄ±ma",
+          "Entegrasyon PlatformlarÄ±": "The Things Network (TTN), ChirpStack"
+        },
+        seeAlso: ["portnums", "portnum-range-registered", "portnum-cayenne-lpp"]
+      },
+      {
+        id: "portnum-reticulum-tunnel",
+        en: "Reticulum Network Stack Tunnel Port (RETICULUM_TUNNEL_APP = 76)",
+        tr: "Reticulum AÄŸÄ± TÃ¼nel Portu (RETICULUM_TUNNEL_APP = 76)",
+        category: "Protokol & Mimari",
+        lead: "Kriptografik ve uÃ§tan uca gÃ¼venli Reticulum Network Stack (RNS) paketlerinin Meshtastic LoRa baÄŸlantÄ±larÄ± Ã¼zerinden taÅŸÄ±nmasÄ±nÄ± saÄŸlayan 76 numaralÄ± tÃ¼nelleme portu.",
+        details: "`RETICULUM_TUNNEL_APP = 76`, aÃ§Ä±k kaynaklÄ± Reticulum Network Stack (RNS) iletiÅŸim mimarisiyle Meshtastic arasÄ±nda bir kÃ¶prÃ¼ kurar. Reticulum paketleri parÃ§alanmÄ±ÅŸ (fragmented) RNS Ã§erÃ§eveleri halinde Meshtastic paket yÃ¼kÃ¼ olarak kapsÃ¼llenir. Meshtastic dÃ¼ÄŸÃ¼mÃ¼ bu paketleri Ã§Ã¶zmeden fiziksel LoRa katmanÄ± Ã¼zerinden taÅŸÄ±r; uÃ§taki alÄ±cÄ± cihaz veya RNS arayÃ¼zÃ¼ Meshtastic donanÄ±mÄ±nÄ± ÅŸeffaf bir 'RNode / KISS LoRa Interface' gibi kullanarak Sideband veya NomadNet gibi Reticulum uygulamalarÄ±nÄ±n Ã§alÄ±ÅŸmasÄ±nÄ± saÄŸlar.",
+        github: "meshtastic.org/docs/development/firmware/portnum",
+        infobox: {
+          "Port NumarasÄ±": "76 (RETICULUM_TUNNEL_APP)",
+          "Protokol TÃ¼rÃ¼": "Fragmented RNS Packet",
+          "Ä°liÅŸkili Projeler": "Reticulum Network Stack, Sideband, NomadNet",
+          "Ã‡alÄ±ÅŸma Åekli": "Åeffaf LoRa paket tÃ¼nelleme"
+        },
+        seeAlso: ["portnums", "portnum-range-registered", "ip-tunnel-app"]
+      },
+      {
+        id: "portnum-cayenne-lpp",
+        en: "Cayenne Low Power Payload Port (CAYENNE_APP = 77)",
+        tr: "Cayenne DÃ¼ÅŸÃ¼k GÃ¼Ã§ YÃ¼kÃ¼ Portu (CAYENNE_APP = 77)",
+        category: "YazÄ±lÄ±m & Protokol",
+        lead: "IoT ve LoRaWAN ekosisteminde standartlaÅŸmÄ±ÅŸ ultra hafif ikili sensÃ¶r verisi formatÄ± CayenneLPP'yi doÄŸrudan taÅŸÄ±yan 77 numaralÄ± telemetri portu.",
+        details: "`CAYENNE_APP = 77`, myDevices Cayenne tarafÄ±ndan geliÅŸtirilen ve LoRaWAN sensÃ¶r dÃ¼ÄŸÃ¼mlerinde yaygÄ±n biÃ§imde kullanÄ±lan Cayenne Low Power Payload (CayenneLPP) formatÄ±ndaki telemetri verilerini taÅŸÄ±r. Meshtastic'in yerel `telemetry.proto` formatÄ±nda bulunmayan Ã¶zel sensÃ¶r parametreleri (Ã¶rneÄŸin toprak nemi, CO2, barometrik ivme veya analog gerilimler), her veri tÃ¼rÃ¼ iÃ§in kanal, tip ve deÄŸer Ã¼Ã§lÃ¼sÃ¼ ÅŸeklinde bayt dÃ¼zeyinde paketlenir. Bu port, mevcut LoRaWAN sensÃ¶rlerini Meshtastic dÃ¼ÄŸÃ¼mlerine baÄŸlayÄ±p karmaÅŸÄ±k protobuf derlemesi yapmadan hÄ±zlÄ±ca telemetri aktarmak isteyen projeler iÃ§in idealdir.",
+        github: "meshtastic.org/docs/development/firmware/portnum",
+        infobox: {
+          "Port NumarasÄ±": "77 (CAYENNE_APP)",
+          "Veri FormatÄ±": "CayenneLPP (Binary Channel-Type-Value)",
+          "AvantajÄ±": "Minimum ek yÃ¼k, genel IoT uyumluluÄŸu",
+          "Uygulama AlanÄ±": "Ã‡evresel telemetri, tarÄ±m ve endÃ¼striyel sensÃ¶rler"
+        },
+        seeAlso: ["portnums", "portnum-range-registered", "portnum-lorawan-bridge"]
+      },
+      {
+        id: "portnum-paging-app",
+        en: "Acknowledged Paging Port (PAGING_APP = 38)",
+        tr: "Fiziksel Teyitli Ã‡aÄŸrÄ± Portu (PAGING_APP = 38)",
+        category: "YazÄ±lÄ±m & Protokol",
+        lead: "AlÄ±cÄ±nÄ±n ekranda veya fiziksel bir butona basarak onay vermesini zorunlu kÄ±lan iki yÃ¶nlÃ¼ acil durum ve Ã§aÄŸrÄ± portu (PAGING_APP = 38).",
+        details: "`PAGING_APP = 38`, Meshtastic 2.5+ firmware sÃ¼rÃ¼mlerinde eklenen ve `PagingPacket` protobuf mesajÄ±nÄ± taÅŸÄ±yan geliÅŸmiÅŸ bir Ã§aÄŸrÄ± portudur. SÄ±radan `TEXT_MESSAGE_APP` (1) mesajlarÄ±ndan veya tek yÃ¶nlÃ¼ `ALERT_APP` (11) uyarÄ±larÄ±ndan farklÄ±dÄ±r: AlÄ±cÄ±nÄ±n cihazÄ±na Ã§aÄŸrÄ± ulaÅŸtÄ±ÄŸÄ±nda cihaz sesli veya titreÅŸimli alarm verir; alÄ±cÄ± dÃ¼ÄŸÃ¼m ekranÄ±ndaki 'Onayla / Acknowledge' butonuna basana kadar Ã§aÄŸrÄ± aktif kalÄ±r. Bu buton onaylandÄ±ÄŸÄ±nda telsiz karÅŸÄ± tarafa `PagingAck` yanÄ±tÄ± iletir. BÃ¶ylece telsiz paket teslimi (Routing ACK) ile kullanÄ±cÄ±nÄ±n bildirimi fiilen gÃ¶rdÃ¼ÄŸÃ¼ (Human ACK) birbirinden net ÅŸekilde ayrÄ±lmÄ±ÅŸ olur.",
+        github: "meshtastic/protobufs: paging.proto",
+        infobox: {
+          "Port NumarasÄ±": "38 (PAGING_APP)",
+          "Protobuf MesajÄ±": "meshtastic.PagingPacket",
+          "Onay TÃ¼rÃ¼": "Fiziksel / Ä°nsan Teyidi (Human Acknowledgment)",
+          "KullanÄ±m AlanÄ±": "Arama-kurtarma, acil mÃ¼dahale, vardiya Ã§aÄŸrÄ± sistemleri"
+        },
+        seeAlso: ["portnums", "portnum-range-core", "portnum-payload-dispatch"]
+      },
+      {
+        id: "portnum-lora-ota",
+        en: "LoRa Over-The-Air Update Port (LORA_OTA_APP = 79)",
+        tr: "LoRa Havadan YazÄ±lÄ±m GÃ¼ncelleme Portu (LORA_OTA_APP = 79)",
+        category: "YazÄ±lÄ±m & Protokol",
+        lead: "Uzak veya fiziksel eriÅŸimi zor daÄŸ baÅŸÄ± rÃ¶lelerine LoRa telsiz sinyalleri Ã¼zerinden imzalÄ± firmware gÃ¼ncellemelerini parÃ§a parÃ§a aktaran 79 numaralÄ± OTA portu.",
+        details: "`LORA_OTA_APP = 79`, `ota-common` Ã§erÃ§eve mimarisini kullanan ve LoRa frekansÄ± Ã¼zerinden kablosuz Ã¼rÃ¼n yazÄ±lÄ±mÄ± (firmware) gÃ¼ncellemesi saÄŸlayan deneysel port numarasÄ±dÄ±r. Fiziksel olarak tÄ±rmanÄ±lmasÄ± veya ulaÅŸÄ±lmasÄ± gÃ¼Ã§ olan tepe/kule rÃ¶le dÃ¼ÄŸÃ¼mlerine yeni bir firmware sÃ¼rÃ¼mÃ¼ daÄŸÄ±tÄ±lacaÄŸÄ± zaman, ikili yazÄ±lÄ±m gÃ¶rÃ¼ntÃ¼sÃ¼ kriptografik olarak imzalanÄ±r ve kÃ¼Ã§Ã¼k kontrol bloklarÄ±na bÃ¶lÃ¼nerek port 79 Ã¼zerinden yayÄ±nlanÄ±r. AlÄ±cÄ± dÃ¼ÄŸÃ¼mler eksik bloklarÄ± NACK ile talep eder ve tÃ¼m bloklar gÃ¼venle doÄŸrulanÄ±p flash belleÄŸe yazÄ±ldÄ±ÄŸÄ±nda yeni yazÄ±lÄ±ma Ã¶nyÃ¼kleme (reboot) yapar.",
+        github: "meshtastic.org/docs/development/firmware/portnum",
+        infobox: {
+          "Port NumarasÄ±": "79 (LORA_OTA_APP)",
+          "TaÅŸÄ±ma FormatÄ±": "Binary ota-common frames",
+          "GÃ¼venlik": "Kriptografik Ä°mzalÄ± Bellenim BloklarÄ±",
+          "KullanÄ±m AmacÄ±": "Uzak rÃ¶le dÃ¼ÄŸÃ¼mlerini sahaya gitmeden telsiz Ã¼zerinden gÃ¼ncelleme"
+        },
+        seeAlso: ["portnums", "portnum-range-registered", "portnum-payload-dispatch"]
       }
     ];
 
