@@ -1006,6 +1006,18 @@ Meshtastic donanımını kontrol etmek, mesajlaşıp harita görüntülemek ve a
 - **DokÃ¼mantasyon Sorun-PR BaÄŸlama SÃ¶zleÅŸmesi [Closes #ID] (`documentation-issue-linking-contract`):** YazÄ±m hatalarÄ± dahil her PR'Ä±n aÃ§Ä±k bir GitHub Issue'ya baÄŸlanmasÄ± kuralÄ±.
 - **PNPM Sabit SÃ¼rÃ¼mlÃ¼ DokÃ¼mantasyon Derleme HattÄ± (`pnpm-pinned-documentation-pipeline`):** Node.js ve PNPM sÃ¼rÃ¼mlerinin kilitlenerek kÄ±rÄ±k linkleri Ã¶nceden doÄŸrulayan derleme hattÄ±.
 
+### ğŸ“¶ OpenWrt YÃ¶nlendiricilerde Meshtastic ve AÄŸ GeÃ§idi Mimarisi (meshtastic.org/docs/meshtasticd/openwrt)
+- **OpenWrt One YÃ¶nlendirici Meshtasticd Entegrasyonu (`openwrt-one-router-meshtasticd`):** Resmi aÃ§Ä±k donanÄ±m router Ã¼zerinde USB/SPI LoRa modÃ¼lleriyle 7/24 kesintisiz baz istasyonu.
+- **Meshtastic OpenWrt Paket Deposu ve Feed DaÄŸÄ±tÄ±mÄ± (`openwrt-repo-feed-distribution`):** TÃ¼m router CPU mimarileri iÃ§in Ã¶nceden derlenmiÅŸ paketler sunan resmi feed.
+- **OPKG Paket YÃ¶neticisi ile meshtasticd Kurulumu (`opkg-package-manager-meshtasticd`):** OpenWrt 22.03-24.10 sÃ¼rÃ¼mlerinde `opkg install meshtasticd` ile otomatik servis kurma.
+- **OpenWrt SNAPSHOT APK Paket YÃ¶neticisi GeÃ§iÅŸi (`openwrt-apk-package-manager-snapshot`):** Yeni nesil sÃ¼rÃ¼mlerde Alpine tabanlÄ± ultra hÄ±zlÄ± `apk add meshtasticd` geÃ§iÅŸi.
+- **meshtasticd-web OpenWrt Web ArayÃ¼zÃ¼ Paketi (`meshtasticd-web-openwrt-package`):** Router flash belleÄŸinde yerleÅŸik Deno web istemcisi barÄ±ndÄ±rma.
+- **OpenWrt procd SÃ¼reÃ§ YÃ¶netim Servisi [init.d] (`procd-init-service-meshtasticd`):** Hafif procd mimarisiyle otomatik aÃ§Ä±lÄ±ÅŸ, respawn Ã§Ã¶kme korumasÄ± ve durum izleme.
+- **Portduino /srv/meshtasticd KalÄ±cÄ± Tercihler Dizini (`portduino-srv-prefs-persistence`):** Router yÃ¼kseltmelerinde ve yeniden baÅŸlatmada kanal ve dÃ¼ÄŸÃ¼m kimliÄŸini koruma.
+- **OpenWrt logread ve Syslog TanÄ±lama Ä°zleme Sistemi (`openwrt-logread-syslog-monitoring`):** Flash belleÄŸi yÄ±pratmadan RAM dairesel tamponundan canlÄ± telsiz loglarÄ±nÄ± izleme.
+- **LuCI Web Grafik ArayÃ¼zÃ¼ ile meshtasticd YÃ¶netimi (`luci-web-gui-meshtasticd-management`):** Terminale gerek kalmadan OpenWrt web panelinden paket ve servis idaresi.
+- **OpenWrt Ã‡oklu Mimari Ã‡apraz Derleme Sistemi (`openwrt-multi-arch-cross-compilation`):** MIPS, ARM ve x86 router mimarilerinin tÃ¼mÃ¼ iÃ§in merkezi CI derleme altyapÄ±sÄ±.
+
 ### 🔹 Açık Standart ve Tedarikçi Bağımsızlığı (Open Architecture & Vendor Neutrality)
 Meshtastic'in hiçbir tescilli ticari protokole veya tek bir donanım üreticisine bağımlı kalmamasını sağlayan açık kaynak ekosistem felsefesi (GPL-3.0 lisansı ve açık Protobuf şemaları). Semtech SX1262/SX1276/LR1121 telsizleri ile ESP32, nRF52840 ve RP2040 işlemcili onlarca farklı üreticinin (Heltec, LilyGO, RAKwireless) donanımları tam uyumla birlikte çalışabilir.
 

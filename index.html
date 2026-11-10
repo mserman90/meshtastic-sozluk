@@ -12480,6 +12480,166 @@
           "GeliÅŸtirme Sunucusu": "pnpm start"
         },
         seeAlso: ["docusaurus-mdx-documentation-stack", "playwright-hardware-preview-generator"]
+      }      ,
+      {
+        id: "openwrt-one-router-meshtasticd",
+        en: "OpenWrt One Router Meshtasticd Integration",
+        tr: "OpenWrt One YÃ¶nlendirici Meshtasticd Entegrasyonu",
+        category: "DonanÄ±m & TasarÄ±m",
+        lead: "OpenWrt topluluÄŸunun resmi aÃ§Ä±k donanÄ±m yÃ¶nlendiricisi OpenWrt One Ã¼zerinde meshtasticd servisinin yerel Ã§alÄ±ÅŸtÄ±rÄ±lmasÄ±.",
+        details: "OpenWrt One, Ã§ift bant Wi-Fi 6, Gigabit Ethernet, dahili mikrodenetleyici ve geniÅŸleme portlarÄ± sunan resmi aÃ§Ä±k kaynak donanÄ±m router'Ä±dÄ±r. Ãœzerindeki USB veya SPI veri hatlarÄ± Ã¼zerinden bir LoRa telsizi (MeshStick, Waveshare SX1262 veya USB modem) baÄŸlandÄ±ÄŸÄ±nda, router doÄŸrudan 7/24 kesintisiz Ã§alÄ±ÅŸan bir Meshtastic sabit rÃ¶lesi veya MQTT gateway'i haline gelir.",
+        github: "meshtastic.org/docs/meshtasticd/openwrt",
+        infobox: {
+          "Referans DonanÄ±m": "OpenWrt One AP-24.7.1",
+          "Telsiz BaÄŸlantÄ±sÄ±": "USB (USB-CDC) veya SPI geniÅŸleme portu",
+          "KullanÄ±m AmacÄ±": "Sabit baz istasyonu, 7/24 Wi-Fi/Ethernet LoRa kÃ¶prÃ¼sÃ¼",
+          "Topluluk": "OpenWrt VakfÄ± & Meshtastic"
+        },
+        seeAlso: ["meshtasticd-native-daemon-build", "openwrt-repo-feed-distribution", "procd-init-service-meshtasticd"]
+      },
+      {
+        id: "openwrt-repo-feed-distribution",
+        en: "Meshtastic OpenWrt Package Feed and Repository",
+        tr: "Meshtastic OpenWrt Paket Deposu ve Feed DaÄŸÄ±tÄ±mÄ±",
+        category: "YazÄ±lÄ±m & AltyapÄ±",
+        lead: "OpenWrt yÃ¶nlendiricilerine meshtasticd ve baÄŸÄ±mlÄ±lÄ±klarÄ±nÄ± kurmayÄ± saÄŸlayan resmi paket feed deposu (openwrt-repo).",
+        details: "Meshtastic ekibi, OpenWrt paket derleme sistemini (OpenWrt SDK / Buildroot) kullanarak tÃ¼m yaygÄ±n CPU mimarileri (MIPS, ARM Cortex-A, aarch64, x86_64) iÃ§in Ã¶nceden derlenmiÅŸ paketleri `meshtastic/openwrt` deposunda sunar. KullanÄ±cÄ± yÃ¶nlendiricisine `customfeeds.conf` Ã¼zerinden bu depoyu eklediÄŸinde tek tÄ±kla tÃ¼m baÄŸÄ±mlÄ±lÄ±klarÄ± Ã§Ã¶zÃ¼lmÃ¼ÅŸ olarak kurulur.",
+        github: "github.com/meshtastic/openwrt",
+        infobox: {
+          "Depo": "github.com/meshtastic/openwrt",
+          "Desteklenen SÃ¼rÃ¼mler": "OpenWrt 22.03, 23.05, 24.10, 25.12, SNAPSHOT",
+          "Paket Beslemesi": "OpenWrt Feed Architecture",
+          "Ä°Ã§erik": "meshtasticd, meshtasticd-web"
+        },
+        seeAlso: ["opkg-package-manager-meshtasticd", "openwrt-multi-arch-cross-compilation"]
+      },
+      {
+        id: "opkg-package-manager-meshtasticd",
+        en: "OPKG Package Manager meshtasticd Installation",
+        tr: "OPKG Paket YÃ¶neticisi ile meshtasticd Kurulumu",
+        category: "YazÄ±lÄ±m & AltyapÄ±",
+        lead: "OpenWrt 22.03 - 24.10 kararlÄ± sÃ¼rÃ¼mlerinde opkg install meshtasticd komutuyla servis kurulumu.",
+        details: "Geleneksel OpenWrt daÄŸÄ±tÄ±mlarÄ±nda paketler `.ipk` formatÄ±nda OPKG (OpenWrt Package Manager) tarafÄ±ndan yÃ¶netilir. SSH Ã¼zerinden `opkg update && opkg install meshtasticd` Ã§alÄ±ÅŸtÄ±rÄ±ldÄ±ÄŸÄ±nda; `libyaml-cpp`, `libgpiod`, `libsqlite3` gibi C++ Ã§ekirdek kÃ¼tÃ¼phaneleri otomatik Ã§ekilir, `/etc/init.d/meshtasticd` servis betiÄŸi oluÅŸturulur ve router yeniden baÅŸlatÄ±ldÄ±ÄŸÄ±nda otomatik aÃ§Ä±lacak ÅŸekilde kaydedilir.",
+        github: "meshtastic.org/docs/meshtasticd/openwrt",
+        infobox: {
+          "Paket YÃ¶neticisi": "OPKG (ipkg tÃ¼revi)",
+          "Kurulum Komutu": "opkg install meshtasticd",
+          "Hedef SÃ¼rÃ¼mler": "OpenWrt 22.03, 23.05, 24.10",
+          "YapÄ±lan Ä°ÅŸlemler": "BaÄŸÄ±mlÄ±lÄ±k Ã§Ã¶zme, binary yÃ¼kleme, init.d kaydÄ±"
+        },
+        seeAlso: ["openwrt-apk-package-manager-snapshot", "procd-init-service-meshtasticd"]
+      },
+      {
+        id: "openwrt-apk-package-manager-snapshot",
+        en: "OpenWrt SNAPSHOT APK Package Manager Migration",
+        tr: "OpenWrt SNAPSHOT APK Paket YÃ¶neticisi GeÃ§iÅŸi",
+        category: "YazÄ±lÄ±m & AltyapÄ±",
+        lead: "OpenWrt SNAPSHOT ve yeni nesil sÃ¼rÃ¼mlerde OPKG yerine Alpine Linux tabanlÄ± APK paket yÃ¶neticisi ile kurulum (apk add meshtasticd).",
+        details: "OpenWrt projesi yeni nesil sÃ¼rÃ¼mlerinde (SNAPSHOT ve 25.12+) eski OPKG sisteminden ultra hÄ±zlÄ±, dijital imzalÄ± ve atomik iÅŸlem destekleyen APK (Alpine Package Keeper) sistemine geÃ§iÅŸ yapmÄ±ÅŸtÄ±r. Meshtastic CI hattÄ±, OpenWrt SNAPSHOT hedefleri iÃ§in `.apk` paketleri Ã¼retir ve kullanÄ±cÄ±lar yÃ¶nlendiriciye `apk add meshtasticd` ve `apk add meshtasticd-web` komutlarÄ±yla kurulum yapar.",
+        github: "meshtastic.org/docs/meshtasticd/openwrt",
+        infobox: {
+          "Paket YÃ¶neticisi": "APK (Alpine Package Keeper)",
+          "Komut": "apk add meshtasticd",
+          "Hedef SÃ¼rÃ¼mler": "OpenWrt SNAPSHOT ve 25.12+",
+          "Avantajlar": "Daha hÄ±zlÄ± kurulum, atomik iÅŸlemler, dijital imza gÃ¼venliÄŸi"
+        },
+        seeAlso: ["opkg-package-manager-meshtasticd", "openwrt-repo-feed-distribution"]
+      },
+      {
+        id: "meshtasticd-web-openwrt-package",
+        en: "meshtasticd-web OpenWrt Web Interface Package",
+        tr: "meshtasticd-web OpenWrt Web ArayÃ¼zÃ¼ Paketi",
+        category: "YazÄ±lÄ±m & Ä°stemciler",
+        lead: "YÃ¶nlendirici Ã¼zerinde baÄŸÄ±msÄ±z bir web arayÃ¼zÃ¼ sunarak kullanÄ±cÄ±larÄ±n tarayÄ±cÄ±dan telsizi yÃ¶netmesini saÄŸlayan opsiyonel paket.",
+        details: "YÃ¶nlendiricinin flash belleÄŸinde yeterli alan (>2 MB) bulunduÄŸunda `opkg install meshtasticd-web` veya `apk add meshtasticd-web` komutuyla kurulur. Bu paket, Deno ile paketlenmiÅŸ resmi Meshtastic web arayÃ¼zÃ¼ statik dosyalarÄ±nÄ± yÃ¶nlendiricinin yerel HTTP sunucusuna yerleÅŸtirir. KullanÄ±cÄ± router IP'sine veya `http://meshtastic.local` adresine baÄŸlandÄ±ÄŸÄ±nda masaÃ¼stÃ¼ veya mobil tarayÄ±cÄ±dan mesajlaÅŸabilir ve ayarlarÄ± deÄŸiÅŸtirebilir.",
+        github: "meshtastic.org/docs/meshtasticd/openwrt",
+        infobox: {
+          "Paket AdÄ±": "meshtasticd-web",
+          "Gereksinim": ">2 MB boÅŸ flash depolama",
+          "Ä°ÅŸlev": "YÃ¶nlendirici Ã¼zerinde yerleÅŸik Web UI barÄ±ndÄ±rma",
+          "EriÅŸim": "http://<router-ip> veya meshtastic.local"
+        },
+        seeAlso: ["web-client-dual-hosting-model", "opkg-package-manager-meshtasticd"]
+      },
+      {
+        id: "procd-init-service-meshtasticd",
+        en: "OpenWrt procd Process Management Service",
+        tr: "OpenWrt procd SÃ¼reÃ§ YÃ¶netim Servisi (/etc/init.d/meshtasticd)",
+        category: "YazÄ±lÄ±m & AltyapÄ±",
+        lead: "OpenWrt'nin hafif systemd alternatifi olan procd arka plan yÃ¶neticisi ile meshtasticd sÃ¼recini izleme ve otomatik yeniden baÅŸlatma.",
+        details: "OpenWrt geleneksel Linux daÄŸÄ±tÄ±mlarÄ±ndaki aÄŸÄ±r `systemd` yerine bellek tasarruflu `procd` (process daemon) mimarisini kullanÄ±r. Kurulumla gelen `/etc/init.d/meshtasticd` betiÄŸi, procd'ye servisin nasÄ±l baÅŸlatÄ±lacaÄŸÄ±nÄ±, argÃ¼manlarÄ±nÄ± ve Ã§Ã¶kme durumunda otomatik olarak yeniden ayaÄŸa kaldÄ±rÄ±lmasÄ±nÄ± (`respawn`) bildirir. YÃ¶netim iÃ§in `/etc/init.d/meshtasticd start|stop|restart|status` komutlarÄ± kullanÄ±lÄ±r.",
+        github: "meshtastic/openwrt: files/meshtasticd.init",
+        infobox: {
+          "Servis YÃ¶neticisi": "procd (OpenWrt Process Daemon)",
+          "Servis BetiÄŸi": "/etc/init.d/meshtasticd",
+          "Yetenekler": "Otomatik baÅŸlama (boot), respawn (Ã§Ã¶kme korumasÄ±), durum kontrolÃ¼",
+          "Komut": "/etc/init.d/meshtasticd restart"
+        },
+        seeAlso: ["openwrt-one-router-meshtasticd", "openwrt-logread-syslog-monitoring"]
+      },
+      {
+        id: "portduino-srv-prefs-persistence",
+        en: "Portduino /srv/meshtasticd Prefs Persistence Directory",
+        tr: "Portduino /srv/meshtasticd KalÄ±cÄ± Tercihler Dizini",
+        category: "YazÄ±lÄ±m & AltyapÄ±",
+        lead: "OpenWrt Ã¼zerinde meshtasticd'nin kanal anahtarlarÄ±nÄ±, dÃ¼ÄŸÃ¼m kimliÄŸini ve ayarlarÄ±nÄ± sakladÄ±ÄŸÄ± kalÄ±cÄ± flash depolama konumu.",
+        details: "OpenWrt yÃ¶nlendiricilerde bellenim gÃ¼ncellemelerinde veya yeniden baÅŸlatmalarda ayarlarÄ±n kaybolmamasÄ± iÃ§in `meshtasticd` veritabanÄ± dosyalarÄ± `/srv/meshtasticd/.portduino/default/prefs/` yolunda tutulur. Bu dizin iÃ§inde `channels.proto`, `config.proto`, `module.proto` ve `nodedb.proto` dosyalarÄ± saklanÄ±r. YÃ¶nlendirici yedeklenirken bu dizinin `sysupgrade.conf` listesine eklenmesi cihaz kimliÄŸinin korunmasÄ±nÄ± saÄŸlar.",
+        github: "meshtastic.org/docs/meshtasticd/openwrt",
+        infobox: {
+          "KalÄ±cÄ± Dizin": "/srv/meshtasticd/.portduino/default/prefs/",
+          "Saklanan Dosyalar": "*.proto (channels, config, module, nodedb)",
+          "Yedekleme": "sysupgrade Ã¶ncesi yedeklenmeli",
+          "Ä°ÅŸlev": "Kanal ve dÃ¼ÄŸÃ¼m kimliÄŸinin flash'ta korunmasÄ±"
+        },
+        seeAlso: ["procd-init-service-meshtasticd", "opkg-package-manager-meshtasticd"]
+      },
+      {
+        id: "openwrt-logread-syslog-monitoring",
+        en: "OpenWrt logread and Syslog Diagnostic Monitoring",
+        tr: "OpenWrt logread ve Syslog TanÄ±lama Ä°zleme Sistemi",
+        category: "YazÄ±lÄ±m & AltyapÄ±",
+        lead: "meshtasticd'nin Ã¼rettiÄŸi tÃ¼m paket alÄ±ÅŸveriÅŸi, telsiz sinyalleri ve hata loglarÄ±nÄ±n OpenWrt RAM halka tamponundan okunmasÄ±.",
+        details: "OpenWrt yÃ¶nlendiricilerde flash belleÄŸin Ã¶mrÃ¼nÃ¼ korumak iÃ§in gÃ¼nlÃ¼k kayÄ±tlarÄ± (logs) diske deÄŸil, RAM'de Ã§alÄ±ÅŸan dairesel halka tamponuna (`logd`) yazÄ±lÄ±r. GeliÅŸtiriciler ve aÄŸ yÃ¶neticileri SSH terminalinde `logread -e meshtasticd` veya canlÄ± izlemek iÃ§in `logread -f -e meshtasticd` komutunu Ã§alÄ±ÅŸtÄ±rarak telsizin gÃ¶nderdiÄŸi paketleri, RSSI/SNR deÄŸerlerini ve olasÄ± donanÄ±m kilitlenmelerini gerÃ§ek zamanlÄ± takip eder.",
+        github: "meshtastic.org/docs/meshtasticd/openwrt",
+        infobox: {
+          "Komut": "logread -f -e meshtasticd",
+          "Depolama AlanÄ±": "RAM Dairesel Tamponu (Ring Buffer - logd)",
+          "Avantaj": "Flash belleÄŸi yÄ±pratmadan yÃ¼ksek hÄ±zlÄ± loglama",
+          "Ä°Ã§erik": "Paket yÃ¶nlendirme, RF sinyal metrikleri, baÄŸlantÄ± durumlarÄ±"
+        },
+        seeAlso: ["procd-init-service-meshtasticd", "openwrt-one-router-meshtasticd"]
+      },
+      {
+        id: "luci-web-gui-meshtasticd-management",
+        en: "LuCI Web GUI meshtasticd Management",
+        tr: "LuCI Web Grafik ArayÃ¼zÃ¼ ile meshtasticd YÃ¶netimi",
+        category: "YazÄ±lÄ±m & Ä°stemciler",
+        lead: "OpenWrt'nin LuCI web arayÃ¼zÃ¼ Ã¼zerinden terminale gerek kalmadan meshtasticd paketlerinin kurulmasÄ± ve servis durumunun izlenmesi.",
+        details: "Komut satÄ±rÄ± (SSH) kullanmak istemeyen kullanÄ±cÄ±lar, OpenWrt'nin web tabanlÄ± yÃ¶netim paneli olan LuCI Ã¼zerinden `Sistem -> YazÄ±lÄ±m` (System -> Software) menÃ¼sÃ¼ne girerek Meshtastic deposunu ekleyebilir. Arama kutusuna `meshtasticd` yazÄ±larak paket tek tÄ±kla kurulabilir, `Sistem -> BaÅŸlangÄ±Ã§` menÃ¼sÃ¼nden servisin Ã§alÄ±ÅŸÄ±p Ã§alÄ±ÅŸmadÄ±ÄŸÄ± gÃ¶rsel olarak denetlenebilir.",
+        github: "openwrt/luci",
+        infobox: {
+          "ArayÃ¼z": "LuCI (Lua Configuration Interface)",
+          "MenÃ¼ Konumu": "System -> Software & System -> Startup",
+          "KullanÄ±m AmacÄ±": "GÃ¶rsel web paneli Ã¼zerinden paket kurma ve servis aÃ§ma",
+          "KullanÄ±cÄ± Profili": "Terminal kullanmayan aÄŸ yÃ¶neticileri"
+        },
+        seeAlso: ["opkg-package-manager-meshtasticd", "openwrt-repo-feed-distribution"]
+      },
+      {
+        id: "openwrt-multi-arch-cross-compilation",
+        en: "OpenWrt Multi-Architecture Cross-Compilation",
+        tr: "OpenWrt Ã‡oklu Mimari Ã‡apraz Derleme Sistemi",
+        category: "YazÄ±lÄ±m & AltyapÄ±",
+        lead: "MIPS (ramips, ath79), ARM (cortex-a7, a53, a72) ve x86 router mimarilerinin tÃ¼mÃ¼ iÃ§in merkezi CI Ã¼zerinde ikili paket Ã¼retimi.",
+        details: "OpenWrt cihazlarÄ± onlarca farklÄ± iÅŸlemci mimarisine (MIPS24Kc, MIPS32, ARMv7, ARMv8/AArch64, x86) sahiptir. Meshtastic OpenWrt projesi, GitHub Actions altyapÄ±sÄ±nda OpenWrt SDK kapsayÄ±cÄ±larÄ±nÄ± (containers) Ã§alÄ±ÅŸtÄ±rarak her hedef mimari iÃ§in `meshtasticd` C++ ikililerini otomatik Ã§apraz derler (cross-compile). Bu sayede 50 TL'lik eski bir TP-Link router'dan kurumsal x86 aÄŸ sunucusuna kadar her aygÄ±tta sorunsuz Ã§alÄ±ÅŸÄ±r.",
+        github: "meshtastic/openwrt: .github/workflows",
+        infobox: {
+          "Derleme YÃ¶ntemi": "OpenWrt SDK Cross-Compilation",
+          "Hedef Mimariler": "MIPS, ARMv7, AArch64, x86_64, RISC-V",
+          "AltyapÄ±": "GitHub Actions CI Matrix",
+          "SonuÃ§": "Her router donanÄ±mÄ± iÃ§in optimize edilmiÅŸ ikili paketler"
+        },
+        seeAlso: ["openwrt-repo-feed-distribution", "opkg-package-manager-meshtasticd"]
       }
     ];
 
